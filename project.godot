@@ -1,0 +1,151 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "ActorBase",
+"language": "GDScript",
+"path": "res://actors/ActorBase.gd"
+}, {
+"base": "Tween",
+"class": "CustomTween",
+"language": "GDScript",
+"path": "res://utils/CustomTween.gd"
+}, {
+"base": "Tween",
+"class": "CustomTween2",
+"language": "GDScript",
+"path": "res://utils/CustomTween2.gd"
+}, {
+"base": "Reference",
+"class": "GameConstants",
+"language": "GDScript",
+"path": "res://game/GameConstants.gd"
+}, {
+"base": "TileBase",
+"class": "GrassTile",
+"language": "GDScript",
+"path": "res://map/tiles/GrassTile.gd"
+}, {
+"base": "Reference",
+"class": "HEX",
+"language": "GDScript",
+"path": "res://utils/HEX.gd"
+}, {
+"base": "Reference",
+"class": "HEXCoords",
+"language": "GDScript",
+"path": "res://utils/HEXCoords.gd"
+}, {
+"base": "Reference",
+"class": "HEXCoordsMath",
+"language": "GDScript",
+"path": "res://utils/HEXCoordsMath.gd"
+}, {
+"base": "Reference",
+"class": "HEXGrid",
+"language": "GDScript",
+"path": "res://utils/HEXGrid.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventMultiScreenDrag",
+"language": "GDScript",
+"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventMultiScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenPinch",
+"language": "GDScript",
+"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventScreenPinch.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenTwist",
+"language": "GDScript",
+"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventScreenTwist.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenDrag",
+"language": "GDScript",
+"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTap",
+"language": "GDScript",
+"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTap.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTouch",
+"language": "GDScript",
+"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
+}, {
+"base": "Node2D",
+"class": "TileBase",
+"language": "GDScript",
+"path": "res://map/tiles/TileBase.gd"
+}, {
+"base": "Reference",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://utils/Utils.gd"
+}, {
+"base": "TileBase",
+"class": "WaterTile",
+"language": "GDScript",
+"path": "res://map/tiles/WaterTile.gd"
+} ]
+_global_script_class_icons={
+"ActorBase": "",
+"CustomTween": "",
+"CustomTween2": "",
+"GameConstants": "",
+"GrassTile": "",
+"HEX": "",
+"HEXCoords": "",
+"HEXCoordsMath": "",
+"HEXGrid": "",
+"InputEventMultiScreenDrag": "",
+"InputEventScreenPinch": "",
+"InputEventScreenTwist": "",
+"InputEventSingleScreenDrag": "",
+"InputEventSingleScreenTap": "",
+"InputEventSingleScreenTouch": "",
+"TileBase": "",
+"Utils": "",
+"WaterTile": ""
+}
+
+[application]
+
+config/name="Fantalone"
+run/main_scene="res://game/Game.tscn"
+config/icon="res://actors/art/actorSpites.png"
+
+[autoload]
+
+InputManager="*res://godot_touch_input_manager/InputManager.gd"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[layer_names]
+
+2d_physics/layer_1="actor"
+2d_physics/layer_2="hex"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"

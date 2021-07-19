@@ -1,0 +1,24 @@
+class_name HEX
+
+var coords = HEXCoords.new(0,0)
+
+var neighbours = [null, null, null, null, null, null]
+
+var tile : TileBase = null
+var actor : ActorBase = null
+#var prop : PropBase = null
+
+func _init(arrayCoords, object = null):
+	if arrayCoords is Array: coords.setA(arrayCoords)
+	if arrayCoords is HEXCoords: coords.copy(arrayCoords)
+	assignObject(object)
+	
+func assignObject(object):
+	if object == null: return
+	if object is TileBase: tile = object
+	if object is ActorBase: actor = object
+	object.assignHEX(self)
+
+func getNeighbour(direction):
+	if direction < neighbours.size():
+		return neighbours[direction]
