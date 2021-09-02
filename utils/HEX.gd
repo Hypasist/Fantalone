@@ -22,3 +22,6 @@ func assignObject(object):
 func getNeighbour(direction):
 	if direction < neighbours.size():
 		return neighbours[direction]
+
+func isPassable():
+	return tile && tile.passable

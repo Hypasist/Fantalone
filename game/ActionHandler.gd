@@ -9,7 +9,9 @@ onready var UI = $"../UI"
 var perspectiveRatioMod = Vector2(1.0, 0.5)
 var dragRelativeTreshold = 100
 func _on_UserActionManager_action_drag_active(position, relative):
-	if relative.length() < dragRelativeTreshold:
+	if gamelogic.any_selected() == false:
+		UI.clear_direction()
+	elif relative.length() < dragRelativeTreshold:
 		UI.set_no_direction_arrow(position)
 	else:
 		var direction = touchscreenScripts.angleVector2direction(relative)

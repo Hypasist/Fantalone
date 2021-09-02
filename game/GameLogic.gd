@@ -76,19 +76,19 @@ func isMovementValid(moveInfo:Dictionary):
 		if destinationHEX.tile.passable == false: return
 		# PROP BLOCKING MOVEMENT GOES HERE
 		# HEIGHT CONSIDERATIONS GO HERE
-		#if destina
+		if destinationHEX.isPassable() == false: return
 		
-		if (destination == null || destination.tile == null \
-		 || destination.tile.passable == false):
-			return false
+		#if (destination == null || destination.tile == null \
+		# || destination.tile.passable == false):
+	#		return false
 	return true
 
 func considerMoving(direction):
 	if !any_selected(): return { "isMoveValid" : false }
-	return { "isMoveValid" : true }
+	
 	var moveInfo = worldmap.grid.recognizeFormation(currently_selected_HEXES, direction)
-
 	isMovementValid(moveInfo)
-
-	return moveInfo
+	
+	return { "isMoveValid" : true }
+	# return moveInfo
 
