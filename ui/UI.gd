@@ -1,11 +1,14 @@
 extends Control
 
 onready var movementArrow = $"MovementArrow"
-enum arrowFrame { TOP_RIGHT, BOTTOM_RIGHT, RIGHT, NONE }
-func set_no_direction(position):
-	set_direction(position, 6)
+enum arrowFrame { TOP_RIGHT, BOTTOM_RIGHT, RIGHT, NONE, INVALID }
+func set_no_direction_arrow(position):
+	set_direction_arrow(position, 6)
 
-func set_direction(position, direction):
+func set_invalid_arrow(position):
+	set_direction_arrow(position, 7)
+
+func set_direction_arrow(position, direction):
 	movementArrow.show()
 	movementArrow.set_position(position)
 	match direction:
@@ -30,6 +33,9 @@ func set_direction(position, direction):
 		6: # NONE
 			movementArrow.set_flip_h(false)
 			movementArrow.set_frame(arrowFrame.NONE)
+		7: # INVALID
+			movementArrow.set_flip_h(false)
+			movementArrow.set_frame(arrowFrame.INVALID)
 
 func clear_direction():
 	movementArrow.hide()

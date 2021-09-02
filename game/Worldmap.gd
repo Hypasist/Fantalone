@@ -23,7 +23,7 @@ func consumeCurrentActorMockup():
 		var actorScene = actorRecord["scene"]
 		
 		for coordsSquare in actorRecord["positionList"]:
-			var actor = actorScene.instance(PackedScene.GEN_EDIT_STATE_DISABLED)
+			var actor = actorScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 			actor.setup({	"overseer"	:	self,
 							"HEXgrid"	:	grid,
 							"coords"	:	coordsSquare,
@@ -36,7 +36,7 @@ func consumeCurrentTileMockup():
 	for tileRecord in tileTable:
 		var tileScene = tileRecord["scene"]
 		for coordsSquare in tileRecord["positionList"]:
-			var tile = tileScene.instance(PackedScene.GEN_EDIT_STATE_DISABLED)
+			var tile = tileScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 			tile.setup({	"overseer"	:	self,
 							"HEXgrid"	:	grid,
 							"coords"	:	coordsSquare,

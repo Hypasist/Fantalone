@@ -1,22 +1,23 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://game/GameLogic.gd" type="Script" id=2]
 [ext_resource path="res://game/ActionHandler.gd" type="Script" id=3]
 [ext_resource path="res://game/Worldview.gd" type="Script" id=4]
-[ext_resource path="res://Untitled.png" type="Texture" id=5]
+[ext_resource path="res://tmp_background.png" type="Texture" id=5]
 [ext_resource path="res://game/Worldmap.gd" type="Script" id=6]
 [ext_resource path="res://game/map_editor/MapEditor.gd" type="Script" id=7]
 [ext_resource path="res://map/tiles/art/grass.png" type="Texture" id=8]
 [ext_resource path="res://map/tiles/art/water.png" type="Texture" id=9]
-[ext_resource path="res://actors/art/editorSprites.png" type="Texture" id=10]
-[ext_resource path="res://game/UserActionManager.gd" type="Script" id=11]
-[ext_resource path="res://game/MapviewManager.gd" type="Script" id=12]
-[ext_resource path="res://ui/UI.gd" type="Script" id=13]
-[ext_resource path="res://fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=14]
-[ext_resource path="res://fonts/cmu-typewriter/Typewriter.tres" type="DynamicFont" id=15]
-[ext_resource path="res://utils/EventLog.gd" type="Script" id=16]
-[ext_resource path="res://ui/art/movementarrow.png" type="Texture" id=17]
+[ext_resource path="res://map/tiles/art/rocks.png" type="Texture" id=10]
+[ext_resource path="res://actors/art/editorSprites.png" type="Texture" id=11]
+[ext_resource path="res://game/UserActionManager.gd" type="Script" id=12]
+[ext_resource path="res://game/MapviewManager.gd" type="Script" id=13]
+[ext_resource path="res://ui/UI.gd" type="Script" id=14]
+[ext_resource path="res://fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=15]
+[ext_resource path="res://fonts/cmu-typewriter/Typewriter.tres" type="DynamicFont" id=16]
+[ext_resource path="res://utils/EventLog.gd" type="Script" id=17]
+[ext_resource path="res://ui/art/movementarrow.png" type="Texture" id=18]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Grass"
@@ -39,10 +40,20 @@
 1/navigation_offset = Vector2( 0, 0 )
 1/shapes = [  ]
 1/z_index = 0
+2/name = "rocks.png 2"
+2/texture = ExtResource( 10 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 0, 0, 128, 160 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shapes = [  ]
+2/z_index = 0
 
 [sub_resource type="TileSet" id=2]
 0/name = "PlayerBall"
-0/texture = ExtResource( 10 )
+0/texture = ExtResource( 11 )
 0/tex_offset = Vector2( 32, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 64, 64 )
@@ -52,7 +63,7 @@
 0/shapes = [  ]
 0/z_index = 0
 1/name = "EnemyBall"
-1/texture = ExtResource( 10 )
+1/texture = ExtResource( 11 )
 1/tex_offset = Vector2( 32, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 64, 0, 64, 64 )
@@ -104,28 +115,28 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 128, 70 )
 cell_half_offset = 0
 format = 1
-tile_data = PoolIntArray( 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 65536, 1, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 1, 0, 131072, 1, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 1, 0, 196608, 1, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 1, 0, 262145, 1, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 1, 0, 327681, 1, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 1, 0, 393218, 1, 0, 393219, 1, 0, 393220, 0, 0, 393221, 0, 0, 393222, 1, 0, 393223, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0 )
+tile_data = PoolIntArray( -131068, 1, 0, -131067, 1, 0, -131066, 1, 0, -65533, 1, 0, -65532, 0, 0, -65531, 0, 0, -65530, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 0, 0, 5, 2, 0, 6, 0, 0, 7, 1, 0, 65536, 1, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 2, 0, 65541, 2, 0, 65542, 0, 0, 65543, 1, 0, 131072, 1, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 2, 0, 131077, 0, 0, 131078, 0, 0, 131079, 1, 0, 196608, 1, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 1, 0, 262145, 1, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 1, 0, 327681, 1, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 1, 0, 393218, 1, 0, 393219, 1, 0, 393220, 0, 0, 393221, 0, 0, 393222, 1, 0, 393223, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0 )
 
 [node name="Actors" type="TileMap" parent="Worldview/MapEditor"]
 tile_set = SubResource( 2 )
 cell_size = Vector2( 128, 70 )
 cell_half_offset = 0
 format = 1
-tile_data = PoolIntArray( 65538, 0, 0, 131074, 0, 0, 196611, 1, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 262149, 0, 0, 327682, 1, 0, 327684, 0, 0 )
+tile_data = PoolIntArray( 65538, 0, 0, 131074, 0, 0, 131077, 1, 0, 196611, 1, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 1, 0, 327682, 1, 0, 327684, 0, 0 )
 
 [node name="UserActionHandler" type="Node" parent="."]
-script = ExtResource( 11 )
+script = ExtResource( 12 )
 
 [node name="LongTapTimer" type="Timer" parent="UserActionHandler"]
 one_shot = true
 
 [node name="MapActionHandler" type="Node" parent="."]
-script = ExtResource( 12 )
+script = ExtResource( 13 )
 
 [node name="UI" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 13 )
+script = ExtResource( 14 )
 
 [node name="Debug" type="Label" parent="UI"]
 anchor_top = 1.0
@@ -133,20 +144,20 @@ anchor_bottom = 1.0
 margin_top = 503.0
 margin_right = 40.0
 margin_bottom = 560.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 15 )
 text = "---"
 
 [node name="EventLog" type="Label" parent="UI"]
 margin_right = 119.0
 margin_bottom = 41.0
-custom_fonts/font = ExtResource( 15 )
+custom_fonts/font = ExtResource( 16 )
 text = "Example"
-script = ExtResource( 16 )
+script = ExtResource( 17 )
 
 [node name="MovementArrow" type="Sprite" parent="UI"]
 scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 17 )
-hframes = 4
+texture = ExtResource( 18 )
+hframes = 5
 frame = 3
 [connection signal="action_cancel" from="UserActionHandler" to="ActionHandler" method="_on_UserActionManager_action_cancel"]
 [connection signal="action_drag_active" from="UserActionHandler" to="ActionHandler" method="_on_UserActionManager_action_drag_active"]

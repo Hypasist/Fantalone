@@ -1,10 +1,8 @@
 class_name HEXGrid
 
-# CONSTs
-var GC = GameConstants
-
-# SCRIPTs
-const HGAS = preload("res://utils/HEXGridAdvancedScripts.gd")
+# CONSTs & SCRIPTs
+var HC = HEXConstants
+var HGAS = HEXGridAdvancedScripts
 const HMath = preload("res://utils/HEXCoordsMath.gd")
 
 # VARs
@@ -27,10 +25,10 @@ func addHEX(coordsSquare:Vector2, object = null):
 
 func findNeighbours(newHEX:HEX):
 	for HEX in contents:
-		for dir in GC.directions:
-			if HMath.verifyDistance(newHEX.coords, HEX.coords, GC.directions[dir]):
+		for dir in HC.directions:
+			if HMath.verifyDistance(newHEX.coords, HEX.coords, HC.directions[dir]):
 				newHEX.neighbours[dir] = HEX
-				HEX.neighbours[GC.opp_dir[dir]] = newHEX
+				HEX.neighbours[HC.opposite(dir)] = newHEX
 
 func squareToHEX(coordsSquare:Vector2):
 	var x:int = int(round(coordsSquare.x))
@@ -57,10 +55,35 @@ func squareToPosition(coordsSquare):
 		return cellSize * (coordsSquare + Vector2(0.5,0.5))
 
 func doHEXFormALine(HEXList:Array):
-	var startingHEX = HGAS.findBottomLeftHEX(HEXList)
-	return HGAS.doHEXFormALine(HEXList, startingHEX, [GC.TOP_LEFT, GC.TOP_RIGHT, GC.RIGHT])
-
-func recognizeFormation(HEXList:Array):
-	var formationInfo = {}
-	var startingHEX = HGAS.findBottomLeftHEX(HEXList)
-	return { "doFormALine"	:	
+	var lineInfo = {
+		"isLine" : false,
+	}
+	if HEXList.empty(): return lineInfo
+	
+	var startingHEX = HGAS.findMostExtendedHEX(HEXList, HC.BOTTOM_LEFT)
+	var aLineResult = HGAS.doHEXFormALine(HEXList, startingHEX, [HC.TOP_LEFT, HC.TOP_RIGHT, HC.RIGHT])
+	lineInfo["isLine"] = aLineResult["isLine"]
+	return lineInfo
+	
+func recognizeFormation(HEXList:Array, direction = HC.BOTTOM_LEFT):
+	var formationInfo = {
+		"isLine" : false,
+		"moveDirection" : direction,
+		"lineDirection" : null,
+		"isCorrelated" : false,
+		"frontHEX" : null,
+		"strength" : HEXList.size(),
+	}
+	if HEXList.empty(): return formationInfo
+	
+	var frontHEX = HGAS.findMostExtendedHEX(HEXList, direction)
+	formationInfo["frontHEX"] = frontHEX
+	var searchDirection = [HC.getRelative(direction,2), HC.getRelative(direction,3), HC.getRelative(direction,4)] 
+	var aLineResult = HGAS.doHEXFormALine(HEXList, frontHEX, searchDirection)
+	formationInfo["isLine"] = aLineResult["isLine"]
+	formationInfo["lineDirection"] = aLineResult["direction"]
+	
+	var isCorrelated = HC.areDirectionsCorrelated(direction, aLineResult["direction"])
+	formationInfo["isCorrelated"] = isCorrelated
+	
+	return formationInfo

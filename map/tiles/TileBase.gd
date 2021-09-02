@@ -21,9 +21,6 @@ func setup(_info):
 func assignHEX(_hex):
 	hex = _hex
 
-func _ready():
-	pass
-
 func _on_Tile_mouse_entered():
 	overseer.add_to_hoverlist(self)
 

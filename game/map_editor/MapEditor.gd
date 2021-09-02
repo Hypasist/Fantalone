@@ -3,7 +3,8 @@ extends TileMap
 
 const recognizedTiles = {
 	"Grass":preload("res://map/tiles/GrassTile.tscn"),
-	"Water":preload("res://map/tiles/WaterTile.tscn")
+	"Water":preload("res://map/tiles/WaterTile.tscn"),
+	"Rocks":preload("res://map/tiles/RocksTile.tscn")
 }
 func getTileTable():
 	var returnTable = []
