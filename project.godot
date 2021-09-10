@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 }, {
+"base": "Node",
+"class": "Options",
+"language": "GDScript",
+"path": "res://game/Options.gd"
+}, {
 "base": "TileBase",
 "class": "RocksTile",
 "language": "GDScript",
@@ -131,6 +136,7 @@ _global_script_class_icons={
 "InputEventSingleScreenDrag": "",
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
+"Options": "",
 "RocksTile": "",
 "TileBase": "",
 "Utils": "",

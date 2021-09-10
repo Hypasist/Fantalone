@@ -1,94 +1,141 @@
 extends Node
 
+enum invalidReason { no_reason, unpassable_terrain, pushing_own_units, formation_too_weak, tile_occupied }
+
 onready var worldmap = $"../Worldview/Worldmap"
 onready var UI = $"UI"
 
-var currently_selected_HEXES = []
+var currently_selected = []
 func new_selected(new_actor:ActorBase):
 	if new_actor.underControl == false: return
 	
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
 	if new_actor.selected == false:
-		currently_selected_HEXES.append(new_actor.hex)
+		currently_selected.append(new_actor)
 		
 		# CHECK IF NEW ACTOR MATCHES A LINE
-		if worldmap.grid.recognizeFormation(currently_selected_HEXES)["isLine"]:
-			for hex in currently_selected_HEXES:
-				hex.actor.select()
-		else:
-		# DESELECT ALL, AND SELECT NEW ACTOR ONLY
-			for hex in currently_selected_HEXES:
-				hex.actor.deselect()
-			currently_selected_HEXES.clear()
-			currently_selected_HEXES.append(new_actor.hex)
+		if lineCheck() == false:
+			currently_selected.clear()
+			currently_selected.append(new_actor)
 			new_actor.select()
 			
 	# IF WAS SELECTED BEFORE -- DESELECT AND CHECK
 	else:
 		new_actor.deselect()
-		currently_selected_HEXES.erase(new_actor.hex)
-		if worldmap.grid.recognizeFormation(currently_selected_HEXES)["isLine"] == false:
-			for hex in currently_selected_HEXES:
-				hex.actor.deselect()
-			currently_selected_HEXES.clear()
+		currently_selected.erase(new_actor)
+		if lineCheck() == false:
+			currently_selected.clear()
+
+# if they don't form a line -- deselect all
+func lineCheck():
+	if worldmap.grid.doActorsFormALine(currently_selected)["isLine"]:
+		for actor in currently_selected:
+			actor.select()
+		return true
+	else:
+		for actor in currently_selected:
+			actor.deselect()
+		return false
+
 
 func any_selected():
-	return currently_selected_HEXES.empty() == false
-
-func isMovementValidConsideringActors(moveInfo):
-	var direction = moveInfo["moveDirection"]
-	if moveInfo["isCorrelated"]:
-		# WE NEED TO CHECK IF THE PATH IS PUSHABLE
-		var currentHEX = moveInfo["frontHEX"]
-		var enemyStrength = 0
-		while true:
-			currentHEX = currentHEX.getNeighbour(direction)
-			# CHECK IF TRYING TO PUSH OWN UNIT
-			if currentHEX && currentHEX.actor && currentHEX.actor.underControl:
-				return false
-			
-			# CHECK IF ENEMY'S TOO STRONG
-			if currentHEX && currentHEX.actor && currentHEX.actor.underControl == false:
-				enemyStrength += 1
-			
-			if enemyStrength >= moveInfo["strength"]:
-				return false
-				
-			if currentHEX && currentHEX.actor == null:
-				break
-	else:
-		# WE JUST NEED TO CHECK IF THE IS A SPACE ON SIDE
-		for hex in currently_selected_HEXES:
-			var destination = hex.getNeighbour(direction) 
-			if destination == null || destination.tile == null || \
-				destination.tile.passable == false:
-				return false
-	
-	return true
+	return currently_selected.empty() == false
 
 func isMovementValid(moveInfo:Dictionary):
 	moveInfo["isMoveValid"] = false
-	var direction = moveInfo["moveDirection"]
+	moveInfo["invalidReason"] = invalidReason.no_reason
+	moveInfo["affectedHEX"] = [];
+	for actor in currently_selected: moveInfo["affectedHEX"].append(actor.hex)
 	
-	for currentHEX in currently_selected_HEXES:
-		var destinationHEX = currentHEX.getNeighbour(direction)
-		
-		if destinationHEX.tile.passable == false: return
-		# PROP BLOCKING MOVEMENT GOES HERE
-		# HEIGHT CONSIDERATIONS GO HERE
-		if destinationHEX.isPassable() == false: return
-		
-		#if (destination == null || destination.tile == null \
-		# || destination.tile.passable == false):
-	#		return false
-	return true
+	if moveInfo["canPush"]:
+		# we are moving forward!
+		var pushingHEX = moveInfo["frontHEX"]
+		var pushedHEX = pushingHEX.getNeighbour(moveInfo["moveDirection"])
+		var opposingStrength = 0
+		while true:
+			if pushedHEX.isPassable() == false:
+				moveInfo["invalidReason"] = invalidReason.unpassable_terrain; return
+			# PROP BLOCKING MOVEMENT GOES HERE
+			# HEIGHT CONSIDERATIONS GO HERE
+			if pushedHEX.isTaken():
+				moveInfo["affectedHEX"].append(pushedHEX)
+				if pushedHEX.getRace() == moveInfo["frontHEX"].getRace():  # TODO player race must be in info
+					moveInfo["invalidReason"] = invalidReason.pushing_own_units; return
+				opposingStrength += 1
+				if opposingStrength >= moveInfo["strength"]: 
+					moveInfo["invalidReason"] = invalidReason.formation_too_weak; return
+			else:
+				if opposingStrength < moveInfo["strength"]: break
+			
+			pushingHEX = pushedHEX
+			pushedHEX = pushingHEX.getNeighbour(moveInfo["moveDirection"])
+			
+	else:
+		# we are moving to the side!
+		for actor in currently_selected:
+			var destinationHEX = actor.hex.getNeighbour(moveInfo["moveDirection"])
+			if destinationHEX.isPassable() == false: 
+				moveInfo["invalidReason"] = invalidReason.unpassable_terrain; return
+			# PROP BLOCKING MOVEMENT GOES HERE
+			# HEIGHT CONSIDERATIONS GO HERE
+			if destinationHEX.isTaken(): 
+				moveInfo["invalidReason"] = invalidReason.tile_occupied; return
+			
+	moveInfo["isMoveValid"] = true
+
+func evaluateFate(moveInfo:Dictionary):
+	pass	
 
 func considerMoving(direction):
 	if !any_selected(): return { "isMoveValid" : false }
 	
-	var moveInfo = worldmap.grid.recognizeFormation(currently_selected_HEXES, direction)
+	var moveInfo = worldmap.grid.recognizeFormation(currently_selected, direction)
 	isMovementValid(moveInfo)
-	
-	return { "isMoveValid" : true }
-	# return moveInfo
+	evaluateFate(moveInfo)
+	return moveInfo
 
+# INFORMING THE PLAYER ABOUT THE MOVE RESULTS:
+# 	IF VALID:
+#   	- the *destination* tile should have a color (OR ONLY BLUE??) of the incoming HEX
+#		- if the *destination* tile is a lethal hex, present a skull
+#	IF INVALID:
+#		IF NO_REASON:
+#			assert?
+#		IF UNPASSABLE TERRAIN:
+#			red cage on the unpassable terrain?, blue tile on any affected?
+#		IF PUSHING OWN UNITS:
+#			red cage on mentioned own unit, blue tile under any affected
+#		IF FORMATION TOO WEAK:
+#			RED CAGE on first invalid enemy hex, rest with blue tile under
+#		IF TILE OCCUPIED:
+#			red cage on tiles uccupied, blue tiles under own hexes
+
+func makeMove(moveInfo:Dictionary):
+	if moveInfo["isMoveValid"] == false: return
+	
+	# find the most extended actor to the direction we move to
+	var frontHEX = worldmap.grid.HGAS.findMostExtendedHEX(moveInfo["affectedHEX"], moveInfo["moveDirection"])
+	while true:
+		var destinationHEX = frontHEX.getNeighbour(moveInfo["moveDirection"])
+		if destinationHEX.isLethal():
+			print("kiling from ", frontHEX.coords.toStr(), " to ", destinationHEX.coords.toStr())
+			currently_selected.erase(frontHEX.actor)
+			frontHEX.actor.free()
+		else:
+			print("moving from ", frontHEX.coords.toStr(), " to ", destinationHEX.coords.toStr())
+			frontHEX.actor.move(destinationHEX)
+		
+		if moveInfo["affectedHEX"].has(frontHEX.getNeighbour(moveInfo["lineDirection"])):
+			frontHEX = frontHEX.getNeighbour(moveInfo["lineDirection"])
+		else:
+			break
+			
+# isLine
+# isMoveValid
+# invalidReason
+# affectedHEX
+# moveDirection
+# lineDirection
+# strength
+# frontHEX
+# canPush

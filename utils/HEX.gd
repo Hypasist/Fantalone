@@ -25,3 +25,16 @@ func getNeighbour(direction):
 
 func isPassable():
 	return tile && tile.passable
+
+func isTaken():
+	return actor != null
+
+func getRace():
+	if actor: return actor.colour
+
+func isSelected():
+	return actor && actor.selected 
+
+func isLethal():
+	if tile == null: return true
+	else: return tile && tile.lethal

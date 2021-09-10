@@ -6,24 +6,28 @@ onready var hoverlist = $"../Worldview/Worldmap".hoverlist
 onready var gamelogic = $"../GameLogic"
 onready var UI = $"../UI"
 
-var perspectiveRatioMod = Vector2(1.0, 0.5)
+var moveInfo = {}
+
 var dragRelativeTreshold = 100
 func _on_UserActionManager_action_drag_active(position, relative):
+	moveInfo.clear()
 	if gamelogic.any_selected() == false:
 		UI.clear_direction()
 	elif relative.length() < dragRelativeTreshold:
 		UI.set_no_direction_arrow(position)
 	else:
 		var direction = touchscreenScripts.angleVector2direction(relative)
-		var returnInfo = gamelogic.considerMoving(direction)
-		if returnInfo["isMoveValid"]:
+		moveInfo = gamelogic.considerMoving(direction)
+		if moveInfo["isMoveValid"]:
 			UI.set_direction_arrow(position, direction)
 		else:
 			UI.set_invalid_arrow(position)
 
 func _on_UserActionManager_action_drag_stopped():
 	UI.clear_direction()
-
+	if moveInfo.empty() == false:
+		gamelogic.makeMove(moveInfo)
+		moveInfo.clear()
 
 func _on_UserActionManager_action_longtap_active(position):
 	eventlog.addLog(str("longtap",position))

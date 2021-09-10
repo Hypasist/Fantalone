@@ -16,9 +16,15 @@ func setup(_info):
 	logger = _info["logger"]
 	grid = _info["HEXgrid"]
 	position = grid.squareToPosition(_info["coords"])
-
+	
 func assignHEX(_hex):
 	hex = _hex
+
+func move(_hex):
+	hex.actor = null
+	hex = _hex
+	_hex.actor = self
+	position = grid.HEXToPosition(hex.coords)
 
 func _ready():
 	set_modulate(colour)

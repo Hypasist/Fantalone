@@ -42,6 +42,16 @@ func HEXToSquare(coordsHEX:HEXCoords):
 	var y = coordsHEX.r
 	return Vector2(x, y)
 	
+func HEXToPosition(coordsHEX:HEXCoords):
+	var x = coordsHEX.q + (coordsHEX.r - (coordsHEX.r%2)) / 2
+	var y = coordsHEX.r
+	
+	if y % 2:
+		return cellSize * Vector2(x+1, y+0.5)
+	else:
+		return cellSize * Vector2(x+0.5, y+0.5)
+	
+	
 func getHEX(coordsHEX:HEXCoords):
 	for hex in contents:
 		if HMath.areEqual(hex.coords, coordsHEX):
@@ -54,27 +64,28 @@ func squareToPosition(coordsSquare):
 	else:
 		return cellSize * (coordsSquare + Vector2(0.5,0.5))
 
-func doHEXFormALine(HEXList:Array):
-	var lineInfo = {
-		"isLine" : false,
-	}
-	if HEXList.empty(): return lineInfo
+func doActorsFormALine(ActorList:Array):
+	if ActorList.empty(): return { "isLine" : false }
+	var HEXList = [];
+	for actor in ActorList: HEXList.append(actor.hex)
 	
 	var startingHEX = HGAS.findMostExtendedHEX(HEXList, HC.BOTTOM_LEFT)
 	var aLineResult = HGAS.doHEXFormALine(HEXList, startingHEX, [HC.TOP_LEFT, HC.TOP_RIGHT, HC.RIGHT])
-	lineInfo["isLine"] = aLineResult["isLine"]
-	return lineInfo
+	return { "isLine" : aLineResult["isLine"] }
 	
-func recognizeFormation(HEXList:Array, direction = HC.BOTTOM_LEFT):
+func recognizeFormation(ActorList:Array, direction = HC.BOTTOM_LEFT):
+	if ActorList.empty(): return
+	var HEXList = [];
+	for actor in ActorList: HEXList.append(actor.hex)
+	
 	var formationInfo = {
 		"isLine" : false,
 		"moveDirection" : direction,
 		"lineDirection" : null,
-		"isCorrelated" : false,
+		"canPush" : false,
 		"frontHEX" : null,
 		"strength" : HEXList.size(),
 	}
-	if HEXList.empty(): return formationInfo
 	
 	var frontHEX = HGAS.findMostExtendedHEX(HEXList, direction)
 	formationInfo["frontHEX"] = frontHEX
@@ -84,6 +95,6 @@ func recognizeFormation(HEXList:Array, direction = HC.BOTTOM_LEFT):
 	formationInfo["lineDirection"] = aLineResult["direction"]
 	
 	var isCorrelated = HC.areDirectionsCorrelated(direction, aLineResult["direction"])
-	formationInfo["isCorrelated"] = isCorrelated
+	formationInfo["canPush"] = isCorrelated
 	
 	return formationInfo
