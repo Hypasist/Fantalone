@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utils/CustomTween2.gd"
 }, {
+"base": "Reference",
+"class": "GameOptions",
+"language": "GDScript",
+"path": "res://game/GameOptions.gd"
+}, {
 "base": "TileBase",
 "class": "GrassTile",
 "language": "GDScript",
@@ -90,9 +95,9 @@ _global_script_classes=[ {
 "path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 }, {
 "base": "Node",
-"class": "Options",
+"class": "MatchOptions",
 "language": "GDScript",
-"path": "res://game/Options.gd"
+"path": "res://game/MatchOptions.gd"
 }, {
 "base": "TileBase",
 "class": "RocksTile",
@@ -123,6 +128,7 @@ _global_script_class_icons={
 "ActorBase": "",
 "CustomTween": "",
 "CustomTween2": "",
+"GameOptions": "",
 "GrassTile": "",
 "HEX": "",
 "HEXConstants": "",
@@ -136,7 +142,7 @@ _global_script_class_icons={
 "InputEventSingleScreenDrag": "",
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
-"Options": "",
+"MatchOptions": "",
 "RocksTile": "",
 "TileBase": "",
 "Utils": "",
@@ -153,6 +159,8 @@ config/icon="res://actors/art/actorSpites.png"
 [autoload]
 
 InputManager="*res://godot_touch_input_manager/InputManager.gd"
+Singletons="*res://game/AutoloadSingletons.gd"
+Terminal="*res://game/Terminal.gd"
 
 [input_devices]
 

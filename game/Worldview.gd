@@ -2,7 +2,6 @@ extends Node2D
 	
 const utils = preload("res://utils/Utils.gd")
 
-
 var zoomTween = null
 var positionTween = null
 
@@ -20,9 +19,8 @@ func _ready():
 
 var screen_resolution = null
 var mapview_center = null 
-func setup(_game_resolution):
+func set_game_resolution(_game_resolution):
 	screen_resolution = _game_resolution
-	scale = Vector2(1.4, 1.4)
 	setWorldviewPosition(_game_resolution / 2.0, scale)
 
 ### --------------- ZOOM --------------- ###
@@ -73,10 +71,14 @@ func worldToView(world_coords, _scale = scale, _position = position):
 func viewToWorld(view_coords, _scale = scale, _position = position):
 	return (view_coords - _position) / _scale
 
-const minPositionValue = Vector2(-100, -100)
-const maxPositionValue = Vector2(1124, 700)
 # from map-center (focus) to camera-topleft (position)
 func calculateWorldviewPosition(new_center, new_scale):
+	var minPositionValue = Vector2(
+		Singletons.MatchOptions.match_options["map_boundaries"]["left"],
+		Singletons.MatchOptions.match_options["map_boundaries"]["top"])
+	var maxPositionValue = Vector2(
+		Singletons.MatchOptions.match_options["map_boundaries"]["right"],
+		Singletons.MatchOptions.match_options["map_boundaries"]["bottom"])
 	# map is smaller than screen
 	if screen_resolution > (maxPositionValue - minPositionValue) * new_scale:
 		return (screen_resolution - (minPositionValue + maxPositionValue) * new_scale) / 2.0

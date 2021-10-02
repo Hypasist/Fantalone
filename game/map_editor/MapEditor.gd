@@ -20,16 +20,14 @@ func getTileTable():
 
 
 const recognizedActors = {
-	"Player":preload("res://actors/PlayerBall.tscn"),
-	"Enemy":preload("res://actors/EnemyBall.tscn")
+	"commonBall":preload("res://actors/CommonBall.tscn")
 }
 func getActorTable():
 	var returnTable = []
-	for i in recognizedActors.size():
-		var key = recognizedActors.keys()[i]
-		var actorScene = recognizedActors[key]
-		var actorHEXpositions = $Actors.get_used_cells_by_id(i)
-		returnTable.push_back({"key"	:	key,
+	for id in range(0, Singletons.MAX_PLAYER_NUM):
+		var actorScene = recognizedActors["commonBall"] 
+		var actorHEXpositions = $Actors.get_used_cells_by_id(id)
+		returnTable.push_back({"player_id"	:	id,
 							   "scene"	:	actorScene,
 							   "positionList"	:	actorHEXpositions})
 	$Actors.set_visible(false)

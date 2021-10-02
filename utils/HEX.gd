@@ -30,7 +30,7 @@ func isTaken():
 	return actor != null
 
 func getRace():
-	if actor: return actor.colour
+	if actor: return actor.color
 
 func isSelected():
 	return actor && actor.selected 

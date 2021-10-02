@@ -2,50 +2,51 @@ extends Node
 
 enum invalidReason { no_reason, unpassable_terrain, pushing_own_units, formation_too_weak, tile_occupied }
 
-onready var worldmap = $"../Worldview/Worldmap"
-onready var UI = $"UI"
-
-var currently_selected = []
+var selected_units = []
 func new_selected(new_actor:ActorBase):
-	if new_actor.underControl == false: return
+	if Singletons.Logic.get_current_turn_owner() != new_actor.ownerId: return
 	
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
 	if new_actor.selected == false:
-		currently_selected.append(new_actor)
+		selected_units.append(new_actor)
 		
 		# CHECK IF NEW ACTOR MATCHES A LINE
 		if lineCheck() == false:
-			currently_selected.clear()
-			currently_selected.append(new_actor)
+			selected_units.clear()
+			selected_units.append(new_actor)
 			new_actor.select()
 			
 	# IF WAS SELECTED BEFORE -- DESELECT AND CHECK
 	else:
 		new_actor.deselect()
-		currently_selected.erase(new_actor)
+		selected_units.erase(new_actor)
 		if lineCheck() == false:
-			currently_selected.clear()
+			selected_units.clear()
 
 # if they don't form a line -- deselect all
 func lineCheck():
-	if worldmap.grid.doActorsFormALine(currently_selected)["isLine"]:
-		for actor in currently_selected:
+	if Singletons.Worldmap.grid.doActorsFormALine(selected_units)["isLine"]:
+		for actor in selected_units:
 			actor.select()
 		return true
 	else:
-		for actor in currently_selected:
+		for actor in selected_units:
 			actor.deselect()
 		return false
 
+func deselectAllUnits():
+	for actor in selected_units:
+		actor.deselect()
+	selected_units.clear()
 
 func any_selected():
-	return currently_selected.empty() == false
+	return selected_units.empty() == false
 
 func isMovementValid(moveInfo:Dictionary):
 	moveInfo["isMoveValid"] = false
 	moveInfo["invalidReason"] = invalidReason.no_reason
 	moveInfo["affectedHEX"] = [];
-	for actor in currently_selected: moveInfo["affectedHEX"].append(actor.hex)
+	for actor in selected_units: moveInfo["affectedHEX"].append(actor.hex)
 	
 	if moveInfo["canPush"]:
 		# we are moving forward!
@@ -72,7 +73,7 @@ func isMovementValid(moveInfo:Dictionary):
 			
 	else:
 		# we are moving to the side!
-		for actor in currently_selected:
+		for actor in selected_units:
 			var destinationHEX = actor.hex.getNeighbour(moveInfo["moveDirection"])
 			if destinationHEX.isPassable() == false: 
 				moveInfo["invalidReason"] = invalidReason.unpassable_terrain; return
@@ -89,11 +90,11 @@ func evaluateFate(moveInfo:Dictionary):
 func considerMoving(direction):
 	if !any_selected(): return { "isMoveValid" : false }
 	
-	var moveInfo = worldmap.grid.recognizeFormation(currently_selected, direction)
+	var moveInfo = Singletons.Worldmap.grid.recognizeFormation(selected_units, direction)
 	isMovementValid(moveInfo)
 	evaluateFate(moveInfo)
 	return moveInfo
-
+	
 # INFORMING THE PLAYER ABOUT THE MOVE RESULTS:
 # 	IF VALID:
 #   	- the *destination* tile should have a color (OR ONLY BLUE??) of the incoming HEX
@@ -114,12 +115,12 @@ func makeMove(moveInfo:Dictionary):
 	if moveInfo["isMoveValid"] == false: return
 	
 	# find the most extended actor to the direction we move to
-	var frontHEX = worldmap.grid.HGAS.findMostExtendedHEX(moveInfo["affectedHEX"], moveInfo["moveDirection"])
+	var frontHEX = Singletons.Worldmap.grid.HGAS.findMostExtendedHEX(moveInfo["affectedHEX"], moveInfo["moveDirection"])
 	while true:
 		var destinationHEX = frontHEX.getNeighbour(moveInfo["moveDirection"])
 		if destinationHEX.isLethal():
 			print("kiling from ", frontHEX.coords.toStr(), " to ", destinationHEX.coords.toStr())
-			currently_selected.erase(frontHEX.actor)
+			selected_units.erase(frontHEX.actor)
 			frontHEX.actor.free()
 		else:
 			print("moving from ", frontHEX.coords.toStr(), " to ", destinationHEX.coords.toStr())

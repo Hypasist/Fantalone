@@ -5,22 +5,19 @@ export(int,"disabled","twist") var rotation_gesture = 1
 export(int,"disabled","multi_drag") var movement_gesture = 1
 export(int,"off","on") var debug_verbose = 0
 
-onready var logger = $"../UI/EventLog"
-onready var world = $"../Worldview"
-
 signal map_action_taken
 func _unhandled_input(event):
 	if (event is InputEventMultiScreenDrag and movement_gesture == 1):
 		if debug_verbose:
-			logger.addLog("MultiDrag P:" + str(event.position) + " R:" + str(event.relative) + " S:" + str(event.speed))
+			Terminal.addLog("MultiDrag P:" + str(event.position) + " R:" + str(event.relative) + " S:" + str(event.speed))
 		emit_signal("map_action_taken")
-		world.scroll(event.relative) 
+		Singletons.Worldview.scroll(event.relative) 
 		
 	elif event is InputEventScreenPinch and zoom_gesture == 1:
 		if debug_verbose:
-			logger.addLog("Pinch P:" + str(event.position) + " R:" + str(event.relative) + " D:" + str(event.distance) + " S:" + str(event.speed))
+			Terminal.addLog("Pinch P:" + str(event.position) + " R:" + str(event.relative) + " D:" + str(event.distance) + " S:" + str(event.speed))
 		emit_signal("map_action_taken")
-		world.zoom(event.position, event.relative, event.is_step)
+		Singletons.Worldview.zoom(event.position, event.relative, event.is_step)
 		
 	elif event is InputEventScreenTwist and rotation_gesture == 1:
 		emit_signal("map_action_taken")

@@ -4,16 +4,16 @@ extends Node2D
 
 var overseer = null
 var grid = null
-var logger = null
 var hex = null
 
-var colour : Color = Color.white
-var underControl = false
+var color : Color = Color.white
+var ownerId = null
 var selected = false
 
 func setup(_info):
+	ownerId = _info["owner"]
+	color = _info["color"]
 	overseer = _info["overseer"]
-	logger = _info["logger"]
 	grid = _info["HEXgrid"]
 	position = grid.squareToPosition(_info["coords"])
 	
@@ -27,7 +27,7 @@ func move(_hex):
 	position = grid.HEXToPosition(hex.coords)
 
 func _ready():
-	set_modulate(colour)
+	set_modulate(color)
 	updateShadow()
 
 # --- SHADOW HANDLE (export to shadow???) --- #
@@ -71,9 +71,9 @@ func _on_Actor_mouse_exited():
 func select():
 	if !selected:
 		selected = true
-		set_modulate(colour * 1.5)
+		set_modulate(color * 1.5)
 	
 func deselect():
 	if selected:
 		selected = false
-		set_modulate(colour)
+		set_modulate(color)

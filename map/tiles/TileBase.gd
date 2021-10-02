@@ -3,7 +3,6 @@ extends Node2D
 
 var overseer = null
 var grid = null
-var logger = null
 var hex = null
 
 var tilename = ""
@@ -13,7 +12,6 @@ var safe2spawn = false
 
 func setup(_info):
 	overseer = _info["overseer"]
-	logger = _info["logger"]
 	grid = _info["HEXgrid"]
 	position = grid.squareToPosition(_info["coords"])
 	$Label.set_text(grid.squareToHEX(_info["coords"]).toStr())

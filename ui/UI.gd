@@ -1,41 +1,24 @@
 extends Control
 
-onready var movementArrow = $"MovementArrow"
-enum arrowFrame { TOP_RIGHT, BOTTOM_RIGHT, RIGHT, NONE, INVALID }
+func set_turn_owner(owner_name):
+	$TurnIndicator.set_text(str("Tura gracza: ", owner_name))
+func set_scoreboard(_string):
+	$ScoreBoard.set_text(_string)
+func set_turns_left(turns_left):
+	match turns_left:
+		0:
+			$TurnCounter.set_text(str("no turns left"))
+		1:
+			$TurnCounter.set_text(str(turns_left, " turn left"))
+		_:
+			$TurnCounter.set_text(str(turns_left, " turns left"))
+
+# ARROW CONTROL
 func set_no_direction_arrow(position):
-	set_direction_arrow(position, 6)
-
+	$MovementArrow.set_direction_arrow(position, 6)
 func set_invalid_arrow(position):
-	set_direction_arrow(position, 7)
-
+	$MovementArrow.set_direction_arrow(position, 7)
 func set_direction_arrow(position, direction):
-	movementArrow.show()
-	movementArrow.set_position(position)
-	match direction:
-		0: # TOP LEFT
-			movementArrow.set_flip_h(true)
-			movementArrow.set_frame(arrowFrame.TOP_RIGHT)
-		1: # TOP RIGHT
-			movementArrow.set_flip_h(false)
-			movementArrow.set_frame(arrowFrame.TOP_RIGHT)
-		2: # RIGHT
-			movementArrow.set_flip_h(false)
-			movementArrow.set_frame(arrowFrame.RIGHT)
-		3: # BOTTOM RIGHT
-			movementArrow.set_flip_h(false)
-			movementArrow.set_frame(arrowFrame.BOTTOM_RIGHT)
-		4: # BOTTOM LEFT
-			movementArrow.set_flip_h(true)
-			movementArrow.set_frame(arrowFrame.BOTTOM_RIGHT)
-		5: # LEFT
-			movementArrow.set_flip_h(true)
-			movementArrow.set_frame(arrowFrame.RIGHT)
-		6: # NONE
-			movementArrow.set_flip_h(false)
-			movementArrow.set_frame(arrowFrame.NONE)
-		7: # INVALID
-			movementArrow.set_flip_h(false)
-			movementArrow.set_frame(arrowFrame.INVALID)
-
+	$MovementArrow.set_direction_arrow(position, direction)
 func clear_direction():
-	movementArrow.hide()
+	$MovementArrow.hide()

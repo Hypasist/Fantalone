@@ -3,9 +3,6 @@ extends Node
 export(int,"off","on") var debug_verbose = 0
 export(int,"disabled","single_drag") var movement_gesture = 1
 
-onready var logger = $"../UI/EventLog"
-onready var world = $"../Worldview"
-
 enum actionState {none, longtap_waiting, longtap_confirmed, drag_confirmed}
 var saved_action_info = {	"current": actionState.none,
 							"position": null,
@@ -57,11 +54,11 @@ func clean_states():
 	emit_signal("action_cancel")
 
 func handle_shorttap(position):
-	if debug_verbose: logger.addLog(str("Tap P:", position))
+	if debug_verbose: Terminal.addLog(str("Tap P:", position))
 	emit_signal("action_shorttap", position)
 
 func handle_longtap_active(position):
-	if debug_verbose: logger.addLog("Tap Long:")
+	if debug_verbose: Terminal.addLog("Tap Long:")
 	emit_signal("action_longtap_active", position)
 
 func handle_longtap_stop():
@@ -70,7 +67,6 @@ func handle_longtap_stop():
 
 func emit_drag_active(relative):
 	if(saved_action_info["current"] == actionState.longtap_waiting):
-		stop_longtap_timer()
 		saved_action_info["current"] = actionState.drag_confirmed
 		saved_action_info["relative"] = relative
 	elif(saved_action_info["current"] == actionState.drag_confirmed):
@@ -78,7 +74,7 @@ func emit_drag_active(relative):
 	else:
 		return # ignore if actionState.none or actionState.longtap_confirmed
 	
-	if debug_verbose: logger.addLog(str("Drag P:", saved_action_info["position"], " R:", saved_action_info["relative"]))
+	if debug_verbose: Terminal.addLog(str("Drag P:", saved_action_info["position"], " R:", saved_action_info["relative"]))
 	emit_signal("action_drag_active", saved_action_info["position"], saved_action_info["relative"])
 
 func handle_drag_stop():
