@@ -37,7 +37,7 @@ func _on_UserActionHandler_action_longtap_stopped():
 
 func _on_UserActionHandler_action_shorttap(position):
 	for hovered_object in hoverlist:
-		if(hovered_object.is_in_group("Actors")):
+		if(hovered_object.is_in_group("Units")):
 			Singletons.Logic.new_selected(hovered_object)
 			return
 

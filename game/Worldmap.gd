@@ -9,26 +9,26 @@ func loadMap(savefile:String = ""):
 	if savefile == "":
 		consumeCurrentTileMockup()
 		calculateMockupSize()
-		consumeCurrentActorMockup()
+		consumeCurrentUnitMockup()
 	
-func consumeCurrentActorMockup():
-	var actorTable = Singletons.MapEditor.getActorTable()
-	for actorRecord in actorTable:
-		var actorScene = actorRecord["scene"]
-		if Singletons.MatchOptions.match_options["players"].has(actorRecord["player_id"]) == false:
+func consumeCurrentUnitMockup():
+	var unitTable = Singletons.MapEditor.getUnitTable()
+	for unitRecord in unitTable:
+		var unitScene = unitRecord["scene"]
+		if Singletons.MatchOptions.match_options["players"].has(unitRecord["player_id"]) == false:
 			continue
-		var player = Singletons.MatchOptions.match_options["players"][actorRecord["player_id"]]
+		var player = Singletons.MatchOptions.match_options["players"][unitRecord["player_id"]]
 		
-		for coordsSquare in actorRecord["positionList"]:
-			var actor = actorScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-			actor.setup({	"overseer"	:	self,
+		for coordsSquare in unitRecord["positionList"]:
+			var unit = unitScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+			unit.setup({	"overseer"	:	self,
 							"HEXgrid"	:	grid,
 							"coords"	:	coordsSquare,
 							"color"		:	player["color"],
 							"owner"		:	player["control"]})
-			$Actors.add_child(actor)
-			grid.addHEX(coordsSquare, actor)
-			actor.add_to_group(player["unit_group_name"])
+			$Units.add_child(unit)
+			grid.addHEX(coordsSquare, unit)
+			unit.add_to_group(player["unit_group_name"])
 
 func calculateMockupSize():
 	pass

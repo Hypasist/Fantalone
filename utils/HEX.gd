@@ -5,7 +5,7 @@ var coords = HEXCoords.new(0,0)
 var neighbours = [null, null, null, null, null, null]
 
 var tile : TileBase = null
-var actor : ActorBase = null
+var unit : UnitBase = null
 #var prop : PropBase = null
 
 func _init(arrayCoords, object = null):
@@ -16,7 +16,7 @@ func _init(arrayCoords, object = null):
 func assignObject(object):
 	if object == null: return
 	if object is TileBase: tile = object
-	if object is ActorBase: actor = object
+	if object is UnitBase: unit = object
 	object.assignHEX(self)
 
 func getNeighbour(direction):
@@ -27,13 +27,13 @@ func isPassable():
 	return tile && tile.passable
 
 func isTaken():
-	return actor != null
+	return unit != null
 
-func getRace():
-	if actor: return actor.color
+func getOwner():
+	if unit: return unit.ownerId
 
 func isSelected():
-	return actor && actor.selected 
+	return unit && unit.selected 
 
 func isLethal():
 	if tile == null: return true

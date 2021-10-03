@@ -1,5 +1,14 @@
 extends Node
 
+var game_options = {
+	"tile_size" : Vector2(128, 70),
+	"autofinish_turn" : true
+	}
+
+func is_autofinish_turn():
+	return game_options["autofinish_turn"]
+
+
 enum control { HUMAN_1, HUMAN_2, AI }
 
 var match_options = {
@@ -23,18 +32,10 @@ var match_options = {
 	}
 }
 
-func get_min_map_boundaries():
-	return Vector2(match_options["map_boundaries"]["left"],
-				   match_options["map_boundaries"]["top"])
-
-func get_max_map_boundaries():
-	return Vector2(match_options["map_boundaries"]["bottom"],
-				   match_options["map_boundaries"]["right"])
-
 func clear_player_options():
 	match_options["player_num"] = 0
 	match_options["players"] = {}
-
+	
 func add_player(_id, _name, _color, _control):
 	match_options["players"][_id] = {
 		"name" : _name,

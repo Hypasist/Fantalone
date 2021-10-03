@@ -1,6 +1,4 @@
 extends Node2D
-	
-const utils = preload("res://utils/Utils.gd")
 
 var zoomTween = null
 var positionTween = null
@@ -38,7 +36,7 @@ func zoom(_center, zoomValue, isStep=false):
 	# calculate scale
 	var starting_scale = get_scale()
 	diff_scale += Vector2(zoomValue,zoomValue) / zoomValueReference
-	diff_scale = utils.clamp2(diff_scale, minScaleValue - base_scale, maxScaleValue - base_scale)
+	diff_scale = Utils.clamp2(diff_scale, minScaleValue - base_scale, maxScaleValue - base_scale)
 	target_scale = base_scale + diff_scale
 
 	if isStep:
@@ -73,17 +71,13 @@ func viewToWorld(view_coords, _scale = scale, _position = position):
 
 # from map-center (focus) to camera-topleft (position)
 func calculateWorldviewPosition(new_center, new_scale):
-	var minPositionValue = Vector2(
-		Singletons.MatchOptions.match_options["map_boundaries"]["left"],
-		Singletons.MatchOptions.match_options["map_boundaries"]["top"])
-	var maxPositionValue = Vector2(
-		Singletons.MatchOptions.match_options["map_boundaries"]["right"],
-		Singletons.MatchOptions.match_options["map_boundaries"]["bottom"])
+	var minPositionValue = Singletons.MatchOptions.get_min_map_boundaries()
+	var maxPositionValue = Singletons.MatchOptions.get_max_map_boundaries()
 	# map is smaller than screen
 	if screen_resolution > (maxPositionValue - minPositionValue) * new_scale:
 		return (screen_resolution - (minPositionValue + maxPositionValue) * new_scale) / 2.0
 	else:
 	# map is bigger than screen yet we need to respect map borders
-		new_center = utils.max2(minPositionValue + screen_resolution/new_scale/2.0, new_center)
-		new_center = utils.min2(maxPositionValue - screen_resolution/new_scale/2.0, new_center)
+		new_center = Utils.max2(minPositionValue + screen_resolution/new_scale/2.0, new_center)
+		new_center = Utils.min2(maxPositionValue - screen_resolution/new_scale/2.0, new_center)
 		return screen_resolution/2.0 - new_center * new_scale

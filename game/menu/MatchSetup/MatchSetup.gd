@@ -27,7 +27,9 @@ func _on_Cancel_pressed():
 
 func _on_StartGame_pressed():
 	Singletons.MatchOptions.clear_player_options()
-	Singletons.MatchOptions.add_player(0, $P1.get_current_name(), $P1.get_current_color(), MatchOptions.control.HUMAN_1)
-	Singletons.MatchOptions.add_player(1, $P2.get_current_name(), $P2.get_current_color(), MatchOptions.control.HUMAN_2)
+	Singletons.MatchOptions.add_player(0, $P1.get_current_name(),
+									   $P1.get_current_color(), Singletons.MatchOptions.control.HUMAN_1)
+	Singletons.MatchOptions.add_player(1, $P2.get_current_name(),
+									   $P2.get_current_color(), Singletons.MatchOptions.control.HUMAN_2)
 	resolveScreen(Singletons.START_MATCH, null, null)
 

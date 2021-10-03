@@ -19,18 +19,18 @@ func getTileTable():
 	return returnTable
 
 
-const recognizedActors = {
-	"commonBall":preload("res://actors/CommonBall.tscn")
+const recognizedUnits = {
+	"commonBall":preload("res://units/CommonBall.tscn")
 }
-func getActorTable():
+func getUnitTable():
 	var returnTable = []
 	for id in range(0, Singletons.MAX_PLAYER_NUM):
-		var actorScene = recognizedActors["commonBall"] 
-		var actorHEXpositions = $Actors.get_used_cells_by_id(id)
+		var unitScene = recognizedUnits["commonBall"] 
+		var unitHEXpositions = $Units.get_used_cells_by_id(id)
 		returnTable.push_back({"player_id"	:	id,
-							   "scene"	:	actorScene,
-							   "positionList"	:	actorHEXpositions})
-	$Actors.set_visible(false)
+							   "scene"	:	unitScene,
+							   "positionList"	:	unitHEXpositions})
+	$Units.set_visible(false)
 	return returnTable
 
 const recognizedProps = {
@@ -55,5 +55,5 @@ func updateTilemapSize(size):
 	tilemapSize = size
 	set_cell_size(size)
 	$Tiles.set_cell_size(size)
-	$Actors.set_cell_size(size)
+	$Units.set_cell_size(size)
 	$Props.set_cell_size(size)

@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
-"class": "ActorBase",
-"language": "GDScript",
-"path": "res://actors/ActorBase.gd"
-}, {
 "base": "Tween",
 "class": "CustomTween",
 "language": "GDScript",
@@ -94,11 +89,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 }, {
-"base": "Node",
-"class": "MatchOptions",
-"language": "GDScript",
-"path": "res://game/MatchOptions.gd"
-}, {
 "base": "TileBase",
 "class": "RocksTile",
 "language": "GDScript",
@@ -108,6 +98,11 @@ _global_script_classes=[ {
 "class": "TileBase",
 "language": "GDScript",
 "path": "res://map/tiles/TileBase.gd"
+}, {
+"base": "Reference",
+"class": "UnitBase",
+"language": "GDScript",
+"path": "res://units/Unit.gd"
 }, {
 "base": "Reference",
 "class": "Utils",
@@ -125,7 +120,6 @@ _global_script_classes=[ {
 "path": "res://utils/touchscreenScripts.gd"
 } ]
 _global_script_class_icons={
-"ActorBase": "",
 "CustomTween": "",
 "CustomTween2": "",
 "GameOptions": "",
@@ -142,9 +136,9 @@ _global_script_class_icons={
 "InputEventSingleScreenDrag": "",
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
-"MatchOptions": "",
 "RocksTile": "",
 "TileBase": "",
+"UnitBase": "",
 "Utils": "",
 "WaterTile": "",
 "touchscreenScripts": ""
@@ -154,7 +148,7 @@ _global_script_class_icons={
 
 config/name="Fantalone"
 run/main_scene="res://game/Game.tscn"
-config/icon="res://actors/art/actorSpites.png"
+config/icon="res://units/art/actorSpites.png"
 
 [autoload]
 

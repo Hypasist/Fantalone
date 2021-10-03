@@ -64,19 +64,19 @@ func squareToPosition(coordsSquare):
 	else:
 		return cellSize * (coordsSquare + Vector2(0.5,0.5))
 
-func doActorsFormALine(ActorList:Array):
-	if ActorList.empty(): return { "isLine" : false }
+func doUnitsFormALine(UnitList:Array):
+	if UnitList.empty(): return { "isLine" : false }
 	var HEXList = [];
-	for actor in ActorList: HEXList.append(actor.hex)
+	for unit in UnitList: HEXList.append(unit.hex)
 	
 	var startingHEX = HGAS.findMostExtendedHEX(HEXList, HC.BOTTOM_LEFT)
 	var aLineResult = HGAS.doHEXFormALine(HEXList, startingHEX, [HC.TOP_LEFT, HC.TOP_RIGHT, HC.RIGHT])
 	return { "isLine" : aLineResult["isLine"] }
 	
-func recognizeFormation(ActorList:Array, direction = HC.BOTTOM_LEFT):
-	if ActorList.empty(): return
+func recognizeFormation(UnitList:Array, direction = HC.BOTTOM_LEFT):
+	if UnitList.empty(): return
 	var HEXList = [];
-	for actor in ActorList: HEXList.append(actor.hex)
+	for unit in UnitList: HEXList.append(unit.hex)
 	
 	var formationInfo = {
 		"isLine" : false,

@@ -1,5 +1,5 @@
 tool
-class_name ActorBase
+class_name UnitBase
 extends Node2D
 
 var overseer = null
@@ -21,9 +21,9 @@ func assignHEX(_hex):
 	hex = _hex
 
 func move(_hex):
-	hex.actor = null
+	hex.unit = null
 	hex = _hex
-	_hex.actor = self
+	_hex.unit = self
 	position = grid.HEXToPosition(hex.coords)
 
 func _ready():
@@ -34,7 +34,7 @@ func _ready():
 export (int) var heightBaseOffset = -15 setget setHeightBaseOffset
 func setHeightBaseOffset(height):
 	heightBaseOffset = height
-	if $Actor: $Actor.set_position(Vector2(0, height))
+	if $Unit: $Unit.set_position(Vector2(0, height))
 
 export (float, 1) var shadowPerspectiveAspect = 0.4 setget setShadowPerspectiveAspect
 func setShadowPerspectiveAspect(aspect):
@@ -47,8 +47,8 @@ func setHeightBaseShadowOffset(height):
 	updateShadow()
 
 func updateShadow():
-	if $Actor:
-		var shadowBaseSize = $Actor/Sprite.get_texture().get_size()
+	if $Unit:
+		var shadowBaseSize = $Unit/Sprite.get_texture().get_size()
 		generateShadow($Shadow, Vector2(shadowBaseSize.x, shadowBaseSize.x * shadowPerspectiveAspect))
 		$Shadow.set_position(Vector2(0, heightBaseShadowOffset))
 
@@ -62,10 +62,10 @@ func generateShadow(object:Sprite, size:Vector2):
 	imageTexture.create_from_image(dynImage)
 	object.texture = imageTexture
 
-func _on_Actor_mouse_entered():
+func _on_Unit_mouse_entered():
 	overseer.add_to_hoverlist(self)
 
-func _on_Actor_mouse_exited():
+func _on_Unit_mouse_exited():
 	overseer.remove_from_hoverlist(self)
 
 func select():
