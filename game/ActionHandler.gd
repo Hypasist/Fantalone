@@ -1,7 +1,6 @@
 extends Node
 
 const PopupBase = preload("res://ui/PopupBase.tscn")
-onready var eventlog = $"../UI/EventLog"
 onready var hoverlist = $"../Worldview/Worldmap".hoverlist
 
 var moveInfo = {}
@@ -25,16 +24,15 @@ func _on_UserActionHandler_action_drag_stopped():
 	Singletons.UI.clear_direction()
 	if moveInfo.empty() == false:
 		Singletons.Logic.makeMove(moveInfo)
-		Singletons.Logic.endTurn()
+		Singletons.Logic.finishMove()
 		Singletons.Logic.deselectAllUnits()
 		moveInfo.clear()
 
 func _on_UserActionHandler_action_longtap_active(position):
-	eventlog.addLog(str("longtap",position))
-
+	Terminal.addLog(str("longtap",position))
 
 func _on_UserActionHandler_action_longtap_stopped():
-	eventlog.addLog(str("longtap stop"))
+	Terminal.addLog(str("longtap stop"))
 
 
 func _on_UserActionHandler_action_shorttap(position):

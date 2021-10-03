@@ -9,8 +9,8 @@ func considerMoving(direction):
 func makeMove(moveInfo):
 	$MovementLogic.makeMove(moveInfo)
 
-func endTurn():
-	$MatchLogic.endTurn()
+func finishMove():
+	$MatchLogic.finishMove()
 
 func any_unit_selected():
 	return $MovementLogic.any_selected()

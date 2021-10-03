@@ -119,11 +119,9 @@ func makeMove(moveInfo:Dictionary):
 	while true:
 		var destinationHEX = frontHEX.getNeighbour(moveInfo["moveDirection"])
 		if destinationHEX.isLethal():
-			print("kiling from ", frontHEX.coords.toStr(), " to ", destinationHEX.coords.toStr())
 			selected_units.erase(frontHEX.actor)
 			frontHEX.actor.free()
 		else:
-			print("moving from ", frontHEX.coords.toStr(), " to ", destinationHEX.coords.toStr())
 			frontHEX.actor.move(destinationHEX)
 		
 		if moveInfo["affectedHEX"].has(frontHEX.getNeighbour(moveInfo["lineDirection"])):

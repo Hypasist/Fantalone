@@ -24,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utils/CustomTween2.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "GameOptions",
 "language": "GDScript",
 "path": "res://game/GameOptions.gd"

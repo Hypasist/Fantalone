@@ -28,7 +28,7 @@ func _ready():
 	showMainMenu()
 
 func _process(delta):
-	$Debug.set_text(Singletons.InputServant.get_longtap_time_left())
+	$Debug.set_text(str(Singletons.InputServant.get_longtap_time_left(), "  ", $InputServant/UserActionHandler.saved_action_info["current"]))
 	pass
 
 # MENU HANDLING

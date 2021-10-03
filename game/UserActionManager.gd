@@ -69,6 +69,7 @@ func emit_drag_active(relative):
 	if(saved_action_info["current"] == actionState.longtap_waiting):
 		saved_action_info["current"] = actionState.drag_confirmed
 		saved_action_info["relative"] = relative
+		stop_longtap_timer()
 	elif(saved_action_info["current"] == actionState.drag_confirmed):
 		saved_action_info["relative"] += relative
 	else:

@@ -27,7 +27,7 @@ func move(_hex):
 	position = grid.HEXToPosition(hex.coords)
 
 func _ready():
-	set_modulate(color)
+	set_modulate(color.darkened(0.2))
 	updateShadow()
 
 # --- SHADOW HANDLE (export to shadow???) --- #
@@ -71,9 +71,9 @@ func _on_Actor_mouse_exited():
 func select():
 	if !selected:
 		selected = true
-		set_modulate(color * 1.5)
+		set_modulate(color.lightened(0.2))
 	
 func deselect():
 	if selected:
 		selected = false
-		set_modulate(color)
+		set_modulate(color.darkened(0.2))
