@@ -17,9 +17,9 @@ func _ready():
 
 var screen_resolution = null
 var mapview_center = null 
-func set_game_resolution(_game_resolution):
-	screen_resolution = _game_resolution
-	setWorldviewPosition(_game_resolution / 2.0, scale)
+func setup():
+	screen_resolution = Singletons.GameOptions.get_map_resolution()
+	setWorldviewPosition(Singletons.GameOptions.get_game_resolution() / 2.0, scale)
 
 ### --------------- ZOOM --------------- ###
 const zoomTime = 0.25
@@ -42,7 +42,7 @@ func zoom(_center, zoomValue, isStep=false):
 	if isStep:
 		# calculate position && run
 		var target_position = calculateWorldviewPosition(mapview_center, target_scale)
-		mapview_center = viewToWorld(screen_resolution / 2.0, target_scale, target_position)
+		mapview_center = positionToCenter(screen_resolution, target_scale, target_position)
 		map_action_lockers = 2
 		zoomTween.initialize(self, "scale", starting_scale, target_scale, zoomTime, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 		zoomTween.start_normal(starting_scale)
@@ -57,27 +57,29 @@ func zoom(_center, zoomValue, isStep=false):
 func scroll(scrollValue):
 	if map_action_lockers: return
 	
-	var target_mapview_center = mapview_center - scrollValue.rotated(rotation)
+	var target_mapview_center = mapview_center - (scrollValue.rotated(rotation)/scale)
 	setWorldviewPosition(target_mapview_center, scale)
 	
 func setWorldviewPosition(new_center, new_scale):
 	position = calculateWorldviewPosition(new_center, new_scale)
-	mapview_center = viewToWorld(screen_resolution / 2.0, new_scale, position)
+	mapview_center = positionToCenter(screen_resolution, new_scale, position)
 
-func worldToView(world_coords, _scale = scale, _position = position):
-	return world_coords * _scale + _position
-func viewToWorld(view_coords, _scale = scale, _position = position):
-	return (view_coords - _position) / _scale
+func centerToPosition(resolution, scale_, center):
+	return (resolution/2.0 - center*scale_) 
+func positionToCenter(resolution, scale_ = scale, position_ = position):
+	return (resolution/2.0 - position_)/scale_
 
 # from map-center (focus) to camera-topleft (position)
 func calculateWorldviewPosition(new_center, new_scale):
 	var minPositionValue = Singletons.MatchOptions.get_min_map_boundaries()
 	var maxPositionValue = Singletons.MatchOptions.get_max_map_boundaries()
 	# map is smaller than screen
-	if screen_resolution > (maxPositionValue - minPositionValue) * new_scale:
-		return (screen_resolution - (minPositionValue + maxPositionValue) * new_scale) / 2.0
+	if screen_resolution.x / new_scale.x > (maxPositionValue.x - minPositionValue.x)|| \
+	   screen_resolution.y / new_scale.y > (maxPositionValue.y - minPositionValue.y):
+		new_center = minPositionValue + (maxPositionValue - minPositionValue)/2.0
+		print("A:", new_center)
 	else:
 	# map is bigger than screen yet we need to respect map borders
 		new_center = Utils.max2(minPositionValue + screen_resolution/new_scale/2.0, new_center)
 		new_center = Utils.min2(maxPositionValue - screen_resolution/new_scale/2.0, new_center)
-		return screen_resolution/2.0 - new_center * new_scale
+	return centerToPosition(screen_resolution, new_scale, new_center)

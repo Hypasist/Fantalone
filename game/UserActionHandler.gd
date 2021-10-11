@@ -2,6 +2,9 @@ extends Node
 
 export(int,"off","on") var debug_verbose = 0
 export(int,"disabled","single_drag") var movement_gesture = 1
+export(int,"disabled","pinch") var zoom_gesture = 1
+export(int,"disabled","twist") var rotation_gesture = 1
+export(int,"disabled","multi_drag", "single_drag") var scroll_gesture = 2
 
 enum actionState {none, longtap_waiting, longtap_confirmed, drag_confirmed}
 var saved_action_info = {	"current": actionState.none,
@@ -10,8 +13,9 @@ var saved_action_info = {	"current": actionState.none,
 var longtap_timelimit_ms = 700.0
 
 func _unhandled_input(event):
-	if (event is InputEventSingleScreenDrag and movement_gesture == 1):
-		emit_drag_active(event.relative)
+	if (event is InputEventSingleScreenDrag and movement_gesture == 1 \
+		and Singletons.Logic.any_unit_selected()):
+			emit_drag_active(event.relative)
 	elif event is InputEventSingleScreenTap:
 		handle_shorttap(event.position)
 	elif event is InputEventSingleScreenTouch:
@@ -19,6 +23,15 @@ func _unhandled_input(event):
 			handle_tap(event.position)
 		else:
 			handle_untap()
+			
+	elif (event is InputEventMultiScreenDrag and scroll_gesture == 1) or \
+	 event is InputEventSingleScreenDrag and scroll_gesture == 2 \
+	 and not Singletons.Logic.any_unit_selected():
+		handle_scroll(event)
+	elif event is InputEventScreenPinch and zoom_gesture == 1:
+		handle_zoom(event)
+	elif event is InputEventScreenTwist and rotation_gesture == 1:
+		handle_rotate(event)
 
 # LONG TAP TIMER FUNCTIONS
 func start_longtap_timer():
@@ -32,9 +45,6 @@ func _on_LongTapTimer_timeout():
 		saved_action_info["current"] = actionState.longtap_confirmed
 		handle_longtap_active(saved_action_info["position"])
 	else:
-		clean_states()
-
-func _on_MapActionHandler_map_action_taken():
 		clean_states()
 
 # ACTION SIGNALS
@@ -94,3 +104,19 @@ func handle_untap():
 		handle_drag_stop()
 	else:
 		clean_states()
+
+# MAP HANDLERS
+func handle_scroll(event):
+	if debug_verbose:
+		Terminal.addLog("Scroll R:" + str(event.relative))
+	Singletons.Worldview.scroll(event.relative)
+	clean_states()
+
+func handle_zoom(event):
+	if debug_verbose:
+		Terminal.addLog("Zoom P:" + str(event.position) + " R:" + str(event.relative) + " D:" + str(event.distance))
+	Singletons.Worldview.zoom(event.position, event.relative, event.is_step)
+	clean_states()
+
+func handle_rotate(event):
+	clean_states()

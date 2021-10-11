@@ -3,7 +3,7 @@ extends Node2D
 var grid : HEXGrid = null
 
 func setup():
-	grid = HEXGrid.new(Singletons.GameOptions.game_options["tile_size"])
+	grid = HEXGrid.new(Singletons.GameOptions.game_options["tilesize"])
 
 func loadMap(savefile:String = ""):
 	if savefile == "":
@@ -31,7 +31,16 @@ func consumeCurrentUnitMockup():
 			unit.add_to_group(player["unit_group_name"])
 
 func calculateMockupSize():
-	pass
+	var minHexCoords = Vector2(INF, INF)
+	var maxHexCoords = Vector2(-INF, -INF)
+	for tile in get_tree().get_nodes_in_group("Tiles"):
+		minHexCoords = Utils.min2(minHexCoords, tile.position)
+		maxHexCoords = Utils.max2(maxHexCoords, tile.position)
+	minHexCoords -= Singletons.GameOptions.get_tilesize()/2.0 \
+	 				+ Singletons.GameOptions.get_map_bounds_pad()
+	maxHexCoords += Singletons.GameOptions.get_tilesize()/2.0 \
+	 				+ Singletons.GameOptions.get_map_bounds_pad()
+	Singletons.MatchOptions.set_map_boundaries(minHexCoords, maxHexCoords)
 	
 func consumeCurrentTileMockup():
 	var tileTable = Singletons.MapEditor.getTileTable()

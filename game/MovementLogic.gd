@@ -129,6 +129,8 @@ func makeMove(moveInfo:Dictionary):
 		else:
 			break
 			
+	Singletons.Logic.finishMove()
+	
 # isLine
 # isMoveValid
 # invalidReason

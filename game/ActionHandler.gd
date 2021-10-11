@@ -24,7 +24,6 @@ func _on_UserActionHandler_action_drag_stopped():
 	Singletons.UI.clear_direction()
 	if moveInfo.empty() == false:
 		Singletons.Logic.makeMove(moveInfo)
-		Singletons.Logic.finishMove()
 		Singletons.Logic.deselectAllUnits()
 		moveInfo.clear()
 

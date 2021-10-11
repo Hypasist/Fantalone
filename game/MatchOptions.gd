@@ -28,8 +28,14 @@ func get_min_map_boundaries():
 				   match_options["map_boundaries"]["top"])
 
 func get_max_map_boundaries():
-	return Vector2(match_options["map_boundaries"]["bottom"],
-				   match_options["map_boundaries"]["right"])
+	return Vector2(match_options["map_boundaries"]["right"],
+				   match_options["map_boundaries"]["bottom"])
+
+func set_map_boundaries(min_bounds:Vector2, max_bounds:Vector2):
+	match_options["map_boundaries"]["left"] = min_bounds.x
+	match_options["map_boundaries"]["top"] = min_bounds.y
+	match_options["map_boundaries"]["right"] = max_bounds.x
+	match_options["map_boundaries"]["bottom"] = max_bounds.y
 
 func clear_player_options():
 	match_options["player_num"] = 0
