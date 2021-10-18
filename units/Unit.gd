@@ -9,6 +9,7 @@ var hex = null
 var color : Color = Color.white
 var ownerId = null
 var selected = false
+var tired = false
 
 func setup(_info):
 	ownerId = _info["owner"]
@@ -27,7 +28,7 @@ func move(_hex):
 	position = grid.HEXToPosition(hex.coords)
 
 func _ready():
-	set_modulate(color.darkened(0.2))
+	$Unit.set_modulate(color)
 	updateShadow()
 
 # --- SHADOW HANDLE (export to shadow???) --- #
@@ -71,9 +72,21 @@ func _on_Unit_mouse_exited():
 func select():
 	if !selected:
 		selected = true
-		set_modulate(color.lightened(0.2))
-	
+		$Selected.show()
+		$Unit.set_modulate(color.lightened(0.5))
+
 func deselect():
 	if selected:
 		selected = false
-		set_modulate(color.darkened(0.2))
+		$Selected.hide()
+		$Unit.set_modulate(color)
+
+func tire():
+	if !tired:
+		tired = true
+		$Tired.show()
+
+func untire():
+	if tired:
+		tired = false
+		$Tired.hide()

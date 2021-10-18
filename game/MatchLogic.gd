@@ -17,14 +17,16 @@ func startMatch():
 
 func updateUI():
 	var _string = ""
-	_string += str("R: ", get_tree().get_nodes_in_group(Singletons.MatchOptions.match_options["players"][0]["unit_group_name"]).size(), "\n")
-	_string += str("G: ", get_tree().get_nodes_in_group(Singletons.MatchOptions.match_options["players"][1]["unit_group_name"]).size(), "\n")
+	_string += str("R: ", Singletons.Logic.get_all_player_units(0).size(), "\n")
+	_string += str("G: ", Singletons.Logic.get_all_player_units(1).size(), "\n")
 	Singletons.UI.set_scoreboard(_string)
 	Singletons.UI.set_turns_left(moves_left)
 
 func startNewTurn(new_owner):
 	turn_owner_index = new_owner
 	moves_left = MOVES_PER_TURN
+	Singletons.Logic.untireAllPlayerUnits(turn_owner_index)
+	
 	Singletons.UI.set_turns_left(moves_left)
 	Singletons.UI.set_turn_owner(players[turn_owner_index]["name"])
 	updateUI()

@@ -5,6 +5,7 @@ enum invalidReason { no_reason, unpassable_terrain, pushing_own_units, formation
 var selected_units = []
 func new_selected(new_unit:UnitBase):
 	if Singletons.Logic.get_current_turn_owner() != new_unit.ownerId: return
+	if new_unit.tired: return
 	
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
 	if new_unit.selected == false:
@@ -33,6 +34,14 @@ func lineCheck():
 		for unit in selected_units:
 			unit.deselect()
 		return false
+
+func tireSelectedUnits():
+	for unit in selected_units:
+		unit.tire()
+
+func untireAllPlayerUnits(player_id):
+	for unit in Singletons.Logic.get_all_player_units(player_id):
+		unit.untire()
 
 func deselectAllUnits():
 	for unit in selected_units:

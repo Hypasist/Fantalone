@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map/tiles/TileBase.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "UnitBase",
 "language": "GDScript",
 "path": "res://units/Unit.gd"

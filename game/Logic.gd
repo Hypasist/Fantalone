@@ -18,9 +18,18 @@ func any_unit_selected():
 func deselectAllUnits():
 	$MovementLogic.deselectAllUnits()
 
+func tireSelectedUnits():
+	$MovementLogic.tireSelectedUnits()
+	
+func untireAllPlayerUnits(player_id):
+	$MovementLogic.untireAllPlayerUnits(player_id)
 
 func startMatch():
 	$MatchLogic.startMatch()
 
 func get_current_turn_owner():
 	return $MatchLogic.turn_owner_index
+
+func get_all_player_units(player_id):
+	var group_name = Singletons.MatchOptions.match_options["players"][player_id]["unit_group_name"]
+	return get_tree().get_nodes_in_group(group_name)
