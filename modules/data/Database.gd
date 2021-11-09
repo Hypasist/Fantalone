@@ -1,0 +1,52 @@
+extends Node
+
+# GLOBALS ACCESS
+func get_color(id):
+	return $GameParameters.colorList[id]
+func get_colorlist():
+	return $GameParameters.colorList
+
+# ACCESS FUNCTIONS:
+func is_autofinish_turn():
+	$GameParameters.autofinish_turn
+
+func set_resolution(resolution):
+	$GameParameters.set_resolution(resolution)
+func get_map_resolution():
+	return $GameParameters.map_resolution
+func get_game_resolution():
+	return $GameParameters.game_resolution
+
+func get_tilesize():
+	return $GameParameters.get_tilesize()
+
+func get_min_map_scale():
+	return $GameParameters.min_map_scale
+func get_max_map_scale():
+	return $GameParameters.max_map_scale
+	
+func get_min_map_boundaries():
+	return $MatchParameters.min_map_boundaries
+func get_max_map_boundaries():
+	return $MatchParameters.max_map_boundaries
+func set_min_map_boundaries(value:Vector2):
+	$MatchParameters.min_map_boundaries = value
+func set_max_map_boundaries(value:Vector2):
+	$MatchParameters.max_map_boundaries = value
+
+# MATCH
+func clear_players_info():
+	$MatchParameters.clear_players_info()
+func add_player_info(id:int, name_:String, color:Color):
+	$MatchParameters.add_player_info(id, name_, color)
+func get_player_info(id):
+	return $MatchParameters.get_player_info(id)
+func get_player_units(id):
+	var group_name = $MatchParameters.get_player_info(id).group_name
+	return get_tree().get_nodes_in_group(group_name)
+
+# RESOURCES
+func get_tile_resource(id):
+	return $ResourceData.get_tile_resource(id)
+func get_unit_resource(id):
+	return $ResourceData.get_unit_resource(id)

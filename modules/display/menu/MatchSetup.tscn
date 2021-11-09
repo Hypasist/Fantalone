@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://modules/display/menu/MenuScreenBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://modules/display/menu/MatchSetup.gd" type="Script" id=2]
+[ext_resource path="res://modules/display/menu/PlayerOptions.tscn" type="PackedScene" id=3]
+[ext_resource path="res://fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 4 )
+
+[node name="MenuScreen" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="P1" parent="." index="0" instance=ExtResource( 3 )]
+anchor_top = 0.2
+anchor_bottom = 0.4
+
+[node name="P2" parent="." index="1" instance=ExtResource( 3 )]
+anchor_top = 0.5
+anchor_bottom = 0.7
+rect_pivot_offset = Vector2( 320, -280 )
+
+[node name="Label" type="Label" parent="." index="2"]
+anchor_right = 1.0
+anchor_bottom = 0.2
+custom_fonts/font = SubResource( 1 )
+text = "New Game"
+align = 1
+valign = 1
+
+[node name="Cancel" type="Button" parent="." index="3"]
+anchor_left = 0.1
+anchor_top = 0.8
+anchor_right = 0.4
+anchor_bottom = 0.95
+custom_fonts/font = SubResource( 2 )
+text = "Cancel"
+
+[node name="StartGame" type="Button" parent="." index="4"]
+anchor_left = 0.6
+anchor_top = 0.8
+anchor_right = 0.9
+anchor_bottom = 0.95
+custom_fonts/font = SubResource( 2 )
+text = "Start Game"
+[connection signal="pressed" from="Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="StartGame" to="." method="_on_StartGame_pressed"]

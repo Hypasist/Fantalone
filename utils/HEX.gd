@@ -19,7 +19,7 @@ func assignObject(object):
 	if object is UnitBase: unit = object
 	object.assignHEX(self)
 
-func getNeighbour(direction):
+func getNeighbour():
 	if direction < neighbours.size():
 		return neighbours[direction]
 

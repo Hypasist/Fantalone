@@ -19,16 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utils/CustomTween2.gd"
 }, {
-"base": "Node",
-"class": "GameOptions",
-"language": "GDScript",
-"path": "res://game/GameOptions.gd"
-}, {
-"base": "TileBase",
-"class": "GrassTile",
-"language": "GDScript",
-"path": "res://map/tiles/GrassTile.gd"
-}, {
 "base": "Reference",
 "class": "HEX",
 "language": "GDScript",
@@ -40,79 +30,74 @@ _global_script_classes=[ {
 "path": "res://utils/HEXConstants.gd"
 }, {
 "base": "Reference",
-"class": "HEXCoords",
+"class": "Hex",
 "language": "GDScript",
-"path": "res://utils/HEXCoords.gd"
+"path": "res://modules/logic/Hex.gd"
 }, {
 "base": "Reference",
-"class": "HEXCoordsMath",
+"class": "HexCoords",
 "language": "GDScript",
-"path": "res://utils/HEXCoordsMath.gd"
-}, {
-"base": "Reference",
-"class": "HEXGrid",
-"language": "GDScript",
-"path": "res://utils/HEXGrid.gd"
-}, {
-"base": "Reference",
-"class": "HEXGridAdvancedScripts",
-"language": "GDScript",
-"path": "res://utils/HEXGridAdvancedScripts.gd"
+"path": "res://modules/logic/HexCoords.gd"
 }, {
 "base": "InputEventAction",
 "class": "InputEventMultiScreenDrag",
 "language": "GDScript",
-"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventMultiScreenDrag.gd"
+"path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventMultiScreenDrag.gd"
 }, {
 "base": "InputEventAction",
 "class": "InputEventScreenPinch",
 "language": "GDScript",
-"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventScreenPinch.gd"
+"path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventScreenPinch.gd"
 }, {
 "base": "InputEventAction",
 "class": "InputEventScreenTwist",
 "language": "GDScript",
-"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventScreenTwist.gd"
+"path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventScreenTwist.gd"
 }, {
 "base": "InputEventAction",
 "class": "InputEventSingleScreenDrag",
 "language": "GDScript",
-"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenDrag.gd"
+"path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenDrag.gd"
 }, {
 "base": "InputEventAction",
 "class": "InputEventSingleScreenTap",
 "language": "GDScript",
-"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTap.gd"
+"path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTap.gd"
 }, {
 "base": "InputEventAction",
 "class": "InputEventSingleScreenTouch",
 "language": "GDScript",
-"path": "res://godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
+"path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 }, {
-"base": "TileBase",
-"class": "RocksTile",
+"base": "Control",
+"class": "MenuScreenBase",
 "language": "GDScript",
-"path": "res://map/tiles/RocksTile.gd"
-}, {
-"base": "Node2D",
-"class": "TileBase",
-"language": "GDScript",
-"path": "res://map/tiles/TileBase.gd"
+"path": "res://modules/display/menu/MenuScreenBase.gd"
 }, {
 "base": "Node2D",
-"class": "UnitBase",
+"class": "TileDisplayBase",
 "language": "GDScript",
-"path": "res://units/Unit.gd"
+"path": "res://modules/resources_display/TileDisplayBase.gd"
+}, {
+"base": "Reference",
+"class": "TileLogicBase",
+"language": "GDScript",
+"path": "res://modules/resources_logic/TileLogicBase.gd"
+}, {
+"base": "Node2D",
+"class": "UnitDisplayBase",
+"language": "GDScript",
+"path": "res://modules/resources_display/UnitDisplayBase.gd"
+}, {
+"base": "Node",
+"class": "UnitLogicBase",
+"language": "GDScript",
+"path": "res://modules/resources_logic/UnitLogicBase.gd"
 }, {
 "base": "Reference",
 "class": "Utils",
 "language": "GDScript",
 "path": "res://utils/Utils.gd"
-}, {
-"base": "TileBase",
-"class": "WaterTile",
-"language": "GDScript",
-"path": "res://map/tiles/WaterTile.gd"
 }, {
 "base": "Reference",
 "class": "touchscreenScripts",
@@ -122,25 +107,22 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "CustomTween": "",
 "CustomTween2": "",
-"GameOptions": "",
-"GrassTile": "",
 "HEX": "",
 "HEXConstants": "",
-"HEXCoords": "",
-"HEXCoordsMath": "",
-"HEXGrid": "",
-"HEXGridAdvancedScripts": "",
+"Hex": "",
+"HexCoords": "",
 "InputEventMultiScreenDrag": "",
 "InputEventScreenPinch": "",
 "InputEventScreenTwist": "",
 "InputEventSingleScreenDrag": "",
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
-"RocksTile": "",
-"TileBase": "",
-"UnitBase": "",
+"MenuScreenBase": "",
+"TileDisplayBase": "",
+"TileLogicBase": "",
+"UnitDisplayBase": "",
+"UnitLogicBase": "",
 "Utils": "",
-"WaterTile": "",
 "touchscreenScripts": ""
 }
 
@@ -148,13 +130,13 @@ _global_script_class_icons={
 
 config/name="Fantalone"
 run/main_scene="res://game/Game.tscn"
-config/icon="res://units/art/actorSpites.png"
+config/icon="res://art/units/actorSpites.png"
 
 [autoload]
 
-InputManager="*res://godot_touch_input_manager/InputManager.gd"
-Singletons="*res://game/AutoloadSingletons.gd"
-Terminal="*res://game/Terminal.gd"
+InputManager="*res://modules/godot_touch_input_manager/InputManager.gd"
+mod="*res://modules/Modules.gd"
+Terminal="*res://modules/display/debug/Terminal.gd"
 
 [input_devices]
 
