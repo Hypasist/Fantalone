@@ -10,13 +10,13 @@ extends Node
 
 func _ready():
 	mod.Game = self
+	mod.Client = $Client
 	mod.Database = $Database
 	mod.MapEditor = $MapEditor
 	mod.MapView = $MapView
 	mod.UI = $UI
 	mod.Menu = $Menu
 	mod.Logic = $Logic
-	mod.HexGrid = $HexGrid
 	mod.Debug = $Debug
 	setup()
 	mod.Menu.show_main_menu()
@@ -27,6 +27,7 @@ func setup():
 func start_match():
 	mod.Menu.hide_menu()
 	mod.MapView.setup()
+	mod.Database.set_current_turn_owner(0)
 
 
 #	Singletons.Worldmap.loadMap()

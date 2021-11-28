@@ -8,5 +8,10 @@ func _init(q_:int = 0, r_:int = 0):
 	r = r_
 	return self
 
-func toStr():
+func add(qr):
+	q += qr.q
+	r += qr.r
+	return self
+	
+func to_str():
 	return str("(",q,",",r,")")

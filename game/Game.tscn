@@ -3,11 +3,11 @@
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://modules/logic/Logic.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modules/data/Database.tscn" type="PackedScene" id=3]
-[ext_resource path="res://modules/logic/HexGrid.tscn" type="PackedScene" id=4]
-[ext_resource path="res://modules/mapeditor/MapEditor.tscn" type="PackedScene" id=5]
-[ext_resource path="res://modules/display/map/MapView.tscn" type="PackedScene" id=6]
-[ext_resource path="res://modules/display/debug/Debug.tscn" type="PackedScene" id=7]
-[ext_resource path="res://modules/display/menu/Menu.tscn" type="PackedScene" id=8]
+[ext_resource path="res://modules/mapeditor/MapEditor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://modules/display/map/MapView.tscn" type="PackedScene" id=5]
+[ext_resource path="res://modules/display/debug/Debug.tscn" type="PackedScene" id=6]
+[ext_resource path="res://modules/display/menu/Menu.tscn" type="PackedScene" id=7]
+[ext_resource path="res://modules/logic/Client.tscn" type="PackedScene" id=8]
 [ext_resource path="res://modules/display/ui/UI.tscn" type="PackedScene" id=9]
 
 [node name="Game" type="Node"]
@@ -17,15 +17,15 @@ script = ExtResource( 1 )
 
 [node name="Database" parent="." instance=ExtResource( 3 )]
 
-[node name="HexGrid" parent="." instance=ExtResource( 4 )]
-
-[node name="MapEditor" parent="." instance=ExtResource( 5 )]
+[node name="MapEditor" parent="." instance=ExtResource( 4 )]
 visible = false
 
-[node name="MapView" parent="." instance=ExtResource( 6 )]
+[node name="MapView" parent="." instance=ExtResource( 5 )]
 
-[node name="Debug" parent="." instance=ExtResource( 7 )]
+[node name="Debug" parent="." instance=ExtResource( 6 )]
 
-[node name="Menu" parent="." instance=ExtResource( 8 )]
+[node name="Menu" parent="." instance=ExtResource( 7 )]
+
+[node name="Client" parent="." instance=ExtResource( 8 )]
 
 [node name="UI" parent="." instance=ExtResource( 9 )]

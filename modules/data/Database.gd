@@ -41,9 +41,10 @@ func add_player_info(id:int, name_:String, color:Color):
 	$MatchParameters.add_player_info(id, name_, color)
 func get_player_info(id):
 	return $MatchParameters.get_player_info(id)
-func get_player_units(id):
-	var group_name = $MatchParameters.get_player_info(id).group_name
-	return get_tree().get_nodes_in_group(group_name)
+func get_current_turn_owner():
+	return $MatchParameters.current_turn_owner
+func set_current_turn_owner(id):
+	$MatchParameters.current_turn_owner = id
 
 # RESOURCES
 func get_tile_resource(id):

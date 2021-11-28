@@ -4,7 +4,6 @@ var tileLogic : TileLogicBase = null
 var unitLogic : UnitLogicBase = null
 #var prop : PropBase = null
 var coords : HexCoords = null
-#var neighbours = [null, null, null, null, null, null]
 
 
 func _init(coords_):
@@ -24,4 +23,17 @@ func add_resource(resource):
 		unitLogic = resource.setup(self)
 	elif resource is UnitDisplayBase && unitLogic:
 		unitLogic.setup_display(resource)
+
+func get_unit():
+	return unitLogic
+func is_taken():
+	return (unitLogic != null)
+func is_passable():
+	return tileLogic.passable if tileLogic else false
+func is_lethal():
+	return tileLogic.lethal if tileLogic else false
+func get_owner():
+	return unitLogic.get_owner() if unitLogic else null
+func get_neighbour(direction):
+	return mod.Logic.get_neighbour_hex(self, direction)
 	

@@ -10,13 +10,11 @@ func setup(logic, hex_):
 	tileLogic = logic
 	hex = hex_
 	position = mod.Logic.hex_to_position(hex.coords)
-	$CoordLabel.set_text(hex.coords.toStr())
+	$CoordLabel.set_text(hex.coords.to_str())
 	return self
 
 func _on_Tile_mouse_entered():
-	pass
-	#overseer.add_to_hoverlist(self)
+	mod.UI.add_to_hoverlist(tileLogic)
 
 func _on_Tile_mouse_exited():
-	pass
-	#overseer.remove_from_hoverlist(self)
+	mod.UI.remove_from_hoverlist(tileLogic)

@@ -1,6 +1,6 @@
 extends TileLogicBase
 
-func _ready():
+func _init():
 	lethal = false
 	passable = true
 	safe2spawn = true

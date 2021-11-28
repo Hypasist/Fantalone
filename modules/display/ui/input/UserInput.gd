@@ -71,7 +71,7 @@ func _on_LongTapTimer_timeout():
 		clean_states()
 
 func handle_drag_ambiguous(event):
-	if mod.Logic.any_unit_selected():
+	if mod.Client.any_unit_selected():
 		handle_drag_unit(event)
 	else:
 		handle_drag_map(event)
@@ -87,7 +87,6 @@ func handle_drag_unit(event):
 		return # ignore if actionState.none or actionState.longtap_confirmed
 	if debug_verbose_units: Terminal.addLog(str("Drag P:", saved_position, " R:", saved_relative))
 	$PlayerAction.action_drag(saved_position, saved_relative)
-
 
 func handle_drag_map(event): # aka scroll
 	if debug_verbose_map: Terminal.addLog("Scroll R:" + str(event.relative))

@@ -5,7 +5,6 @@ const NUMBER_OF_DIRECTIONS = 6
 
 static func opposite(d1):
 	return (d1 + 3) % NUMBER_OF_DIRECTIONS
-	
 
 const directions = {TOP_LEFT	:	[ 0, -1],
 					TOP_RIGHT	:	[ 1, -1],
@@ -14,7 +13,7 @@ const directions = {TOP_LEFT	:	[ 0, -1],
 					BOTTOM_LEFT :	[-1,  1],
 					LEFT		:	[-1,  0]}
 
-static func areDirectionsCorrelated(d1, d2):
+static func correlated(d1, d2):
 	return (d1 % 3) == (d2 % 3)
 	
 static func getRelative(d1, number):

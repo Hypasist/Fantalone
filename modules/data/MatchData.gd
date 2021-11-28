@@ -19,7 +19,6 @@ extends Node
 #							"owner"		:	player["control"]})
 #			$Units.add_child(unit)
 #			grid.addHEX(coordsSquare, unit)
-#			unit.add_to_group(player["unit_group_name"])
 #
 #func calculateMockupSize():
 #	var minHexCoords = Vector2(INF, INF)
@@ -51,12 +50,3 @@ extends Node
 #	return tilePosition
 #
 #
-## --- objects hovered --- #
-#var hoverlist = []
-#func add_to_hoverlist(object):
-#	if !hoverlist.has(object):
-#		hoverlist.append(object)
-#
-#func remove_from_hoverlist(object):
-#	if hoverlist.has(object):
-#		hoverlist.erase(object)

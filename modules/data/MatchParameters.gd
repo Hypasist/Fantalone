@@ -4,20 +4,19 @@ enum control_enum { HUMAN_1, HUMAN_2, AI }
 class PlayerInfo:
 	var id : int
 	var name_: String
-	var group_name: String
 	var color : Color
 	var control
 	
 	func _init(id_:int, name__:String, color_:Color, control_):
 		id = id_
 		name_ = name__
-		group_name = str("group_", id)
 		color = color_
 		control = control_
 		return self
 
 var players_number = 0
 var players_info = []
+var current_turn_owner = null
 
 func clear_players_info():
 	players_number = 0

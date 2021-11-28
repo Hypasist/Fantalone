@@ -6,6 +6,14 @@ func lock_map_control():
 func unlock_map_control():
 	map_control_enabled = true
 
+# 
+func add_to_hoverlist(object):
+	$Hoverlist.add_to_hoverlist(object)
+func remove_from_hoverlist(object):
+	$Hoverlist.remove_from_hoverlist(object)
+func get_hovered_unit():
+	return $Hoverlist.get_hovered_unit()
+
 # ARROW HANDLE
 func arrow_clear_direction():
 	$MovementArrow.clear_direction()

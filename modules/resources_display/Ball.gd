@@ -5,9 +5,9 @@ var color = Color.white
 func _init():
 	$Unit.set_modulate(color)
 
-func setup(logic, hex_):
-	.setup(logic, hex_)
-	change_color(mod.Database.get_player_info(logic.owner_id).color)
+func setup(logic):
+	change_color(mod.Database.get_player_info(logic.get_owner()).color)
+	return .setup(logic)
 
 func tire():
 	$Tired.show()
@@ -26,3 +26,7 @@ func deselect():
 func change_color(color_):
 	color = color_
 	$Unit.set_modulate(color)
+
+func push_to_hex(hex):
+	print("moving to:", hex.coords.to_str())
+	pass

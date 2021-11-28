@@ -1,15 +1,30 @@
 extends Node
 
-func get_hex_by_coords(coords):
-	return $HexGrid.get_hex_by_coords(coords)
+func get_hex_by_xy_coords(xy_coords):
+	var qr_coords = $HexGrid.xy_to_pq(xy_coords)
+	return $HexGrid.get_hex_by_coords(qr_coords)
+func get_neighbour_hex(hex, direction):
+	return $HexGrid.get_neighbour(hex, direction)
 
 func hex_to_position(coords:HexCoords):
 	return $HexGrid.hex_to_position(coords)
 
-func any_unit_selected():
-	return true
-	
-func considerMoving(direction):
-	pass
-func is_move_valid(direction):
-	pass
+func recognize_line_unit(unit_list):
+	return $MovementLogic.recognize_line_unit(unit_list)
+func recognize_line_hex(hex_list):
+	return $MovementLogic.recognize_line_hex(hex_list)
+
+func recognize_formation_unit(unit_list, direction):
+	return $MovementLogic.recognize_formation_unit(unit_list, direction)
+func recognize_formation_hex(hex_list, direction):
+	return $MovementLogic.recognize_formation_hex(hex_list, direction)
+
+func recognize_movement_unit(unit_list, direction):
+	return $MovementLogic.recognize_movement_unit(unit_list, direction)
+func recognize_movement_hex(hex_list, direction):
+	return $MovementLogic.recognize_movement_hex(hex_list, direction)
+
+func make_move_unit(unit_list, direction):
+	return $MovementLogic.make_move_unit(unit_list, direction)
+func make_move_hex(hex_list, direction):
+	return $MovementLogic.make_move_hex(hex_list, direction)
