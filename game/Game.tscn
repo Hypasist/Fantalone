@@ -19,6 +19,7 @@ script = ExtResource( 1 )
 
 [node name="MapEditor" parent="." instance=ExtResource( 4 )]
 visible = false
+tilemapSize = Vector2( 128, 70 )
 
 [node name="MapView" parent="." instance=ExtResource( 5 )]
 

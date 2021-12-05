@@ -11,7 +11,7 @@ var opposed_power = 0
 func _init(formation):
 	copy(formation)
 	for unit in unit_list:
-		add_dummy_command(unit)
+		add_subject_to_evaluate(unit)
 		
 func invalid_move(reason):
 	valid = false
@@ -29,12 +29,15 @@ func get_formation_power():
 func get_opposed_power():
 	return opposed_power
 
-func add_dummy_command(unit):
-	command_list.append(CommandInfo.new(unit, null, CommandInfo.unit_commands.unevaluated))
+func add_command(command):
+	command_list.append(command)
 func get_command_list():
 	return command_list
-func get_unevaluated_command():
+func add_subject_to_evaluate(subject):
+	command_list.append(CmdDummy.new(subject))
+func get_subject_to_evaluate():
 	for command in command_list:
-		if command.command == CommandInfo.unit_commands.unevaluated:
-			return command
+		if command is CmdDummy:
+			command_list.erase(command)
+			return command.subject
 	return null

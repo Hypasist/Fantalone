@@ -1,4 +1,5 @@
 class_name touchscreenScripts
+extends Reference
 
 var perspective_ratio = Vector2(1.0, 0.5)
 const offset_of_0direction = (-5.0*PI/6.0)

@@ -40,3 +40,5 @@ func start_match():
 ###	Terminal.addLog("Game's ready")
 #	showMainMenu()
 	
+	
+	#   yield(get_tree(), "idle_frame") ????

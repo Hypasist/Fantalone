@@ -1,4 +1,5 @@
 class_name Hex
+extends Reference
 
 var tileLogic : TileLogicBase = null
 var unitLogic : UnitLogicBase = null

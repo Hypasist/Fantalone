@@ -26,29 +26,25 @@ func recognize_movement_unit(unit_list, direction):
 		hex_list.append(unit.hex)
 	return recognize_movement_hex(hex_list, direction)
 
-func evaluate_command(movement, command):
-	if command.target is UnitLogicBase:
-		evaluate_unit_command(movement, command)
 
-func _evaluate_unit_command_move(movement, command, destination_hex):
-	if movement.get_owner() == command.target.get_owner():
-		movement.add_formation_power(command.target.get_power())
+func _evaluate_unit_command_move(movement, unit, destination_hex):
+	if movement.get_owner() == unit.get_owner():
+		movement.add_formation_power(unit.get_power())
 		if destination_hex.is_taken():
-			command.setup(destination_hex, CommandInfo.unit_commands.move_and_push)
+			movement.add_command(CmdMoveAndPush.new(unit, destination_hex))
 		elif destination_hex.is_lethal():
-			command.setup(destination_hex, CommandInfo.unit_commands.move_and_die)
+			movement.add_command(CmdMoveAndDie.new(unit, destination_hex))
 		else:
-			command.setup(destination_hex, CommandInfo.unit_commands.move_to_empty)
+			movement.add_command(CmdMoveToEmpty.new(unit, destination_hex))
 	else:
-		movement.add_opposed_power(command.target.get_power())
+		movement.add_opposed_power(unit.get_power())
 		if destination_hex.is_lethal():
-			command.setup(destination_hex, CommandInfo.unit_commands.get_pushed_and_die)
+			movement.add_command(CmdGetPushedAndDie.new(unit, destination_hex))
 		else:
-			command.setup(destination_hex, CommandInfo.unit_commands.get_pushed_to_empty)
+			movement.add_command(CmdGetPushedToEmpty.new(unit, destination_hex))
 			
 	
-func evaluate_unit_command(movement, command):
-	var unit = command.target
+func evaluate_unit_command(movement, unit):
 	var current_hex = unit.hex
 	var destination_hex = current_hex.get_neighbour(movement.get_direction())
 	
@@ -61,20 +57,20 @@ func evaluate_unit_command(movement, command):
 		if movement.get_owner() == encountered_unit.get_owner():
 			# PUSHING OWN UNIT, BUT IT'S OK, COZ IT'S LEAVING (BELONGS TO FORMATION)
 			if movement.does_belong(encountered_unit):
-				_evaluate_unit_command_move(movement, command, destination_hex)
+				_evaluate_unit_command_move(movement, unit, destination_hex)
 			# PUSHING OWN UNIT, THAT DOESN'T BELONG TO FORMATION
 			else:
 				movement.invalid_move(movement.invalid.pushing_own_units)
 		# PUSHING OTHER UNIT
 		elif movement.is_pushing():
 			movement.add_dummy_command(encountered_unit)
-			_evaluate_unit_command_move(movement, command, destination_hex)
+			_evaluate_unit_command_move(movement, unit, destination_hex)
 		# MOVING TO TAKEN HEX, WHILE NOT PUSHING
 		else:
 			movement.invalid_move(movement.invalid.tile_occupied)
 	else:
 		# MOVING TO NON-TAKEN HEX
-		_evaluate_unit_command_move(movement, command, destination_hex)
+		_evaluate_unit_command_move(movement, unit, destination_hex)
 
 func recognize_movement_hex(hex_list, direction):
 	var formation = recognize_formation_hex(hex_list, direction)
@@ -82,10 +78,11 @@ func recognize_movement_hex(hex_list, direction):
 	
 	# START CHAIN-MOVEMENT
 	while movement.is_valid():
-		var command = movement.get_unevaluated_command()
-		if command:
-			evaluate_command(movement, command)
-			# NO COMMANDS LEFT TO EVALUATE
+		var subject = movement.get_subject_to_evaluate()
+		if subject:
+			if subject is UnitLogicBase:
+				evaluate_unit_command(movement, subject)
+		# NO COMMANDS LEFT TO EVALUATE
 		elif movement.get_opposed_power() >= movement.get_formation_power(): 
 			movement.invalid_move(movement.invalid.formation_too_weak)
 		else:
@@ -98,15 +95,15 @@ func make_move_unit(unit_list, direction):
 		hex_list.append(unit.hex)
 	return make_move_hex(hex_list, direction)
 	
-func execute_movement_commands(movement:MovementInfo):
-	if movement.is_valid() == false: return
-	for command in movement.get_command_list():
-		print("EXECUTING ", CommandInfo.unit_commands.keys()[command.command], " MOVE")
-		command.execute()
-
 func make_move_hex(hex_list, direction):
 	var movement = recognize_movement_hex(hex_list, direction)
 	execute_movement_commands(movement)
+
+func execute_movement_commands(movement:MovementInfo):
+	if movement.is_valid() == false: return
+	for command in movement.get_command_list():
+		print("EXECUTING ", command.get_class(), " MOVE")
+		command.execute()
 
 
 #func tireSelectedUnits():

@@ -16,28 +16,19 @@ func deselect():
 	if _selected:
 		unitDisplay.deselect()
 		_selected = false
+		
+func tire():
+	if not _tired:
+		unitDisplay.select()
+		_tired = true
+func untire():
+	if _tired:
+		unitDisplay.deselect()
+		_tired = false
 
 func handle_command(command):
-	match command.command:
-		CommandInfo.unit_commands.unevaluated:
-			Terminal.addLog("ERROR, unevaluated command executed!")
-		CommandInfo.unit_commands.move_to_empty:
-			move_to_hex(command.destination_hex)
-			unitDisplay.move_to_hex(command.destination_hex)
-		CommandInfo.unit_commands.move_and_push:
-			move_to_hex(command.destination_hex)
-			unitDisplay.push_to_hex(command.destination_hex)
-		CommandInfo.unit_commands.move_and_die:
-			move_to_hex(command.destination_hex)
-			die()
-			unitDisplay.suicide_to_hex(command.destination_hex)
-		CommandInfo.unit_commands.get_pushed_to_empty:
-			move_to_hex(command.destination_hex)
-			unitDisplay.get_pushed_to_hex(command.destination_hex)
-		CommandInfo.unit_commands.get_pushed_and_die:
-			move_to_hex(command.destination_hex)
-			die()
-			unitDisplay.get_killed_to_hex(command.destination_hex)
+	pass
+#	match command.command:hex)
 
 func get_owner():
 	return _owner_id

@@ -1,4 +1,5 @@
 class_name HexCoords
+extends Reference
 
 var q : int = 0
 var r : int = 0

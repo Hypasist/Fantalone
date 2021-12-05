@@ -1,5 +1,5 @@
-extends Tween
 class_name CustomTween2
+extends Tween
 
 var object = null
 var property = null

@@ -1,4 +1,5 @@
 class_name Utils
+extends Reference
 
 static func vectorDecomposition(vector: Vector2, angle: float):
 	var vx = Vector2(vector.x, vector.y) * cos(angle)

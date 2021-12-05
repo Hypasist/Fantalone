@@ -1,4 +1,5 @@
 class_name FormationInfo
+extends Reference
  
 var unit_list = []
 var line = false

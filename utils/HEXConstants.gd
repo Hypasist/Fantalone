@@ -1,4 +1,5 @@
 class_name HEXConstants
+extends Reference
 
 enum { TOP_LEFT = 0, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM_LEFT, LEFT, NONE }
 const NUMBER_OF_DIRECTIONS = 6
