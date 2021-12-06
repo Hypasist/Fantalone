@@ -1,5 +1,5 @@
-class_name CmdMoveAndPush
-extends CmdBase
+class_name LogCmdMoveAndDie
+extends LogCmdBase
 
 var unit = null
 var destination_hex = null

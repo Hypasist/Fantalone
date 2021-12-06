@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://modules/mapeditor/MapEditor.gd" type="Script" id=1]
+[ext_resource path="res://modules/map_editor/MapEditor.gd" type="Script" id=1]
 [ext_resource path="res://art/map/grass.png" type="Texture" id=2]
 [ext_resource path="res://art/map/water.png" type="Texture" id=3]
 [ext_resource path="res://art/map/rocks.png" type="Texture" id=4]

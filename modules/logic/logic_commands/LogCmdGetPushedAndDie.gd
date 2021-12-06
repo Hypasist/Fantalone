@@ -1,5 +1,5 @@
-class_name CmdGetPushedToEmpty
-extends CmdBase
+class_name LogCmdGetPushedAndDie
+extends LogCmdBase
 
 var unit = null
 var destination_hex = null

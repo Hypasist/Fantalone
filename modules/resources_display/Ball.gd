@@ -27,6 +27,3 @@ func change_color(color_):
 	color = color_
 	$Unit.set_modulate(color)
 
-func push_to_hex(hex):
-	print("moving to:", hex.coords.to_str())
-	pass

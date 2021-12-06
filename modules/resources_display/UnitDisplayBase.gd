@@ -13,17 +13,19 @@ func setup(logic):
 
 func _on_Unit_mouse_entered():
 	mod.UI.add_to_hoverlist(unitLogic)
-
 func _on_Unit_mouse_exited():
 	mod.UI.remove_from_hoverlist(unitLogic)
 
-func move_to_hex(destination_hex):
-	pass
-#	hex.unit = null
-#	hex = _hex
-#	_hex.unit = self
-#	position = grid.HEXToPosition(hex.coords)
-
+var command_queue = []
+func queue_command(display_command):
+	command_queue.append(display_command)
+func execute_command():
+	if command_queue.empty():
+		return false
+	else:
+		var command = command_queue.pop_front()
+		command.execute()
+		return true
 
 # --- SHADOW HANDLE (export to shadow???) --- #
 export (int) var heightBaseOffset = -15 setget setHeightBaseOffset

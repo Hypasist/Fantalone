@@ -34,10 +34,10 @@ func add_command(command):
 func get_command_list():
 	return command_list
 func add_subject_to_evaluate(subject):
-	command_list.append(CmdDummy.new(subject))
+	command_list.append(LogCmdDummy.new(subject))
 func get_subject_to_evaluate():
 	for command in command_list:
-		if command is CmdDummy:
+		if command is LogCmdDummy:
 			command_list.erase(command)
 			return command.subject
 	return null

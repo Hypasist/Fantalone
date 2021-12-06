@@ -1,5 +1,22 @@
 extends Node
 
+enum clients { ai, desktop, mobile }
+var client_type = null
+func identify_client():
+	match OS.get_name():
+		"Android":
+			client_type = clients.mobile
+		"Windows":
+			client_type = clients.desktop
+		_:
+			Terminal.addLog("ERROR, cannot recognize OS!")
+
+
+func get_client():
+	return client_type
+func has_graphic():
+	return client_type is clients.desktop or client_type is client_type.mobile
+
 func new_unit_selected(unit):
 	$ClientLogic.new_unit_selected(unit)
 	

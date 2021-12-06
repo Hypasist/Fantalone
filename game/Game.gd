@@ -22,6 +22,7 @@ func _ready():
 	mod.Menu.show_main_menu()
 
 func setup():
+	mod.Client.identify_client()
 	mod.Database.set_resolution(get_viewport().size)
 
 func start_match():

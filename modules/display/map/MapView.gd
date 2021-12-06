@@ -13,3 +13,6 @@ func add_tile_resource(resource):
 	$Map.add_tile_resource(resource)
 func add_unit_resource(resource):
 	$Map.add_unit_resource(resource)
+
+func execute_display_commands():
+	$Map.execute_display_commands()

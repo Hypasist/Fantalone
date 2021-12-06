@@ -31,17 +31,17 @@ func _evaluate_unit_command_move(movement, unit, destination_hex):
 	if movement.get_owner() == unit.get_owner():
 		movement.add_formation_power(unit.get_power())
 		if destination_hex.is_taken():
-			movement.add_command(CmdMoveAndPush.new(unit, destination_hex))
+			movement.add_command(LogCmdMoveAndPush.new(unit, destination_hex))
 		elif destination_hex.is_lethal():
-			movement.add_command(CmdMoveAndDie.new(unit, destination_hex))
+			movement.add_command(LogCmdMoveAndDie.new(unit, destination_hex))
 		else:
-			movement.add_command(CmdMoveToEmpty.new(unit, destination_hex))
+			movement.add_command(LogCmdMoveToEmpty.new(unit, destination_hex))
 	else:
 		movement.add_opposed_power(unit.get_power())
 		if destination_hex.is_lethal():
-			movement.add_command(CmdGetPushedAndDie.new(unit, destination_hex))
+			movement.add_command(LogCmdGetPushedAndDie.new(unit, destination_hex))
 		else:
-			movement.add_command(CmdGetPushedToEmpty.new(unit, destination_hex))
+			movement.add_command(LogCmdGetPushedToEmpty.new(unit, destination_hex))
 			
 	
 func evaluate_unit_command(movement, unit):
@@ -104,6 +104,8 @@ func execute_movement_commands(movement:MovementInfo):
 	for command in movement.get_command_list():
 		print("EXECUTING ", command.get_class(), " MOVE")
 		command.execute()
+	
+	mod.MapView.execute_display_commands()
 
 
 #func tireSelectedUnits():

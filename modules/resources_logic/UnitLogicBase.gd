@@ -15,7 +15,11 @@ func move_to_hex(destination_hex):
 	if hex: hex.unitLogic = null
 	if destination_hex: destination_hex.unitLogic = self
 	hex = destination_hex
-	
+
 func die():
 	if hex: hex.unitLogic = null
 	_alive = false
+
+func add_to_display_queue(display_command):
+	if unitDisplay:
+		unitDisplay.queue_command(display_command)
