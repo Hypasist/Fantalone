@@ -1,4 +1,4 @@
-class_name DisCmdMoveToEmpty
+class_name DisCmdMoveAndPush
 extends DisCmdBase
 
 var current_position = Vector2(0,0)
@@ -6,13 +6,13 @@ var target_position = Vector2(0,0)
 
 func _init(unit_logic_).(unit_logic_):
 	incomplete_locks = 1
-	
+
 	current_position = unit_display.position
 	var target_coords = unit_logic.hex.coords
 	target_position = mod.Logic.hex_to_position(target_coords)
 
 func execute():
-	Terminal.addLog(unit_logic.get_name_id() + " DisCmdMoveToEmpty " + unit_logic.hex.coords.to_str())
+	Terminal.addLog(unit_logic.get_name_id() + " DisCmdMoveAndPush " + unit_logic.hex.coords.to_str())
 	
 	var position_tween = CustomTween2.new()
 	tween_list.append(position_tween)

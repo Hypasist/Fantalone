@@ -1,7 +1,7 @@
 const HMath = preload("res://utils/HEXCoordsMath.gd")
 const HC = preload("res://utils/HEXConstants.gd")
 
-static func are_coords_in_line(list:Array, direction):
+static func are_coords_in_line(list:Array, _direction):
 	for starting_coord in list:
 		for tested_coord in  list:
 			if starting_coord == tested_coord: continue

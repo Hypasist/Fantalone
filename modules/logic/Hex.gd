@@ -27,6 +27,8 @@ func add_resource(resource):
 
 func get_unit():
 	return unitLogic
+func get_tile():
+	return tileLogic
 func is_taken():
 	return (unitLogic != null)
 func is_passable():

@@ -13,6 +13,10 @@ func add_tile_resource(resource):
 	$Map.add_tile_resource(resource)
 func add_unit_resource(resource):
 	$Map.add_unit_resource(resource)
-
-func execute_display_commands():
-	$Map.execute_display_commands()
+func get_tile_list():
+	return $Map/Units.get_children()
+func get_unit_list():
+	return $Map/Units.get_children()
+	
+func execute_display_queues():
+	$DisCmdManager.execute_display_queues()

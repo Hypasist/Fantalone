@@ -3,15 +3,18 @@ extends Node
 var zoomTween = null
 var positionTween = null
 var map_action_lockers = 0
-func _on_Tween2D_all_completed(object, key):
+func _on_Tween2D_all_completed(_object, _key):
+	print("print" + _key)
 	map_action_lockers = max(0, map_action_lockers - 1)
 	
 func _ready():
 	zoomTween = CustomTween2.new()
 	zoomTween.connect("tween_completed", self, "_on_Tween2D_all_completed")
+	zoomTween.set_name("zoomTween")
 	add_child(zoomTween)
 	positionTween = CustomTween2.new()
 	positionTween.connect("tween_completed", self, "_on_Tween2D_all_completed")
+	positionTween.set_name("positionTween")
 	add_child(positionTween)
 
 

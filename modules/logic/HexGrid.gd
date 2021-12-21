@@ -10,17 +10,16 @@ var hex_list = []
 var hex_coord_dict = {}
 
 func get_hex_by_coords(coords):
-	var return_hex = null
-	if not hex_coord_dict.has(coords.r):
+	if not hex_coord_dict.has(coords.q):
 		var new_hex = Hex.new(coords)
-		hex_coord_dict[coords.r] = {}
-		hex_coord_dict[coords.r][coords.q] = new_hex
+		hex_coord_dict[coords.q] = {}
+		hex_coord_dict[coords.q][coords.r] = new_hex
 		hex_list.append(new_hex)
-	elif not hex_coord_dict[coords.r].has(coords.q):
+	elif not hex_coord_dict[coords.q].has(coords.r):
 		var new_hex = Hex.new(coords)
-		hex_coord_dict[coords.r][coords.q] = new_hex
+		hex_coord_dict[coords.q][coords.r] = new_hex
 		hex_list.append(new_hex)
-	return hex_coord_dict[coords.r][coords.q]
+	return hex_coord_dict[coords.q][coords.r]
 
 func xy_to_pq(xy_coords:Vector2):
 	var x:int = int(round(xy_coords.x))

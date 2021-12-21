@@ -31,7 +31,9 @@ func is_line_formation():
 func is_move_valid(direction):
 	var unit_list = $ClientLogic.selected_units
 	var movement = mod.Logic.recognize_movement_unit(unit_list, direction)
-	return movement.is_valid() if movement else false
+	if not movement.is_valid():
+		Terminal.addLog("Invalid move! " + MovementInfo.invalid.keys()[movement.invalid_reason])
+	return movement.is_valid()
 
 func make_move(direction):
 	var unit_list = $ClientLogic.selected_units
@@ -40,6 +42,10 @@ func make_move(direction):
 	if movement.is_valid() == false:
 		# TODO: TUTAJ INVALID REASON HANDLING
 		pass
+	else:
+		mod.MapView.execute_display_queues()
+		$ClientLogic.deselect_all_units()
+		
 
 ## INFORMING THE PLAYER ABOUT THE MOVE RESULTS:
 ## 	IF VALID:

@@ -19,21 +19,23 @@ func initialize(_object, _property, _start_value, _end_value, _nominal_time, _tr
 	ease_type = _ease_type
 
 
-func start_normal(current_value):
+func start_normal(current_value) -> bool:
 	if(start_value.x == end_value.x):
 		emit_signal("tween_completed", object, property)
-		return
+		return true
 	stop(object, property)
 	var time = (abs(current_value.x - end_value.x) / abs(start_value.x - end_value.x)) * nominal_time
 #    print(self, "start ", current_value, "  ", end_value, "  ", time)
-	interpolate_property(object, property, current_value, end_value, time, trans_type, ease_type) 
-	start()
+	interpolate_property(object, property, current_value, end_value, time, trans_type, ease_type)
+	return start()
 
 
-func start_reverse(current_value):
-	if(start_value.x == end_value.x): return
+func start_reverse(current_value) -> bool:
+	if(start_value.x == end_value.x):
+		emit_signal("tween_completed", object, property)
+		return true
 	stop(object, property)
 	var time = (abs(current_value.x - start_value.x) / abs(start_value.x - end_value.x)) * nominal_time
 #    print("back ", current_value, "  ", end_value, "  ", time)
 	interpolate_property(object, property, current_value, start_value, time, trans_type, ease_type) 
-	start()
+	return start()

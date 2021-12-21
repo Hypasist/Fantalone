@@ -1,7 +1,15 @@
 extends Node
 
+var item_list = {}
 
-#
+func report_new_object(class_):
+	var class_name_ = class_._get_bundled_scene()["names"][0]
+	if item_list.has(class_name_):
+		item_list[class_name_] = item_list[class_name_] + 1
+	else:
+		item_list[class_name_] = 0
+	return "%s_%03d" % [class_name_, item_list[class_name_]]
+
 #func consumeCurrentUnitMockup():
 #	var unitTable = Singletons.MapEditor.getUnitTable()
 #	for unitRecord in unitTable:

@@ -1,7 +1,7 @@
 class_name MovementInfo
 extends FormationInfo
 # TODO: movement info inherits after formation info
-enum invalid { no_reason, unpassable_terrain, pushing_own_units, formation_too_weak, tile_occupied }
+enum invalid { no_reason, out_of_map_boundaries, unpassable_terrain, pushing_own_units, formation_too_weak, tile_occupied }
 var invalid_reason = null
 var valid = true
 var command_list = []

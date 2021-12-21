@@ -26,5 +26,6 @@ margin_left = -37.0
 margin_right = 71.0
 margin_bottom = 14.0
 text = "KURWEUSZ"
+
 [connection signal="mouse_entered" from="Tile" to="." method="_on_Tile_mouse_entered"]
 [connection signal="mouse_exited" from="Tile" to="." method="_on_Tile_mouse_exited"]

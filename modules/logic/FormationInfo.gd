@@ -10,19 +10,26 @@ var owner_id = null
 
 func get_pusher():
 	return unit_list.back()
+
 func is_line():
 	return line
+
 func is_pushing():
 	return correlated_directions
+
 func get_owner():
 	return owner_id
+
 func get_unit_list():
 	return unit_list
+
 func add_hex_list(hex_list):
 	for hex in hex_list:
 		unit_list.append(hex.get_unit())
+
 func get_direction():
 	return move_direction
+
 func correlate_directions():
 	if move_direction == line_direction:
 		correlated_directions = true
@@ -34,6 +41,7 @@ func correlate_directions():
 		unit_list = tmp_list
 	else:
 		correlated_directions = false
+
 func conclude_ownership():
 	owner_id = null if unit_list.empty() else unit_list.front().get_owner()
 	for unit in unit_list:

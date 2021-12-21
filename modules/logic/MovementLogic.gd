@@ -42,16 +42,19 @@ func _evaluate_unit_command_move(movement, unit, destination_hex):
 			movement.add_command(LogCmdGetPushedAndDie.new(unit, destination_hex))
 		else:
 			movement.add_command(LogCmdGetPushedToEmpty.new(unit, destination_hex))
-			
-	
+
 func evaluate_unit_command(movement, unit):
 	var current_hex = unit.hex
 	var destination_hex = current_hex.get_neighbour(movement.get_direction())
 	
-	if destination_hex.is_passable() == false:
+	if destination_hex.get_tile() == null:
+		Terminal.addLog("ERROR, trying to reach beyond the map boundaries!")
+		movement.invalid_move(movement.invalid.out_of_map_boundaries)
+		
+	elif destination_hex.is_passable() == false:
 		movement.invalid_move(movement.invalid.unpassable_terrain)
 		
-	if destination_hex.is_taken():
+	elif destination_hex.is_taken():
 		var encountered_unit = destination_hex.get_unit()
 		# PUSHING OWN UNIT
 		if movement.get_owner() == encountered_unit.get_owner():
@@ -63,7 +66,7 @@ func evaluate_unit_command(movement, unit):
 				movement.invalid_move(movement.invalid.pushing_own_units)
 		# PUSHING OTHER UNIT
 		elif movement.is_pushing():
-			movement.add_dummy_command(encountered_unit)
+			movement.add_subject_to_evaluate(encountered_unit)
 			_evaluate_unit_command_move(movement, unit, destination_hex)
 		# MOVING TO TAKEN HEX, WHILE NOT PUSHING
 		else:
@@ -98,15 +101,12 @@ func make_move_unit(unit_list, direction):
 func make_move_hex(hex_list, direction):
 	var movement = recognize_movement_hex(hex_list, direction)
 	execute_movement_commands(movement)
+	return movement
 
 func execute_movement_commands(movement:MovementInfo):
 	if movement.is_valid() == false: return
 	for command in movement.get_command_list():
-		print("EXECUTING ", command.get_class(), " MOVE")
 		command.execute()
-	
-	mod.MapView.execute_display_commands()
-
 
 #func tireSelectedUnits():
 #	for unit in selected_units:

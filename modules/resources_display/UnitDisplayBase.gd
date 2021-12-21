@@ -16,16 +16,27 @@ func _on_Unit_mouse_entered():
 func _on_Unit_mouse_exited():
 	mod.UI.remove_from_hoverlist(unitLogic)
 
-var command_queue = []
+# --- COMMAND QUEUE HANDLING --- #
+var _command_queue = []
+var _comp_object = null
+var _comp_method = null
+
 func queue_command(display_command):
-	command_queue.append(display_command)
-func execute_command():
-	if command_queue.empty():
-		return false
-	else:
-		var command = command_queue.pop_front()
+	_command_queue.append(display_command)
+func has_commands_queued():
+	return _command_queue.empty() == false
+func execute_display_queue(comp_object, comp_method):
+	_comp_object = comp_object
+	_comp_method = comp_method
+	execute_display_command()
+func execute_display_command():
+	var command = _command_queue.pop_front()
+	if command:
+		command.connect("command_completed", self, "execute_display_command")
 		command.execute()
-		return true
+	else:
+		_comp_object.call(_comp_method)
+	
 
 # --- SHADOW HANDLE (export to shadow???) --- #
 export (int) var heightBaseOffset = -15 setget setHeightBaseOffset
@@ -45,7 +56,7 @@ func setHeightBaseShadowOffset(height):
 
 func updateShadow():
 	if $Unit:
-		var shadowBaseSize = $Unit/Sprite.get_texture().get_size()
+		var shadowBaseSize = $Unit/AnimatedSprite.get_sprite_frames().get_frame("default", 0).get_size()
 		generateShadow($Shadow, Vector2(shadowBaseSize.x, shadowBaseSize.x * shadowPerspectiveAspect))
 		$Shadow.set_position(Vector2(0, heightBaseShadowOffset))
 

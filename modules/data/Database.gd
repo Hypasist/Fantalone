@@ -8,7 +8,7 @@ func get_colorlist():
 
 # ACCESS FUNCTIONS:
 func is_autofinish_turn():
-	$GameParameters.autofinish_turn
+	return $GameParameters.autofinish_turn
 
 func set_resolution(resolution):
 	$GameParameters.set_resolution(resolution)
@@ -45,6 +45,8 @@ func get_current_turn_owner():
 	return $MatchParameters.current_turn_owner
 func set_current_turn_owner(id):
 	$MatchParameters.current_turn_owner = id
+func report_new_object(class_):
+	return $MatchData.report_new_object(class_)
 
 # RESOURCES
 func get_tile_resource(id):

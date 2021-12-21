@@ -5,7 +5,7 @@ var _selected = false
 var _tired = false
 var _power = 1
 
-func _init(owner_id):
+func _init(name_id, owner_id).(name_id):
 	_owner_id = owner_id
 
 func select():
@@ -19,16 +19,10 @@ func deselect():
 		
 func tire():
 	if not _tired:
-		unitDisplay.select()
 		_tired = true
 func untire():
 	if _tired:
-		unitDisplay.deselect()
 		_tired = false
-
-func handle_command(command):
-	pass
-#	match command.command:hex)
 
 func get_owner():
 	return _owner_id

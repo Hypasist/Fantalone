@@ -12,12 +12,12 @@ func action_rotate():
 
 # -------------------------------------
 
-func action_shorttap(position):
+func action_shorttap(_position):
 	var unit = mod.UI.get_hovered_unit()
 	if unit:
 		mod.Client.new_unit_selected(unit)
 
-func action_longtap(position):
+func action_longtap(_position):
 	pass
 	
 func action_longtap_stopped():

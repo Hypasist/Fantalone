@@ -20,18 +20,20 @@ func consumeTileMockup():
 		var resource = mod.Database.get_tile_resource(id)
 		for coords in tile_mapping[id]:
 			var hex = mod.Logic.get_hex_by_xy_coords(coords)
-			var logic_scene = resource.logic_scene.new()
+			var name_id = mod.Database.report_new_object(resource.display_scene)
+			var logic_scene = resource.logic_scene.new(name_id)
 			hex.add_resource(logic_scene)
 			var display_scene = resource.display_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 			hex.add_resource(display_scene)
 
 func consumeUnitMockup():
 	var unit_mapping = get_used_ids($Units)
-	for id in unit_mapping:
+	for owner_id in unit_mapping:
 		var resource = mod.Database.get_unit_resource(0)
-		for coords in unit_mapping[id]:
+		for coords in unit_mapping[owner_id]:
 			var hex = mod.Logic.get_hex_by_xy_coords(coords)
-			var logic_scene = resource.logic_scene.new(id)
+			var name_id = mod.Database.report_new_object(resource.display_scene)
+			var logic_scene = resource.logic_scene.new(name_id, owner_id)
 			hex.add_resource(logic_scene)
 			var display_scene = resource.display_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 			hex.add_resource(display_scene)

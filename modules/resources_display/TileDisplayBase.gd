@@ -13,6 +13,11 @@ func setup(logic, hex_):
 	$CoordLabel.set_text(hex.coords.to_str())
 	return self
 
+func has_queued_command():
+	return false
+func execute_display_queue(comp_object_, comp_method_):
+	pass
+
 func _on_Tile_mouse_entered():
 	mod.UI.add_to_hoverlist(tileLogic)
 
