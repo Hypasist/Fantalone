@@ -1,8 +1,24 @@
 tool
 extends TileMap
 
+var _tiles_by_id = {
+	0 : Resources.Grass,
+	1 : Resources.Water,
+	2 : Resources.Rocks
+}
+var _units_by_id = {
+	0 : Resources.Ball,
+	1 : Resources.Ball,
+	2 : Resources.Ball,
+	3 : Resources.Ball,
+	4 : Resources.Ball,
+	5 : Resources.Ball,
+	6 : Resources.Ball,
+	7 : Resources.Ball,
+}
+
 func consumeMockup():
-	consumeTileMockup()
+	consume_tile_mockup()
 	consumeUnitMockup()
 	hide()
 
@@ -14,29 +30,19 @@ func get_used_ids(map:TileMap):
 		if cells: used_ids[id] = cells
 	return used_ids
 
-func consumeTileMockup():
+func consume_tile_mockup():
 	var tile_mapping = get_used_ids($Tiles)
 	for id in tile_mapping:
-		var resource = mod.Database.get_tile_resource(id)
+		var resource_name = _tiles_by_id[id]
 		for coords in tile_mapping[id]:
-			var hex = mod.Logic.get_hex_by_xy_coords(coords)
-			var name_id = mod.Database.report_new_object(resource.display_scene)
-			var logic_scene = resource.logic_scene.new(name_id)
-			hex.add_resource(logic_scene)
-			var display_scene = resource.display_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-			hex.add_resource(display_scene)
+			mod.Logic.add_new(resource_name, coords)
 
 func consumeUnitMockup():
 	var unit_mapping = get_used_ids($Units)
-	for owner_id in unit_mapping:
-		var resource = mod.Database.get_unit_resource(0)
-		for coords in unit_mapping[owner_id]:
-			var hex = mod.Logic.get_hex_by_xy_coords(coords)
-			var name_id = mod.Database.report_new_object(resource.display_scene)
-			var logic_scene = resource.logic_scene.new(name_id, owner_id)
-			hex.add_resource(logic_scene)
-			var display_scene = resource.display_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-			hex.add_resource(display_scene)
+	for id in unit_mapping:
+		var resource_name = _units_by_id[id]
+		for coords in unit_mapping[id]:
+			mod.Logic.add_new(resource_name, coords, id)
 
 export (Vector2) var tilemapSize = Vector2(128, 70) setget updateTilemapSize
 func updateTilemapSize(size):

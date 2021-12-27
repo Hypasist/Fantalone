@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "UnitDisplayBase",
-"class": "Ball",
-"language": "GDScript",
-"path": "res://modules/resources_display/Ball.gd"
-}, {
 "base": "Tween",
 "class": "CustomTween",
 "language": "GDScript",
@@ -169,6 +164,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/logic/MovementInfo.gd"
 }, {
+"base": "Control",
+"class": "PlayerSummaryBar",
+"language": "GDScript",
+"path": "res://ui/PlayerSummaryBar.gd"
+}, {
+"base": "Reference",
+"class": "Resources",
+"language": "GDScript",
+"path": "res://modules/data/Resources.gd"
+}, {
 "base": "Node2D",
 "class": "TileDisplayBase",
 "language": "GDScript",
@@ -210,7 +215,6 @@ _global_script_classes=[ {
 "path": "res://utils/touchscreenScripts.gd"
 } ]
 _global_script_class_icons={
-"Ball": "",
 "CustomTween": "",
 "CustomTween2": "",
 "DisCmdBase": "",
@@ -242,6 +246,8 @@ _global_script_class_icons={
 "LogCmdMoveToEmpty": "",
 "MenuScreenBase": "",
 "MovementInfo": "",
+"PlayerSummaryBar": "",
+"Resources": "",
 "TileDisplayBase": "",
 "TileLogicBase": "",
 "UnitAnimationControllerBase": "",

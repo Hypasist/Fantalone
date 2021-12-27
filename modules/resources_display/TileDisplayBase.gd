@@ -3,15 +3,12 @@ class_name TileDisplayBase
 extends Node2D
 
 var tileLogic = null
-var hex = null
-
-func setup(logic, hex_):
-	mod.MapView.add_tile_resource(self)
+func assign_logic_scene(logic):
 	tileLogic = logic
-	hex = hex_
-	position = mod.Logic.hex_to_position(hex.coords)
-	$CoordLabel.set_text(hex.coords.to_str())
-	return self
+	var hx = tileLogic.get_hex()
+	var coords = hx.get_coords()
+	position = mod.Logic.hex_to_position(coords)
+	$CoordLabel.set_text(coords.to_str())
 
 func has_queued_command():
 	return false

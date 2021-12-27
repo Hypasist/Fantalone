@@ -49,7 +49,7 @@ func report_new_object(class_):
 	return $MatchData.report_new_object(class_)
 
 # RESOURCES
-func get_tile_resource(id):
-	return $ResourceData.get_tile_resource(id)
-func get_unit_resource(id):
-	return $ResourceData.get_unit_resource(id)
+func get_unique_name(class_):
+	return $MatchData.get_unique_name(class_)
+func get_resource_by_name(name):
+	return $ResourceData.get_resource(name)

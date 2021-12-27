@@ -1,4 +1,3 @@
-class_name Ball
 extends UnitDisplayBase
 
 var color = Color.white
@@ -6,9 +5,10 @@ var color = Color.white
 func _init():
 	pass
 
-func setup(logic):
-	change_color(mod.Database.get_player_info(logic.get_owner()).color)
-	.setup(logic)
+func assign_logic_scene(logic_scene):
+	var player_info = mod.Database.get_player_info(logic_scene.get_owner())
+	change_color(player_info.color)
+	.assign_logic_scene(logic_scene)
 	$NameLabel.set_text(unitLogic.get_name_id())
 	$Unit.setup_default_behaviour()
 	return self

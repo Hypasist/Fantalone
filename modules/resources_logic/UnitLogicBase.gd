@@ -3,22 +3,26 @@ class_name UnitLogicBase
 var hex = null
 var unitDisplay : UnitDisplayBase = null
 var _name_id = null
+var _owner_id = null
 
 var _alive = true
 var _marked_to_delete = false
 
-func _init(name_id):
+func _init(name_id, owner_id):
 	_name_id = name_id
+	_owner_id = owner_id
 
 func get_name_id():
 	return _name_id
-
-func setup(hex_):
+func set_owner(owner_id):
+	_owner_id = owner_id
+func get_owner():
+	return _owner_id
+func get_hex():
+	return hex
+func place(hex_):
 	hex = hex_
 	return self
-
-func setup_display(scene:UnitDisplayBase):
-	unitDisplay = scene.setup(self)
 
 func move_to_hex(destination_hex):
 	if hex: if hex.unitLogic == self: hex.unitLogic = null
@@ -32,3 +36,7 @@ func die():
 func add_to_display_queue(display_command):
 	if unitDisplay:
 		unitDisplay.queue_command(display_command)
+
+func assign_display_scene(display_scene:UnitDisplayBase):
+	display_scene.assign_logic_scene(self)
+	unitDisplay = display_scene

@@ -1,14 +1,36 @@
 extends Node
 
-var item_list = {}
-
-func report_new_object(class_):
-	var class_name_ = class_._get_bundled_scene()["names"][0]
-	if item_list.has(class_name_):
-		item_list[class_name_] = item_list[class_name_] + 1
+var item_counter = {}
+func get_unique_name(name):
+	if item_counter.has(name):
+		item_counter[name] = item_counter[name] + 1
 	else:
-		item_list[class_name_] = 0
-	return "%s_%03d" % [class_name_, item_list[class_name_]]
+		item_counter[name] = 0
+	return "%s_%03d" % [name, item_counter[name]]
+
+var unit_list = []
+func register_new_unit(unit_instance):
+	unit_list.append(unit_instance)
+
+func get_all_units():
+	for unit in unit_list:
+		if unit == null:
+			breakpoint # NULL !
+	return unit_list
+
+func get_players_units(owner_id):
+	var return_array = []
+	for unit in unit_list:
+		if unit == null:
+			breakpoint # NULL !
+		elif unit.get_owner() == owner_id:
+			return_array.append(unit)
+	return return_array
+
+var tile_list = []
+func register_new_tile(tile_instance):
+	tile_list.append(tile_instance)
+
 
 #func consumeCurrentUnitMockup():
 #	var unitTable = Singletons.MapEditor.getUnitTable()

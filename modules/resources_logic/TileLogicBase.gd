@@ -11,9 +11,13 @@ var safe2spawn = false
 func _init(name_id):
 	_name_id = name_id
 
-func setup(hex_):
+func place(hex_):
 	hex = hex_
 	return self
 
-func setup_display(scene:TileDisplayBase):
-	tileDisplay = scene.setup(self, hex)
+func get_hex():
+	return hex
+
+func assign_display_scene(display_scene:TileDisplayBase):
+	display_scene.assign_logic_scene(self)
+	tileDisplay = display_scene

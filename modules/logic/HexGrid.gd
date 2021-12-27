@@ -21,7 +21,7 @@ func get_hex_by_coords(coords):
 		hex_list.append(new_hex)
 	return hex_coord_dict[coords.q][coords.r]
 
-func xy_to_pq(xy_coords:Vector2):
+func xy_to_qr(xy_coords:Vector2):
 	var x:int = int(round(xy_coords.x))
 	var y:int = int(round(xy_coords.y))
 	var q:int = x - (y - (y%2)) / 2

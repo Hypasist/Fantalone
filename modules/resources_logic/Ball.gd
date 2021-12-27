@@ -1,12 +1,11 @@
 extends UnitLogicBase
 
-var _owner_id = null
 var _selected = false
 var _tired = false
 var _power = 1
 
-func _init(name_id, owner_id).(name_id):
-	_owner_id = owner_id
+func _init(name_id, owner_id).(name_id, owner_id):
+	pass
 
 func select():
 	if not _selected:
@@ -24,8 +23,6 @@ func untire():
 	if _tired:
 		_tired = false
 
-func get_owner():
-	return _owner_id
 func get_power():
 	return _power
 func is_tired():

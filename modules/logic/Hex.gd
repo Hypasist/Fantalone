@@ -15,20 +15,17 @@ func _init(coords_):
 #	if unit_ is UnitBase: unit = unit_.new()
 #	if prop_ is PropBase: prop = prop_.new()
 
-func add_resource(resource):
-	if resource is TileLogicBase:
-		tileLogic = resource.setup(self)
-	elif resource is TileDisplayBase && tileLogic:
-		tileLogic.setup_display(resource)
-	if resource is UnitLogicBase:
-		unitLogic = resource.setup(self)
-	elif resource is UnitDisplayBase && unitLogic:
-		unitLogic.setup_display(resource)
-
+func place_unit(unit_instance):
+	if unit_instance is UnitLogicBase:
+		unitLogic = unit_instance.place(self)
 func get_unit():
 	return unitLogic
+func place_tile(tile_instance):
+	if tile_instance is TileLogicBase:
+		tileLogic = tile_instance.place(self)
 func get_tile():
 	return tileLogic
+	
 func is_taken():
 	return (unitLogic != null)
 func is_passable():
@@ -39,4 +36,5 @@ func get_owner():
 	return unitLogic.get_owner() if unitLogic else null
 func get_neighbour(direction):
 	return mod.Logic.get_neighbour_hex(self, direction)
-	
+func get_coords():
+	return coords

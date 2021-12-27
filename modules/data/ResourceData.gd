@@ -1,39 +1,38 @@
 extends Node
 
+var loaded_resources = {}
+
 class KnownResource:
-	var id_ = null
 	var name_ = "invalid_resource_name"
 	var logic_path = ""
 	var logic_scene = null
 	var display_path = ""
 	var display_scene = null
 	
-	func _init(id__:int, res:Array):
-		id_ = id__
-		name_ = res[0]
-		logic_path = res[1]
+	func _init(name__:String, res:Array, logic_only:bool=false):
+		name_ = name__
+		logic_path = res[0]
 		logic_scene = load(logic_path)
 		if not logic_scene:
-			print("INVALID LOGIC SCENE FOR ", id_, " : ", name_, " RESOURCE!")
+			print("INVALID LOGIC SCENE FOR ", name_, " RESOURCE!")
 			breakpoint
-		display_path = res[2]
-		display_scene = load(display_path)
-		if not display_scene:
-			print("INVALID DISPLAY SCENE FOR ", id_, " : ", name_, " RESOURCE!")
-			breakpoint
-		return self
+		if not logic_only:
+			display_path = res[1]
+			display_scene = load(display_path)
+			print("loaded " + display_path)
+			if not display_scene:
+				print("INVALID DISPLAY SCENE FOR ", name_, " RESOURCE!")
+				breakpoint
 
-		#NAME		#LOGIC SCENE								#DISPLAY SCENE
-var recognizedTiles = {
-	0 : ["Grass",	"res://modules/resources_logic/Grass.gd",	"res://modules/resources_display/Grass.tscn"],
-	1 : ["Water",	"res://modules/resources_logic/Water.gd",	"res://modules/resources_display/Water.tscn"],
-	2 : ["Rocks",	"res://modules/resources_logic/Rocks.gd",	"res://modules/resources_display/Rocks.tscn"]
-}
-var recognizedUnits = {
-	0 : ["commonBall", "res://modules/resources_logic/Ball.gd", "res://modules/resources_display/Ball.tscn"]
+		#NAME				#LOGIC SCENE								#DISPLAY SCENE
+var _resources = {
+	Resources.Grass	:	["res://modules/resources_logic/Grass.gd",	"res://modules/resources_display/Grass.tscn"],
+	Resources.Water	:	["res://modules/resources_logic/Water.gd",	"res://modules/resources_display/Water.tscn"],
+	Resources.Rocks	:	["res://modules/resources_logic/Rocks.gd",	"res://modules/resources_display/Rocks.tscn"],
+	Resources.Ball	:	["res://modules/resources_logic/Ball.gd",	"res://modules/resources_display/Ball.tscn"]
 }
 
-func get_tile_resource(id):
-	return KnownResource.new(id, recognizedTiles[id])
-func get_unit_resource(id):
-	return KnownResource.new(id, recognizedUnits[id])
+func get_resource(name):
+	if not loaded_resources.has(name):
+		loaded_resources[name] = KnownResource.new(name, _resources[name])
+	return loaded_resources[name]

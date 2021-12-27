@@ -3,13 +3,10 @@ class_name UnitDisplayBase
 extends Node2D
 
 var unitLogic = null
-
-func setup(logic):
-	mod.MapView.add_unit_resource(self)
-	unitLogic = logic
-	position = mod.Logic.hex_to_position(unitLogic.hex.coords)
+func assign_logic_scene(logic_scene):
+	unitLogic = logic_scene
+	position = mod.Logic.hex_to_position(unitLogic.get_hex().get_coords())
 	updateShadow()
-	return self
 
 func _on_Unit_mouse_entered():
 	mod.UI.add_to_hoverlist(unitLogic)
