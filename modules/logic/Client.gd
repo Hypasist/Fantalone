@@ -45,7 +45,8 @@ func make_move(direction):
 	else:
 		mod.MapView.execute_display_queues()
 		$ClientLogic.deselect_all_units()
-		
+	mod.Database.cleanup_objects()
+	mod.UI.update_ui()
 
 ## INFORMING THE PLAYER ABOUT THE MOVE RESULTS:
 ## 	IF VALID:

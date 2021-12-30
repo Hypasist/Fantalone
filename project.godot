@@ -25,6 +25,11 @@ _global_script_classes=[ {
 "path": "res://modules/logic/display_commands/DisCmdBase.gd"
 }, {
 "base": "DisCmdBase",
+"class": "DisCmdDeleteVisual",
+"language": "GDScript",
+"path": "res://modules/logic/display_commands/DisCmdDeleteVisual.gd"
+}, {
+"base": "DisCmdBase",
 "class": "DisCmdGetDrown",
 "language": "GDScript",
 "path": "res://modules/logic/display_commands/DisCmdGetDrown.gd"
@@ -164,11 +169,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/logic/MovementInfo.gd"
 }, {
-"base": "Control",
-"class": "PlayerSummaryBar",
-"language": "GDScript",
-"path": "res://ui/PlayerSummaryBar.gd"
-}, {
 "base": "Reference",
 "class": "Resources",
 "language": "GDScript",
@@ -218,6 +218,7 @@ _global_script_class_icons={
 "CustomTween": "",
 "CustomTween2": "",
 "DisCmdBase": "",
+"DisCmdDeleteVisual": "",
 "DisCmdGetDrown": "",
 "DisCmdGetPushedToDeath": "",
 "DisCmdGetPushedToEmpty": "",
@@ -246,7 +247,6 @@ _global_script_class_icons={
 "LogCmdMoveToEmpty": "",
 "MenuScreenBase": "",
 "MovementInfo": "",
-"PlayerSummaryBar": "",
 "Resources": "",
 "TileDisplayBase": "",
 "TileLogicBase": "",
@@ -269,6 +269,11 @@ config/icon="res://art/units/actorSpites.png"
 InputManager="*res://modules/godot_touch_input_manager/InputManager.gd"
 mod="*res://modules/Modules.gd"
 Terminal="*res://modules/display/debug/Terminal.gd"
+
+[debug]
+
+gdscript/warnings/unused_class_variable=true
+gdscript/warnings/return_value_discarded=false
 
 [input_devices]
 

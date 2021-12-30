@@ -23,3 +23,9 @@ func arrow_set_invalid(position):
 	$MovementArrow.set_invalid_arrow(position)
 func arrow_set_direction(position, direction):
 	$MovementArrow.set_direction_arrow(position, direction)
+
+func setup():
+	$MatchUI.setup()
+
+func update_ui():
+	$MatchUI.update()

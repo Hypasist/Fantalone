@@ -27,56 +27,29 @@ func get_players_units(owner_id):
 			return_array.append(unit)
 	return return_array
 
+func get_players_units_num(owner_id):
+	var counter = 0
+	for unit in unit_list:
+		if unit == null:
+			breakpoint # NULL !
+		elif unit.get_owner() == owner_id:
+			counter += 1
+	return counter
+
 var tile_list = []
 func register_new_tile(tile_instance):
 	tile_list.append(tile_instance)
 
-
-#func consumeCurrentUnitMockup():
-#	var unitTable = Singletons.MapEditor.getUnitTable()
-#	for unitRecord in unitTable:
-#		var unitScene = unitRecord["scene"]
-#		if Singletons.MatchOptions.match_options["players"].has(unitRecord["player_id"]) == false:
-#			continue
-#		var player = Singletons.MatchOptions.match_options["players"][unitRecord["player_id"]]
-#
-#		for coordsSquare in unitRecord["positionList"]:
-#			var unit = unitScene.
-#			unit.setup({	"overseer"	:	self,
-#							"HEXgrid"	:	grid,
-#							"coords"	:	coordsSquare,
-#							"color"		:	player["color"],
-#							"owner"		:	player["control"]})
-#			$Units.add_child(unit)
-#			grid.addHEX(coordsSquare, unit)
-#
-#func calculateMockupSize():
-#	var minHexCoords = Vector2(INF, INF)
-#	var maxHexCoords = Vector2(-INF, -INF)
-#	for tile in get_tree().get_nodes_in_group("Tiles"):
-#		minHexCoords = Utils.min2(minHexCoords, tile.position)
-#		maxHexCoords = Utils.max2(maxHexCoords, tile.position)
-#	minHexCoords -= Singletons.GameOptions.get_tilesize()/2.0 \
-#	 				+ Singletons.GameOptions.get_map_bounds_pad()
-#	maxHexCoords += Singletons.GameOptions.get_tilesize()/2.0 \
-#	 				+ Singletons.GameOptions.get_map_bounds_pad()
-#	Singletons.MatchOptions.set_map_boundaries(minHexCoords, maxHexCoords)
-#
-#func consumeCurrentTileMockup():
-#	var tileTable = Singletons.MapEditor.getTileTable()
-#	for tileRecord in tileTable:
-#		var tileScene = tileRecord["scene"]
-#		for coordsSquare in tileRecord["positionList"]:
-#			var tile = tileScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-#			tile.setup({	"overseer"	:	self,
-#							"HEXgrid"	:	grid,
-#							"coords"	:	coordsSquare})
-#			$Tiles.add_child(tile)
-#			grid.addHEX(coordsSquare, tile)
-#
-#func coordsSquareToPosition(coordsSquare):
-#	var tilePosition = Singletons.MapEditor.map_to_world(coordsSquare)
-#	tilePosition += (Singletons.MapEditor.get_cell_size() / 2)
-#	return tilePosition
-#
-#
+func cleanup_objects():
+	for unit in unit_list:
+		if unit.is_marked_to_delete():
+			print(unit.get_name_id() + " erased")
+			unit.get_hex().unitLogic = null
+			unit_list.erase(unit)
+			#unit.get_display_scene().queue_free()
+	for tile in tile_list:
+		if tile.is_marked_to_delete():
+			print(tile.get_name_id() + " erased")
+			tile.get_hex().unitLogic = null
+			tile_list.erase(tile)
+			#tile.get_display_scene().queue_free()

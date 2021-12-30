@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://modules/logic/Logic.gd" type="Script" id=1]
 [ext_resource path="res://modules/logic/HexGrid.gd" type="Script" id=2]
 [ext_resource path="res://modules/logic/MovementLogic.gd" type="Script" id=3]
 [ext_resource path="res://modules/logic/ObjectLogic.gd" type="Script" id=4]
+[ext_resource path="res://modules/logic/MatchLogic.gd" type="Script" id=5]
 
 [node name="Logic" type="Node"]
 script = ExtResource( 1 )
@@ -16,3 +17,6 @@ script = ExtResource( 3 )
 
 [node name="ObjectManager" type="Node" parent="."]
 script = ExtResource( 4 )
+
+[node name="MatchLogic" type="Node" parent="."]
+script = ExtResource( 5 )

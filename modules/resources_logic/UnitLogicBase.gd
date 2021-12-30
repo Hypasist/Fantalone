@@ -23,6 +23,10 @@ func get_hex():
 func place(hex_):
 	hex = hex_
 	return self
+func is_marked_to_delete():
+	return _marked_to_delete
+func get_display_scene():
+	return unitDisplay
 
 func move_to_hex(destination_hex):
 	if hex: if hex.unitLogic == self: hex.unitLogic = null
@@ -40,3 +44,8 @@ func add_to_display_queue(display_command):
 func assign_display_scene(display_scene:UnitDisplayBase):
 	display_scene.assign_logic_scene(self)
 	unitDisplay = display_scene
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		# destructor logic
+		pass

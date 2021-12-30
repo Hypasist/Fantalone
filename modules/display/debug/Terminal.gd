@@ -9,10 +9,10 @@ var to_console = true
 func clearLog():
 	eventLog.clear()
 
-
 func addLog(string):
 	if to_console:
-		print(string)
+		pass
+#		print(string)
 	else:
 		eventLog.push_back(string)
 		if eventLog.size() > eventLogLimit:

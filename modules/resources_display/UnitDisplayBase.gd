@@ -1,4 +1,3 @@
-tool
 class_name UnitDisplayBase
 extends Node2D
 
@@ -36,26 +35,14 @@ func execute_display_command():
 	
 
 # --- SHADOW HANDLE (export to shadow???) --- #
-export (int) var heightBaseOffset = -15 setget setHeightBaseOffset
-func setHeightBaseOffset(height):
-	heightBaseOffset = height
-	if $Unit: $Unit.set_position(Vector2(0, height))
-
-export (float, 1) var shadowPerspectiveAspect = 0.4 setget setShadowPerspectiveAspect
-func setShadowPerspectiveAspect(aspect):
-	shadowPerspectiveAspect = aspect
-	updateShadow()
-
-export (int) var heightBaseShadowOffset = 10 setget setHeightBaseShadowOffset
-func setHeightBaseShadowOffset(height):
-	heightBaseShadowOffset = height
-	updateShadow()
-
+export (int) var heightBaseOffset = -15
+export (float, 1) var shadowPerspectiveAspect = 0.4
+export (int) var heightBaseShadowOffset = 10
 func updateShadow():
-	if $Unit:
-		var shadowBaseSize = $Unit/AnimatedSprite.get_sprite_frames().get_frame("default", 0).get_size()
-		generateShadow($Shadow, Vector2(shadowBaseSize.x, shadowBaseSize.x * shadowPerspectiveAspect))
-		$Shadow.set_position(Vector2(0, heightBaseShadowOffset))
+	$Unit.set_position(Vector2(0, heightBaseOffset))
+	var shadowBaseSize = $Unit/AnimatedSprite.get_sprite_frames().get_frame("default", 0).get_size()
+	generateShadow($Shadow, Vector2(shadowBaseSize.x, shadowBaseSize.x * shadowPerspectiveAspect))
+	$Shadow.set_position(Vector2(0, heightBaseShadowOffset))
 
 func generateShadow(object:Sprite, size:Vector2):
 	var imageTexture = ImageTexture.new()

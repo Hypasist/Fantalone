@@ -12,7 +12,7 @@ func assign_logic_scene(logic):
 
 func has_queued_command():
 	return false
-func execute_display_queue(comp_object_, comp_method_):
+func execute_display_queue(_comp_object_, _comp_method_):
 	pass
 
 func _on_Tile_mouse_entered():

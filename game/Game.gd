@@ -28,18 +28,11 @@ func setup():
 func start_match():
 	mod.Menu.hide_menu()
 	mod.MapView.setup()
-	mod.Database.set_current_turn_owner(0)
-
+	mod.UI.setup()
+	mod.Logic.start_match()
 
 #	Singletons.Worldmap.loadMap()
 #	Singletons.Logic.startMatch()
 
-
-#	$GameServant.setup()
-	###
-#	$MatchServant.setup()
-###	Terminal.addLog("Game's ready")
-#	showMainMenu()
-	
-	
-	#   yield(get_tree(), "idle_frame") ????
+# how about -- jedna scena rodzic dla tile i unit (logic moze display)
+# reakcyjne delete free?

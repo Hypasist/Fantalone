@@ -19,7 +19,7 @@ var _units_by_id = {
 
 func consumeMockup():
 	consume_tile_mockup()
-	consumeUnitMockup()
+	consume_unit_mockup()
 	hide()
 
 func get_used_ids(map:TileMap):
@@ -37,7 +37,7 @@ func consume_tile_mockup():
 		for coords in tile_mapping[id]:
 			mod.Logic.add_new(resource_name, coords)
 
-func consumeUnitMockup():
+func consume_unit_mockup():
 	var unit_mapping = get_used_ids($Units)
 	for id in unit_mapping:
 		var resource_name = _units_by_id[id]
@@ -51,3 +51,23 @@ func updateTilemapSize(size):
 	$Tiles.set_cell_size(size)
 	$Units.set_cell_size(size)
 	$Props.set_cell_size(size)
+
+#
+#func calculateMockupSize():
+#	var minHexCoords = Vector2(INF, INF)
+#	var maxHexCoords = Vector2(-INF, -INF)
+#	for tile in get_tree().get_nodes_in_group("Tiles"):
+#		minHexCoords = Utils.min2(minHexCoords, tile.position)
+#		maxHexCoords = Utils.max2(maxHexCoords, tile.position)
+#	minHexCoords -= Singletons.GameOptions.get_tilesize()/2.0 \
+#	 				+ Singletons.GameOptions.get_map_bounds_pad()
+#	maxHexCoords += Singletons.GameOptions.get_tilesize()/2.0 \
+#	 				+ Singletons.GameOptions.get_map_bounds_pad()
+#	Singletons.MatchOptions.set_map_boundaries(minHexCoords, maxHexCoords)
+#
+#func coordsSquareToPosition(coordsSquare):
+#	var tilePosition = Singletons.MapEditor.map_to_world(coordsSquare)
+#	tilePosition += (Singletons.MapEditor.get_cell_size() / 2)
+#	return tilePosition
+#
+#

@@ -22,3 +22,6 @@ func execute():
 
 	display_command = DisCmdHide.new(unit)
 	unit.add_to_display_queue(display_command)
+	
+	display_command = DisCmdDeleteVisual.new(unit)
+	unit.add_to_display_queue(display_command)
