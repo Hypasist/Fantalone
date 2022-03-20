@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://modules/display/debug/Debug.gd" type="Script" id=1]
-[ext_resource path="res://fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=2]
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=2]
+
 
 [node name="Debug" type="Control"]
 margin_right = 40.0

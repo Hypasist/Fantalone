@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://modules/display/menu/GuiSingleplayerPlayerOptions.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="MultiplayerPlayerOptions2" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+rect_pivot_offset = Vector2( 230, -210 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Box" type="HBoxContainer" parent="."]
+margin_right = 1004.0
+margin_bottom = 580.0
+custom_constants/separation = 10
+
+[node name="PlayerName" type="LineEdit" parent="Box"]
+margin_right = 681.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+custom_fonts/font = SubResource( 2 )
+text = "PLAYER_NAME"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftColor" type="Button" parent="Box"]
+margin_left = 691.0
+margin_right = 789.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 5 )
+text = "<"
+
+[node name="Color" type="ColorRect" parent="Box"]
+margin_left = 799.0
+margin_right = 896.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RightColor" type="Button" parent="Box"]
+margin_left = 906.0
+margin_right = 1004.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+text = ">"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Box/LeftColor" to="." method="_on_LeftColor_pressed"]
+[connection signal="pressed" from="Box/RightColor" to="." method="_on_RightColor_pressed"]

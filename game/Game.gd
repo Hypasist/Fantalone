@@ -12,11 +12,13 @@ func _ready():
 	mod.Game = self
 	mod.Client = $Client
 	mod.Database = $Database
+	mod.Network = $Network
 	mod.MapEditor = $MapEditor
 	mod.MapView = $MapView
 	mod.UI = $UI
 	mod.Menu = $Menu
 	mod.Logic = $Logic
+	mod.Lobby = $Logic/Lobby
 	mod.Debug = $Debug
 	setup()
 	mod.Menu.show_main_menu()
@@ -30,6 +32,7 @@ func start_match():
 	mod.MapView.setup()
 	mod.UI.setup()
 	mod.Logic.start_match()
+#
 
 #	Singletons.Worldmap.loadMap()
 #	Singletons.Logic.startMatch()

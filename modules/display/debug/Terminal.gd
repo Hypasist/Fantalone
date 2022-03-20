@@ -11,8 +11,7 @@ func clearLog():
 
 func addLog(string):
 	if to_console:
-		pass
-#		print(string)
+		print(string)
 	else:
 		eventLog.push_back(string)
 		if eventLog.size() > eventLogLimit:

@@ -1,9 +1,11 @@
 extends Control
 
-enum { main_menu, match_setup }
+enum { main_menu, singleplayer_setup, multiplayer_setup, connect_to_server }
 var screen_list = {
-	main_menu 		: "res://modules/display/menu/MainMenu.tscn",
-	match_setup 	: "res://modules/display/menu/MatchSetup.tscn"
+	main_menu			: "res://modules/display/menu/MenuMain.tscn",
+	singleplayer_setup	: "res://modules/display/menu/MenuSingleplayerMatchSetup.tscn",
+	multiplayer_setup 	: "res://modules/display/menu/MenuMultiplayerMatchSetup.tscn",
+	connect_to_server 	: "res://modules/display/menu/MenuConnectToServer.tscn"
 	}
 
 # MENU HANDLING
@@ -25,6 +27,8 @@ func switch_screens(screen):
 	var new_screen = load(screen_list[screen]).instance()
 	new_screen.connect("screen_resolved", self, "_on_screen_resolved")
 	add_child(new_screen)
+	new_screen.setup()
+	
 	if current_screen:
 		current_screen.hide()
 		current_screen.queue_free()
