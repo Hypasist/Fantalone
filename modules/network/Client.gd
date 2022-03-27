@@ -16,10 +16,10 @@ func disconnect_():
 	pass
 
 func _server_disconnected():
-	Terminal.addLog(str("Server disconnected!"))
+	Terminal.add_log(Debug.INFO, "Server disconnected!")
 
 func _connected_ok():
-	Terminal.addLog(str("Connected successfully! New id: ", get_tree().get_network_unique_id()))
+	Terminal.add_log(Debug.INFO, "Connected successfully! New id: %d" % mod.Network.get_id())
 
 func _connected_fail():
-	Terminal.addLog(str("Could not connect to the server!"))
+	Terminal.add_log(Debug.INFO, "Could not connect to the server!")

@@ -7,8 +7,9 @@ const NETWORK_ID_INVALID = -1
 const NETWORK_ID_SERVER = 1
 var network_id = NETWORK_ID_INVALID
 
-const TYPE_PLAYER = 0
-const TYPE_OBSERVER = 1
+const TYPE_MEMBER = 0
+const TYPE_PLAYER = 1
+const TYPE_OBSERVER = 2
 var type = TYPE_OBSERVER
 
 var nickname = ""

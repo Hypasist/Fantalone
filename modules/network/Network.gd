@@ -33,10 +33,7 @@ func disconnect_():
 func broadcast_to_peers(package):
 	print("SENDING BROADCAST")
 	if peer is Server:
-		print("IS SERVER LOL")
 		peer.broadcast_to_peers(package)
-	else:
-		print("IS NOT")
 
 remote func joined_now_what(package):
 	print("eeeh? ", package)

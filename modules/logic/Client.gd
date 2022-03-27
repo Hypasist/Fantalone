@@ -9,7 +9,7 @@ func identify_client():
 		"Windows":
 			client_type = clients.desktop
 		_:
-			Terminal.addLog("ERROR, cannot recognize OS!")
+			Terminal.add_log(Debug.ERROR, "Cannot recognize OS!")
 
 
 func get_client():
@@ -32,7 +32,7 @@ func is_move_valid(direction):
 	var unit_list = $ClientLogic.selected_units
 	var movement = mod.Logic.recognize_movement_unit(unit_list, direction)
 	if not movement.is_valid():
-		Terminal.addLog("Invalid move! " + MovementInfo.invalid.keys()[movement.invalid_reason])
+		Terminal.add_log(Debug.INFO, "Invalid move: %s" % MovementInfo.invalid.keys()[movement.invalid_reason])
 	return movement.is_valid()
 
 func make_move(direction):

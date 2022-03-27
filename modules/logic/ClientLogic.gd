@@ -34,4 +34,4 @@ func new_unit_selected(new_unit:UnitLogicBase):
 		if mod.Client.is_line_formation() == false:
 			deselect_all_units()
 	else:
-		Terminal.addLog("ERROR, new_item_status/selected_list mismatch")
+		Terminal.add_log(Debug.ERROR, "New_item_status/selected_list mismatch")

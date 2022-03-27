@@ -8,11 +8,11 @@ func create_server(port, max_players):
 	var error = peer.create_server(port, max_players)
 	
 	if error:
-		Terminal.addLog(str("Could not create the server! Error ", error))
+		Terminal.add_log(Debug.ERROR, "Could not create the server! Error %d" % [error])
 	else:
 		get_tree().network_peer = peer
 #		mod.Database.add_player_to_match()
-		Terminal.addLog(str("Server (", mod.Network.get_id(), ") created!"))
+		Terminal.add_log(Debug.INFO, "Server (%d) created!" % [mod.Network.get_id()])
 
 func disconnect_():
 	pass

@@ -7,7 +7,7 @@ func _ready():
 	get_tree().connect("network_peer_disconnected", self, "_peer_disconnected")
 
 func _peer_connected(id):
-	Terminal.addLog(str(mod.Network.get_id(), " New peer (", id, ") connected!"))
+	Terminal.add_log(Debug.INFO, "New peer (%d) connected!" % mod.Network.get_id())
 	peer_connected(id)
 
 func peer_connected(id):
@@ -27,11 +27,11 @@ remote func register_player(info):
 	print("REGIESTER OUT  ", id)
 
 func _peer_disconnected(id):
-	Terminal.addLog(str("Peer (", id, " disconnected!"))
+	Terminal.add_log(Debug.INFO, "Peer (%d) disconnected!" % id)
 
 func peer_disconnected(id):
 	pass
 
 func terminate():
-	Terminal.addLog(str("Terminating peer ", mod.Network.get_id()))
+	Terminal.add_log(Debug.INFO, "Terminating peer (%d)" % mod.Network.get_id())
 	get_tree().network_peer = null

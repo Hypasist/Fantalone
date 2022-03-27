@@ -31,7 +31,7 @@ func setup():
 
 func refresh_lobby_display():
 	var lobby_players_served = {}
-	for player in lobby.get_players():
+	for player in lobby.get_members():
 		lobby_players_served[player] = false
 	
 	# for every playerOptions panel 
@@ -45,7 +45,7 @@ func refresh_lobby_display():
 					player_options.setup(player)
 					lobby_players_served[player] = true
 				else:
-					Terminal.addLog("ERROR, trying to assign same member to another PlayerOptionsPanel!")
+					Terminal.add_log(Debug.ERROR, "Trying to assign same member to another PlayerOptionsPanel!")
 				break
 	
 	# discard the rest as observers
@@ -82,27 +82,24 @@ func multiplayer_lobby_execute_command(command, package):
 	match command:
 		COMMAND_COLOR_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
 			if not mod.Network.is_server():
-				Terminal.addLog("ERROR, trying to execute incoming unknown server command!")
+				Terminal.add_log(Debug.ERROR, "Trying to execute incoming unknown server command!")
 				return
 	
 	print("executing command ", command)
 	var network_id = get_tree().get_rpc_sender_id()
-	var member = lobby.get_member_by_network_id(network_id)
 	match command:
 		COMMAND_NEW_MEMBER:
-			lobby.add_new_player(network_id, package)
+			lobby.add_new_member(network_id, LobbyMemberInfo.TYPE_PLAYER, package)
 		COMMAND_COLOR_CHANGE:
-			print("EXEEEC")
-			lobby.change_member_color(member.id, package)
+			var member = lobby.get_member_by_network_id(network_id)
+			lobby.change_player_color(member.id, package)
 		COMMAND_UPDATE_LOBBY:
-			print("UPDUTING ", package)
 			lobby.setup(package)
 			restart_lobby_display()
 			refresh_lobby_display()
 		_:
-			Terminal.addLog("ERROR, trying to execute incoming unknown command!")
+			Terminal.add_log(Debug.ERROR, "Trying to execute incoming unknown command!")
 			return
-	print("end??")
 	
 	# broadcast to every member after certain commands 
 	match command:

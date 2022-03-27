@@ -48,7 +48,7 @@ func evaluate_unit_command(movement, unit):
 	var destination_hex = current_hex.get_neighbour(movement.get_direction())
 	
 	if destination_hex.get_tile() == null:
-		Terminal.addLog("ERROR, trying to reach beyond the map boundaries!")
+		Terminal.add_log(Debug.ERROR, "Trying to reach beyond the map boundaries!")
 		movement.invalid_move(movement.invalid.out_of_map_boundaries)
 		
 	elif destination_hex.is_passable() == false:

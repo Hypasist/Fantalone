@@ -7,10 +7,12 @@ var destination_hex = null
 func _init(unit_, destination_hex_).(unit_):
 	unit = unit_
 	destination_hex = destination_hex_
-	Terminal.addLog(unit.get_name_id() + " new LogCmdGetPushedAndDie from " + unit.hex.coords.to_str() + " to " + destination_hex.coords.to_str())
+	if debug_verbose_base_commands:
+		Terminal.add_log(Debug.ALL, "[%s] New LogCmdGetPushedAndDie from %s to %s" % [unit.get_name_id(), unit.hex.coords.to_str(), destination_hex.coords.to_str()])
 
 func execute():
-	Terminal.addLog(unit.get_name_id() + " LogCmdGetPushedAndDie " + unit.hex.coords.to_str())
+	if debug_verbose_base_commands:
+		Terminal.add_log(Debug.ALL, "[%s] LogCmdGetPushedAndDie %s" % [unit.get_name_id(), unit.hex.coords.to_str()])
 	
 	unit.move_to_hex(destination_hex)
 	var display_command = DisCmdMoveToEmpty.new(unit)
