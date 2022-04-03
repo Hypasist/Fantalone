@@ -78,7 +78,7 @@ func get_member_count(type=LobbyMemberInfo.TYPE_MEMBER):
 			count += 1
 	return count
 
-func add_new_member(network_id, type, nickname):
+func add_update_member(network_id, type, nickname):
 	print("Adding new member! %d, %d, %s" % [network_id, type, nickname])
 	if type == LobbyMemberInfo.TYPE_PLAYER:
 		if get_member_count(LobbyMemberInfo.TYPE_PLAYER) < MAX_PLAYER_NUM:
@@ -100,6 +100,12 @@ func add_new_member(network_id, type, nickname):
 		else:
 			Terminal.add_log(Debug.ERROR, "No space for observer available!")
 
+func remove_member(network_id):
+	print("Removing a member! %d" % network_id)
+	if LobbyMemberInfo_dict.has(network_id):
+		var member = LobbyMemberInfo_dict[network_id]
+		free_color(member.color)
+		LobbyMemberInfo_dict.erase(network_id)
 
 func move_observer_to_players(id):
 	var member = get_member_by_id_type(id, LobbyMemberInfo.TYPE_OBSERVER)

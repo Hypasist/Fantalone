@@ -139,7 +139,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "Lobby",
 "language": "GDScript",
 "path": "res://modules/logic/Lobby.gd"
