@@ -1,15 +1,37 @@
+class_name PopupBase
 extends NinePatchRect
 
-const internal_top_padding = 5
-const internal_leftright_padding = 5
+static func set_anchors_by_size(object, size = Vector2(1,1)):
+	var diff = Vector2((1 - size.x)/2, (1 - size.y)/2)
+	object.set_anchor(MARGIN_LEFT, diff.x, true)
+	object.set_anchor(MARGIN_TOP, diff.y, true)
+	object.set_anchor(MARGIN_RIGHT, 1 - diff.x, true)
+	object.set_anchor(MARGIN_BOTTOM, 1 - diff.y, true)
+
+static func set_anchors_by_anchors(object, anchor_x = Vector2(0,1), anchor_y = Vector2(0,1)):
+	object.set_anchor(MARGIN_LEFT, anchor_x.x, true)
+	object.set_anchor(MARGIN_TOP, anchor_y.x, true)
+	object.set_anchor(MARGIN_RIGHT, anchor_x.y, true)
+	object.set_anchor(MARGIN_BOTTOM, anchor_y.y, true)
+
+const internal_top_padding = 40
+const internal_leftright_padding = 50
 const internal_bot_padding = 5
+func set_popuptext_margins():
+	$MarginContainer.set("custom_constants/margin_top", internal_top_padding)
+	$MarginContainer.set("custom_constants/margin_left", internal_leftright_padding)
+	$MarginContainer.set("custom_constants/margin_bottom", -internal_bot_padding)
+	$MarginContainer.set("custom_constants/margin_right", -internal_leftright_padding)
 
-func _ready():
-	var size = get_size()
-	$MarginContainer.set("custom_constants/margin_top", get_patch_margin(MARGIN_TOP) + internal_top_padding)
-	$MarginContainer.set("custom_constants/margin_left", get_patch_margin(MARGIN_LEFT) + internal_leftright_padding)
-	$MarginContainer.set("custom_constants/margin_bottom", size.y - get_patch_margin(MARGIN_BOTTOM) - internal_bot_padding)
-	$MarginContainer.set("custom_constants/margin_right", size.x - get_patch_margin(MARGIN_RIGHT) - internal_leftright_padding)
+var parent = null 
+func setup(_parent:Object, text:String="", size:Vector2=Vector2(0,0)):
+	parent = _parent
+	parent.add_child(self)
+	$MarginContainer/PopupText.set_text(text)
+	size = Utils.clamp2(size, Vector2(0,0), Vector2(1,1))
+	set_anchors_by_size(self, size)
+	set_popuptext_margins()
+	set_anchors_by_anchors($MarginContainer/PopupText, Vector2(0,1), Vector2(0,75))
 
-func set_text(_text):
-	$MarginContainer/RichTextLabel.set_text(_text)
+func destroy():
+	queue_free()

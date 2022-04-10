@@ -57,11 +57,18 @@ func restart_lobby_display():
 		playerOptions_list.append(player_options)
 		$PlayerList.add_child(player_options)
 		player_options.connect("change_color", self, "_on_change_color")
+		player_options.connect("kick", self, "_on_kick")
 		player_options.connect("join", self, "_on_join")
 
 
 func _on_change_color(object, value):
 	rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_COLOR_CHANGE, value)
+func _on_kick(object):
+	if mod.Network.is_server():
+		mod.Network.disconnect_client(object.lobby_member.network_id)
+	else:
+		Terminal.add_log(Debug.ERROR, "Client trying to kick a lobby member!")
+		
 
 func _on_join(object):
 	print(object)
@@ -122,12 +129,17 @@ func _new_client_in_lobby(network_id):
 func _client_exit_lobby(network_id):
 	lobby.remove_member(network_id)
 	multiplayer_lobby_execute_command(COMMAND_BROADCAST_LOBBY)
+func _server_disconnected():
+	mod.Network.disconnect_()
+	var main_menu = mod.Menu.switch_screens(mod.Menu.main_menu)
+	PopupHelper.create_hanging_popup_with_confirmation(main_menu, "You have been disconnected from the server", "Understand")
+
 
 func _setup_network_():
 	if mod.Network.is_server():
 		mod.Network.connect_network_signal("client_added", self, "_new_client_in_lobby") # server
 		mod.Network.connect_network_signal("client_removed", self, "_client_exit_lobby") # server
 	else:
-		pass
+		mod.Network.connect_network_signal("server_disconnected", self, "_server_disconnected") # client
 #	connect("_remove_user", self, "_on_Tween2D_all_completed") # server
 #	connect("_exit_lobby", self, "_on_Tween2D_all_completed") # client

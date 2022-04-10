@@ -34,6 +34,10 @@ func disconnect_():
 	get_tree().network_peer = null
 	peer = null
 
+func disconnect_client(network_id):
+	if peer and peer is Server:
+		peer.disconnect_client(network_id)
+
 func broadcast_to_peers(package):
 	print("SENDING BROADCAST")
 	if peer is Server:

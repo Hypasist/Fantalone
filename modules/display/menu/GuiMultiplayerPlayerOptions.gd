@@ -74,9 +74,9 @@ func _on_RightColor_pressed():
 func _on_LeftColor_pressed():
 	emit_signal("change_color", self, -1)
 
-
+signal kick(object)
 func _on_KickButton_pressed():
-	pass # Replace with function body.
+	emit_signal("kick", self)
 
 signal join(object)
 func _on_JoinButton_pressed():

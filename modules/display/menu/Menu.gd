@@ -33,3 +33,5 @@ func switch_screens(screen):
 		current_screen.hide()
 		current_screen.queue_free()
 	current_screen = new_screen
+	
+	return new_screen
