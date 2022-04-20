@@ -19,7 +19,8 @@ func _ready():
 func setup():
 	lobby.setup()
 	if mod.Network.is_server():
-		rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NEW_MEMBER, "Server")
+		var player_name = mod.Database.get_player_name()
+		rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NEW_MEMBER, player_name)
 
 func refresh_lobby_display():
 	var lobby_players_served = {}
@@ -59,8 +60,12 @@ func restart_lobby_display():
 		player_options.connect("change_color", self, "_on_change_color")
 		player_options.connect("kick", self, "_on_kick")
 		player_options.connect("join", self, "_on_join")
+		player_options.connect("change_name", self, "_on_change_name")
 
 
+func _on_change_name(object, value):
+	mod.Database.set_player_name(value)
+	rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NAME_CHANGE, value)
 func _on_change_color(object, value):
 	rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_COLOR_CHANGE, value)
 func _on_kick(object):
@@ -75,12 +80,12 @@ func _on_join(object):
 	var id = playerOptions_list.find(object)
 	mod.Network.broadcast_to_peers(id)
 	
-enum {COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE, COMMAND_UPDATE_LOBBY, \
+enum {COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE, COMMAND_UPDATE_LOBBY, \
 COMMAND_SEND_IDENTIFICATION, COMMAND_ASK4_LOBBY_UPDATE}
 func multiplayer_lobby_execute_command(command, package=null):
 	# check rights
 	match command:
-		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
+		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
 			if not mod.Network.is_server():
 				Terminal.add_log(Debug.ERROR, "Trying to execute incoming unknown server command!")
 				return
@@ -93,12 +98,15 @@ func multiplayer_lobby_execute_command(command, package=null):
 		COMMAND_COLOR_CHANGE:
 			var member = lobby.get_member_by_network_id(network_id)
 			lobby.change_player_color(member.id, package)
+		COMMAND_NAME_CHANGE:
+			lobby.change_player_name_by_network_id(network_id, package)
 		COMMAND_UPDATE_LOBBY:
 			lobby.setup(package)
 			restart_lobby_display()
 			refresh_lobby_display()
 		COMMAND_SEND_IDENTIFICATION:
-			rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NEW_MEMBER, "NOWY MEMBER BQ")
+			var player_name = mod.Database.get_player_name()
+			rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NEW_MEMBER, player_name)
 		COMMAND_BROADCAST_LOBBY:
 			pass
 		_:
@@ -107,7 +115,7 @@ func multiplayer_lobby_execute_command(command, package=null):
 	
 	# broadcast to every member after certain commands 
 	match command:
-		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
+		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
 			if mod.Network.is_server():
 				var update_package = LobbyMemberInfoPackage.pack(lobby)
 				rpc("multiplayer_lobby_execute_command", COMMAND_UPDATE_LOBBY, update_package)
@@ -131,8 +139,8 @@ func _client_exit_lobby(network_id):
 	multiplayer_lobby_execute_command(COMMAND_BROADCAST_LOBBY)
 func _server_disconnected():
 	mod.Network.disconnect_()
-	var main_menu = mod.Menu.switch_screens(mod.Menu.main_menu)
-	PopupHelper.create_hanging_popup_with_confirmation(main_menu, "You have been disconnected from the server", "Understand")
+	mod.Menu.switch_screens(mod.Menu.main_menu)
+	mod.PopupHelper.create_hanging_popup_with_confirmation("You have been disconnected from the server", "Understand")
 
 
 func _setup_network_():

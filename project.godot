@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Button",
+"class": "ButtonPlus",
+"language": "GDScript",
+"path": "res://ui/ButtonPlus.gd"
+}, {
 "base": "Tween",
 "class": "CustomTween",
 "language": "GDScript",
@@ -234,11 +239,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/PopupBase.gd"
 }, {
-"base": "Reference",
-"class": "PopupHelper",
-"language": "GDScript",
-"path": "res://ui/PopupHelper.gd"
-}, {
 "base": "PopupBase",
 "class": "PopupWithButtons",
 "language": "GDScript",
@@ -290,6 +290,7 @@ _global_script_classes=[ {
 "path": "res://utils/touchscreenScripts.gd"
 } ]
 _global_script_class_icons={
+"ButtonPlus": "",
 "CustomTween": "",
 "CustomTween2": "",
 "Debug": "",
@@ -335,7 +336,6 @@ _global_script_class_icons={
 "PackagePlayerSetupList": "",
 "Peer": "",
 "PopupBase": "",
-"PopupHelper": "",
 "PopupWithButtons": "",
 "Resources": "",
 "TileDisplayBase": "",

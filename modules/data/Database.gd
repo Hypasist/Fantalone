@@ -5,6 +5,10 @@ func get_color(id):
 	return $GameParameters.colorList[id]
 func get_colorlist():
 	return $GameParameters.colorList
+func get_player_name():
+	return $GameParameters.player_name
+func set_player_name(name):
+	$GameParameters.player_name = name
 
 # ACCESS FUNCTIONS:
 func is_autofinish_turn():

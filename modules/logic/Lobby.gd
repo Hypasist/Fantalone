@@ -57,6 +57,10 @@ func reserve_color(color, id):
 func free_color(color):
 	available_colors[color] = COLOR_UNUSED
 
+func change_player_name_by_network_id(network_id, value):
+	print("change_player_name_by_network_id, %s" % value)
+	var member = get_member_by_network_id(network_id)
+	member.nickname = value
 
 func change_player_color(id, value):
 	var member = get_member_by_id_type(id, LobbyMemberInfo.TYPE_PLAYER)

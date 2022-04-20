@@ -20,6 +20,7 @@ func _ready():
 	mod.Logic = $Logic
 	mod.Lobby = $Logic/Lobby
 	mod.Debug = $Debug
+	mod.PopupHelper = $UI/PopupUI
 	setup()
 	mod.Menu.show_main_menu()
 

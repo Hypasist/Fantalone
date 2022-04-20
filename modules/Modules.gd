@@ -11,3 +11,4 @@ var Menu = null
 var Logic = null
 var Lobby = null
 var Debug = null
+var PopupHelper = null

@@ -14,7 +14,7 @@ func setup(_lobby_member = null):
 	var has_ownership = lobby_member.network_id == mod.Network.get_id()
 	var is_server = mod.Network.is_server()
 	
-	$Box/PlayerName.set_text(lobby_member.nickname)
+	set_displayed_name(lobby_member.nickname)
 	$Box/Color.set_frame_color(lobby_member.color)
 	if has_ownership:
 		$Box/PlayerName.set_editable(true)
@@ -36,7 +36,7 @@ func setup(_lobby_member = null):
 
 func clear():
 	lobby_member = null
-	$Box/PlayerName.set_text("-- empty --")
+	set_displayed_name("-- empty --")
 	$Box/Color.set_frame_color(Color.transparent)
 	$Box/PlayerName.set_editable(false)
 	$Box/LeftColor.set_disabled(true)
@@ -84,3 +84,15 @@ func _on_JoinButton_pressed():
 
 func _on_LeaveButton_pressed():
 	pass # Replace with function body.
+
+var name_remembered = ""
+func set_displayed_name(text):
+	name_remembered = text
+	$Box/PlayerName.set_text(text)
+
+signal change_name(object, text)
+func _on_PlayerName_text_entered(new_text):
+	emit_signal("change_name", self, new_text)
+
+func _on_PlayerName_focus_exited():
+	$Box/PlayerName.set_text(name_remembered)

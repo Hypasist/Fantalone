@@ -23,10 +23,7 @@ func set_popuptext_margins():
 	$MarginContainer.set("custom_constants/margin_bottom", -internal_bot_padding)
 	$MarginContainer.set("custom_constants/margin_right", -internal_leftright_padding)
 
-var parent = null 
-func setup(_parent:Object, text:String="", size:Vector2=Vector2(0,0)):
-	parent = _parent
-	parent.add_child(self)
+func setup(text:String="", size:Vector2=Vector2(0,0)):
 	$MarginContainer/PopupText.set_text(text)
 	size = Utils.clamp2(size, Vector2(0,0), Vector2(1,1))
 	set_anchors_by_size(self, size)

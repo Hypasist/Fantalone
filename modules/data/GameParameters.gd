@@ -27,7 +27,7 @@ const max_map_scale = Vector2(4, 4)
 ### PLAYERS SETTINGS
 var autofinish_turn = true
 
-
-
+### PLAYER PRIVATE SETTINGS
+var player_name = "My name"
 
 
