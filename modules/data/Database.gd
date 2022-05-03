@@ -43,8 +43,8 @@ func clear_players_info():
 	$MatchParameters.clear_players_info()
 func add_player_info(id:int, name_:String, color:Color):
 	$MatchParameters.add_player_info(id, name_, color)
-func get_player_info(id):
-	return $MatchParameters.get_player_info(id)
+func get_player_info_by_id(id):
+	return $MatchParameters.get_player_info_by_id(id)
 func get_players_number():
 	return $MatchParameters.players_number
 func get_current_turn_owner():
@@ -55,6 +55,8 @@ func get_players_units_num(id):
 	return $MatchData.get_players_units_num(id)
 func report_new_object(class_):
 	return $MatchData.report_new_object(class_)
+func setup_new_match():
+	$MatchData.setup_new_match()
 
 # RESOURCES
 func get_unique_name(class_):

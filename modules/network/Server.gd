@@ -41,11 +41,6 @@ func disconnect_all_clients():
 	for network_id in connected_clients.pop_front():
 		Terminal.add_log(Debug.INFO, "Disconnecting client (%d)" % network_id)
 		get_tree().network_peer.disconnect_peer(network_id)
-#	send_peer_list()
-
-func broadcast_to_peers(package):
-	print("send rpc")
-	rpc("joined_now_what", package)
 
 signal client_added(network_id)
 signal client_removed(network_id)

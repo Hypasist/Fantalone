@@ -14,13 +14,15 @@ func _init():
 # NEW MULTIPLAYER GAME IS CREATED
 func _ready():
 	PlayerOptions = load("res://modules/display/menu/GuiMultiplayerPlayerOptions.tscn")
-	lobby = Lobby.new()
+	lobby = mod.Lobby
 
 func setup():
 	lobby.setup()
 	if mod.Network.is_server():
 		var player_name = mod.Database.get_player_name()
 		rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NEW_MEMBER, player_name)
+	else:
+		$StartGame.set_disabled(true)
 
 func refresh_lobby_display():
 	var lobby_players_served = {}
@@ -61,6 +63,7 @@ func restart_lobby_display():
 		player_options.connect("kick", self, "_on_kick")
 		player_options.connect("join", self, "_on_join")
 		player_options.connect("change_name", self, "_on_change_name")
+		player_options.connect("add_bot", self, "_on_add_bot")
 
 
 func _on_change_name(object, value):
@@ -78,14 +81,17 @@ func _on_kick(object):
 func _on_join(object):
 	print(object)
 	var id = playerOptions_list.find(object)
-	mod.Network.broadcast_to_peers(id)
+
+func _on_add_bot(object):
+#	rpc_id(mod.Network.SERVER_ID, "multiplayer_lobby_execute_command", COMMAND_NEW_BOT, "Bot")
+	pass
 	
-enum {COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE, COMMAND_UPDATE_LOBBY, \
+enum {COMMAND_BROADCAST_LOBBY, COMMAND_BROADCAST_START, COMMAND_START_GAME, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_NEW_BOT, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE, COMMAND_UPDATE_LOBBY, \
 COMMAND_SEND_IDENTIFICATION, COMMAND_ASK4_LOBBY_UPDATE}
 func multiplayer_lobby_execute_command(command, package=null):
 	# check rights
 	match command:
-		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
+		COMMAND_BROADCAST_LOBBY, COMMAND_BROADCAST_START, COMMAND_COLOR_CHANGE, COMMAND_NEW_BOT, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
 			if not mod.Network.is_server():
 				Terminal.add_log(Debug.ERROR, "Trying to execute incoming unknown server command!")
 				return
@@ -93,8 +99,14 @@ func multiplayer_lobby_execute_command(command, package=null):
 	print("executing command ", command)
 	var network_id = get_tree().get_rpc_sender_id()
 	match command:
+		COMMAND_BROADCAST_START:
+			rpc("multiplayer_lobby_execute_command", COMMAND_START_GAME, null)
+		COMMAND_START_GAME:
+			mod.Match.setup_new_match()
 		COMMAND_NEW_MEMBER:
-			lobby.add_update_member(network_id, LobbyMemberInfo.TYPE_PLAYER, package)
+			lobby.add_update_member(network_id, LobbyMemberInfo.TYPE_PLAYER, LobbyMemberInfo.HUMAN_PLAYER, package)
+		COMMAND_NEW_BOT:
+			lobby.add_update_member(network_id, LobbyMemberInfo.TYPE_PLAYER, LobbyMemberInfo.CPU_PLAYER, package)
 		COMMAND_COLOR_CHANGE:
 			var member = lobby.get_member_by_network_id(network_id)
 			lobby.change_player_color(member.id, package)
@@ -113,9 +125,9 @@ func multiplayer_lobby_execute_command(command, package=null):
 			Terminal.add_log(Debug.ERROR, "Trying to execute incoming unknown command!")
 			return
 	
-	# broadcast to every member after certain commands 
+	# broadcast lobby to every member after certain commands 
 	match command:
-		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
+		COMMAND_BROADCAST_LOBBY, COMMAND_COLOR_CHANGE, COMMAND_NAME_CHANGE, COMMAND_NEW_BOT, COMMAND_NEW_MEMBER, COMMAND_JOIN, COMMAND_LEAVE, COMMAND_OBSERVE:
 			if mod.Network.is_server():
 				var update_package = LobbyMemberInfoPackage.pack(lobby)
 				rpc("multiplayer_lobby_execute_command", COMMAND_UPDATE_LOBBY, update_package)
@@ -125,11 +137,7 @@ func _on_Cancel_pressed():
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 
 func _on_StartGame_pressed():
-	print("START MATCH")
-#	mod.Database.clear_players_info()
-#	mod.Database.add_player_info(0, $P1.get_current_name(), $P1.get_current_color())
-#	mod.Database.add_player_info(1, $P2.get_current_name(), $P2.get_current_color())
-#	mod.Game.start_match()
+	multiplayer_lobby_execute_command(COMMAND_BROADCAST_START)
 
 # Server specific
 func _new_client_in_lobby(network_id):

@@ -21,18 +21,18 @@ func setup(_lobby_member = null):
 		$Box/LeftColor.set_disabled(false)
 		$Box/RightColor.set_disabled(false)
 		if is_server:
-			change_action_button(ACTION_NONE)
+			change_action_button([ACTION_NONE])
 		else:
-			change_action_button(ACTION_LEAVE)
+			change_action_button([ACTION_LEAVE])
 	
 	else:
 		$Box/PlayerName.set_editable(false)
 		$Box/LeftColor.set_disabled(true)
 		$Box/RightColor.set_disabled(true)
 		if is_server:
-			change_action_button(ACTION_KICK)
+			change_action_button([ACTION_KICK])
 		else:
-			change_action_button(ACTION_NONE)
+			change_action_button([ACTION_NONE])
 
 func clear():
 	lobby_member = null
@@ -41,22 +41,32 @@ func clear():
 	$Box/PlayerName.set_editable(false)
 	$Box/LeftColor.set_disabled(true)
 	$Box/RightColor.set_disabled(true)
-	change_action_button(ACTION_JOIN)
-	
-enum {ACTION_KICK, ACTION_LEAVE, ACTION_JOIN, ACTION_NONE}
-func change_action_button(action):
+	if mod.Network.is_server():
+		change_action_button([ACTION_JOIN, ACTION_ADDBOT])
+	else:
+		change_action_button([ACTION_JOIN])
+
+enum {ACTION_KICK, ACTION_LEAVE, ACTION_JOIN, ACTION_ADDBOT, ACTION_NONE}
+func change_action_button(action_list):
+	if action_list.size() < 2:
+		action_list.append(ACTION_NONE)
+	$Box/ActionButton/AddBotButton.hide()
 	$Box/ActionButton/KickButton.hide()
 	$Box/ActionButton/LeaveButton.hide()
 	$Box/ActionButton/JoinButton.hide()
-	match action:
-		ACTION_KICK:
-			$Box/ActionButton/KickButton.show()
-		ACTION_LEAVE:
-			$Box/ActionButton/LeaveButton.show()
-		ACTION_JOIN:
-			$Box/ActionButton/JoinButton.show()
-		ACTION_NONE:
-			pass
+	$Box/ActionButton/PlaceholderButton.hide()
+	for action in action_list: 
+		match action:
+			ACTION_KICK:
+				$Box/ActionButton/KickButton.show()
+			ACTION_LEAVE:
+				$Box/ActionButton/LeaveButton.show()
+			ACTION_JOIN:
+				$Box/ActionButton/JoinButton.show()
+			ACTION_ADDBOT:
+				$Box/ActionButton/AddBotButton.show()
+			ACTION_NONE:
+				$Box/ActionButton/PlaceholderButton.show()
 
 func update_color():
 	$Box/Color.set_frame_color(lobby_member.color)
@@ -84,6 +94,10 @@ func _on_JoinButton_pressed():
 
 func _on_LeaveButton_pressed():
 	pass # Replace with function body.
+
+signal add_bot(object)
+func _on_AddBotButton_pressed():
+	emit_signal("add_bot", self)
 
 var name_remembered = ""
 func set_displayed_name(text):

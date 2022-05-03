@@ -38,14 +38,6 @@ func disconnect_client(network_id):
 	if peer and peer is Server:
 		peer.disconnect_client(network_id)
 
-func broadcast_to_peers(package):
-	print("SENDING BROADCAST")
-	if peer is Server:
-		peer.broadcast_to_peers(package)
-
-remote func joined_now_what(package):
-	print("eeeh? ", package)
-
 func connect_network_signal(_signal, _object, _method):
 	if peer:
 		peer.connect_network_signal(_signal, _object, _method)

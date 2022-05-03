@@ -9,6 +9,7 @@ var MapView = null
 var UI = null
 var Menu = null
 var Logic = null
+var Match = null
 var Lobby = null
 var Debug = null
 var PopupHelper = null

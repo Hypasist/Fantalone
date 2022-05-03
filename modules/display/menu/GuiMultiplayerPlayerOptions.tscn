@@ -51,7 +51,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ActionButton" type="Control" parent="Box"]
+[node name="ActionButton" type="HBoxContainer" parent="Box"]
 margin_left = 623.0
 margin_right = 711.0
 margin_bottom = 580.0
@@ -60,8 +60,8 @@ size_flags_vertical = 3
 
 [node name="KickButton" type="Button" parent="Box/ActionButton"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
@@ -72,8 +72,8 @@ __meta__ = {
 
 [node name="LeaveButton" type="Button" parent="Box/ActionButton"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
@@ -83,12 +83,35 @@ __meta__ = {
 }
 
 [node name="JoinButton" type="Button" parent="Box/ActionButton"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_right = 42.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
 text = "J"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddBotButton" type="Button" parent="Box/ActionButton"]
+margin_left = 46.0
+margin_right = 88.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 6 )
+text = "B"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlaceholderButton" type="Control" parent="Box/ActionButton"]
+visible = false
+margin_left = 64.0
+margin_right = 88.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -127,5 +150,6 @@ __meta__ = {
 [connection signal="pressed" from="Box/ActionButton/KickButton" to="." method="_on_KickButton_pressed"]
 [connection signal="pressed" from="Box/ActionButton/LeaveButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="Box/ActionButton/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="Box/ActionButton/AddBotButton" to="." method="_on_AddBotButton_pressed"]
 [connection signal="pressed" from="Box/LeftColor" to="." method="_on_LeftColor_pressed"]
 [connection signal="pressed" from="Box/RightColor" to="." method="_on_RightColor_pressed"]

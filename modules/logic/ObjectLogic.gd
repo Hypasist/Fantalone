@@ -10,7 +10,7 @@ func add_new(name, _arg1=null, _arg2=null, _arg3=null, _arg4=null):
 			var logic_scene = resource.logic_scene.new(unique_name, _arg2)
 			mod.Database.register_new_unit(logic_scene)
 			hex.place_unit(logic_scene)
-			var display_scene = resource.display_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+			var display_scene = resource.display_scene.instance()
 			display_scene.set_name(unique_name)
 			logic_scene.assign_display_scene(display_scene)
 			mod.MapView.add_unit_resource(display_scene)
@@ -21,10 +21,7 @@ func add_new(name, _arg1=null, _arg2=null, _arg3=null, _arg4=null):
 			var logic_scene = resource.logic_scene.new(unique_name)
 			mod.Database.register_new_tile(logic_scene)
 			hex.place_tile(logic_scene)
-			var display_scene = resource.display_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+			var display_scene = resource.display_scene.instance()
 			display_scene.set_name(unique_name)
 			logic_scene.assign_display_scene(display_scene)
 			mod.MapView.add_tile_resource(display_scene)
-
-#func new_ball(coords, owner_id):
-#	pass

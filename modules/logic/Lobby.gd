@@ -82,15 +82,16 @@ func get_member_count(type=LobbyMemberInfo.TYPE_MEMBER):
 			count += 1
 	return count
 
-func add_update_member(network_id, type, nickname):
-	print("Adding new member! %d, %d, %s" % [network_id, type, nickname])
+func add_update_member(network_id, type, player_type, nickname):
+	Terminal.add_log(Debug.INFO, "Adding new member! %d, %s" % [network_id, nickname])
+	
 	if type == LobbyMemberInfo.TYPE_PLAYER:
 		if get_member_count(LobbyMemberInfo.TYPE_PLAYER) < MAX_PLAYER_NUM:
 			var new_member = LobbyMemberInfo.new()
 			var new_id = get_unused_id(LobbyMemberInfo.TYPE_PLAYER)
 			var new_color = get_unused_color()
 			reserve_color(new_color, new_id)
-			new_member.setup(new_id, network_id, LobbyMemberInfo.TYPE_PLAYER, nickname, new_color)
+			new_member.setup(new_id, network_id, LobbyMemberInfo.TYPE_PLAYER, nickname, new_color, player_type)
 			LobbyMemberInfo_dict[network_id] = new_member
 		else:
 			type = LobbyMemberInfo.TYPE_OBSERVER

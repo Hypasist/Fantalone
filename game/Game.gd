@@ -18,6 +18,7 @@ func _ready():
 	mod.UI = $UI
 	mod.Menu = $Menu
 	mod.Logic = $Logic
+	mod.Match = $Logic/MatchLogic
 	mod.Lobby = $Logic/Lobby
 	mod.Debug = $Debug
 	mod.PopupHelper = $UI/PopupUI
@@ -27,16 +28,6 @@ func _ready():
 func setup():
 	mod.Client.identify_client()
 	mod.Database.set_resolution(get_viewport().size)
-
-func start_match():
-	mod.Menu.hide_menu()
-	mod.MapView.setup()
-	mod.UI.setup()
-	mod.Logic.start_match()
-#
-
-#	Singletons.Worldmap.loadMap()
-#	Singletons.Logic.startMatch()
 
 # how about -- jedna scena rodzic dla tile i unit (logic moze display)
 # reakcyjne delete free?
