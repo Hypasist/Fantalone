@@ -1,4 +1,3 @@
-class_name Lobby
 extends Node
 
 var MAX_PLAYER_NUM = 8
@@ -28,7 +27,6 @@ func setup(package:Array=[]):
 
 func get_map_player_size():
 	return MAP_PLAYER_NUM
-
 
 func get_unused_id(type = LobbyMemberInfo.TYPE_OBSERVER):
 	var used_ids = []

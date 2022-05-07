@@ -19,7 +19,8 @@ func _ready():
 	mod.Menu = $Menu
 	mod.Logic = $Logic
 	mod.Match = $Logic/MatchLogic
-	mod.Lobby = $Logic/Lobby
+	mod.LobbyLogic = $Logic/LobbyLogic
+	mod.LobbyData = $Database/LobbyData
 	mod.Debug = $Debug
 	mod.PopupHelper = $UI/PopupUI
 	setup()

@@ -22,16 +22,22 @@ func hide_menu():
 	mod.UI.unlock_map_control()
 	mod.MapView.show()
 
+var previous_screen = null
 var current_screen = null
-func switch_screens(screen):
-	var new_screen = load(screen_list[screen]).instance()
-	new_screen.connect("screen_resolved", self, "_on_screen_resolved")
-	add_child(new_screen)
-	new_screen.setup()
+func switch_screens(screen, setup_params=null):
+	previous_screen = current_screen
+	current_screen = load(screen_list[screen]).instance()
+	current_screen.connect("screen_resolved", self, "_on_screen_resolved")
+	add_child(current_screen)
+	current_screen.setup(setup_params)
 	
-	if current_screen:
-		current_screen.hide()
-		current_screen.queue_free()
-	current_screen = new_screen
-	
-	return new_screen
+	if previous_screen:
+		previous_screen.hide()
+		previous_screen.queue_free()
+
+func _on_screen_resolved(package):
+	print("_on_screen_resolved")
+	print(package)
+
+func refresh(refresh_level=0):
+	current_screen.refresh(refresh_level)
