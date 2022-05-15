@@ -2,6 +2,7 @@ extends Node
 
 var SERVER_PORT = 22
 var LOCALHOST_IP = "127.0.0.1"
+var PC_IP = "192.168.0.59"
 var MAX_PLAYERS = 3
 
 const SERVER_ID = 1
@@ -27,7 +28,7 @@ func connect_to_server():
 		disconnect_()
 	peer = Client.new()
 	add_child(peer)
-	peer.connect_to_server(LOCALHOST_IP, SERVER_PORT)
+	peer.connect_to_server(PC_IP, SERVER_PORT)
 
 func disconnect_():
 	peer.disconnect_()

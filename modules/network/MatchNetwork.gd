@@ -4,16 +4,19 @@ extends Node
 enum command { \
 	BROADCAST_MOVE, \
 	BROADCAST_TURN_OWNER, \
+	BROADCAST_LOG_CMD, \
 	UPDATE_TURN_OWNER, \
 	VERIFY_MOVE, \
 	DISCARD_MOVE, \
 	REQUEST_MOVE, \
 	EXECUTE_MOVE, \
+	EXECUTE_LOG_CMD, \
 }
 
 const server_commands = [ \
 	command.BROADCAST_MOVE, \
 	command.BROADCAST_TURN_OWNER, \
+	command.BROADCAST_LOG_CMD, \
 	command.VERIFY_MOVE, \
 	command.DISCARD_MOVE, \
 ]
@@ -39,6 +42,10 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.BROADCAST_MOVE:
 			var unit_ids = mod.Database.pack_unit_ids(param1)
 			rpc("match_network_execute_command", command.EXECUTE_MOVE, unit_ids, param2)
+		command.BROADCAST_LOG_CMD:
+			print(param1)
+			pass
+			# rpc("match_network_execute_command", command.EXECUTE_LOG_CMD, unit_ids, param2)
 		command.BROADCAST_TURN_OWNER:
 			rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
 		command.UPDATE_TURN_OWNER:
@@ -59,4 +66,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.EXECUTE_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			mod.MatchLogic.make_move(unit_list, param2)
+		command.EXECUTE_LOG_CMD:
+			print(param1)
+			pass
 
