@@ -28,6 +28,9 @@ func setup(package:Array=[]):
 func get_map_player_size():
 	return MAP_PLAYER_NUM
 
+func get_players_number():
+	return get_members(LobbyMemberInfo.TYPE_PLAYER).size()
+
 func get_unused_id(type = LobbyMemberInfo.TYPE_OBSERVER):
 	var used_ids = []
 	for member in LobbyMemberInfo_dict.values():

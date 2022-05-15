@@ -44,8 +44,5 @@ func _on_Cancel_pressed():
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 
 func _on_StartGame_pressed():
-	mod.Database.clear_players_info()
-	mod.Database.add_player_info(0, $P1.get_current_name(), $P1.get_current_color())
-	mod.Database.add_player_info(1, $P2.get_current_name(), $P2.get_current_color())
-	mod.Game.start_match()
+	pass
 

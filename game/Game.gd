@@ -10,15 +10,19 @@ extends Node
 
 func _ready():
 	mod.Game = self
-	mod.Client = $Client
 	mod.Database = $Database
 	mod.Network = $Network
 	mod.MapEditor = $MapEditor
 	mod.MapView = $MapView
 	mod.UI = $UI
+	mod.LocalLogic = $Logic/LocalLogic
 	mod.Menu = $Menu
 	mod.Logic = $Logic
-	mod.Match = $Logic/MatchLogic
+	mod.MatchLogic = $Logic/MatchLogic
+	mod.MatchData = $Database/MatchData
+	mod.MatchNetwork = $Network/MatchNetwork
+	mod.LobbyNetwork = $Network/LobbyNetwork
+	mod.MovementLogic = $Logic/MovementLogic
 	mod.LobbyLogic = $Logic/LobbyLogic
 	mod.LobbyData = $Database/LobbyData
 	mod.Debug = $Debug
@@ -27,7 +31,7 @@ func _ready():
 	mod.Menu.show_main_menu()
 
 func setup():
-	mod.Client.identify_client()
+	mod.LocalLogic.identify_client()
 	mod.Database.set_resolution(get_viewport().size)
 
 # how about -- jedna scena rodzic dla tile i unit (logic moze display)

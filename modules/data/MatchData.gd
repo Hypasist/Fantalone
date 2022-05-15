@@ -1,3 +1,4 @@
+class_name MatchData
 extends Node
 
 var item_counter = {}

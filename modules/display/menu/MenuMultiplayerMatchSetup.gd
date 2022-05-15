@@ -22,11 +22,11 @@ func _hookup_network_signals():
 
 func setup(setup_as_server = false):
 	mod.LobbyData.setup()
-	mod.LobbyLogic.setup()
+	mod.LobbyNetwork.setup()
 	
 	if setup_as_server:
 		mod.Network.create_server()
-		mod.LobbyLogic.execute_command(LobbyLogic.command.REQUEST_NEW_MEMBER, mod.Database.get_player_name())
+		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_NEW_MEMBER, mod.Database.get_player_name())
 	else:
 		mod.Network.connect_to_server()
 		$StartGame.set_disabled(true)
@@ -82,14 +82,14 @@ func restart_lobby_display():
 
 func _on_change_name(object, value):
 	mod.Database.set_player_name(value)
-	mod.LobbyLogic.execute_command(LobbyLogic.command.REQUEST_NAME_CHANGE, value)
+	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_NAME_CHANGE, value)
 	
 func _on_change_color(object, value):
-	mod.LobbyLogic.execute_command(LobbyLogic.command.REQUEST_COLOR_CHANGE, value)
+	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_COLOR_CHANGE, value)
 	
 func _on_kick(object):
 	if mod.Network.is_server():
-		mod.Network.disconnect_client(object.lobby_member.network_id) # move this to LobbyLogic
+		mod.Network.disconnect_client(object.lobby_member.network_id) # move this to LobbyNetwork
 	else:
 		Terminal.add_log(Debug.ERROR, "Client trying to kick a lobby member!")
 		
@@ -107,15 +107,15 @@ func _on_Cancel_pressed():
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 
 func _on_StartGame_pressed():
-	mod.LobbyLogic.execute_command(LobbyLogic.command.BROADCAST_START)
+	mod.LobbyLogic.start_game_setup()
 
 # Server specific
 func _new_client_in_lobby(network_id):
-	mod.LobbyLogic.execute_command(LobbyLogic.command.REQUEST_IDENTIFICATION, network_id)
+	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_IDENTIFICATION, network_id)
 	
 func _client_exit_lobby(network_id):
 	mod.LobbyData.remove_member(network_id)
-	mod.LobbyLogic.execute_command(LobbyLogic.command.BROADCAST_LOBBY)
+	mod.LobbyNetwork.execute_command(LobbyNetwork.command.BROADCAST_LOBBY)
 	
 func _server_disconnected():
 	mod.Network.disconnect_()

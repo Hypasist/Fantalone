@@ -4,22 +4,20 @@ var PlayerSummaryBar = preload("res://ui/PlayerSummaryBar.tscn")
 var player_summary = {}
 
 func setup():
-	for player in mod.Database.get_players_number():
-		var info = mod.Database.get_player_info_by_id(player)
+	for player in mod.LobbyData.get_members(LobbyMemberInfo.TYPE_PLAYER):
 		var summary_bar = PlayerSummaryBar.instance()
 		$PlayerSummaryPanel.add_child(summary_bar)
-		player_summary[info.id] = summary_bar
+		player_summary[player.id] = summary_bar
 	update()
 	show()
 
 func update():
-	for player in mod.Database.get_players_number():
-		var info = mod.Database.get_player_info_by_id(player)
-		var army_size = mod.Database.get_players_units_num(info.id)
+	for player in mod.LobbyData.get_members(LobbyMemberInfo.TYPE_PLAYER):
+		var army_size = mod.MatchData.get_players_units(player.id).size()
 		if army_size > 0:
-			player_summary[info.id].update_bar(info.color, info.name_, army_size)
+			player_summary[player.id].update_bar(player.color, player.nickname, army_size)
 		else:
-			delete_bar(info.id)
+			delete_bar(player.id)
 
 func delete_bar(id):
 	player_summary[id].queue_free()

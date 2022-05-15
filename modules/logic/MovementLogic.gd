@@ -108,6 +108,7 @@ func execute_movement_commands(movement:MovementInfo):
 	for command in movement.get_command_list():
 		command.execute()
 
+
 #func tireSelectedUnits():
 #	for unit in selected_units:
 #		unit.tire()

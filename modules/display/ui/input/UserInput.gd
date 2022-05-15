@@ -71,7 +71,7 @@ func _on_LongTapTimer_timeout():
 		clean_states()
 
 func handle_drag_ambiguous(event):
-	if mod.Client.any_unit_selected():
+	if mod.LocalLogic.any_unit_selected():
 		handle_drag_unit(event)
 	else:
 		handle_drag_map(event)

@@ -15,7 +15,7 @@ func action_rotate():
 func action_shorttap(_position):
 	var unit = mod.UI.get_hovered_unit()
 	if unit:
-		mod.Client.new_unit_selected(unit)
+		mod.LocalLogic.new_unit_selected(unit)
 
 func action_longtap(_position):
 	pass
@@ -25,24 +25,24 @@ func action_longtap_stopped():
 
 var dragRelativeTreshold = 100
 func action_drag(position, relative):
-	if mod.Client.any_unit_selected() == false:
+	if mod.LocalLogic.any_unit_selected() == false:
 		mod.UI.arrow_clear_direction()
 	elif relative.length() < dragRelativeTreshold:
 		mod.UI.arrow_set_no_direction(position)
 	else:
 		var direction = touchscreenScripts.angleVector2direction(relative)
-		if mod.Client.is_move_valid(direction):
+		if mod.LocalLogic.is_move_valid(direction):
 			mod.UI.arrow_set_direction(position, direction)
 		else:
 			mod.UI.arrow_set_invalid(position)
 
 func action_drag_stopped(position, relative):
-	if mod.Client.any_unit_selected():
+	if mod.LocalLogic.any_unit_selected():
 		if relative.length() < dragRelativeTreshold:
 			mod.UI.arrow_set_no_direction(position)
 		else:
 			var direction = touchscreenScripts.angleVector2direction(relative)
-			mod.Client.make_move(direction)
+			mod.LocalLogic.complete_movement(direction)
 	mod.UI.arrow_clear_direction()
 
 func action_cancel():

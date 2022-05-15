@@ -39,18 +39,6 @@ func set_max_map_boundaries(value:Vector2):
 	$MatchParameters.max_map_boundaries = value
 
 # MATCH
-func clear_players_info():
-	$MatchParameters.clear_players_info()
-func add_player_info(id:int, name_:String, color:Color):
-	$MatchParameters.add_player_info(id, name_, color)
-func get_player_info_by_id(id):
-	return $MatchParameters.get_player_info_by_id(id)
-func get_players_number():
-	return $MatchParameters.players_number
-func get_current_turn_owner():
-	return $MatchParameters.current_turn_owner
-func set_current_turn_owner(id):
-	$MatchParameters.current_turn_owner = id
 func get_players_units_num(id):
 	return $MatchData.get_players_units_num(id)
 func report_new_object(class_):
@@ -69,3 +57,20 @@ func register_new_tile(tile):
 	$MatchData.register_new_tile(tile)
 func cleanup_objects():
 	$MatchData.cleanup_objects()
+
+# PACKING FUNCTIONS
+func pack_unit_ids(unit_list):
+	var ids = []
+	for unit in unit_list:
+		ids.append(unit._name_id)
+	return ids
+	
+func unpack_unit_ids(unit_ids):
+	var units = []
+	for unit in get_unit_list():
+		if unit_ids.has(unit._name_id):
+			units.append(unit)
+	return units
+
+func get_unit_list():
+	return $MatchData.unit_list

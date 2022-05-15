@@ -21,13 +21,9 @@ func recognize_formation_unit(unit_list, direction):
 func recognize_formation_hex(hex_list, direction):
 	return $MovementLogic.recognize_formation_hex(hex_list, direction)
 
-func recognize_movement_unit(unit_list, direction):
-	return $MovementLogic.recognize_movement_unit(unit_list, direction)
 func recognize_movement_hex(hex_list, direction):
 	return $MovementLogic.recognize_movement_hex(hex_list, direction)
 
-func make_move_unit(unit_list, direction):
-	return $MovementLogic.make_move_unit(unit_list, direction)
 func make_move_hex(hex_list, direction):
 	return $MovementLogic.make_move_hex(hex_list, direction)
 
