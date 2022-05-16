@@ -144,3 +144,4 @@ func get_member_by_id_type(id, type=LobbyMemberInfo.TYPE_PLAYER):
 	for member in LobbyMemberInfo_dict.values():
 		if member.id == id and member.type == type:
 			return member
+	return null

@@ -42,10 +42,9 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.BROADCAST_MOVE:
 			var unit_ids = mod.Database.pack_unit_ids(param1)
 			rpc("match_network_execute_command", command.EXECUTE_MOVE, unit_ids, param2)
-		command.BROADCAST_LOG_CMD:
-			print(param1)
-			pass
-			# rpc("match_network_execute_command", command.EXECUTE_LOG_CMD, unit_ids, param2)
+		command.BROADCAST_LOG_CMD: 
+			# Needs to be packed before
+			rpc("match_network_execute_command", command.EXECUTE_LOG_CMD, param1)
 		command.BROADCAST_TURN_OWNER:
 			rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
 		command.UPDATE_TURN_OWNER:
@@ -67,6 +66,5 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			mod.MatchLogic.make_move(unit_list, param2)
 		command.EXECUTE_LOG_CMD:
-			print(param1)
-			pass
+			mod.MatchLogic.execute_log_cmd(param1)
 

@@ -6,9 +6,9 @@ func _init():
 	pass
 
 func assign_logic_scene(logic_scene):
-	var x = logic_scene.get_owner()
 	var lobby_member_info = mod.LobbyData.get_member_by_id_type(logic_scene.get_owner())
-	change_color(lobby_member_info.color)
+	if lobby_member_info:
+		change_color(lobby_member_info.color)
 	.assign_logic_scene(logic_scene)
 	$NameLabel.set_text(unitLogic.get_name_id())
 	$Unit.setup_default_behaviour()

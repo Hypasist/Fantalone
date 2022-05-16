@@ -170,6 +170,11 @@ _global_script_classes=[ {
 "path": "res://modules/logic/LocalLogic.gd"
 }, {
 "base": "Reference",
+"class": "LogCmd",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmd.gd"
+}, {
+"base": "Reference",
 "class": "LogCmdBase",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdBase.gd"
@@ -203,6 +208,11 @@ _global_script_classes=[ {
 "class": "LogCmdMoveToEmpty",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdMoveToEmpty.gd"
+}, {
+"base": "LogCmdBase",
+"class": "LogCmdWakeUp",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmdWakeUp.gd"
 }, {
 "base": "Node",
 "class": "MatchData",
@@ -347,6 +357,7 @@ _global_script_class_icons={
 "LobbyMemberInfoPackage": "",
 "LobbyNetwork": "",
 "LocalLogic": "",
+"LogCmd": "",
 "LogCmdBase": "",
 "LogCmdDummy": "",
 "LogCmdGetPushedAndDie": "",
@@ -354,6 +365,7 @@ _global_script_class_icons={
 "LogCmdMoveAndDie": "",
 "LogCmdMoveAndPush": "",
 "LogCmdMoveToEmpty": "",
+"LogCmdWakeUp": "",
 "MatchData": "",
 "MatchLogic": "",
 "MatchNetwork": "",
