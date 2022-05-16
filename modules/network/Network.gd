@@ -28,7 +28,7 @@ func connect_to_server():
 		disconnect_()
 	peer = Client.new()
 	add_child(peer)
-	peer.connect_to_server(PC_IP, SERVER_PORT)
+	peer.connect_to_server(LOCALHOST_IP, SERVER_PORT)
 
 func disconnect_():
 	peer.disconnect_()

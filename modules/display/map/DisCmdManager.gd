@@ -6,8 +6,7 @@ func _init():
 	display_manager_thread = Thread.new()
 	
 func execute_display_queues():
-	print("start display_manager_thread")
-	while display_manager_thread.is_active():
+	while display_manager_thread.is_alive():
 		yield(get_tree().create_timer(0.5), "timeout")
 	display_manager_thread.start(self, "execute_display_round")
 	
