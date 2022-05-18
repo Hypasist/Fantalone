@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
 [ext_resource path="res://modules/display/ui/MatchUI.gd" type="Script" id=2]
 
 [node name="MatchUI" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -12,6 +14,7 @@ __meta__ = {
 }
 
 [node name="PlayerSummaryPanel" type="VBoxContainer" parent="."]
+anchor_left = 0.75
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -22,19 +25,79 @@ __meta__ = {
 [node name="PlayerSummaryBar" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1024.0
+margin_right = 256.0
 margin_bottom = 50.0
 
 [node name="PlayerSummaryBar2" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 54.0
-margin_right = 1024.0
+margin_right = 256.0
 margin_bottom = 104.0
 
 [node name="PlayerSummaryBar3" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 108.0
-margin_right = 1024.0
+margin_right = 256.0
 margin_bottom = 158.0
+
+[node name="MatchMenu" type="Button" parent="."]
+anchor_right = 0.1
+anchor_bottom = 0.05
+margin_right = 12.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( -549, -147 )
+custom_fonts/font = ExtResource( 1 )
+text = "MENU"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManaCounter" type="Label" parent="."]
+anchor_left = 0.8
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 0.65
+custom_fonts/font = ExtResource( 1 )
+text = "MANA   X / X"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpellButton" type="Button" parent="."]
+anchor_left = 0.8
+anchor_top = 0.65
+anchor_right = 1.0
+anchor_bottom = 0.75
+custom_fonts/font = ExtResource( 1 )
+text = "CAST SPELL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveCounter" type="Label" parent="."]
+anchor_left = 0.8
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 0.85
+custom_fonts/font = ExtResource( 1 )
+text = "MOVE   X / X"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EndTurnButton" type="Button" parent="."]
+anchor_left = 0.8
+anchor_top = 0.85
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "END TURN"
+__meta__ = {
+"_edit_use_anchors_": false
+}
