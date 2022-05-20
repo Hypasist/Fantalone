@@ -407,6 +407,10 @@ Terminal="*res://modules/display/debug/Terminal.gd"
 gdscript/warnings/unused_class_variable=true
 gdscript/warnings/return_value_discarded=false
 
+[editor_plugins]
+
+enabled=PoolStringArray(  )
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
