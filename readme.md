@@ -1,7 +1,6 @@
 # Fantalone 
 
-This game is a turn-based strategy for two or more players, strongly inspired by XX century boardgame Abalone.
-It's developed for Android and PC, will feature TCP/IP multiplayer.
+Fantalone is a turn-based strategy for two or more players, strongly inspired by XX century boardgame Abalone.
 
 ## Requirements
 * Godot 3.4.2
