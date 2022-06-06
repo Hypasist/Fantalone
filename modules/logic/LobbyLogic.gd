@@ -14,3 +14,7 @@ func get_my_id():
 func get_id_via_network_id(network_id):
 	var member = mod.LobbyData.get_member_by_network_id(network_id)
 	return member.id
+
+func end_match():
+	print("EXIT THE MATCH")
+	pass

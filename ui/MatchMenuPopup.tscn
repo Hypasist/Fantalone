@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/PopupBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/MatchMenuPopup.gd" type="Script" id=2]
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=3]
+
+[node name="MatchMenuPopup" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Box" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Box/VBoxContainer" index="0"]
+margin_right = 552.0
+margin_bottom = 38.0
+custom_fonts/font = ExtResource( 3 )
+text = "MENU"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Box/VBoxContainer" index="1"]
+margin_top = 42.0
+margin_right = 552.0
+margin_bottom = 46.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ContinueButton" type="Button" parent="Box/VBoxContainer" index="2"]
+margin_top = 50.0
+margin_right = 552.0
+margin_bottom = 138.0
+size_flags_vertical = 3
+text = "Continue"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuButton" type="Button" parent="Box/VBoxContainer" index="3"]
+margin_top = 142.0
+margin_right = 552.0
+margin_bottom = 231.0
+size_flags_vertical = 3
+text = "Main menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="Box/VBoxContainer" index="4"]
+margin_top = 235.0
+margin_right = 552.0
+margin_bottom = 324.0
+size_flags_vertical = 3
+text = "Exit"
+
+[connection signal="pressed" from="Box/VBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="Box/VBoxContainer/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="Box/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]

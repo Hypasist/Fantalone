@@ -17,4 +17,4 @@ var LocalLogic = null
 var LobbyLogic = null
 var LobbyData = null
 var Debug = null
-var PopupHelper = null
+var PopupUI = null

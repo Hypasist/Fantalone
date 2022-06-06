@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/PopupBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/PopupTextWithButtons.gd" type="Script" id=2]
+
+[node name="PopupTextWithButtons" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Box" index="0"]
+anchor_right = 1.0
+anchor_bottom = 0.7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Box" index="1"]
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0

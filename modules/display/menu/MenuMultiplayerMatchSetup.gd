@@ -120,4 +120,4 @@ func _client_exit_lobby(network_id):
 func _server_disconnected():
 	mod.Network.disconnect_()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
-	mod.PopupHelper.create_hanging_popup_with_confirmation("You have been disconnected from the server", "Understand")
+	mod.PopupUI.create_popup_with_confirmation("You have been disconnected from the server", "Understand")

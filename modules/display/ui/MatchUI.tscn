@@ -42,7 +42,7 @@ margin_top = 108.0
 margin_right = 256.0
 margin_bottom = 158.0
 
-[node name="MatchMenu" type="Button" parent="."]
+[node name="MatchMenuButton" type="Button" parent="."]
 anchor_right = 0.1
 anchor_bottom = 0.05
 margin_right = 12.0
@@ -101,3 +101,5 @@ text = "END TURN"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="pressed" from="MatchMenuButton" to="." method="_on_MatchMenuButton_pressed"]

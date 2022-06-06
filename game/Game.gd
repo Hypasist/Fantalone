@@ -26,13 +26,16 @@ func _ready():
 	mod.LobbyLogic = $Logic/LobbyLogic
 	mod.LobbyData = $Database/LobbyData
 	mod.Debug = $Debug
-	mod.PopupHelper = $UI/PopupUI
+	mod.PopupUI = $UI/PopupUI
 	setup()
 	mod.Menu.show_main_menu()
 
 func setup():
 	mod.LocalLogic.identify_client()
 	mod.Database.set_resolution(get_viewport().size)
+
+func exit_game():
+	get_tree().quit() 
 
 # how about -- jedna scena rodzic dla tile i unit (logic moze display)
 # reakcyjne delete free?

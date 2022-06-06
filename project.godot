@@ -224,6 +224,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/logic/MatchLogic.gd"
 }, {
+"base": "PopupBase",
+"class": "MatchMenuPopup",
+"language": "GDScript",
+"path": "res://ui/MatchMenuPopup.gd"
+}, {
 "base": "Node",
 "class": "MatchNetwork",
 "language": "GDScript",
@@ -275,9 +280,14 @@ _global_script_classes=[ {
 "path": "res://ui/PopupBase.gd"
 }, {
 "base": "PopupBase",
-"class": "PopupWithButtons",
+"class": "PopupText",
 "language": "GDScript",
-"path": "res://ui/PopupWithButtons.gd"
+"path": "res://ui/PopupText.gd"
+}, {
+"base": "PopupBase",
+"class": "PopupTextWithButtons",
+"language": "GDScript",
+"path": "res://ui/PopupTextWithButtons.gd"
 }, {
 "base": "Reference",
 "class": "Resources",
@@ -368,6 +378,7 @@ _global_script_class_icons={
 "LogCmdWakeUp": "",
 "MatchData": "",
 "MatchLogic": "",
+"MatchMenuPopup": "",
 "MatchNetwork": "",
 "MenuMultiplayerMatchSetup": "",
 "MenuScreenBase": "",
@@ -378,7 +389,8 @@ _global_script_class_icons={
 "PackagePlayerSetupList": "",
 "Peer": "",
 "PopupBase": "",
-"PopupWithButtons": "",
+"PopupText": "",
+"PopupTextWithButtons": "",
 "Resources": "",
 "TileDisplayBase": "",
 "TileLogicBase": "",
