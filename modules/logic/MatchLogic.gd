@@ -10,19 +10,23 @@ func set_turn_owner(match_id):
 
 func determine_next_turn_owner():
 	var lobby_players = mod.LobbyData.get_players()
+	var map_size = mod.LobbyData.get_map_player_size()
+	
 	if not lobby_players.empty():
 		if current_turn_owner == -1:
-			current_turn_owner = lobby_players[0].match_id
-			return current_turn_owner
+			for i in map_size:
+				for player in lobby_players:
+					if player.match_id == i and mod.MatchData.get_players_units(player.match_id).size() > 0:
+						current_turn_owner = player.match_id
+						return current_turn_owner
 		else:
-			lobby_players += lobby_players # doubling the array 
-			var current_owner_found = false
-			for player in lobby_players:
-				if current_owner_found:
-					current_turn_owner = player.match_id
-					return current_turn_owner
-				if player.match_id == current_turn_owner:
-					current_owner_found = true
+			for i in map_size:
+				var candidate = (current_turn_owner + i + 1) % map_size
+				for player in lobby_players:
+					if player.match_id == candidate and mod.MatchData.get_players_units(player.match_id).size() > 0:
+						current_turn_owner = player.match_id
+						return current_turn_owner
+			return current_turn_owner
 
 
 func start_match():
@@ -76,6 +80,7 @@ func execute_log_cmd(log_cmd_list):
 
 func new_turn():
 	determine_next_turn_owner()
+	print(current_turn_owner)
 	wake_up_units(get_turn_owner())
 	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_TURN_OWNER, get_turn_owner())
 

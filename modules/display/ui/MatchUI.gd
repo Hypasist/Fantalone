@@ -20,8 +20,9 @@ func update():
 			delete_bar(player.match_id)
 
 func delete_bar(match_id):
-	player_summary[match_id].queue_free()
-	player_summary.erase(match_id)
+	if player_summary.has(match_id):
+		player_summary[match_id].queue_free()
+		player_summary.erase(match_id)
 
 func _on_MatchMenuButton_pressed():
 	mod.PopupUI.create_match_menu_popup()
