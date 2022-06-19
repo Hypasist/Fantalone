@@ -29,7 +29,7 @@ func is_move_valid(direction):
 	return movement.is_valid()
 
 func complete_movement(direction):
-	var movement = mod.MatchLogic.verify_move(selected_units, direction, mod.LobbyLogic.get_my_id())
+	var movement = mod.MatchLogic.verify_move(selected_units, direction)
 	if movement.is_valid():
 		mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_MOVE, selected_units, direction)
 		deselect_all_units()
@@ -71,7 +71,7 @@ func deselect_all_units():
 	selected_units.clear()
 
 func new_unit_selected(new_unit:UnitLogicBase):
-	if mod.LobbyLogic.get_my_id() != new_unit.get_owner(): return
+	if not mod.LobbyLogic.is_match_id_mine(new_unit.get_owner()): return
 	if new_unit.is_tired(): return
 
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK

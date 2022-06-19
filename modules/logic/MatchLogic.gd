@@ -31,17 +31,17 @@ func start_match():
 	mod.UI.setup()
 	mod.MatchNetwork.setup()
 
-func verify_move(unit_list, direction, match_id):
+func verify_move(unit_list, direction):
 	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
 	if not movement.is_valid():
 		return movement
 	else:
-		if mod.MatchLogic.get_turn_owner() == match_id:
-			return movement
-		else:
-			movement.invalid_move(MovementInfo.invalid.not_your_turn)
-			return movement
-
+		for unit in unit_list:
+			if unit.get_owner() != mod.MatchLogic.get_turn_owner():
+				movement.invalid_move(MovementInfo.invalid.not_your_turn)
+				return movement
+		return movement
+		
 func make_move(unit_list, direction) -> bool:
 	var movement = mod.MovementLogic.make_move_unit(unit_list, direction)
 	if not movement:

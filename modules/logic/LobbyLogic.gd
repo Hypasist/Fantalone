@@ -11,9 +11,14 @@ func get_my_id():
 	var member = mod.LobbyData.LobbyMemberInfo_dict[network_id]
 	return member.match_id
 
-func get_match_id_via_network_id(network_id):
-	var member = mod.LobbyData.LobbyMemberInfo_dict[network_id]
-	return member.match_id
+func is_match_id_mine(match_id):
+	var match_players = mod.LobbyData.get_players()
+	for player in match_players:
+		if player.match_id == match_id:
+			if player.owner_lobby_member.network_id == mod.Network.get_id():
+				return true
+	return false
+	#var lobby_member = mod.LobbyData.LobbyMemberInfo_dict[mod.Network.get_id()]
 
 func end_match():
 	print("EXIT THE MATCH")
