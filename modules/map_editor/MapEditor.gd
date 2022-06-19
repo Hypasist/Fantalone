@@ -25,9 +25,9 @@ func consumeMockup():
 func get_used_ids(map:TileMap):
 	var used_ids = {}
 	var all_ids = map.tile_set.get_tiles_ids()
-	for id in all_ids:
-		var cells = map.get_used_cells_by_id(id)
-		if cells: used_ids[id] = cells
+	for match_id in all_ids:
+		var cells = map.get_used_cells_by_id(match_id)
+		if cells: used_ids[match_id] = cells
 	return used_ids
 
 func consume_tile_mockup():

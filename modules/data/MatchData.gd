@@ -28,12 +28,12 @@ func get_players_units(owner_id):
 			return_array.append(unit)
 	return return_array
 
-func get_players_units_num(owner_id):
+func get_players_units_num(match_id):
 	var counter = 0
 	for unit in unit_list:
 		if unit == null:
 			breakpoint # NULL !
-		elif unit.get_owner() == owner_id:
+		elif unit.get_owner() == match_id:
 			counter += 1
 	return counter
 

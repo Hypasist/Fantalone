@@ -5,23 +5,23 @@ var current_turn_owner = -1
 func get_turn_owner():
 	return current_turn_owner
 
-func set_turn_owner(id):
-	current_turn_owner = id
+func set_turn_owner(match_id):
+	current_turn_owner = match_id
 
 func determine_next_turn_owner():
-	var lobby_players = mod.LobbyData.get_members(LobbyMemberInfo.TYPE_PLAYER)
+	var lobby_players = mod.LobbyData.get_players()
 	if not lobby_players.empty():
 		if current_turn_owner == -1:
-			current_turn_owner = lobby_players[0].id
+			current_turn_owner = lobby_players[0].match_id
 			return current_turn_owner
 		else:
 			lobby_players += lobby_players # doubling the array 
 			var current_owner_found = false
 			for player in lobby_players:
 				if current_owner_found:
-					current_turn_owner = player.id
+					current_turn_owner = player.match_id
 					return current_turn_owner
-				if player.id == current_turn_owner:
+				if player.match_id == current_turn_owner:
 					current_owner_found = true
 
 
@@ -31,12 +31,12 @@ func start_match():
 	mod.UI.setup()
 	mod.MatchNetwork.setup()
 
-func verify_move(unit_list, direction, id):
+func verify_move(unit_list, direction, match_id):
 	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
 	if not movement.is_valid():
 		return movement
 	else:
-		if mod.MatchLogic.get_turn_owner() == id:
+		if mod.MatchLogic.get_turn_owner() == match_id:
 			return movement
 		else:
 			movement.invalid_move(MovementInfo.invalid.not_your_turn)
@@ -55,8 +55,8 @@ func make_move(unit_list, direction) -> bool:
 	mod.UI.update_ui()
 	return true
 
-func wake_up_units(id):
-	var units = mod.MatchData.get_players_units(id)
+func wake_up_units(match_id):
+	var units = mod.MatchData.get_players_units(match_id)
 	var log_cmd_list = []
 	for unit in units:
 		if unit.is_tired():

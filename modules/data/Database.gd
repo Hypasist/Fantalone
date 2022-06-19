@@ -5,7 +5,7 @@ func get_color(id):
 	return $GameParameters.colorList[id]
 func get_colorlist():
 	return $GameParameters.colorList
-func get_player_name():
+func get_nickname():
 	return $GameParameters.player_name
 func set_player_name(name):
 	$GameParameters.player_name = name
@@ -39,8 +39,8 @@ func set_max_map_boundaries(value:Vector2):
 	$MatchParameters.max_map_boundaries = value
 
 # MATCH
-func get_players_units_num(id):
-	return $MatchData.get_players_units_num(id)
+func get_players_units_num(match_id):
+	return $MatchData.get_players_units_num(match_id)
 func report_new_object(class_):
 	return $MatchData.report_new_object(class_)
 func setup_new_match():

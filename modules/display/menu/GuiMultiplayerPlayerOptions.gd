@@ -1,82 +1,61 @@
 class_name GuiMultiplayerPlayerOptions
 extends Control
 
-var lobby_member:LobbyMemberInfo = null
+var match_id = MatchMemberInfo.ID_INVALID
+var lobby_member:MatchMemberInfo = null
 
-func _ready():
-	clear()
-
-func setup(_lobby_member = null):
-	if _lobby_member == null:
-		return
-		
-	lobby_member = _lobby_member
-	var has_ownership = lobby_member.network_id == mod.Network.get_id()
-	var is_server = mod.Network.is_server()
-	
-	set_displayed_name(lobby_member.nickname)
-	$Box/Color.set_frame_color(lobby_member.color)
-	if has_ownership:
-		$Box/PlayerName.set_editable(true)
-		$Box/LeftColor.set_disabled(false)
-		$Box/RightColor.set_disabled(false)
-		if is_server:
-			change_action_button([ACTION_NONE])
-		else:
-			change_action_button([ACTION_LEAVE])
-	
-	else:
-		$Box/PlayerName.set_editable(false)
-		$Box/LeftColor.set_disabled(true)
-		$Box/RightColor.set_disabled(true)
-		if is_server:
-			change_action_button([ACTION_KICK])
-		else:
-			change_action_button([ACTION_NONE])
-
-func clear():
+func ready(_match_id):
 	lobby_member = null
+	match_id = _match_id
+	set_name("PlayerOptions_%02d" % match_id)
 	set_displayed_name("-- empty --")
 	$Box/Color.set_frame_color(Color.transparent)
 	$Box/PlayerName.set_editable(false)
 	$Box/LeftColor.set_disabled(true)
 	$Box/RightColor.set_disabled(true)
 	if mod.Network.is_server():
-		change_action_button([ACTION_JOIN, ACTION_ADDBOT])
+		$Box/AddBotButton.set_disabled(false)
+		$Box/AddHumanButton.set_disabled(false)
+		$Box/DeleteButton.set_disabled(true)
 	else:
-		change_action_button([ACTION_JOIN])
+		$Box/AddBotButton.set_disabled(true)
+		$Box/AddHumanButton.set_disabled(false)
+		$Box/DeleteButton.set_disabled(true)
 
-enum {ACTION_KICK, ACTION_LEAVE, ACTION_JOIN, ACTION_ADDBOT, ACTION_NONE}
-func change_action_button(action_list):
-	if action_list.size() < 2:
-		action_list.append(ACTION_NONE)
-	$Box/ActionButton/AddBotButton.hide()
-	$Box/ActionButton/KickButton.hide()
-	$Box/ActionButton/LeaveButton.hide()
-	$Box/ActionButton/JoinButton.hide()
-	$Box/ActionButton/PlaceholderButton.hide()
-	for action in action_list: 
-		match action:
-			ACTION_KICK:
-				$Box/ActionButton/KickButton.show()
-			ACTION_LEAVE:
-				$Box/ActionButton/LeaveButton.show()
-			ACTION_JOIN:
-				$Box/ActionButton/JoinButton.show()
-			ACTION_ADDBOT:
-				$Box/ActionButton/AddBotButton.show()
-			ACTION_NONE:
-				$Box/ActionButton/PlaceholderButton.show()
+
+func setup(_lobby_member = null):
+	if _lobby_member == null:
+		return
+		
+	lobby_member = _lobby_member
+	var has_ownership = lobby_member.owner_lobby_member.network_id == mod.Network.get_id()
+	var is_server = mod.Network.is_server()
+	
+	set_displayed_name(lobby_member.nickname)
+	$Box/Color.set_frame_color(lobby_member.color)
+	$Box/AddBotButton.set_disabled(true)
+	$Box/AddHumanButton.set_disabled(true)
+	if has_ownership:
+		$Box/PlayerName.set_editable(true)
+		$Box/LeftColor.set_disabled(false)
+		$Box/RightColor.set_disabled(false)
+		$Box/DeleteButton.set_disabled(false)
+	
+	else:
+		$Box/PlayerName.set_editable(false)
+		$Box/LeftColor.set_disabled(true)
+		$Box/RightColor.set_disabled(true)
+		if is_server:
+			$Box/DeleteButton.set_disabled(false)
+		else:
+			$Box/DeleteButton.set_disabled(true)
 
 func update_color():
 	$Box/Color.set_frame_color(lobby_member.color)
-	
 func get_current_color():
 	return $Box/Color.get_frame_color()
-	
 func get_current_name():
 	return $Box/PlayerName.get_text()
-
 
 signal change_color(object, value)
 func _on_RightColor_pressed():
@@ -84,20 +63,17 @@ func _on_RightColor_pressed():
 func _on_LeftColor_pressed():
 	emit_signal("change_color", self, -1)
 
-signal kick(object)
-func _on_KickButton_pressed():
-	emit_signal("kick", self)
-
-signal join(object)
-func _on_JoinButton_pressed():
-	emit_signal("join", self)
-
-func _on_LeaveButton_pressed():
-	pass # Replace with function body.
-
 signal add_bot(object)
 func _on_AddBotButton_pressed():
 	emit_signal("add_bot", self)
+
+signal add_human(object)
+func _on_AddHumanButton_pressed():
+	emit_signal("add_human", self)
+
+signal delete(object)
+func _on_DeleteButton_pressed():
+	emit_signal("delete", self)
 
 var name_remembered = ""
 func set_displayed_name(text):

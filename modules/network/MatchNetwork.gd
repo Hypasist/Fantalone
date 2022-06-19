@@ -51,8 +51,8 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			mod.MatchLogic.set_turn_owner(param1)
 		command.VERIFY_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
-			var id = mod.LobbyLogic.get_id_via_network_id(network_id)
-			var movement = mod.MatchLogic.verify_move(unit_list, param2, id)
+			var match_id = mod.LobbyLogic.get_match_id_via_network_id(network_id)
+			var movement = mod.MatchLogic.verify_move(unit_list, param2, match_id)
 			if movement.is_valid():
 				mod.MatchLogic.move_confirmed(unit_list, param2)
 			else:

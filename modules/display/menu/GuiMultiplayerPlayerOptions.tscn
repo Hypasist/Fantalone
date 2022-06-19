@@ -38,7 +38,7 @@ margin_bottom = 580.0
 custom_constants/separation = 10
 
 [node name="PlayerName" type="LineEdit" parent="Box"]
-margin_right = 613.0
+margin_right = 502.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -51,74 +51,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ActionButton" type="HBoxContainer" parent="Box"]
-margin_left = 623.0
-margin_right = 711.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="KickButton" type="Button" parent="Box/ActionButton"]
-visible = false
-margin_right = 40.0
+[node name="AddBotButton" type="Button" parent="Box"]
+margin_left = 512.0
+margin_right = 584.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
-text = "K"
+text = "AI"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeaveButton" type="Button" parent="Box/ActionButton"]
-visible = false
-margin_right = 40.0
+[node name="AddHumanButton" type="Button" parent="Box"]
+margin_left = 594.0
+margin_right = 676.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
-text = "L"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="JoinButton" type="Button" parent="Box/ActionButton"]
-margin_right = 42.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 6 )
-text = "J"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AddBotButton" type="Button" parent="Box/ActionButton"]
-margin_left = 46.0
-margin_right = 88.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 6 )
-text = "B"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlaceholderButton" type="Control" parent="Box/ActionButton"]
-visible = false
-margin_left = 64.0
-margin_right = 88.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+text = "Hum"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LeftColor" type="Button" parent="Box"]
-margin_left = 721.0
-margin_right = 808.0
+margin_left = 686.0
+margin_right = 758.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -126,15 +85,15 @@ custom_fonts/font = SubResource( 5 )
 text = "<"
 
 [node name="Color" type="ColorRect" parent="Box"]
-margin_left = 818.0
-margin_right = 906.0
+margin_left = 768.0
+margin_right = 840.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RightColor" type="Button" parent="Box"]
-margin_left = 916.0
-margin_right = 1004.0
+margin_left = 850.0
+margin_right = 922.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -144,12 +103,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DeleteButton" type="Button" parent="Box"]
+margin_left = 932.0
+margin_right = 1004.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+text = " x "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="focus_exited" from="Box/PlayerName" to="." method="_on_PlayerName_focus_exited"]
 [connection signal="text_change_rejected" from="Box/PlayerName" to="." method="_on_PlayerName_text_change_rejected"]
 [connection signal="text_entered" from="Box/PlayerName" to="." method="_on_PlayerName_text_entered"]
-[connection signal="pressed" from="Box/ActionButton/KickButton" to="." method="_on_KickButton_pressed"]
-[connection signal="pressed" from="Box/ActionButton/LeaveButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="Box/ActionButton/JoinButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="Box/ActionButton/AddBotButton" to="." method="_on_AddBotButton_pressed"]
+[connection signal="pressed" from="Box/AddBotButton" to="." method="_on_AddBotButton_pressed"]
+[connection signal="pressed" from="Box/AddHumanButton" to="." method="_on_AddHumanButton_pressed"]
 [connection signal="pressed" from="Box/LeftColor" to="." method="_on_LeftColor_pressed"]
 [connection signal="pressed" from="Box/RightColor" to="." method="_on_RightColor_pressed"]
+[connection signal="pressed" from="Box/DeleteButton" to="." method="_on_DeleteButton_pressed"]

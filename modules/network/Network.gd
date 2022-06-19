@@ -1,3 +1,4 @@
+class_name Network
 extends Node
 
 var SERVER_PORT = 22
@@ -6,11 +7,12 @@ var PC_IP = "192.168.0.59"
 var MAX_PLAYERS = 3
 
 const SERVER_ID = 1
+const INVALID_ID = -1
+
 const Server = preload("res://modules/network/Server.gd")
 const Client = preload("res://modules/network/Client.gd")
 var peer = null
 
-# id 1 is always a server
 func get_id():
 	return get_tree().get_network_unique_id()
 func is_server():

@@ -1,49 +1,55 @@
+class_name LobbyData
 extends Node
 
 var MAX_PLAYER_NUM = 8
 var MAP_PLAYER_NUM = 4
 var MAX_OBSERVER_NUM = 8
 
-const NO_ID = -1
 const COLOR_UNUSED = -1
-# Color / id
+# Color / match_id
 var available_colors = {}
 # network_id / LobbyMemberInfo
 var LobbyMemberInfo_dict = {} 
+# unique_id / MatchMemberInfo
+var MatchPlayerInfo_dict = {} 
+# unique_id / MatchMemberInfo
+var MatchObserverInfo_dict = {} 
 
-func setup(package:Array=[]):
+func setup(package:Dictionary={}):
 	LobbyMemberInfo_dict = {}
+	MatchPlayerInfo_dict = {}
+	MatchObserverInfo_dict = {}
 	for color in mod.Database.get_colorlist():
 		available_colors[color] = COLOR_UNUSED
 	if package:
-		for record in package:
-			var new_member = LobbyMemberInfo.new()
-			new_member.setup(record["id"], record["network_id"], \
-				record["type"], record["nickname"], \
-				record["color"], record["player_type"])
-			reserve_color(record["color"], record["id"])
-			LobbyMemberInfo_dict[new_member.network_id] = new_member
+		LobbyDataPackage.unpack(self, package)
 
+func is_map_full():
+	return get_players_count() >= get_map_player_size()
 
 func get_map_player_size():
 	return MAP_PLAYER_NUM
 
-func get_players_number():
-	return get_members(LobbyMemberInfo.TYPE_PLAYER).size()
+var next_unique_id = 0
+func get_new_unique_id():
+	while next_unique_id == MatchMemberInfo.ID_INVALID: 
+		next_unique_id = next_unique_id + 1
+	var unique_id = next_unique_id
+	next_unique_id = next_unique_id + 1
+	return unique_id
 
-func get_unused_id(type = LobbyMemberInfo.TYPE_OBSERVER):
+func get_first_unused_match_id():
 	var used_ids = []
-	for member in LobbyMemberInfo_dict.values():
-		if member.type == type:
-			used_ids.append(member.id)
+	for member in MatchPlayerInfo_dict.values():
+		used_ids.append(member.match_id)
 	
-	var search_range = get_map_player_size() if (type == LobbyMemberInfo.TYPE_PLAYER) else MAX_OBSERVER_NUM
-	for id in range(0, search_range):
-		if not used_ids.has(id):
-			return id
+	var search_range = get_map_player_size()
+	for match_id in range(0, search_range):
+		if not used_ids.has(match_id):
+			return match_id
 	
 	Terminal.add_log(Debug.ERROR, "No more ids available!")
-	return NO_ID
+	return MatchMemberInfo.ID_INVALID
 
 
 func get_unused_color():
@@ -51,97 +57,125 @@ func get_unused_color():
 		if available_colors[color] == COLOR_UNUSED:
 			return color
 
-func reserve_color(color, id):
+func reserve_color(color, match_id):
 	if color != Color.transparent:
-		available_colors[color] = id
+		available_colors[color] = match_id
 
 func free_color(color):
 	available_colors[color] = COLOR_UNUSED
 
-func change_player_name_by_network_id(network_id, value):
-	print("change_player_name_by_network_id, %s" % value)
-	var member = get_member_by_network_id(network_id)
-	member.nickname = value
+func change_player_name_by_unique_id(unique_id, value):
+	if MatchPlayerInfo_dict.has(unique_id):
+		var member = MatchPlayerInfo_dict[unique_id]
+		member.nickname = value
 
-func change_player_color(id, value):
-	var member = get_member_by_id_type(id, LobbyMemberInfo.TYPE_PLAYER)
-	var palette_array = available_colors.keys()
-	var idx = palette_array.find(member.color)
-	free_color(member.color)
-	
-	while true:
-		idx = (idx + value + palette_array.size()) % palette_array.size()
-		if available_colors[palette_array[idx]] == COLOR_UNUSED:
-			reserve_color(palette_array[idx], id)
-			member.color = palette_array[idx]
-			return
-
-func get_member_count(type=LobbyMemberInfo.TYPE_MEMBER):
-	var count = 0
-	for member in LobbyMemberInfo_dict.values(): 
-		if type == LobbyMemberInfo.TYPE_MEMBER || type == member.type:
-			count += 1
-	return count
-
-func add_update_member(network_id, type, player_type, nickname):
-	Terminal.add_log(Debug.INFO, "Adding new member! %d, %s" % [network_id, nickname])
-	
-	if type == LobbyMemberInfo.TYPE_PLAYER:
-		if get_member_count(LobbyMemberInfo.TYPE_PLAYER) < MAX_PLAYER_NUM:
-			var new_member = LobbyMemberInfo.new()
-			var new_id = get_unused_id(LobbyMemberInfo.TYPE_PLAYER)
-			var new_color = get_unused_color()
-			reserve_color(new_color, new_id)
-			new_member.setup(new_id, network_id, LobbyMemberInfo.TYPE_PLAYER, nickname, new_color, player_type)
-			LobbyMemberInfo_dict[network_id] = new_member
-		else:
-			type = LobbyMemberInfo.TYPE_OBSERVER
-	
-	if type == LobbyMemberInfo.TYPE_OBSERVER:
-		if get_member_count(LobbyMemberInfo.TYPE_OBSERVER) < MAX_OBSERVER_NUM:
-			var new_member = LobbyMemberInfo.new()
-			var new_id = get_unused_id(LobbyMemberInfo.TYPE_OBSERVER)
-			new_member.setup(new_id, network_id, LobbyMemberInfo.TYPE_OBSERVER, nickname)
-			LobbyMemberInfo_dict[network_id] = new_member
-		else:
-			Terminal.add_log(Debug.ERROR, "No space for observer available!")
-
-func remove_member(network_id):
-	print("Removing a member! %d" % network_id)
-	if LobbyMemberInfo_dict.has(network_id):
-		var member = LobbyMemberInfo_dict[network_id]
+func change_player_color(unique_id, value):
+	if MatchPlayerInfo_dict.has(unique_id):
+		var member = MatchPlayerInfo_dict[unique_id]
+		var palette_array = available_colors.keys()
+		var idx = palette_array.find(member.color)
 		free_color(member.color)
+		while true:
+			idx = (idx + value + palette_array.size()) % palette_array.size()
+			if available_colors[palette_array[idx]] == COLOR_UNUSED:
+				reserve_color(palette_array[idx], member.match_id)
+				member.color = palette_array[idx]
+				return
+
+func link_lobby_and_match_members(network_id, unique_id):
+	var match_member = get_match_member_by_unique_id(unique_id)
+	var lobby_member = LobbyMemberInfo_dict[network_id]
+	match_member.link_lobby_member(lobby_member)
+	lobby_member.link_match_member(match_member)
+	print("linking N:%d and U:%d" % [network_id, unique_id])
+
+func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME):
+	Terminal.add_log(Debug.INFO, "Adding new lobby member! %d, %s" % [network_id, nickname])
+	var new_lobby_member = LobbyMemberInfo.new()
+	new_lobby_member.setup(network_id, nickname)
+	LobbyMemberInfo_dict[network_id] = new_lobby_member
+	if is_map_full():
+		var unique_id = add_observer(network_id, nickname)
+	else:
+		var unique_id = add_player(network_id, MatchPlayerInfo.ID_INVALID, \
+						nickname, MatchPlayerInfo.HUMAN_PLAYER)
+
+func add_player(network_id, match_id, nickname, player_type):
+	Terminal.add_log(Debug.INFO, "Adding new player! %s" % [nickname])
+	if get_players_count() < MAX_PLAYER_NUM:
+		var new_member = MatchPlayerInfo.new()
+		var new_color = get_unused_color()
+		new_member.setup_new(match_id, nickname, new_color, player_type)
+		reserve_color(new_color, new_member.match_id)
+		MatchPlayerInfo_dict[new_member.unique_id] = new_member
+		link_lobby_and_match_members(network_id, new_member.unique_id)
+		return new_member.unique_id
+	else:
+		Terminal.add_log(Debug.ERROR, "No space for player available!")
+		return MatchMemberInfo.ID_INVALID
+
+func add_observer(network_id, nickname):
+	Terminal.add_log(Debug.INFO, "Adding new observer! %s" % [nickname])
+	if get_observers_count() < MAX_OBSERVER_NUM:
+		var new_member = MatchObserverInfo.new()
+		new_member.setup_new(nickname)
+		MatchObserverInfo_dict[new_member.unique_id] = new_member
+		link_lobby_and_match_members(network_id, new_member.unique_id)
+		return new_member.unique_id
+	else:
+		Terminal.add_log(Debug.ERROR, "No space for observer available!")
+		return MatchMemberInfo.ID_INVALID
+
+func remove_match_member(unique_id, move_to_observers=true):
+	print("Removing match member! %d" % unique_id)
+	if MatchPlayerInfo_dict.has(unique_id):
+		var match_member = MatchPlayerInfo_dict[unique_id]
+		var lobby_member = match_member.owner_lobby_member
+		MatchPlayerInfo_dict.erase(unique_id)
+		free_color(match_member.color)
+		lobby_member.unlink_match_member(match_member)
+		if lobby_member.get_players().empty() and move_to_observers:
+			add_observer(lobby_member.network_id, lobby_member.nickname)
+	
+	if MatchObserverInfo_dict.has(unique_id):
+		var match_member = MatchObserverInfo_dict[unique_id]
+		var lobby_member = match_member.owner_lobby_member
+		lobby_member.unlink_match_member(match_member)
+		MatchObserverInfo_dict.erase(unique_id)
+
+func remove_lobby_member(network_id):
+	print("Removing lobby member! %d" % network_id)
+	if LobbyMemberInfo_dict.has(network_id):
+		var lobby_member = LobbyMemberInfo_dict[network_id]
+		for owned_member in lobby_member.owned_match_members:
+			if owned_member is MatchPlayerInfo:
+				MatchPlayerInfo_dict.erase(owned_member.unique_id)
+				free_color(owned_member.color)
+			elif owned_member is MatchObserverInfo:
+				MatchObserverInfo_dict.erase(owned_member.unique_id)
 		LobbyMemberInfo_dict.erase(network_id)
 
-func move_observer_to_players(id):
-	var member = get_member_by_id_type(id, LobbyMemberInfo.TYPE_OBSERVER)
-	var new_id = get_unused_id(LobbyMemberInfo.TYPE_PLAYER)
-	var new_color = get_unused_color()
-	reserve_color(new_color, new_id)
-	member.color = new_color
-	member.type = LobbyMemberInfo.TYPE_PLAYER
-	member.id = new_id
+func get_lobby_members():
+	return LobbyMemberInfo_dict.values()
+func get_players():
+	return MatchPlayerInfo_dict.values()
+func get_observers():
+	return MatchObserverInfo_dict.values()
 
-func move_player_to_observers(id):
-	var member = get_member_by_id_type(id, LobbyMemberInfo.TYPE_PLAYER)
-	var new_id = get_unused_id(LobbyMemberInfo.TYPE_OBSERVER)
-	free_color(member.color)
-	member.color = LobbyMemberInfo.COLOR_INVALID
-	member.type = LobbyMemberInfo.TYPE_OBSERVER
-	member.id = new_id
-	
-func get_members(type=LobbyMemberInfo.TYPE_MEMBER):
-	var result = []
-	for member in LobbyMemberInfo_dict.values():
-		if type == LobbyMemberInfo.TYPE_MEMBER || type == member.type:
-			result.append(member)
-	return result
+func get_players_count():
+	return MatchPlayerInfo_dict.size()
+func get_observers_count():
+	return MatchObserverInfo_dict.size()
 
-func get_member_by_network_id(network_id):
-	return LobbyMemberInfo_dict[network_id]
+func get_match_member_by_unique_id(unique_id):
+	if MatchPlayerInfo_dict.has(unique_id):
+		return MatchPlayerInfo_dict[unique_id]
+	if MatchObserverInfo_dict.has(unique_id):
+		return MatchObserverInfo_dict[unique_id]
+	return MatchMemberInfo.ID_INVALID
 
-func get_member_by_id_type(id, type=LobbyMemberInfo.TYPE_PLAYER):
-	for member in LobbyMemberInfo_dict.values():
-		if member.id == id and member.type == type:
+func get_player_by_match_id(match_id):
+	for member in MatchPlayerInfo_dict.values():
+		if member.match_id == match_id:
 			return member
 	return null

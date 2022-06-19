@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://modules/display/menu/MenuScreenBase.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modules/display/menu/MenuMultiplayerMatchSetup.gd" type="Script" id=3]
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=4]
+[ext_resource path="res://modules/display/menu/ButtonLabel.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -65,6 +67,33 @@ margin_left = 0.0
 margin_top = 52.0
 margin_right = 1024.0
 margin_bottom = 100.0
+
+[node name="Observers" type="Label" parent="." index="4"]
+anchor_top = 0.7
+anchor_right = 0.15
+anchor_bottom = 0.8
+custom_fonts/font = ExtResource( 4 )
+text = "Obs:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ObserverList" type="HBoxContainer" parent="." index="5"]
+anchor_left = 0.15
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonLabel" parent="ObserverList" index="0" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 160.0
+margin_bottom = 60.0
 
 [connection signal="pressed" from="Cancel" to="." method="_on_Cancel_pressed"]
 [connection signal="pressed" from="StartGame" to="." method="_on_StartGame_pressed"]

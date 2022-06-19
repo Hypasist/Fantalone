@@ -1,32 +1,33 @@
 class_name LobbyMemberInfo
 
-const ID_INVALID = -1
-var id = ID_INVALID
+const INVALID_NICKNAME = "-invalid lobby nickname-"
+var nickname = INVALID_NICKNAME
+var owned_match_members = []
+var network_id = Network.INVALID_ID
 
-const NETWORK_ID_INVALID = -1
-const NETWORK_ID_SERVER = 1
-var network_id = NETWORK_ID_INVALID
 
-const TYPE_MEMBER = 0
-const TYPE_PLAYER = 1
-const TYPE_OBSERVER = 2
-var type = TYPE_OBSERVER
-
-var nickname = ""
-
-const COLOR_INVALID = Color.transparent
-var color = COLOR_INVALID
-
-enum { HUMAN_PLAYER, CPU_PLAYER }
-var player_type = CPU_PLAYER
-
-func setup(_id, _network_id, _type, _nickname, _color=COLOR_INVALID, _player_type=HUMAN_PLAYER):
-	id = _id
+func setup(_network_id=Network.INVALID_ID, _nickname=INVALID_NICKNAME):
 	network_id = _network_id
-	type = _type
-	if _nickname:
-		nickname = _nickname
-	if _color:
-		color = _color
-	if _player_type:
-		player_type = _player_type
+	nickname = _nickname
+
+func get_players():
+	var array = []
+	for member in owned_match_members:
+		if member is MatchPlayerInfo:
+			array.append(member)
+	return array
+
+func get_observers():
+	var array = []
+	for member in owned_match_members:
+		if member is MatchObserverInfo:
+			array.append(member)
+	return array
+
+func link_match_member(match_member):
+	if not owned_match_members.has(match_member):
+		owned_match_members.append(match_member)
+
+func unlink_match_member(match_member):
+	if owned_match_members.has(match_member):
+		owned_match_members.erase(match_member)
