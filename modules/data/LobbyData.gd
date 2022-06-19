@@ -102,6 +102,10 @@ func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.IN
 
 func add_player(network_id, match_id, nickname, player_type):
 	Terminal.add_log(Debug.INFO, "Adding new player! %s" % [nickname])
+	for observer in get_observers():
+		if observer.owner_lobby_member.network_id == network_id:
+			remove_match_member(observer.unique_id)
+	
 	if get_players_count() < MAX_PLAYER_NUM:
 		var new_member = MatchPlayerInfo.new()
 		var new_color = get_unused_color()
@@ -134,7 +138,7 @@ func remove_match_member(unique_id, move_to_observers=true):
 		MatchPlayerInfo_dict.erase(unique_id)
 		free_color(match_member.color)
 		lobby_member.unlink_match_member(match_member)
-		if lobby_member.get_players().empty() and move_to_observers:
+		if lobby_member.owned_match_members.empty() and move_to_observers:
 			add_observer(lobby_member.network_id, lobby_member.nickname)
 	
 	if MatchObserverInfo_dict.has(unique_id):

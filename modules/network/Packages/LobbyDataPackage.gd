@@ -3,7 +3,6 @@ class_name LobbyDataPackage
 enum { _LOBBY_MEMBER_RECORDS, _MATCH_OBSERVER_RECORDS, _MATCH_PLAYER_RECORDS }
 
 static func pack(lobby):
-	print("PACK")
 	var package = {}
 
 	package[_LOBBY_MEMBER_RECORDS] = []
@@ -36,7 +35,6 @@ static func pack(lobby):
 	return package
 
 static func unpack(lobby, package):
-	print("UNPACK")
 	for record in package[_MATCH_PLAYER_RECORDS]:
 		var new_member = MatchPlayerInfo.new()
 		new_member.setup_copy(record["unique_id"], record["match_id"], \
@@ -55,4 +53,3 @@ static func unpack(lobby, package):
 		lobby.LobbyMemberInfo_dict[new_member.network_id] = new_member
 		for unique_id in record["owned_members"]:
 			lobby.link_lobby_and_match_members(new_member.network_id, unique_id)
-

@@ -2,6 +2,7 @@ class_name MenuMultiplayerMatchSetup
 extends MenuScreenBase
 
 var PlayerOptions = null
+var ButtonLabel = null
 
 var playerOptions_list = []
 var buttonLabel_list = []
@@ -9,6 +10,7 @@ var buttonLabel_list = []
 # NEW MULTIPLAYER GAME IS CREATED
 func _ready():
 	PlayerOptions = load("res://modules/display/menu/GuiMultiplayerPlayerOptions.tscn")
+	ButtonLabel = load("res://modules/display/menu/ButtonLabel.tscn")
 
 # NETWORK SIGNALS HOOK UP
 func _hookup_network_signals():
@@ -45,7 +47,7 @@ func refresh_lobby_display():
 	
 	# for every playerOptions panel 
 	for player_options in playerOptions_list:
-		var playerOptions_match_id = playerOptions_list.find(player_options)
+		var playerOptions_match_id = player_options.match_id
 
 		# search for assigned player
 		for player in lobby_players_served:
@@ -56,6 +58,13 @@ func refresh_lobby_display():
 				else:
 					Terminal.add_log(Debug.ERROR, "Trying to assign same member to another PlayerOptionsPanel!")
 				break
+	
+	for observer in mod.LobbyData.get_observers():
+		var new_obs = ButtonLabel.instance()
+		$ObserverList.add_child(new_obs)
+		buttonLabel_list.append(new_obs)
+		new_obs.set_text(observer.nickname)
+
 
 func restart_lobby_display():
 	for player_options in playerOptions_list:
@@ -100,7 +109,6 @@ func _on_delete(object):
 		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_REMOVE, \
 					object.lobby_member.unique_id)
 #		mod.Network.disconnect_client(object.lobby_member.network_id) # move this to LobbyNetwork
-
 
 func _on_Cancel_pressed():
 	mod.Network.disconnect_()

@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "PopupBase",
-"class": "ButtonLabel",
-"language": "GDScript",
-"path": "res://modules/display/menu/ButtonLabel.gd"
-}, {
 "base": "Button",
 "class": "ButtonPlus",
 "language": "GDScript",
@@ -148,11 +143,6 @@ _global_script_classes=[ {
 "class": "InputEventSingleScreenTouch",
 "language": "GDScript",
 "path": "res://modules/godot_touch_input_manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
-}, {
-"base": "Reference",
-"class": "LobbyDataPackage",
-"language": "GDScript",
-"path": "res://modules/network/Packages/LobbyDataPackage.gd"
 }, {
 "base": "Node",
 "class": "LobbyData",
@@ -370,7 +360,6 @@ _global_script_classes=[ {
 "path": "res://utils/touchscreenScripts.gd"
 } ]
 _global_script_class_icons={
-"ButtonLabel": "",
 "ButtonPlus": "",
 "CustomTween": "",
 "CustomTween2": "",

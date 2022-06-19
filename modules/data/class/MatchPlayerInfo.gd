@@ -14,7 +14,6 @@ func setup_new(_match_id=ID_INVALID, _nickname=LobbyMemberInfo.INVALID_NICKNAME,
 	if _match_id == ID_INVALID:
 		_match_id = mod.LobbyData.get_first_unused_match_id()
 	setup_copy(_unique_id, _match_id, _nickname, _color, _player_type)
-
 func setup_copy(_unique_id, _match_id, _nickname, _color, _player_type):
 	unique_id = _unique_id
 	match_id = _match_id

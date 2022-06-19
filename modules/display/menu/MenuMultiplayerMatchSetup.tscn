@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://modules/display/menu/MenuScreenBase.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modules/display/menu/MenuMultiplayerMatchSetup.gd" type="Script" id=3]
 [ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=4]
-[ext_resource path="res://modules/display/menu/ButtonLabel.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -89,7 +88,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonLabel" parent="ObserverList" index="0" instance=ExtResource( 5 )]
+[node name="ButtonLabel" parent="ObserverList" index="0" instance_placeholder="res://modules/display/menu/ButtonLabel.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 160.0
