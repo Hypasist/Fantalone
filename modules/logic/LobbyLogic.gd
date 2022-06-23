@@ -20,6 +20,9 @@ func is_match_id_mine(match_id):
 	return false
 	#var lobby_member = mod.LobbyData.LobbyMemberInfo_dict[mod.Network.get_id()]
 
+func get_sorted_players():
+	pass
+
 func end_match():
 	print("EXIT THE MATCH")
 	pass

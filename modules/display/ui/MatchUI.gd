@@ -13,9 +13,10 @@ func setup():
 
 func update():
 	for player in mod.LobbyData.get_players():
+		var turn_owner = mod.MatchLogic.get_turn_owner() == player.match_id
 		var army_size = mod.MatchData.get_players_units(player.match_id).size()
 		if army_size > 0:
-			player_summary[player.match_id].update_bar(player.color, player.nickname, army_size)
+			player_summary[player.match_id].update_bar(turn_owner, player.color, player.nickname, army_size)
 		else:
 			delete_bar(player.match_id)
 

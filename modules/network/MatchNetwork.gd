@@ -49,6 +49,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
 		command.UPDATE_TURN_OWNER:
 			mod.MatchLogic.set_turn_owner(param1)
+			mod.UI.update_ui()
 		command.VERIFY_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			var movement = mod.MatchLogic.verify_move(unit_list, param2)

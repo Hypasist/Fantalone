@@ -23,8 +23,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PlayerTurn" type="Label" parent="."]
+anchor_right = 0.1
+margin_bottom = 45.0
+custom_fonts/font = SubResource( 1 )
+text = ">"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PlayerColor" type="ColorRect" parent="."]
-anchor_right = 0.2
+anchor_left = 0.1
+anchor_right = 0.3
 margin_bottom = 45.0
 __meta__ = {
 "_edit_use_anchors_": false
