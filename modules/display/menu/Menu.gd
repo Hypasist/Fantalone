@@ -13,7 +13,7 @@ func show_main_menu():
 	switch_screens(main_menu)
 	mod.UI.lock_map_control()
 	mod.MapView.hide()
-	
+
 func hide_menu():
 	if current_screen:
 		current_screen.hide()
@@ -22,6 +22,12 @@ func hide_menu():
 	mod.UI.unlock_map_control()
 	mod.MapView.show()
 
+func show_menu():
+	if current_screen:
+		current_screen.show()
+	mod.UI.lock_map_control()
+	mod.MapView.hide()
+
 var previous_screen = null
 var current_screen = null
 func switch_screens(screen, setup_params=null):
@@ -29,6 +35,7 @@ func switch_screens(screen, setup_params=null):
 	current_screen = load(screen_list[screen]).instance()
 	current_screen.connect("screen_resolved", self, "_on_screen_resolved")
 	add_child(current_screen)
+	show_menu()
 	current_screen.setup(setup_params)
 	
 	if previous_screen:

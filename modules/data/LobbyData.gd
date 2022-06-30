@@ -48,7 +48,7 @@ func get_first_unused_match_id():
 		if not used_ids.has(match_id):
 			return match_id
 	
-	Terminal.add_log(Debug.ERROR, "No more ids available!")
+	Terminal.add_log(Debug.ERROR, Debug.LOBBY, "No more ids available!")
 	return MatchMemberInfo.ID_INVALID
 
 
@@ -87,10 +87,9 @@ func link_lobby_and_match_members(network_id, unique_id):
 	var lobby_member = LobbyMemberInfo_dict[network_id]
 	match_member.link_lobby_member(lobby_member)
 	lobby_member.link_match_member(match_member)
-	print("linking N:%d and U:%d" % [network_id, unique_id])
 
 func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME):
-	Terminal.add_log(Debug.INFO, "Adding new lobby member! %d, %s" % [network_id, nickname])
+	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new lobby member! %d, %s" % [network_id, nickname])
 	var new_lobby_member = LobbyMemberInfo.new()
 	new_lobby_member.setup(network_id, nickname)
 	LobbyMemberInfo_dict[network_id] = new_lobby_member
@@ -101,7 +100,7 @@ func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.IN
 						nickname, MatchPlayerInfo.HUMAN_PLAYER)
 
 func add_player(network_id, match_id, nickname, player_type):
-	Terminal.add_log(Debug.INFO, "Adding new player! %s" % [nickname])
+	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new player! %s" % [nickname])
 	for observer in get_observers():
 		if observer.owner_lobby_member.network_id == network_id:
 			remove_match_member(observer.unique_id)
@@ -115,11 +114,11 @@ func add_player(network_id, match_id, nickname, player_type):
 		link_lobby_and_match_members(network_id, new_member.unique_id)
 		return new_member.unique_id
 	else:
-		Terminal.add_log(Debug.ERROR, "No space for player available!")
+		Terminal.add_log(Debug.ERROR, Debug.LOBBY, "No space for player available!")
 		return MatchMemberInfo.ID_INVALID
 
 func add_observer(network_id, nickname):
-	Terminal.add_log(Debug.INFO, "Adding new observer! %s" % [nickname])
+	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new observer! %s" % [nickname])
 	if get_observers_count() < MAX_OBSERVER_NUM:
 		var new_member = MatchObserverInfo.new()
 		new_member.setup_new(nickname)
@@ -127,7 +126,7 @@ func add_observer(network_id, nickname):
 		link_lobby_and_match_members(network_id, new_member.unique_id)
 		return new_member.unique_id
 	else:
-		Terminal.add_log(Debug.ERROR, "No space for observer available!")
+		Terminal.add_log(Debug.ERROR, Debug.LOBBY, "No space for observer available!")
 		return MatchMemberInfo.ID_INVALID
 
 func remove_match_member(unique_id, move_to_observers=true):

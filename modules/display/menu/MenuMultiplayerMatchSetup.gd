@@ -56,7 +56,7 @@ func refresh_lobby_display():
 					player_options.setup(player)
 					lobby_players_served[player] = true
 				else:
-					Terminal.add_log(Debug.ERROR, "Trying to assign same member to another PlayerOptionsPanel!")
+					Terminal.add_log(Debug.ERROR, Debug.LOBBY, "Trying to assign same member to another PlayerOptionsPanel!")
 				break
 	
 	for observer in mod.LobbyData.get_observers():

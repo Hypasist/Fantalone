@@ -8,8 +8,19 @@ const NONE = DebugLevel.DEBUG_NONE
 const ERROR = DebugLevel.DEBUG_ERROR
 const INFO = DebugLevel.DEBUG_INFO
 const ALL = DebugLevel.DEBUG_ALL
-
 var debug_level = DebugLevel.DEBUG_INFO
+
+enum DebugFlag {DEBUG_SYSTEM, DEBUG_NETWORK, DEBUG_MENUS, DEBUG_LOBBY, DEBUG_INPUT, DEBUG_DISPLAY_CMD, DEBUG_LOGIC_CMD, DEBUG_MATCH}
+const LOBBY = DebugFlag.DEBUG_LOBBY
+const MENUS = DebugFlag.DEBUG_MENUS
+const INPUT = DebugFlag.DEBUG_INPUT
+const DISPLAY_CMD = DebugFlag.DEBUG_DISPLAY_CMD
+const LOGIC_CMD = DebugFlag.DEBUG_LOGIC_CMD
+const MATCH = DebugFlag.DEBUG_MATCH
+const SYSTEM = DebugFlag.DEBUG_SYSTEM
+const NETWORK = DebugFlag.DEBUG_NETWORK
+var debug_flags = [ LOBBY ]
+
 var to_console = true
 var event_log = []
 
@@ -17,7 +28,7 @@ var event_log = []
 func clear_log():
 	event_log.clear()
 
-func add_log(msg_level, msg_string):
+func add_log(msg_level, msg_flag, msg_string):
 	if DebugLevel.values().has(msg_level) && msg_level <= debug_level:
 		msg_string = "[%s] %s" % [DebugLevel.keys()[msg_level], msg_string]
 	

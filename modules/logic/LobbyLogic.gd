@@ -25,4 +25,8 @@ func get_sorted_players():
 
 func end_match():
 	print("EXIT THE MATCH")
-	pass
+	mod.Menu.show_menu()
+	mod.MapView.hide()
+	mod.UI.hide()
+	mod.Network.disconnect_()
+	mod.Menu.switch_screens(mod.Menu.main_menu)

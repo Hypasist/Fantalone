@@ -8,4 +8,4 @@ func _init(subject_):
 	subject = subject_
 
 func execute():
-	Terminal.add_log(Debug.ERROR, "Trying to execute LogCmdBase class!")
+	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to execute LogCmdBase class!")

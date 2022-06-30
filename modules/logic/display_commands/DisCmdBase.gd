@@ -14,7 +14,7 @@ func _init(unit_logic_):
 	unit_display = unit_logic_.unitDisplay
 
 func execute():
-	Terminal.add_log(Debug.ERROR, "Trying to execute DisCmdBase!")
+	Terminal.add_log(Debug.ERROR, Debug.DISPLAY_CMD, "Trying to execute DisCmdBase!")
 
 func complete():
 	emit_signal("command_completed")

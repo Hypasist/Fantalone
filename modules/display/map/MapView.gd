@@ -1,3 +1,4 @@
+class_name MapView
 extends Node2D
 
 func setup():

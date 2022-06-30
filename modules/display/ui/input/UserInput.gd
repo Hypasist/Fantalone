@@ -45,7 +45,7 @@ func _unhandled_input(event):
 
 # ACTION HANDLERS
 func handle_shorttap(event):
-	if debug_verbose_units: Terminal.add_log(Debug.ALL, "Tap P: %f %f" % event.position)
+	if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Tap P: %f %f" % event.position)
 	$PlayerAction.action_shorttap(event.position)
 
 func handle_tap(event):
@@ -55,17 +55,17 @@ func handle_tap(event):
 
 func handle_untap():
 	if(saved_action == actionState.longtap_confirmed):
-		if debug_verbose_units:  Terminal.add_log(Debug.ALL, "LongTap stop")
+		if debug_verbose_units:  Terminal.add_log(Debug.ALL, Debug.INPUT, "LongTap stop")
 		$PlayerAction.action_longtap_stopped()
 	elif(saved_action == actionState.drag_confirmed):
-		if debug_verbose_units: Terminal.add_log(Debug.ALL, "Drag stop")
+		if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Drag stop")
 		$PlayerAction.action_drag_stopped(saved_position, saved_relative)
 	clean_states()
 	
 func _on_LongTapTimer_timeout():
 	if saved_action == actionState.longtap_waiting:
 		saved_action = actionState.longtap_confirmed
-		if debug_verbose_units: Terminal.add_log(Debug.ALL, "LongTap P:%f %f" % saved_position)
+		if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "LongTap P:%f %f" % saved_position)
 		$PlayerAction.action_longtap(saved_position)
 	else:
 		clean_states()
@@ -85,16 +85,16 @@ func handle_drag_unit(event):
 		saved_relative += event.relative
 	else:
 		return # ignore if actionState.none or actionState.longtap_confirmed
-	if debug_verbose_units: Terminal.add_log(Debug.ALL, "Drag P: %f %f  R: %f %f" % [saved_position, saved_relative])
+	if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Drag P: %f %f  R: %f %f" % [saved_position, saved_relative])
 	$PlayerAction.action_drag(saved_position, saved_relative)
 
 func handle_drag_map(event): # aka scroll
-	if debug_verbose_map: Terminal.add_log(Debug.ALL, "Scroll R: %f %f" % event.relative)
+	if debug_verbose_map: Terminal.add_log(Debug.ALL, Debug.INPUT, "Scroll R: %f %f" % event.relative)
 	$PlayerAction.action_scroll(event.relative)
 	clean_states()
 
 func handle_pinch(event): # aka zoom
-	if debug_verbose_map: Terminal.add_log(Debug.ALL, "Zoom P: %f %f  R: %f %f" % [event.position, event.relative])
+	if debug_verbose_map: Terminal.add_log(Debug.ALL, Debug.INPUT, "Zoom P: %f %f  R: %f %f" % [event.position, event.relative])
 	$PlayerAction.action_zoom(event.position, event.relative, event.is_step)
 	clean_states()
 

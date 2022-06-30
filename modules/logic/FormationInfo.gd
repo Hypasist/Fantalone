@@ -46,7 +46,7 @@ func conclude_ownership():
 	owner_id = null if unit_list.empty() else unit_list.front().get_owner()
 	for unit in unit_list:
 		if owner_id != unit.get_owner():
-			Terminal.add_log(Debug.ERROR, "Formation units ownership mismatch!")
+			Terminal.add_log(Debug.ERROR, Debug.MATCH, "Formation units ownership mismatch!")
 
 func copy(other):
 	unit_list = other.unit_list

@@ -5,4 +5,4 @@ func _init(subject_).(subject_):
 	pass
 
 func execute():
-	Terminal.add_log(Debug.ERROR, "Trying to execute LogCmdDummy class!")
+	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to execute LogCmdDummy class!")

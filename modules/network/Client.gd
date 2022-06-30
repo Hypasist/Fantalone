@@ -13,18 +13,18 @@ func connect_to_server(ip, port):
 		get_tree().network_peer = peer
 
 func disconnect_():
-	Terminal.add_log(Debug.INFO, "Disconnecting from the server.")
+	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Disconnecting from the server.")
 
 signal server_disconnected()
 func _server_disconnected():
-	Terminal.add_log(Debug.INFO, "Server disconnected!")
+	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server disconnected!")
 	emit_signal("server_disconnected")
 
 func _connected_ok():
-	Terminal.add_log(Debug.INFO, "Connected successfully! New id: %d" % mod.Network.get_id())
+	Terminal.add_log(Debug.INFO, Debug.NETWORK,  "Connected successfully! New id: %d" % mod.Network.get_id())
 
 func _connected_fail():
-	Terminal.add_log(Debug.INFO, "Could not connect to the server!")
+	Terminal.add_log(Debug.INFO, Debug.NETWORK,  "Could not connect to the server!")
 
 func connect_network_signal(_signal, _object, _method):
 	for custom_signal in get_signal_list():
