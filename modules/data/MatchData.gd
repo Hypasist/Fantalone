@@ -1,6 +1,9 @@
 class_name MatchData
 extends Node
 
+func pause_game():
+	pass
+
 var item_counter = {}
 func get_unique_name(name):
 	if item_counter.has(name):

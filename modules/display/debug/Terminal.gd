@@ -9,7 +9,7 @@ const ERROR = DebugLevel.DEBUG_ERROR
 const INFO = DebugLevel.DEBUG_INFO
 const ALL = DebugLevel.DEBUG_ALL
 
-var debug_level = DebugLevel.DEBUG_ALL
+var debug_level = DebugLevel.DEBUG_INFO
 var to_console = true
 var event_log = []
 

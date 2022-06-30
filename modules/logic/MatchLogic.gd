@@ -35,6 +35,12 @@ func start_match():
 	mod.UI.setup()
 	mod.MatchNetwork.setup()
 
+func stop_match(dummy1=null, dummy2=null):
+	print("stop_match")
+	mod.Network.disconnect_()
+	mod.Menu.switch_screens(mod.Menu.main_menu)
+
+
 func verify_move(unit_list, direction):
 	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
 	if not movement.is_valid():
@@ -84,6 +90,26 @@ func new_turn():
 	wake_up_units(get_turn_owner())
 	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_TURN_OWNER, get_turn_owner())
 
+func chech_endgame_conditions():
+	var alive_players = 0
+	for player in mod.LobbyData.get_players():
+		if mod.MatchData.get_players_units(player.match_id).size() > 0:
+			alive_players += 1
+	print("here %d " % alive_players)
+	return true if alive_players <=1 else false
+
+func end_turn():
+	if chech_endgame_conditions():
+		print("End turn")
+		mod.MatchData.pause_game()
+		mod.PopupUI.create_custom_popup("Game finished!\n%s won!" % "Someone", ["Continue"], [true], self, "tmp_end_handler")
+	else:
+		new_turn()
+
+func tmp_end_handler(value):
+	print(value)
+	pass
+
 func move_confirmed(unit_list, direction):
 	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_MOVE, unit_list, direction)
-	new_turn()
+	end_turn()
