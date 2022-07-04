@@ -14,15 +14,13 @@ class KnownResource:
 		logic_path = res[0]
 		logic_scene = load(logic_path)
 		if not logic_scene:
-			print("INVALID LOGIC SCENE FOR ", name_, " RESOURCE!")
-			breakpoint
+			Terminal.add_log(Debug.ERROR, Debug.MAP, "Invalid logic scene for %s resource!" % name_)
 		if not logic_only:
 			display_path = res[1]
 			display_scene = load(display_path)
-			print("loaded " + display_path)
+			Terminal.add_log(Debug.ALL, Debug.MAP, "Loaded %s!" % display_path)
 			if not display_scene:
-				print("INVALID DISPLAY SCENE FOR ", name_, " RESOURCE!")
-				breakpoint
+				Terminal.add_log(Debug.ERROR, Debug.MAP, "Invalid display scene for %s resource!" % name_)
 
 		#NAME				#LOGIC SCENE								#DISPLAY SCENE
 var _resources = {

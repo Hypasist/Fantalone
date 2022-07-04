@@ -12,7 +12,6 @@ func create_server(port, max_players):
 	else:
 		get_tree().network_peer = peer
 		Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server (%d) created!" % [mod.Network.get_id()])
-		mod.LobbyData.setup()
 
 func disconnect_():
 	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Closing the server")

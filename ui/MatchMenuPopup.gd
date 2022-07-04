@@ -11,7 +11,8 @@ func _on_ContinueButton_pressed():
 func _on_MainMenuButton_handler(value):
 	match value:
 		0:
-			mod.LobbyLogic.end_match()
+			mod.PopupUI.pop_popup(self)
+			mod.MatchLogic.stop_match()
 		1:
 			pass
 
@@ -25,7 +26,8 @@ func _on_MainMenuButton_pressed():
 func _on_ExitButton_handler(value):
 	match value:
 		0:
-			mod.LobbyLogic.end_match()
+			mod.PopupUI.pop_popup(self)
+			mod.MatchLogic.stop_match()
 			mod.Game.exit_game()
 		1:
 			pass

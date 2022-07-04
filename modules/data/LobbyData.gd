@@ -130,7 +130,7 @@ func add_observer(network_id, nickname):
 		return MatchMemberInfo.ID_INVALID
 
 func remove_match_member(unique_id, move_to_observers=true):
-	print("Removing match member! %d" % unique_id)
+	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Removing match member! %d" % unique_id)
 	if MatchPlayerInfo_dict.has(unique_id):
 		var match_member = MatchPlayerInfo_dict[unique_id]
 		var lobby_member = match_member.owner_lobby_member
@@ -147,7 +147,7 @@ func remove_match_member(unique_id, move_to_observers=true):
 		MatchObserverInfo_dict.erase(unique_id)
 
 func remove_lobby_member(network_id):
-	print("Removing lobby member! %d" % network_id)
+	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Removing lobby member! %d" % network_id)
 	if LobbyMemberInfo_dict.has(network_id):
 		var lobby_member = LobbyMemberInfo_dict[network_id]
 		for owned_member in lobby_member.owned_match_members:

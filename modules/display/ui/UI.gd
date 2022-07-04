@@ -25,7 +25,11 @@ func arrow_set_direction(position, direction):
 	$MovementArrow.set_direction_arrow(position, direction)
 
 func setup():
+	mod.LocalLogic.setup()
 	$MatchUI.setup()
+
+func hide_match_ui():
+	$MatchUI.hide()
 
 func update_ui():
 	$MatchUI.update()

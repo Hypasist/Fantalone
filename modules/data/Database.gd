@@ -29,6 +29,8 @@ func get_min_map_scale():
 func get_max_map_scale():
 	return $GameParameters.max_map_scale
 	
+func get_map_bounds_padding():
+	return $GameParameters.get_map_bounds_padding()
 func get_min_map_boundaries():
 	return $MatchParameters.min_map_boundaries
 func get_max_map_boundaries():
@@ -47,16 +49,8 @@ func setup_new_match():
 	$MatchData.setup_new_match()
 
 # RESOURCES
-func get_unique_name(class_):
-	return $MatchData.get_unique_name(class_)
 func get_resource_by_name(name):
 	return $ResourceData.get_resource(name)
-func register_new_unit(unit):
-	$MatchData.register_new_unit(unit)
-func register_new_tile(tile):
-	$MatchData.register_new_tile(tile)
-func cleanup_objects():
-	$MatchData.cleanup_objects()
 
 # PACKING FUNCTIONS
 func pack_unit_ids(unit_list):

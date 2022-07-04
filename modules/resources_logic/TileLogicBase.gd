@@ -1,7 +1,7 @@
 class_name TileLogicBase
 
 var hex = null
-var tileDisplay : TileDisplayBase = null
+var tile_display : TileDisplayBase = null
 var _name_id = null
 
 var lethal = false
@@ -18,7 +18,7 @@ func place(hex_):
 func is_marked_to_delete():
 	return _marked_to_delete
 func get_display_scene():
-	return tileDisplay
+	return tile_display
 func get_name_id():
 	return _name_id
 func get_hex():
@@ -26,7 +26,7 @@ func get_hex():
 
 func assign_display_scene(display_scene:TileDisplayBase):
 	display_scene.assign_logic_scene(self)
-	tileDisplay = display_scene
+	tile_display = display_scene
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

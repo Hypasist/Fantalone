@@ -17,7 +17,7 @@ script = ExtResource( 2 )
 [node name="MovementLogic" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="ObjectManager" type="Node" parent="."]
+[node name="ObjectLogic" type="Node" parent="."]
 script = ExtResource( 4 )
 
 [node name="MatchLogic" type="Node" parent="."]

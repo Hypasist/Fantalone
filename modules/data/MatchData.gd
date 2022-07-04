@@ -45,15 +45,29 @@ func register_new_tile(tile_instance):
 	tile_list.append(tile_instance)
 
 func cleanup_objects():
-	for unit in unit_list:
-		if unit.is_marked_to_delete():
-			print(unit.get_name_id() + " erased")
-			unit.get_hex().unitLogic = null
-			unit_list.erase(unit)
-			#unit.get_display_scene().queue_free()
-	for tile in tile_list:
-		if tile.is_marked_to_delete():
-			print(tile.get_name_id() + " erased")
-			tile.get_hex().unitLogic = null
-			tile_list.erase(tile)
-			#tile.get_display_scene().queue_free()
+	for i in range(unit_list.size() - 1, -1, -1):
+		if unit_list[i].is_marked_to_delete():
+			cleanup_unit(unit_list[i])
+	for i in range(tile_list.size() - 1, -1, -1):
+		if tile_list[i].is_marked_to_delete():
+			cleanup_tile(tile_list[i])
+
+func cleanup_all_objects():
+	for i in range(unit_list.size() - 1, -1, -1):
+		cleanup_unit(unit_list[i])
+	for i in range(tile_list.size() - 1, -1, -1):
+		cleanup_tile(tile_list[i])
+
+func cleanup_unit(unit):
+	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
+	unit.get_hex().unitLogic = null
+	if unit.unit_display:
+		unit.unit_display.queue_free()
+	unit_list.erase(unit)
+	
+func cleanup_tile(tile):
+	Terminal.add_log(Debug.ALL, Debug.MATCH, "Tile %s erased!" % tile.get_name_id())
+	tile.get_hex().unitLogic = null
+	if tile.tile_display:
+		tile.tile_display.queue_free()
+	tile_list.erase(tile)

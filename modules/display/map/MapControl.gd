@@ -60,7 +60,7 @@ func scroll(scrollValue):
 	if map_action_lockers: return
 	var target_mapview_center = mapview_center - (scrollValue.rotated(map.rotation)/map.scale)
 	set_mapview_position(target_mapview_center, map.scale)
-	
+
 func set_mapview_position(new_center, new_scale):
 	map.position = calculate_mapview_position(new_center, new_scale)
 	mapview_center = position_to_center(screen_resolution, new_scale, map.position)
@@ -75,7 +75,7 @@ func calculate_mapview_position(new_center, new_scale):
 	var minPositionValue = mod.Database.get_min_map_boundaries()
 	var maxPositionValue = mod.Database.get_max_map_boundaries()
 	# map is smaller than screen
-	if screen_resolution.x / new_scale.x > (maxPositionValue.x - minPositionValue.x)|| \
+	if screen_resolution.x / new_scale.x > (maxPositionValue.x - minPositionValue.x) || \
 	   screen_resolution.y / new_scale.y > (maxPositionValue.y - minPositionValue.y):
 		new_center = minPositionValue + (maxPositionValue - minPositionValue)/2.0
 	else:

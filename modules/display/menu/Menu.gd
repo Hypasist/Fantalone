@@ -9,11 +9,6 @@ var screen_list = {
 	}
 
 # MENU HANDLING
-func show_main_menu():
-	switch_screens(main_menu)
-	mod.UI.lock_map_control()
-	mod.MapView.hide()
-
 func hide_menu():
 	if current_screen:
 		current_screen.hide()

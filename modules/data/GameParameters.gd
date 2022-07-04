@@ -15,11 +15,12 @@ func get_map_bounds_padding():
 
 var game_resolution = null
 var map_resolution = null
+# in the case of splitting screen into map and menu
 var view_size_normalized = Vector2(0.85, 1)
 func set_resolution(_resolution):
 	game_resolution = _resolution
-	map_resolution = (Vector2(1,1) - view_size_normalized) * game_resolution
-
+#	map_resolution = (Vector2(1,1) - view_size_normalized) * game_resolution
+	map_resolution = view_size_normalized * game_resolution
 
 const min_map_scale = Vector2(0.5, 0.5)
 const max_map_scale = Vector2(4, 4)

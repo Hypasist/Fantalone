@@ -28,4 +28,4 @@ func make_move_hex(hex_list, direction):
 	return $MovementLogic.make_move_hex(hex_list, direction)
 
 func add_new(name, arg1=null, arg2=null, arg3=null, arg4=null):
-	$ObjectManager.add_new(name, arg1, arg2, arg3, arg4)
+	$ObjectLogic.add_new(name, arg1, arg2, arg3, arg4)

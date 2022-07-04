@@ -52,19 +52,6 @@ func updateTilemapSize(size):
 	$Units.set_cell_size(size)
 	$Props.set_cell_size(size)
 
-#
-#func calculateMockupSize():
-#	var minHexCoords = Vector2(INF, INF)
-#	var maxHexCoords = Vector2(-INF, -INF)
-#	for tile in get_tree().get_nodes_in_group("Tiles"):
-#		minHexCoords = Utils.min2(minHexCoords, tile.position)
-#		maxHexCoords = Utils.max2(maxHexCoords, tile.position)
-#	minHexCoords -= Singletons.GameOptions.get_tilesize()/2.0 \
-#	 				+ Singletons.GameOptions.get_map_bounds_pad()
-#	maxHexCoords += Singletons.GameOptions.get_tilesize()/2.0 \
-#	 				+ Singletons.GameOptions.get_map_bounds_pad()
-#	Singletons.MatchOptions.set_map_boundaries(minHexCoords, maxHexCoords)
-#
 #func coordsSquareToPosition(coordsSquare):
 #	var tilePosition = Singletons.MapEditor.map_to_world(coordsSquare)
 #	tilePosition += (Singletons.MapEditor.get_cell_size() / 2)

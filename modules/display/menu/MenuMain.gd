@@ -15,3 +15,6 @@ func _on_CreateServer_pressed():
 func _on_ConnectToServer_pressed():
 	mod.Menu.switch_screens(mod.Menu.multiplayer_setup, as_client)
 #	mod.Menu.switch_screens(mod.Menu.connect_to_server)
+
+func _on_Options_pressed():
+	pass # Replace with function body.

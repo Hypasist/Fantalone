@@ -28,7 +28,7 @@ func _ready():
 	mod.Debug = $Debug
 	mod.PopupUI = $UI/PopupUI
 	setup()
-	mod.Menu.show_main_menu()
+	mod.Menu.switch_screens(mod.Menu.main_menu)
 
 func setup():
 	mod.LocalLogic.identify_client()

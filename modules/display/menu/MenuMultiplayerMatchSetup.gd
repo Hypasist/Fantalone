@@ -36,7 +36,6 @@ func setup(setup_as_server = false):
 	_hookup_network_signals()
 
 func refresh(level):
-	print("refreshing lobby")
 	restart_lobby_display()
 	refresh_lobby_display()
 

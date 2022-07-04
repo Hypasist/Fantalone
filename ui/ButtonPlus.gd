@@ -8,6 +8,7 @@ func setup(text_, value, close=false):
 	close_popup = close
 	set_text(text_)
 	connect("pressed", self, "_on_pressed")
+	set_h_size_flags(SIZE_EXPAND_FILL)
 
 signal button_pressed(value, close)
 func _on_pressed():

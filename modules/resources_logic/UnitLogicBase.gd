@@ -1,7 +1,7 @@
 class_name UnitLogicBase
 
 var hex = null
-var unitDisplay : UnitDisplayBase = null
+var unit_display : UnitDisplayBase = null
 var _name_id = null
 var _owner_id = null
 
@@ -26,7 +26,7 @@ func place(hex_):
 func is_marked_to_delete():
 	return _marked_to_delete
 func get_display_scene():
-	return unitDisplay
+	return unit_display
 
 func move_to_hex(destination_hex):
 	if hex: if hex.unitLogic == self: hex.unitLogic = null
@@ -38,12 +38,12 @@ func die():
 	_alive = false
 
 func add_to_display_queue(display_command):
-	if unitDisplay:
-		unitDisplay.queue_command(display_command)
+	if unit_display:
+		unit_display.queue_command(display_command)
 
 func assign_display_scene(display_scene:UnitDisplayBase):
 	display_scene.assign_logic_scene(self)
-	unitDisplay = display_scene
+	unit_display = display_scene
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

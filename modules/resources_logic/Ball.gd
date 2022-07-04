@@ -9,11 +9,11 @@ func _init(name_id, owner_id).(name_id, owner_id):
 
 func select():
 	if not _selected:
-		unitDisplay.select()
+		unit_display.select()
 		_selected = true
 func deselect():
 	if _selected:
-		unitDisplay.deselect()
+		unit_display.deselect()
 		_selected = false
 		
 func tire():

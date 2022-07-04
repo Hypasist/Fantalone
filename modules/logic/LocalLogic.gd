@@ -52,8 +52,21 @@ func complete_movement(direction):
 ##		IF TILE OCCUPIED:
 ##			red cage on tiles uccupied, blue tiles under own hexes
 
+func is_match_id_locally_present(match_id):
+	var match_players = mod.LobbyData.get_players()
+	for player in match_players:
+		if player.match_id == match_id:
+			if player.owner_lobby_member.network_id == mod.Network.get_id():
+				return true
+	return false
+
+func is_turn_owner_locally_present():
+	var owner = mod.MatchLogic.get_turn_owner()
+	return is_match_id_locally_present(owner)
 
 var selected_units = []
+func setup():
+	selected_units = []
 func any_unit_selected():
 	return selected_units.size() > 0
 
@@ -71,7 +84,7 @@ func deselect_all_units():
 	selected_units.clear()
 
 func new_unit_selected(new_unit:UnitLogicBase):
-	if not mod.LobbyLogic.is_match_id_mine(new_unit.get_owner()): return
+	if not is_match_id_locally_present(new_unit.get_owner()): return
 	if new_unit.is_tired(): return
 
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
