@@ -38,3 +38,7 @@ func _on_ExitButton_pressed():
 		["Yes", "No"], [true, true], self, "_on_ExitButton_handler"
 	)
 
+
+func _on_OptionsButton_pressed():
+	mod.PopupUI.create_options_menu_popup()
+

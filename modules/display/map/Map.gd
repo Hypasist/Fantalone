@@ -2,7 +2,7 @@ extends Node2D
 
 func load_map(savefile:String = ""):
 	if savefile == "":
-		mod.MapEditor.consumeMockup()
+		mod.MapEditor.consume_mockup()
 
 func add_tile_resource(resource):
 	$Tiles.add_child(resource)
@@ -23,3 +23,6 @@ func calculate_map_boundaries():
 	 				+ mod.Database.get_map_bounds_padding()
 	mod.Database.set_min_map_boundaries(min_hex_coords)
 	mod.Database.set_max_map_boundaries(max_hex_coords)
+
+func calculate_map_center():
+	pass

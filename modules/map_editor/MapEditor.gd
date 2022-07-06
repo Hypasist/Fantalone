@@ -17,9 +17,12 @@ var _units_by_id = {
 	7 : Resources.Ball,
 }
 
-func consumeMockup():
+func consume_mockup():
 	consume_tile_mockup()
-	consume_unit_mockup()
+	var match_ids = []
+	for player in mod.LobbyData.get_players():
+		match_ids.append(player.match_id)
+	consume_unit_mockup(match_ids)
 	hide()
 
 func get_used_ids(map:TileMap):
@@ -37,12 +40,13 @@ func consume_tile_mockup():
 		for coords in tile_mapping[id]:
 			mod.Logic.add_new(resource_name, coords)
 
-func consume_unit_mockup():
+func consume_unit_mockup(players):
 	var unit_mapping = get_used_ids($Units)
 	for id in unit_mapping:
-		var resource_name = _units_by_id[id]
-		for coords in unit_mapping[id]:
-			mod.Logic.add_new(resource_name, coords, id)
+		if players.has(id):
+			var resource_name = _units_by_id[id]
+			for coords in unit_mapping[id]:
+				mod.Logic.add_new(resource_name, coords, id)
 
 export (Vector2) var tilemapSize = Vector2(128, 70) setget updateTilemapSize
 func updateTilemapSize(size):

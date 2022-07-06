@@ -116,7 +116,6 @@ __meta__ = {
 }
 
 [connection signal="focus_exited" from="Box/PlayerName" to="." method="_on_PlayerName_focus_exited"]
-[connection signal="text_change_rejected" from="Box/PlayerName" to="." method="_on_PlayerName_text_change_rejected"]
 [connection signal="text_entered" from="Box/PlayerName" to="." method="_on_PlayerName_text_entered"]
 [connection signal="pressed" from="Box/AddBotButton" to="." method="_on_AddBotButton_pressed"]
 [connection signal="pressed" from="Box/AddHumanButton" to="." method="_on_AddHumanButton_pressed"]

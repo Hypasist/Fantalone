@@ -32,30 +32,41 @@ __meta__ = {
 [node name="ContinueButton" type="Button" parent="Box/VBoxContainer" index="2"]
 margin_top = 50.0
 margin_right = 552.0
-margin_bottom = 138.0
+margin_bottom = 115.0
 size_flags_vertical = 3
 text = "Continue"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MainMenuButton" type="Button" parent="Box/VBoxContainer" index="3"]
-margin_top = 142.0
+[node name="OptionsButton" type="Button" parent="Box/VBoxContainer" index="3"]
+margin_top = 119.0
 margin_right = 552.0
-margin_bottom = 231.0
+margin_bottom = 185.0
+size_flags_vertical = 3
+text = "Continue"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuButton" type="Button" parent="Box/VBoxContainer" index="4"]
+margin_top = 189.0
+margin_right = 552.0
+margin_bottom = 254.0
 size_flags_vertical = 3
 text = "Main menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ExitButton" type="Button" parent="Box/VBoxContainer" index="4"]
-margin_top = 235.0
+[node name="ExitButton" type="Button" parent="Box/VBoxContainer" index="5"]
+margin_top = 258.0
 margin_right = 552.0
 margin_bottom = 324.0
 size_flags_vertical = 3
 text = "Exit"
 
 [connection signal="pressed" from="Box/VBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="Box/VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
 [connection signal="pressed" from="Box/VBoxContainer/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="Box/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]

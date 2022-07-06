@@ -17,4 +17,4 @@ func _on_ConnectToServer_pressed():
 #	mod.Menu.switch_screens(mod.Menu.connect_to_server)
 
 func _on_Options_pressed():
-	pass # Replace with function body.
+	mod.PopupUI.create_options_menu_popup()

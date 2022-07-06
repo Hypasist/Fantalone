@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/PopupBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/OptionsMenuPopup.gd" type="Script" id=2]
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=3]
+
+[node name="OptionsMenuPopup" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Box" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleLabel" type="Label" parent="Box/VBoxContainer" index="0"]
+margin_right = 552.0
+margin_bottom = 38.0
+custom_fonts/font = ExtResource( 3 )
+text = "Options"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Box/VBoxContainer" index="1"]
+margin_top = 42.0
+margin_right = 552.0
+margin_bottom = 46.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AutofinishTurnsSlider" type="CheckButton" parent="Box/VBoxContainer" index="2"]
+margin_top = 50.0
+margin_right = 552.0
+margin_bottom = 96.0
+custom_fonts/font = ExtResource( 3 )
+text = "Autofinish turns"
+
+[node name="PlayerNameContainer" type="HBoxContainer" parent="Box/VBoxContainer" index="3"]
+margin_top = 100.0
+margin_right = 552.0
+margin_bottom = 148.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Box/VBoxContainer/PlayerNameContainer" index="0"]
+margin_top = 5.0
+margin_right = 274.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Player name"
+
+[node name="LineEdit" type="LineEdit" parent="Box/VBoxContainer/PlayerNameContainer" index="1"]
+margin_left = 278.0
+margin_right = 552.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "-default name-"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator2" type="HSeparator" parent="Box/VBoxContainer" index="4"]
+margin_top = 152.0
+margin_right = 552.0
+margin_bottom = 156.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmationContainer" type="HBoxContainer" parent="Box/VBoxContainer" index="5"]
+margin_top = 160.0
+margin_right = 552.0
+margin_bottom = 324.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CancelButton" type="Button" parent="Box/VBoxContainer/ConfirmationContainer" index="0"]
+margin_right = 274.0
+margin_bottom = 164.0
+size_flags_horizontal = 3
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcceptButton" type="Button" parent="Box/VBoxContainer/ConfirmationContainer" index="1"]
+margin_left = 278.0
+margin_right = 552.0
+margin_bottom = 164.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[connection signal="focus_exited" from="Box/VBoxContainer/PlayerNameContainer/LineEdit" to="." method="_on_LineEdit_focus_exited"]
+[connection signal="text_entered" from="Box/VBoxContainer/PlayerNameContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
+[connection signal="pressed" from="Box/VBoxContainer/ConfirmationContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="pressed" from="Box/VBoxContainer/ConfirmationContainer/AcceptButton" to="." method="_on_AcceptButton_pressed"]

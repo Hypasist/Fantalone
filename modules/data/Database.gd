@@ -7,12 +7,14 @@ func get_colorlist():
 	return $GameParameters.colorList
 func get_nickname():
 	return $GameParameters.player_name
-func set_player_name(name):
+func set_nickname(name):
 	$GameParameters.player_name = name
 
 # ACCESS FUNCTIONS:
 func is_autofinish_turn():
 	return $GameParameters.autofinish_turn
+func set_autofinish_turn(value):
+	$GameParameters.autofinish_turn = value
 
 func set_resolution(resolution):
 	$GameParameters.set_resolution(resolution)

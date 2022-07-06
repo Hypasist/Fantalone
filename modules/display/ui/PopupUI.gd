@@ -6,6 +6,12 @@ func create_match_menu_popup():
 	popup.setup(Vector2(0.4, 0.8))
 	push_popup(popup)
 
+func create_options_menu_popup():
+	var ClassScene = load("res://ui/OptionsMenuPopup.tscn")
+	var popup = ClassScene.instance()
+	popup.setup(Vector2(0.8, 0.6))
+	push_popup(popup)
+
 func create_popup_with_confirmation(text, button_text):
 	create_custom_popup(text, [button_text], [true])
 
