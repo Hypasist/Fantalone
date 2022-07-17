@@ -4,6 +4,7 @@ extends Node
 enum command { \
 	BROADCAST_LOBBY, \
 	BROADCAST_START, \
+	UPDATE_LOBBY, \
 	START_GAME, \
 	COLOR_CHANGE, \
 	NAME_CHANGE, \
@@ -11,10 +12,7 @@ enum command { \
 	NEW_LOBBY_MEMBER, \
 	NEW_MATCH_MEMBER, \
 	REMOVE_MEMBER, \
-	JOIN, \
 	LEAVE, \
-	OBSERVE, \
-	UPDATE_LOBBY, \
 	REQUEST_IDENTIFICATION, \
 	REQUEST_UPDATE_LOBBY, \
 	REQUEST_NAME_CHANGE, \
@@ -29,9 +27,7 @@ const server_commands = [ \
 	command.NEW_LOBBY_MEMBER, \
 	command.NEW_MATCH_MEMBER, \
 	command.REMOVE_MEMBER, \
-	command.JOIN, \
 	command.LEAVE, \
-	command.OBSERVE, \
 	command.NAME_CHANGE, \
 	command.COLOR_CHANGE, \
 	command.REQUEST_IDENTIFICATION \
@@ -44,9 +40,7 @@ const refresh_lobby_commands = [
 	command.NEW_LOBBY_MEMBER, \
 	command.NEW_MATCH_MEMBER, \
 	command.REMOVE_MEMBER, \
-	command.JOIN, \
 	command.LEAVE, \
-	command.OBSERVE \
 ]
 
 func setup():
@@ -67,8 +61,6 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	
 	var network_id = get_tree().get_rpc_sender_id()
 	match cmd:
-		command.BROADCAST_LOBBY:
-			pass
 		command.BROADCAST_START:
 			rpc("lobby_network_execute_command", command.START_GAME)
 		command.START_GAME:
@@ -77,9 +69,10 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			rpc_id(param1, "lobby_network_execute_command", command.IDENTIFY_YOURSELF)
 		command.IDENTIFY_YOURSELF:
 			var nickname = mod.Database.get_nickname()
-			rpc_id(Network.SERVER_ID, "lobby_network_execute_command", command.NEW_LOBBY_MEMBER, nickname)
+			var version = mod.Database.get_version()
+			rpc_id(Network.SERVER_ID, "lobby_network_execute_command", command.NEW_LOBBY_MEMBER, nickname, version)
 		command.NEW_LOBBY_MEMBER: # param1 = nickname
-			mod.LobbyData.add_lobby_member(network_id, param1)
+			mod.LobbyData.new_lobby_member(network_id, param1, param2)
 		command.REQUEST_NEW_MEMBER: # param1 = match_id; param2 = player_type; 
 			rpc_id(mod.Network.SERVER_ID, "lobby_network_execute_command", command.NEW_MATCH_MEMBER, param1, param2)
 		command.NEW_MATCH_MEMBER: # param1 = match_id; param2 = player_type;
@@ -102,15 +95,13 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			mod.LobbyData.change_player_color(param1, param2)
 		
 		command.REQUEST_UPDATE_LOBBY:
-			rpc_id(mod.Network.SERVER_ID, "lobby_network_execute_command", command.UPDATE_LOBBY)
-		command.UPDATE_LOBBY: # param1 = LobbyDataPackage
+			rpc_id(mod.Network.SERVER_ID, "lobby_network_execute_command", command.BROADCAST_LOBBY)
+		command.UPDATE_LOBBY:
 			mod.LobbyData.setup(param1)
 			mod.Menu.refresh()
-
-		command.REQUEST_JOIN, command.JOIN, command.REQUEST_OBSERVE, command.OBSERVE:
+		command.BROADCAST_LOBBY:
 			pass
-
-	# broadcast lobby to every member after certain commands 
+	# BROADCAST_LOBBY to every member after certain commands 
 	if refresh_lobby_commands.has(cmd) and mod.Network.is_server():
 		var update_package = LobbyDataPackage.pack(mod.LobbyData)
 		rpc("lobby_network_execute_command", command.UPDATE_LOBBY, update_package)

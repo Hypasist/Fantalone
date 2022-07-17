@@ -9,7 +9,9 @@ func get_nickname():
 	return $GameParameters.player_name
 func set_nickname(name):
 	$GameParameters.player_name = name
-
+func get_version():
+	return $GameParameters.game_version
+	
 # ACCESS FUNCTIONS:
 func is_autofinish_turn():
 	return $GameParameters.autofinish_turn

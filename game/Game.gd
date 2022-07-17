@@ -1,13 +1,5 @@
 extends Node
 
-## TODO:
-# animated tiles
-# album for tiles
-# *tiles with connections?? (water to grass e.g.?)
-# long tap for help
-#if zoom with pinch, move camera position
-# when zooming, control where do you center
-
 func _ready():
 	mod.Game = self
 	mod.Database = $Database
@@ -27,6 +19,8 @@ func _ready():
 	mod.LobbyData = $Database/LobbyData
 	mod.Debug = $Debug
 	mod.PopupUI = $UI/PopupUI
+	mod.SpellData = $Database/SpellData
+	
 	setup()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 

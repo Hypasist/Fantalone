@@ -1,3 +1,4 @@
+class_name PopupUI
 extends Control
 
 func create_match_menu_popup():
@@ -10,6 +11,12 @@ func create_options_menu_popup():
 	var ClassScene = load("res://ui/OptionsMenuPopup.tscn")
 	var popup = ClassScene.instance()
 	popup.setup(Vector2(0.8, 0.6))
+	push_popup(popup)
+
+func create_spell_menu_popup():
+	var ClassScene = load("res://ui/SpellMenuPopup.tscn")
+	var popup = ClassScene.instance()
+	popup.setup(Vector2(0.8, 1.0))
 	push_popup(popup)
 
 func create_popup_with_confirmation(text, button_text):

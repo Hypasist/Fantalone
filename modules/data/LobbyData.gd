@@ -88,6 +88,12 @@ func link_lobby_and_match_members(network_id, unique_id):
 	match_member.link_lobby_member(lobby_member)
 	lobby_member.link_match_member(match_member)
 
+func new_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
+	if version == mod.Database.get_version():
+		return add_lobby_member(network_id, nickname)
+	else:
+		mod.Network.disconnect_client(network_id)
+
 func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME):
 	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new lobby member! %d, %s" % [network_id, nickname])
 	var new_lobby_member = LobbyMemberInfo.new()

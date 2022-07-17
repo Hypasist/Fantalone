@@ -28,6 +28,7 @@ func setup(setup_as_server = false):
 	
 	if setup_as_server:
 		mod.Network.create_server()
+		$IPLabel.set_text("IP: %s" % mod.Network.peer.get_ip())
 		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_IDENTIFICATION, Network.SERVER_ID)
 	else:
 		mod.Network.connect_to_server()
@@ -107,7 +108,6 @@ func _on_delete(object):
 	if mod.Network.is_server():
 		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_REMOVE, \
 					object.lobby_member.unique_id)
-#		mod.Network.disconnect_client(object.lobby_member.network_id) # move this to LobbyNetwork
 
 func _on_Cancel_pressed():
 	mod.Network.disconnect_()

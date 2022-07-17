@@ -2,6 +2,7 @@ class_name MatchNetwork
 extends Node
 
 enum command { \
+	BROADCAST_GAMESTATE, \
 	BROADCAST_MOVE, \
 	BROADCAST_TURN_OWNER, \
 	BROADCAST_LOG_CMD, \
@@ -14,6 +15,7 @@ enum command { \
 }
 
 const server_commands = [ \
+	command.BROADCAST_GAMESTATE, \
 	command.BROADCAST_MOVE, \
 	command.BROADCAST_TURN_OWNER, \
 	command.BROADCAST_LOG_CMD, \
@@ -39,6 +41,8 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	
 	var network_id = get_tree().get_rpc_sender_id()
 	match cmd:
+		command.BROADCAST_GAMESTATE:
+			pass
 		command.BROADCAST_MOVE:
 			var unit_ids = mod.Database.pack_unit_ids(param1)
 			rpc("match_network_execute_command", command.EXECUTE_MOVE, unit_ids, param2)

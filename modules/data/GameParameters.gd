@@ -1,6 +1,8 @@
 extends Node
 
 ### VARIOUS CONSTANTS
+const game_version = "0.1.0"
+
 const MAX_PLAYER_NUM = 8
 const colorList = [ Color.steelblue, Color.webmaroon, Color.coral, Color.darkgreen ]
 

@@ -1,6 +1,8 @@
 class_name PopupBase
 extends NinePatchRect
 
+var _default_size = Vector2(1,1)
+
 static func set_anchors_by_size(object, size = Vector2(1,1)):
 	var diff = Vector2((1 - size.x)/2, (1 - size.y)/2)
 	object.set_anchor(MARGIN_LEFT, diff.x, true)
@@ -14,7 +16,7 @@ static func set_anchors_by_anchors(object, top_left = Vector2(0,0), bot_right = 
 	object.set_anchor(MARGIN_BOTTOM, bot_right.x, true)
 	object.set_anchor(MARGIN_RIGHT, bot_right.y, true)
 
-func setup(size:Vector2=Vector2(1,1)):
+func setup(size:Vector2=_default_size):
 	size = Utils.clamp2(size, Vector2(0,0), Vector2(1,1))
 	set_anchors_by_size(self, size)
 

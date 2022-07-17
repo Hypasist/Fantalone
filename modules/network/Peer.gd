@@ -1,9 +1,20 @@
 class_name Peer
 extends Node
 
+var ip = null
+
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_peer_disconnected")
+
+func get_ip():
+	return ip
+func determine_ip():
+	var ip_list = IP.get_local_addresses()
+	for potential_ip in ip_list:
+		if potential_ip.begins_with("192."):
+			ip = potential_ip
+			break
 
 func _peer_connected(network_id):
 	peer_connected(network_id)

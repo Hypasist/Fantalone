@@ -47,8 +47,7 @@ func _on_MatchMenuButton_pressed():
 	mod.PopupUI.create_match_menu_popup()
 
 func _on_SpellButton_pressed():
-	print("Spell button")
-	pass
+	mod.PopupUI.create_spell_menu_popup()
 
 func _on_EndTurnButton_pressed():
 	mod.MatchLogic.end_turn()

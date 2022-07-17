@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://modules/data/Database.gd" type="Script" id=1]
 [ext_resource path="res://modules/data/GameParameters.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://modules/data/MatchData.gd" type="Script" id=4]
 [ext_resource path="res://modules/data/ResourceData.gd" type="Script" id=5]
 [ext_resource path="res://modules/data/LobbyData.gd" type="Script" id=6]
+[ext_resource path="res://modules/data/SpellData.gd" type="Script" id=7]
 
 [node name="Database" type="Node"]
 script = ExtResource( 1 )
@@ -24,3 +25,6 @@ script = ExtResource( 5 )
 
 [node name="LobbyData" type="Node" parent="."]
 script = ExtResource( 6 )
+
+[node name="SpellData" type="Node" parent="."]
+script = ExtResource( 7 )
