@@ -12,8 +12,7 @@ func _init(unit_logic_).(unit_logic_):
 	target_position = mod.Logic.hex_to_position(target_coords)
 
 func execute():
-	if debug_verbose_display_commands:
-		Terminal.add_log(Debug.ALL, Debug.DISPLAY_CMD, "[%s] DisCmdMoveAndPush %s" % [unit_logic.get_name_id(), unit_logic.hex.coords.to_str()])
+	Terminal.add_log(Debug.ALL, Debug.DISPLAY_CMD, "[%s] DisCmdMoveAndPush %s" % [unit_logic.get_name_id(), unit_logic.hex.coords.to_str()])
 	
 	var position_tween = CustomTween2.new()
 	tween_list.append(position_tween)

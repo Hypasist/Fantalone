@@ -1,7 +1,7 @@
 class_name MovementInfo
 extends FormationInfo
 # TODO: movement info inherits after formation info
-enum invalid { no_reason, out_of_map_boundaries, unpassable_terrain, pushing_own_units, formation_too_weak, tile_occupied, not_your_turn }
+enum invalid { no_reason, out_of_map_boundaries, unpassable_terrain, pushing_own_units, formation_too_weak, tile_occupied, not_your_turn, need_at_least_one_move }
 var invalid_reason = null
 var valid = true
 var command_list = []
@@ -9,7 +9,8 @@ var formation_power = 0
 var opposed_power = 0
 
 func _init(formation):
-	copy(formation)
+	if formation:
+		copy(formation)
 	for unit in unit_list:
 		add_subject_to_evaluate(unit)
 		

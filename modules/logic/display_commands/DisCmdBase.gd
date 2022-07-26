@@ -1,7 +1,6 @@
 class_name DisCmdBase
 extends Node
 
-export(int,"off","on") var debug_verbose_display_commands = 0
 var animation_time = 1
 var incomplete_locks = 0
 var tween_list = []

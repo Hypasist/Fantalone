@@ -28,10 +28,11 @@ func setup(setup_as_server = false):
 	
 	if setup_as_server:
 		mod.Network.create_server()
-		$IPLabel.set_text("IP: %s" % mod.Network.peer.get_ip())
+		$IPLabel.set_text("IP: %s" % mod.Network.get_ip())
 		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_IDENTIFICATION, Network.SERVER_ID)
 	else:
 		mod.Network.connect_to_server()
+		$IPLabel.set_text("IP: %s" % mod.Network.get_target_ip())
 		$StartGame.set_disabled(true)
 	
 	_hookup_network_signals()

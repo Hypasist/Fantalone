@@ -1,30 +1,41 @@
 class_name ConnectToServerPopup
 extends PopupBase
 
+var default_ip = "192.168.0.1"
+
 func setup(size:Vector2=Vector2(0,0)):
 	.setup(size)
-	$Box/VBoxContainer/AutofinishTurnsSlider.set_pressed(mod.Database.is_autofinish_turn())
-	set_displayed_name(mod.Database.get_nickname())
+	set_displayed_name(default_ip)
 
 func _on_CancelButton_pressed():
 	mod.PopupUI.pop_popup(self)
 
 func _on_AcceptButton_pressed():
-	mod.Database.set_autofinish_turn($Box/VBoxContainer/AutofinishTurnsSlider.is_pressed())
-	mod.Database.set_nickname(name_remembered)
+	if changed_name:
+		_on_LineEdit_text_entered(changed_name)
+	mod.Network.set_target_ip(name_remembered)
+	mod.Menu.switch_screens(mod.Menu.multiplayer_setup, false)
 	mod.PopupUI.pop_popup(self)
-
-func _on_AutosearchButton_toggled(button_pressed):
-	pass # Replace with function body.
 
 var name_remembered = ""
 func set_displayed_name(text):
 	name_remembered = text
-	$Box/VBoxContainer/PlayerNameContainer/LineEdit.set_text(text)
+	$Box/VBoxContainer/DirectConnectionContainer/LineEdit.set_text(text)
+func revert_displayed_name():
+	$Box/VBoxContainer/DirectConnectionContainer/LineEdit.set_text(name_remembered)
 
 func _on_LineEdit_text_entered(new_text):
-	name_remembered = new_text
+	if new_text.is_valid_ip_address():
+		name_remembered = new_text
+	else:
+		revert_displayed_name()
 
 func _on_LineEdit_focus_exited():
-	$Box/VBoxContainer/PlayerNameContainer/LineEdit.set_text(name_remembered)
+	revert_displayed_name()
 
+func _on_AutosearchButton_pressed():
+	Terminal.add_log(Debug.INFO, Debug.SYSTEM, "Autosearch not implemented yet")
+
+var changed_name = null
+func _on_LineEdit_text_changed(new_text):
+	changed_name = new_text

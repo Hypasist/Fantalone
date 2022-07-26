@@ -13,6 +13,7 @@ func setup():
 	show()
 
 func update():
+	update_end_turn_button()
 	update_move_counter()
 	for player in mod.LobbyData.get_players():
 		var turn_owner = mod.MatchLogic.get_turn_owner() == player.match_id
@@ -22,13 +23,16 @@ func update():
 		else:
 			delete_bar(player.match_id)
 
+func update_end_turn_button():
+	if mod.LocalLogic.is_turn_owner_locally_present() and \
+	   mod.MatchLogic.get_move_counter() > 0:
+			$EndTurnButton.set_disabled(false)
+	else:
+		$EndTurnButton.set_disabled(true)
+
 func update_move_counter():
 	if mod.LocalLogic.is_turn_owner_locally_present():
-		$MoveCounter.set_text("%d out of %d moves left  " % [mod.MatchLogic.get_moves_left(), mod.MatchLogic.get_max_move_counter()])
-		if mod.MatchLogic.get_move_counter() > 0:
-			$EndTurnButton.set_disabled(false)
-		else:
-			$EndTurnButton.set_disabled(true)
+		$MoveCounter.set_text("%d moves left  " % [mod.MatchLogic.get_moves_left()])
 	else:
 		$MoveCounter.set_text("Waiting for opponent move: %d left  " % mod.MatchLogic.get_moves_left())
 		
@@ -50,4 +54,4 @@ func _on_SpellButton_pressed():
 	mod.PopupUI.create_spell_menu_popup()
 
 func _on_EndTurnButton_pressed():
-	mod.MatchLogic.end_turn()
+	mod.MatchLogic.request_end_turn()

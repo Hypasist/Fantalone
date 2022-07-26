@@ -38,6 +38,7 @@ func switch_screens(screen, setup_params=null):
 		previous_screen.queue_free()
 
 func _on_screen_resolved(package):
+	pass
 	print("_on_screen_resolved")
 	print(package)
 

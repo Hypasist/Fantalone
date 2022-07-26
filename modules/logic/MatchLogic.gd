@@ -53,8 +53,13 @@ func stop_match():
 	mod.Network.disconnect_()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 
+func new_turn():
+	determine_next_turn_owner()
+	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
+	wake_up_units(get_turn_owner())
+	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_TURN_OWNER)
 
-func verify_move(unit_list, direction):
+func verify_movement(unit_list, direction):
 	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
 	if not movement.is_valid():
 		return movement
@@ -67,16 +72,17 @@ func verify_move(unit_list, direction):
 		
 func make_move(unit_list, direction) -> bool:
 	var movement = mod.MovementLogic.make_move_unit(unit_list, direction)
+	move_counter += 1
 	if not movement:
 		return false
 	if movement.is_valid() == false:
-		# TODO: TUTAJ INVALID REASON HANDLING
+		Terminal.add_log(Debug.ERROR, Debug.SYSTEM, "Something went horribly wrong, cannot make move: %s" % MovementInfo.invalid.keys()[movement.invalid_reason])
 		return false
 	else:
 		mod.MapView.execute_display_queues()
-	mod.MatchData.cleanup_objects()
-	mod.UI.update_ui()
+	action_done()
 	return true
+
 
 func wake_up_units(match_id):
 	var units = mod.MatchData.get_players_units(match_id)
@@ -93,39 +99,45 @@ func execute_log_cmd(log_cmd_list):
 		var cmd_name = LogCmd.unpack(log_cmd[0])
 		var param = mod.Database.unpack_unit(log_cmd[1])
 		var cmd = cmd_name.new(param)
-		print(cmd, cmd_name, param)
+#		print("%s  %s" % [LogCmd.pack_dictionary[cmd_name], param._name_id])
 		cmd.execute()
 	mod.MapView.execute_display_queues()
+	action_done()
 
-func new_turn():
-	determine_next_turn_owner()
-	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
-	wake_up_units(get_turn_owner())
-	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_TURN_OWNER, get_turn_owner())
+func action_done():
+	if move_counter == max_move_counter && mod.Database.is_autofinish_turn():
+		request_end_turn()
+	#mod.MatchData.cleanup_objects()
+	mod.UI.update_ui()
 
-func chech_endgame_conditions():
+func check_endgame_conditions():
 	var alive_players = 0
 	for player in mod.LobbyData.get_players():
 		if mod.MatchData.get_players_units(player.match_id).size() > 0:
 			alive_players += 1
 	return true if alive_players <=1 else false
 
-func end_turn():
-	if move_counter > 0:
-		Terminal.add_log(Debug.ALL, Debug.MATCH, "Turn ended.")
-		if chech_endgame_conditions():
-			mod.MatchData.pause_game()
-			mod.PopupUI.create_custom_popup("Game finished!\n%s won!" % "Someone", ["Continue"], [true], self, "_on_finish_popup_handler")
-		else:
-			new_turn()
+func is_game_over():
+	if check_endgame_conditions():
+		mod.MatchData.pause_game()
+		mod.PopupUI.create_custom_popup("Game finished!\n%s won!" % "Someone", ["Continue"], [true], self, "_on_finish_popup_handler")
+		return true
 	else:
-		Terminal.add_log(Debug.INFO, Debug.MATCH, "Unable to end turn. Make at least one move.")
+		return false
+
+func end_turn(match_id):
+	var movement = MovementInfo.new(null)
+	if match_id != mod.MatchLogic.get_turn_owner():
+		movement.invalid_move(MovementInfo.invalid.not_your_turn)
+	elif move_counter == 0:
+		movement.invalid_move(MovementInfo.invalid.need_at_least_one_move)
+	else:
+		new_turn()
+	return movement
+
+func request_end_turn():
+	var match_id = mod.MatchLogic.get_turn_owner()
+	mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_END_TURN, match_id)
 
 func _on_finish_popup_handler(value):
 	stop_match()
-
-func move_confirmed(unit_list, direction):
-	move_counter += 1
-	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_MOVE, unit_list, direction)
-	if move_counter == max_move_counter && mod.Database.is_autofinish_turn():
-		end_turn()

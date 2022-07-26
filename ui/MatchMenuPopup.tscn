@@ -44,7 +44,7 @@ margin_top = 119.0
 margin_right = 552.0
 margin_bottom = 185.0
 size_flags_vertical = 3
-text = "Continue"
+text = "Options"
 __meta__ = {
 "_edit_use_anchors_": false
 }

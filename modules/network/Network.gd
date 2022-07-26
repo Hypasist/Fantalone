@@ -1,10 +1,10 @@
 class_name Network
 extends Node
 
-var SERVER_PORT = 22
+var SERVER_PORT = 1222
 var LOCALHOST_IP = "127.0.0.1"
-var PC_IP = "192.168.0.59"
-var MAX_PLAYERS = 3
+var TARGET_SERVER_IP = "192.168.0.59"
+var MAX_PLAYERS = 8
 
 const SERVER_ID = 1
 const INVALID_ID = -1
@@ -18,6 +18,15 @@ func get_id():
 func is_server():
 	return get_tree().is_network_server()
 
+func get_ip():
+	if peer:
+		return peer.ip
+func set_target_ip(ip):
+	if ip.is_valid_ip_address():
+		TARGET_SERVER_IP = ip
+func get_target_ip():
+		return TARGET_SERVER_IP
+
 func create_server():
 	if peer:
 		disconnect_()
@@ -30,7 +39,7 @@ func connect_to_server():
 		disconnect_()
 	peer = Client.new()
 	add_child(peer)
-	peer.connect_to_server(LOCALHOST_IP, SERVER_PORT)
+	peer.connect_to_server(TARGET_SERVER_IP, SERVER_PORT)
 
 func disconnect_():
 	peer.disconnect_()

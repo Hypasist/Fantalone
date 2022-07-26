@@ -29,7 +29,7 @@ func is_move_valid(direction):
 	return movement.is_valid()
 
 func complete_movement(direction):
-	var movement = mod.MatchLogic.verify_move(selected_units, direction)
+	var movement = mod.MatchLogic.verify_movement(selected_units, direction)
 	if movement.is_valid():
 		mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_MOVE, selected_units, direction)
 		deselect_all_units()

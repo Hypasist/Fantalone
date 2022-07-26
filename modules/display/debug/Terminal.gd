@@ -1,7 +1,7 @@
 class_name Debug
 extends Node
 
-const event_log_limit = 6
+const event_log_limit = 3
 # debug levels, from least to most vocal
 enum DebugLevel {DEBUG_NONE, DEBUG_ERROR, DEBUG_INFO, DEBUG_ALL}
 const NONE = DebugLevel.DEBUG_NONE
@@ -20,10 +20,10 @@ const MAP = DebugFlag.DEBUG_MAP
 const MATCH = DebugFlag.DEBUG_MATCH
 const SYSTEM = DebugFlag.DEBUG_SYSTEM
 const NETWORK = DebugFlag.DEBUG_NETWORK
-var debug_flags = [ LOBBY ]
+const debug_flag_array = [ LOBBY, MATCH, SYSTEM, MAP, NETWORK ]
 
 var breakpoint_on_error = false
-var to_console = true
+var to_console = false
 var event_log = []
 
 
@@ -31,7 +31,8 @@ func clear_log():
 	event_log.clear()
 
 func add_log(msg_level, msg_flag, msg_string):
-	if DebugLevel.values().has(msg_level) && msg_level <= debug_level:
+	if DebugLevel.values().has(msg_level) && msg_level <= debug_level \
+		&& debug_flag_array.has(msg_flag):
 		msg_string = "[%s] %s" % [DebugLevel.keys()[msg_level], msg_string]
 	
 		if to_console:

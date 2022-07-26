@@ -3,12 +3,13 @@ extends Node
 
 enum command { \
 	BROADCAST_GAMESTATE, \
-	BROADCAST_MOVE, \
 	BROADCAST_TURN_OWNER, \
 	BROADCAST_LOG_CMD, \
 	UPDATE_TURN_OWNER, \
 	VERIFY_MOVE, \
 	DISCARD_MOVE, \
+	REQUEST_END_TURN, \
+	VERIFY_END_TURN, \
 	REQUEST_MOVE, \
 	EXECUTE_MOVE, \
 	EXECUTE_LOG_CMD, \
@@ -16,11 +17,10 @@ enum command { \
 
 const server_commands = [ \
 	command.BROADCAST_GAMESTATE, \
-	command.BROADCAST_MOVE, \
 	command.BROADCAST_TURN_OWNER, \
 	command.BROADCAST_LOG_CMD, \
+	command.VERIFY_END_TURN, \
 	command.VERIFY_MOVE, \
-	command.DISCARD_MOVE, \
 ]
 
 func setup():
@@ -43,32 +43,38 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	match cmd:
 		command.BROADCAST_GAMESTATE:
 			pass
-		command.BROADCAST_MOVE:
-			var unit_ids = mod.Database.pack_unit_ids(param1)
-			rpc("match_network_execute_command", command.EXECUTE_MOVE, unit_ids, param2)
-		command.BROADCAST_LOG_CMD: 
-			# Needs to be packed before
-			rpc("match_network_execute_command", command.EXECUTE_LOG_CMD, param1)
-		command.BROADCAST_TURN_OWNER:
-			rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
-		command.UPDATE_TURN_OWNER:
-			mod.MatchLogic.set_turn_owner(param1)
-			mod.UI.update_ui()
-		command.VERIFY_MOVE:
-			var unit_list = mod.Database.unpack_unit_ids(param1)
-			var movement = mod.MatchLogic.verify_move(unit_list, param2)
-			if movement.is_valid():
-				mod.MatchLogic.move_confirmed(unit_list, param2)
-			else:
-				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
 		command.REQUEST_MOVE:
 			var unit_ids = mod.Database.pack_unit_ids(param1)
 			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.VERIFY_MOVE, unit_ids, param2)
+		command.VERIFY_MOVE:
+			var unit_list = mod.Database.unpack_unit_ids(param1)
+			var movement = mod.MatchLogic.verify_movement(unit_list, param2)
+			if movement.is_valid():
+				rpc("match_network_execute_command", command.EXECUTE_MOVE, param1, param2)
+			else:
+				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
 		command.DISCARD_MOVE:
 			Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server says: invalid move: %s" % MovementInfo.invalid.keys()[param1])
 		command.EXECUTE_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			mod.MatchLogic.make_move(unit_list, param2)
+			
+		command.BROADCAST_LOG_CMD: 
+			# Needs to be packed before
+			rpc("match_network_execute_command", command.EXECUTE_LOG_CMD, param1)
 		command.EXECUTE_LOG_CMD:
 			mod.MatchLogic.execute_log_cmd(param1)
-
+			
+		command.REQUEST_END_TURN:
+			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.VERIFY_END_TURN, param1)
+		command.VERIFY_END_TURN:
+			var movement = mod.MatchLogic.end_turn(param1)
+			if movement.is_valid():
+				pass
+			else:
+				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
+		command.BROADCAST_TURN_OWNER:
+				rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
+		command.UPDATE_TURN_OWNER:
+			mod.MatchLogic.set_turn_owner(param1)
+			mod.UI.update_ui()

@@ -19,6 +19,12 @@ func create_spell_menu_popup():
 	popup.setup(Vector2(0.8, 1.0))
 	push_popup(popup)
 
+func create_connect_to_server_popup():
+	var ClassScene = load("res://ui/ConnectToServerPopup.tscn")
+	var popup = ClassScene.instance()
+	popup.setup(Vector2(0.8, 0.8))
+	push_popup(popup)
+
 func create_popup_with_confirmation(text, button_text):
 	create_custom_popup(text, [button_text], [true])
 

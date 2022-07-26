@@ -58,6 +58,7 @@ margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
+disabled = true
 text = "AI"
 __meta__ = {
 "_edit_use_anchors_": false

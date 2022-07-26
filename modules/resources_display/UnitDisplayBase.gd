@@ -18,7 +18,7 @@ var _comp_object = null
 var _comp_method = null
 
 func queue_command(display_command):
-	_command_queue.append(display_command)
+	_command_queue.push_back(display_command)
 func has_commands_queued():
 	return _command_queue.empty() == false
 func execute_display_queue(comp_object, comp_method):

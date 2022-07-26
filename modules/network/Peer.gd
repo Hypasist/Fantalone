@@ -7,8 +7,6 @@ func _ready():
 	get_tree().connect("network_peer_connected", self, "_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_peer_disconnected")
 
-func get_ip():
-	return ip
 func determine_ip():
 	var ip_list = IP.get_local_addresses()
 	for potential_ip in ip_list:

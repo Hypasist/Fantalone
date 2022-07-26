@@ -2,7 +2,7 @@ class_name LobbyData
 extends Node
 
 var MAX_PLAYER_NUM = 8
-var MAP_PLAYER_NUM = 4
+var MAP_PLAYER_NUM = 3
 var MAX_OBSERVER_NUM = 8
 
 const COLOR_UNUSED = -1
