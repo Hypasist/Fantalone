@@ -11,7 +11,7 @@ func assign_logic_scene(logic_scene):
 		change_color(match_player_info.color)
 	.assign_logic_scene(logic_scene)
 	$NameLabel.set_text(unitLogic.get_name_id())
-	$Unit.setup_default_behaviour()
+#	$Unit.setup_default_behaviour()
 	return self
 
 func update_tired_state():

@@ -107,7 +107,7 @@ func execute_log_cmd(log_cmd_list):
 func action_done():
 	if move_counter == max_move_counter && mod.Database.is_autofinish_turn():
 		request_end_turn()
-	#mod.MatchData.cleanup_objects()
+	mod.MatchData.cleanup_objects()
 	mod.UI.update_ui()
 
 func check_endgame_conditions():

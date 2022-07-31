@@ -33,3 +33,9 @@ func exit_game():
 
 # how about -- jedna scena rodzic dla tile i unit (logic moze display)
 # reakcyjne delete free?
+
+# DISPLAY DISCOURSE:
+# Do clients receive info about enemy actions immidiately? Or do they receive  
+# whole info-package at the end of the turn? And then cancel coutering disCmds?
+# Like 'tire'-'untire'?  If I intend to use 'ctr+z' feature, then I need to send
+# all package at the end of turn.

@@ -1,12 +1,15 @@
 class_name UnitAnimationControllerBase
 extends Area2D
 
-var bored_min_timer = 5
-var bored_max_timer = 40
+const bored_min_timer = 5
+const bored_max_timer = 40
 
 var animation_type = null
 var comp_object = null
 var comp_method = null
+
+func _ready():
+	setup_default_behaviour()
 
 func setup_default_behaviour():
 	start_animation(UnitAnimations.idle, UnitAnimations.type.perpetual)
