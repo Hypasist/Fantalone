@@ -20,6 +20,8 @@ var display_busy = false
 
 func is_display_busy():
 	return display_busy
+func display_deletable():
+	return display_busy == false and has_commands_queued() == false
 func queue_command(display_command):
 	_command_queue.push_back(display_command)
 func has_commands_queued():
@@ -36,7 +38,7 @@ func execute_display_command():
 		command.execute()
 	else:
 		display_busy = false
-		_comp_object.call(_comp_method, self)
+		_comp_object.call(_comp_method)
 
 
 # --- SHADOW HANDLE (export to shadow???) --- #

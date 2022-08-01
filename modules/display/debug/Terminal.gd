@@ -20,10 +20,10 @@ const MAP = DebugFlag.DEBUG_MAP
 const MATCH = DebugFlag.DEBUG_MATCH
 const SYSTEM = DebugFlag.DEBUG_SYSTEM
 const NETWORK = DebugFlag.DEBUG_NETWORK
-const debug_flag_array = [ LOBBY, MATCH, SYSTEM, MAP, NETWORK ]
+const debug_flag_array = [ MATCH, SYSTEM ]
 
 var breakpoint_on_error = false
-var to_console = false
+var to_console = true
 var event_log = []
 
 

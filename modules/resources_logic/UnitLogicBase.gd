@@ -23,6 +23,8 @@ func get_hex():
 func place(hex_):
 	hex = hex_
 	return self
+func is_dead():
+	return not _alive
 func is_marked_to_delete():
 	return _marked_to_delete
 func get_display_scene():

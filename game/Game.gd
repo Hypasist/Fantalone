@@ -39,3 +39,7 @@ func exit_game():
 # whole info-package at the end of the turn? And then cancel coutering disCmds?
 # Like 'tire'-'untire'?  If I intend to use 'ctr+z' feature, then I need to send
 # all package at the end of turn.
+
+# THREADS DISCOURSE:
+# Currently we're working with 2 stable threads. Should we switch the second one
+# (display manager thread) to be temporal?

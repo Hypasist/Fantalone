@@ -85,7 +85,7 @@ func deselect_all_units():
 
 func new_unit_selected(new_unit:UnitLogicBase):
 	if not is_match_id_locally_present(new_unit.get_owner()): return
-	if new_unit.is_tired(): return
+	if new_unit.is_dead() or new_unit.is_tired(): return
 
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
 	if new_unit.is_selected() == false && not selected_units.has(new_unit):

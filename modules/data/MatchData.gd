@@ -61,7 +61,7 @@ func cleanup_all_objects():
 func cleanup_unit(unit):
 	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
 	unit.get_hex().unitLogic = null
-	if unit.unit_display and unit.unit_display.is_display_busy():
+	if unit.unit_display and unit.unit_display.display_deletable():
 		unit.unit_display.queue_free()
 	unit_list.erase(unit)
 	
