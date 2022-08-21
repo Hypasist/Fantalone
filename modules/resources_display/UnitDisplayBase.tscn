@@ -61,7 +61,7 @@ frames = SubResource( 4 )
 visible = false
 shape = SubResource( 5 )
 
-[connection signal="mouse_entered" from="Unit" to="." method="_on_Unit_mouse_entered"]
-[connection signal="mouse_exited" from="Unit" to="." method="_on_Unit_mouse_exited"]
+[connection signal="mouse_entered" from="Unit" to="." method="_on_Object_mouse_entered"]
+[connection signal="mouse_exited" from="Unit" to="." method="_on_Object_mouse_exited"]
 [connection signal="timeout" from="Unit/Timer" to="Unit" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="Unit/AnimatedSprite" to="Unit" method="_on_AnimatedSprite_animation_finished"]

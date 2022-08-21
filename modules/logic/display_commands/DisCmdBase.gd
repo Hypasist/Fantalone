@@ -4,14 +4,14 @@ extends Node
 var animation_time = 1
 var incomplete_locks = 0
 var tween_list = []
-var unit_logic = null
-var unit_display = null
+var object_logic = null
+var object_display = null
 signal command_completed()
 
-func _init(unit_logic_):
-	unit_logic = unit_logic_
-	unit_display = unit_logic_.unit_display
-	unit_logic.add_to_display_queue(self)
+func _init(object_logic_):
+	object_logic = object_logic_
+	object_display = object_logic.display
+	object_logic.add_to_display_queue(self)
 
 func execute():
 	Terminal.add_log(Debug.ERROR, Debug.DISPLAY_CMD, "Trying to execute DisCmdBase!")

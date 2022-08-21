@@ -1,16 +1,9 @@
 class_name UnitDisplayBase
-extends Node2D
+extends ObjectDisplayBase
 
-var unitLogic = null
 func assign_logic_scene(logic_scene):
-	unitLogic = logic_scene
-	position = mod.Logic.hex_to_position(unitLogic.get_hex().get_coords())
-	updateShadow()
-
-func _on_Unit_mouse_entered():
-	mod.UI.add_to_hoverlist(unitLogic)
-func _on_Unit_mouse_exited():
-	mod.UI.remove_from_hoverlist(unitLogic)
+	.assign_logic_scene(logic_scene)
+	update_shadow()
 
 # --- COMMAND QUEUE HANDLING --- #
 var _command_queue = []
@@ -46,7 +39,7 @@ func execute_display_command():
 export (int) var heightBaseOffset = -15
 export (float, 1) var shadowPerspectiveAspect = 0.4
 export (int) var heightBaseShadowOffset = 10
-func updateShadow():
+func update_shadow():
 	$Unit.set_position(Vector2(0, heightBaseOffset))
 	var shadowBaseSize = $Unit/AnimatedSprite.get_sprite_frames().get_frame("default", 0).get_size()
 	generateShadow($Shadow, Vector2(shadowBaseSize.x, shadowBaseSize.x * shadowPerspectiveAspect))

@@ -10,7 +10,7 @@ func assign_logic_scene(logic_scene):
 	if match_player_info:
 		change_color(match_player_info.color)
 	.assign_logic_scene(logic_scene)
-	$NameLabel.set_text(unitLogic.get_name_id())
+	$NameLabel.set_text(logic_scene.get_name_id())
 #	$Unit.setup_default_behaviour()
 	return self
 

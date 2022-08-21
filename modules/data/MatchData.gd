@@ -60,14 +60,14 @@ func cleanup_all_objects():
 
 func cleanup_unit(unit):
 	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
-	unit.get_hex().unitLogic = null
-	if unit.unit_display and unit.unit_display.display_deletable():
-		unit.unit_display.queue_free()
+	unit.get_hex().unit_logic = null
+	if unit.display and unit.display.display_deletable():
+		unit.display.queue_free()
 	unit_list.erase(unit)
 	
 func cleanup_tile(tile):
 	Terminal.add_log(Debug.ALL, Debug.MATCH, "Tile %s erased!" % tile.get_name_id())
-	tile.get_hex().unitLogic = null
-	if tile.tile_display:
-		tile.tile_display.queue_free()
+	tile.get_hex().unit_logic = null
+	if tile.display:
+		tile.display.queue_free()
 	tile_list.erase(tile)

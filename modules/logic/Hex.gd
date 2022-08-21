@@ -1,8 +1,8 @@
 class_name Hex
 extends Reference
 
-var tileLogic : TileLogicBase = null
-var unitLogic : UnitLogicBase = null
+var tile_logic : TileLogicBase = null
+var unit_logic : UnitLogicBase = null
 #var prop : PropBase = null
 var coords : HexCoords = null
 
@@ -17,23 +17,23 @@ func _init(coords_):
 
 func place_unit(unit_instance):
 	if unit_instance is UnitLogicBase:
-		unitLogic = unit_instance.place(self)
+		unit_logic = unit_instance.place(self)
 func get_unit():
-	return unitLogic
+	return unit_logic
 func place_tile(tile_instance):
 	if tile_instance is TileLogicBase:
-		tileLogic = tile_instance.place(self)
+		tile_logic = tile_instance.place(self)
 func get_tile():
-	return tileLogic
+	return tile_logic
 	
 func is_taken():
-	return (unitLogic != null)
+	return (unit_logic != null)
 func is_passable():
-	return tileLogic.passable if tileLogic else false
+	return tile_logic.passable if tile_logic else false
 func is_lethal():
-	return tileLogic.lethal if tileLogic else false
+	return tile_logic.lethal if tile_logic else false
 func get_owner():
-	return unitLogic.get_owner() if unitLogic else null
+	return unit_logic.get_owner() if unit_logic else null
 func get_neighbour(direction):
 	return mod.Logic.get_neighbour_hex(self, direction)
 func get_coords():

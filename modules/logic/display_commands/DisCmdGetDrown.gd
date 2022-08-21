@@ -1,11 +1,10 @@
 class_name DisCmdGetDrown
 extends DisCmdBase
 
-func _init(unit_logic_).(unit_logic_):
+func _init(object_logic_).(object_logic_):
 	incomplete_locks = 1
 
 func execute():
-	Terminal.add_log(Debug.ALL, Debug.DISPLAY_CMD, "[%s] DisCmdGetDrown %s" % [unit_logic.get_name_id(), unit_logic.hex.coords.to_str()])
-	
-	unit_display.start_animation(UnitAnimations.drowning, UnitAnimations.type.one_shot, \
+	Terminal.add_log(Debug.ALL, Debug.DISPLAY_CMD, "[%s] DisCmdGetDrown %s" % [object_logic.get_name_id(), object_logic.hex.coords.to_str()])
+	object_display.start_animation(UnitAnimations.drowning, UnitAnimations.type.one_shot, \
 								 self, "_release_lock")
