@@ -34,7 +34,8 @@ func execute_display_queue(comp_object, comp_method):
 func execute_display_command():
 	var command = _command_queue.pop_front()
 	if command:
-		command.connect("command_completed", self, "execute_display_command")
+		var err = command.connect("command_completed", self, "execute_display_command")
+		if err: breakpoint
 		command.execute()
 	else:
 		display_busy = false

@@ -8,6 +8,7 @@ var lethal = false
 var passable = false
 var safe2spawn = false
 var _marked_to_delete = false
+var _selected = false
 
 func _init(name_id):
 	_name_id = name_id
@@ -23,6 +24,14 @@ func get_name_id():
 	return _name_id
 func get_hex():
 	return hex
+
+func set_select(value):
+	if value and not _selected:
+		tile_display.set_select(true)
+		_selected = true
+	elif not value and _selected: 
+		tile_display.set_select(false)
+		_selected = false
 
 func assign_display_scene(display_scene:TileDisplayBase):
 	display_scene.assign_logic_scene(self)

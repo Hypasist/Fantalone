@@ -11,6 +11,7 @@ signal command_completed()
 func _init(unit_logic_):
 	unit_logic = unit_logic_
 	unit_display = unit_logic_.unit_display
+	unit_logic.add_to_display_queue(self)
 
 func execute():
 	Terminal.add_log(Debug.ERROR, Debug.DISPLAY_CMD, "Trying to execute DisCmdBase!")

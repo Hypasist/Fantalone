@@ -13,9 +13,7 @@ func action_rotate():
 # -------------------------------------
 
 func action_shorttap(_position):
-	var unit = mod.UI.get_hovered_unit()
-	if unit:
-		mod.LocalLogic.new_unit_selected(unit)
+	mod.LocalLogic.shorttap_handle()
 
 func action_longtap(_position):
 	pass

@@ -10,17 +10,18 @@ const INFO = DebugLevel.DEBUG_INFO
 const ALL = DebugLevel.DEBUG_ALL
 var debug_level = DebugLevel.DEBUG_ALL
 
-enum DebugFlag {DEBUG_SYSTEM, DEBUG_NETWORK, DEBUG_MENUS, DEBUG_MAP, DEBUG_LOBBY, DEBUG_INPUT, DEBUG_DISPLAY_CMD, DEBUG_LOGIC_CMD, DEBUG_MATCH}
+enum DebugFlag {DEBUG_SYSTEM, DEBUG_NETWORK, DEBUG_MENUS, DEBUG_MAP, DEBUG_LOBBY, DEBUG_INPUT, DEBUG_DISPLAY_CMD, DEBUG_LOGIC_CMD, DEBUG_EFFECT, DEBUG_MATCH}
 const LOBBY = DebugFlag.DEBUG_LOBBY
 const MENUS = DebugFlag.DEBUG_MENUS
 const INPUT = DebugFlag.DEBUG_INPUT
 const DISPLAY_CMD = DebugFlag.DEBUG_DISPLAY_CMD
 const LOGIC_CMD = DebugFlag.DEBUG_LOGIC_CMD
+const EFFECT = DebugFlag.DEBUG_EFFECT
 const MAP = DebugFlag.DEBUG_MAP
 const MATCH = DebugFlag.DEBUG_MATCH
 const SYSTEM = DebugFlag.DEBUG_SYSTEM
 const NETWORK = DebugFlag.DEBUG_NETWORK
-const debug_flag_array = [ MATCH, SYSTEM ]
+const debug_flag_array = [ MATCH, SYSTEM, LOGIC_CMD, DISPLAY_CMD, EFFECT ]
 
 var breakpoint_on_error = false
 var to_console = true

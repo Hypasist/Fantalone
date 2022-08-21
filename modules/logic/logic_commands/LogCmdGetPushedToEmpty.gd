@@ -4,15 +4,13 @@ extends LogCmdBase
 var unit = null
 var destination_hex = null
 
-func _init(unit_, destination_hex_).(unit_):
-	unit = unit_
-	destination_hex = destination_hex_
-	if debug_verbose_base_commands:
-		Terminal.add_log(Debug.ALL, Debug.LOGIC_CMD, "[%s] New LogCmdGetPushedToEmpty from %s to %s" % [unit.get_name_id(), unit.hex.coords.to_str(), destination_hex.coords.to_str()])
+func _init(_caster, _unit, _destination_hex).(_caster, _unit):
+	unit = _unit
+	destination_hex = _destination_hex
+	# Terminal.add_log(Debug.ALL, Debug.LOGIC_CMD, "[%s] New LogCmdGetPushedToEmpty from %s to %s" % [unit.get_name_id(), unit.hex.coords.to_str(), destination_hex.coords.to_str()])
 
 func execute():
 	Terminal.add_log(Debug.ALL, Debug.LOGIC_CMD, "[%s] LogCmdGetPushedToEmpty %s" % [unit.get_name_id(), unit.hex.coords.to_str()])
 	
 	unit.move_to_hex(destination_hex)
-	var display_command = DisCmdMoveToEmpty.new(unit)
-	unit.add_to_display_queue(display_command)
+	DisCmdMoveToEmpty.new(unit)

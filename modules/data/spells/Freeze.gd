@@ -5,3 +5,17 @@ func setup():
 	name = "Freeze"
 	mana_cost = 5
 	cooldown = 4
+	selection_limit = 1
+
+var selected_tiles = []
+func new_selected(object:TileLogicBase):
+	if selected_tiles.has(object):
+		object.tile_display.deselect()
+		selected_tiles.erase(object)
+	else:
+		object.tile_display.select()
+		selected_tiles.append(object)
+	print(object.get_name_id())
+
+func cast():
+	pass

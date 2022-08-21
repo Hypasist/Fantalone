@@ -31,17 +31,17 @@ func _evaluate_unit_command_move(movement, unit, destination_hex):
 	if movement.get_owner() == unit.get_owner():
 		movement.add_formation_power(unit.get_power())
 		if destination_hex.is_taken():
-			movement.add_command(LogCmdMoveAndPush.new(unit, destination_hex))
+			movement.add_command(LogCmdMoveAndPush.new(movement.get_owner(), unit, destination_hex))
 		elif destination_hex.is_lethal():
-			movement.add_command(LogCmdMoveAndDie.new(unit, destination_hex))
+			movement.add_command(LogCmdMoveAndDie.new(movement.get_owner(), unit, destination_hex))
 		else:
-			movement.add_command(LogCmdMoveToEmpty.new(unit, destination_hex))
+			movement.add_command(LogCmdMoveToEmpty.new(movement.get_owner(), unit, destination_hex))
 	else:
 		movement.add_opposed_power(unit.get_power())
 		if destination_hex.is_lethal():
-			movement.add_command(LogCmdGetPushedAndDie.new(unit, destination_hex))
+			movement.add_command(LogCmdGetPushedAndDie.new(movement.get_owner(), unit, destination_hex))
 		else:
-			movement.add_command(LogCmdGetPushedToEmpty.new(unit, destination_hex))
+			movement.add_command(LogCmdGetPushedToEmpty.new(movement.get_owner(), unit, destination_hex))
 
 func evaluate_unit_command(movement, unit):
 	var current_hex = unit.hex
@@ -108,28 +108,3 @@ func execute_movement_commands(movement:MovementInfo):
 	for command in movement.get_command_list():
 		command.execute()
 
-
-#func tireSelectedUnits():
-#	for unit in selected_units:
-#		unit.tire()
-#func untireAllPlayerUnits(player_id):
-#	for unit in Singletons.Logic.get_all_player_units(player_id):
-#		unit.untire()
-
-#func makeMove(moveInfo:Dictionary):
-#	if moveInfo["isMoveValid"] == false: return
-#
-#	# find the most extended unit to the direction we move to
-#	var frontHEX = Singletons.Worldmap.grid.HGAS.findMostExtendedHEX(moveInfo["affectedHEX"], moveInfo["moveDirection"])
-#	while true:
-#		var destinationHEX = frontHEX.getNeighbour(moveInfo["moveDirection"])
-#		if destinationHEX.isLethal():
-#			selected_units.erase(frontHEX.unit)
-#			frontHEX.unit.free()
-#		else:
-#			frontHEX.unit.move(destinationHEX)
-#		if moveInfo["affectedHEX"].has(frontHEX.getNeighbour(moveInfo["lineDirection"])):
-#			frontHEX = frontHEX.getNeighbour(moveInfo["lineDirection"])
-#		else:
-#			break
-#	Singletons.Logic.finishMove()

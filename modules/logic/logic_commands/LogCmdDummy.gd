@@ -1,7 +1,7 @@
 class_name LogCmdDummy
 extends LogCmdBase
 
-func _init(subject_).(subject_):
+func _init(_subject).(null, _subject):
 	pass
 
 func execute():

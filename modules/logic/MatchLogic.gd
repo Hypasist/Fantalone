@@ -40,6 +40,7 @@ func determine_next_turn_owner():
 func start_match():
 	current_turn_owner = -1
 	mod.Menu.hide_menu()
+	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_UNIT)
 	mod.MapView.load_map()
 	mod.UI.setup()
 	mod.MatchNetwork.setup()
@@ -48,6 +49,7 @@ func start_match():
 func stop_match():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "Match stopped.")
 	mod.Menu.show_menu()
+	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_MENU)
 	mod.MapView.erase_map()
 	mod.UI.hide_match_ui()
 	mod.Network.disconnect_()
@@ -56,7 +58,7 @@ func stop_match():
 func new_turn():
 	determine_next_turn_owner()
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
-	wake_up_units(get_turn_owner())
+	propagate_effects(get_turn_owner())
 	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_TURN_OWNER)
 
 func verify_movement(unit_list, direction):
@@ -84,14 +86,10 @@ func make_move(unit_list, direction) -> bool:
 	return true
 
 
-func wake_up_units(match_id):
+func propagate_effects(match_id):
 	var units = mod.MatchData.get_players_units(match_id)
-	var log_cmd_list = []
 	for unit in units:
-		if unit.is_tired():
-			log_cmd_list.append([LogCmd.pack(LogCmdWakeUp), mod.Database.pack_unit(unit)])
-	if not log_cmd_list.empty():
-		mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_LOG_CMD, log_cmd_list)
+		unit.propagate_effects()
 
 func execute_log_cmd(log_cmd_list):
 	var command_list = []

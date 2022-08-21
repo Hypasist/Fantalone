@@ -13,6 +13,8 @@ func remove_from_hoverlist(object):
 	$Hoverlist.remove_from_hoverlist(object)
 func get_hovered_unit():
 	return $Hoverlist.get_hovered_unit()
+func get_hovered_tile():
+	return $Hoverlist.get_hovered_tile()
 
 # ARROW HANDLE
 func arrow_clear_direction():
@@ -27,6 +29,7 @@ func arrow_set_direction(position, direction):
 func setup():
 	mod.LocalLogic.setup()
 	$MatchUI.setup()
+	$MatchUI.show()
 
 func hide_match_ui():
 	$MatchUI.hide()

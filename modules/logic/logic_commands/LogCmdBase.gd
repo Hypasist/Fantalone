@@ -1,11 +1,12 @@
 class_name LogCmdBase
 extends Reference
 
-export(int,"off","on") var debug_verbose_base_commands = 0
+var caster = null
 var subject = null
 
-func _init(subject_):
-	subject = subject_
+func _init(_caster, _subject):
+	caster = _caster
+	subject = _subject
 
 func execute():
 	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to execute LogCmdBase class!")

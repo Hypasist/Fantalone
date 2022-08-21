@@ -1,7 +1,9 @@
+class_name MatchUI
 extends Control
 
 var PlayerSummaryBar = preload("res://ui/PlayerSummaryBar.tscn")
 var player_summary = {}
+var spellcast_mode = false
 
 func setup():
 	delete_all()
@@ -9,8 +11,8 @@ func setup():
 		var summary_bar = PlayerSummaryBar.instance()
 		$PlayerSummaryPanel.add_child(summary_bar)
 		player_summary[player.match_id] = summary_bar
+	turn_off_spell_targeting()
 	update()
-	show()
 
 func update():
 	update_end_turn_button()
@@ -24,18 +26,10 @@ func update():
 			delete_bar(player.match_id)
 
 func update_end_turn_button():
-	if mod.LocalLogic.is_turn_owner_locally_present() and \
-	   mod.MatchLogic.get_move_counter() > 0:
-			$EndTurnButton.set_disabled(false)
-	else:
-		$EndTurnButton.set_disabled(true)
+	$TurnUI.update()
 
 func update_move_counter():
-	if mod.LocalLogic.is_turn_owner_locally_present():
-		$MoveCounter.set_text("%d moves left  " % [mod.MatchLogic.get_moves_left()])
-	else:
-		$MoveCounter.set_text("Waiting for opponent move: %d left  " % mod.MatchLogic.get_moves_left())
-		
+	$TurnUI.update()
 
 func delete_bar(match_id):
 	if player_summary.has(match_id):
@@ -47,11 +41,26 @@ func delete_all():
 		player_summary[match_id].free()
 		player_summary.erase(match_id)
 
+func turn_on_spell_targeting():
+	spellcast_mode = true
+	$SpellcastUI.show()
+	$TurnUI.hide()
+func turn_off_spell_targeting():
+	spellcast_mode = false
+	$SpellcastUI.hide()
+	$TurnUI.show()
+func is_spellcast_mode():
+	return spellcast_mode
+
+func spell_selected(spell_info):
+	mod.LocalLogic.deselect_all_units()
+	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_TILE)
+	mod.LocalLogic.load_spell(spell_info)
+	turn_on_spell_targeting()
+func spell_deselected():
+	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_UNIT)
+	mod.LocalLogic.unload_spell()
+	turn_off_spell_targeting()
+	
 func _on_MatchMenuButton_pressed():
 	mod.PopupUI.create_match_menu_popup()
-
-func _on_SpellButton_pressed():
-	mod.PopupUI.create_spell_menu_popup()
-
-func _on_EndTurnButton_pressed():
-	mod.MatchLogic.request_end_turn()

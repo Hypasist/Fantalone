@@ -14,6 +14,5 @@ const pack_dictionary = { \
 	LogCmdGetPushedToEmpty	:	"LogCmdGetPushedToEmpty", \
 	LogCmdMoveAndDie		:	"LogCmdMoveAndDie", \
 	LogCmdMoveAndPush		:	"LogCmdMoveAndPush", \
-	LogCmdMoveToEmpty		:	"LogCmdMoveToEmpty", \
-	LogCmdWakeUp			:	"LogCmdWakeUp", \
+	LogCmdMoveToEmpty		:	"LogCmdMoveToEmpty",
 }

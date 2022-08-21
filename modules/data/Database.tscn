@@ -6,7 +6,7 @@
 [ext_resource path="res://modules/data/MatchData.gd" type="Script" id=4]
 [ext_resource path="res://modules/data/ResourceData.gd" type="Script" id=5]
 [ext_resource path="res://modules/data/LobbyData.gd" type="Script" id=6]
-[ext_resource path="res://modules/data/SpellData.gd" type="Script" id=7]
+[ext_resource path="res://modules/data/spells/SpellList.gd" type="Script" id=7]
 
 [node name="Database" type="Node"]
 script = ExtResource( 1 )
@@ -26,5 +26,5 @@ script = ExtResource( 5 )
 [node name="LobbyData" type="Node" parent="."]
 script = ExtResource( 6 )
 
-[node name="SpellData" type="Node" parent="."]
+[node name="SpellList" type="Node" parent="."]
 script = ExtResource( 7 )

@@ -14,19 +14,19 @@ func assign_logic_scene(logic_scene):
 #	$Unit.setup_default_behaviour()
 	return self
 
-func update_tired_state():
-	if unitLogic.is_tired():
+func set_tire(value):
+	if value:
 		$Tired.show()
 	else:
 		$Tired.hide()
 
-func select():
-	$Selected.show()
-	$Unit.set_modulate(color.lightened(0.5))
-
-func deselect():
-	$Selected.hide()
-	$Unit.set_modulate(color)
+func set_select(value):
+	if value:
+		$Selected.show()
+		$Unit.set_modulate(color.lightened(0.5))
+	else:
+		$Selected.hide()
+		$Unit.set_modulate(color)
 
 func change_color(color_):
 	color = color_

@@ -18,4 +18,5 @@ var LobbyLogic = null
 var LobbyData = null
 var Debug = null
 var PopupUI = null
-var SpellData = null
+var MatchUI = null
+var SpellList = null

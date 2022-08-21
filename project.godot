@@ -85,9 +85,39 @@ _global_script_classes=[ {
 "path": "res://modules/logic/display_commands/DisCmdShow.gd"
 }, {
 "base": "DisCmdBase",
-"class": "DisCmdUpdateTiredState",
+"class": "DisCmdTireUnit",
 "language": "GDScript",
-"path": "res://modules/logic/display_commands/DisCmdUpdateTiredState.gd"
+"path": "res://modules/logic/display_commands/DisCmdTireUnit.gd"
+}, {
+"base": "DisCmdBase",
+"class": "DisCmdUntireUnit",
+"language": "GDScript",
+"path": "res://modules/logic/display_commands/DisCmdUntireUnit.gd"
+}, {
+"base": "Reference",
+"class": "EffectBase",
+"language": "GDScript",
+"path": "res://modules/data/effects/EffectBase.gd"
+}, {
+"base": "EffectBase",
+"class": "EffectDead",
+"language": "GDScript",
+"path": "res://modules/data/effects/EffectDead.gd"
+}, {
+"base": "EffectBase",
+"class": "EffectFrozen",
+"language": "GDScript",
+"path": "res://modules/data/effects/EffectFrozen.gd"
+}, {
+"base": "Reference",
+"class": "EffectList",
+"language": "GDScript",
+"path": "res://modules/data/effects/EffectList.gd"
+}, {
+"base": "EffectBase",
+"class": "EffectTired",
+"language": "GDScript",
+"path": "res://modules/data/effects/EffectTired.gd"
 }, {
 "base": "Reference",
 "class": "FormationInfo",
@@ -219,11 +249,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdMoveToEmpty.gd"
 }, {
-"base": "LogCmdBase",
-"class": "LogCmdWakeUp",
-"language": "GDScript",
-"path": "res://modules/logic/logic_commands/LogCmdWakeUp.gd"
-}, {
 "base": "Node2D",
 "class": "MapView",
 "language": "GDScript",
@@ -268,6 +293,11 @@ _global_script_classes=[ {
 "class": "MatchPlayerInfo",
 "language": "GDScript",
 "path": "res://modules/data/class/MatchPlayerInfo.gd"
+}, {
+"base": "Control",
+"class": "MatchUI",
+"language": "GDScript",
+"path": "res://modules/display/ui/MatchUI.gd"
 }, {
 "base": "MenuScreenBase",
 "class": "MenuMultiplayerMatchSetup",
@@ -330,9 +360,9 @@ _global_script_classes=[ {
 "path": "res://modules/data/spells/SpellBase.gd"
 }, {
 "base": "Node",
-"class": "SpellData",
+"class": "SpellList",
 "language": "GDScript",
-"path": "res://modules/data/SpellData.gd"
+"path": "res://modules/data/spells/SpellList.gd"
 }, {
 "base": "Button",
 "class": "SpellMenuBlock",
@@ -344,6 +374,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/SpellMenuPopup.gd"
 }, {
+"base": "Control",
+"class": "SpellcastUI",
+"language": "GDScript",
+"path": "res://modules/display/ui/SpellcastUI.gd"
+}, {
+"base": "Reference",
+"class": "TagList",
+"language": "GDScript",
+"path": "res://modules/data/effects/TagList.gd"
+}, {
 "base": "Node2D",
 "class": "TileDisplayBase",
 "language": "GDScript",
@@ -353,6 +393,11 @@ _global_script_classes=[ {
 "class": "TileLogicBase",
 "language": "GDScript",
 "path": "res://modules/resources_logic/TileLogicBase.gd"
+}, {
+"base": "Control",
+"class": "TurnUI",
+"language": "GDScript",
+"path": "res://modules/display/ui/TurnUI.gd"
 }, {
 "base": "Area2D",
 "class": "UnitAnimationControllerBase",
@@ -400,7 +445,13 @@ _global_script_class_icons={
 "DisCmdMoveToDeath": "",
 "DisCmdMoveToEmpty": "",
 "DisCmdShow": "",
-"DisCmdUpdateTiredState": "",
+"DisCmdTireUnit": "",
+"DisCmdUntireUnit": "",
+"EffectBase": "",
+"EffectDead": "",
+"EffectFrozen": "",
+"EffectList": "",
+"EffectTired": "",
 "FormationInfo": "",
 "GuiMultiplayerPlayerOptions": "",
 "GuiSingleplayerPlayerOptions": "",
@@ -427,7 +478,6 @@ _global_script_class_icons={
 "LogCmdMoveAndDie": "",
 "LogCmdMoveAndPush": "",
 "LogCmdMoveToEmpty": "",
-"LogCmdWakeUp": "",
 "MapView": "",
 "MatchData": "",
 "MatchDataPackage": "",
@@ -437,6 +487,7 @@ _global_script_class_icons={
 "MatchNetwork": "",
 "MatchObserverInfo": "",
 "MatchPlayerInfo": "",
+"MatchUI": "",
 "MenuMultiplayerMatchSetup": "",
 "MenuScreenBase": "",
 "MovementInfo": "",
@@ -449,11 +500,14 @@ _global_script_class_icons={
 "PopupUI": "",
 "Resources": "",
 "SpellBase": "",
-"SpellData": "",
+"SpellList": "",
 "SpellMenuBlock": "",
 "SpellMenuPopup": "",
+"SpellcastUI": "",
+"TagList": "",
 "TileDisplayBase": "",
 "TileLogicBase": "",
+"TurnUI": "",
 "UnitAnimationControllerBase": "",
 "UnitAnimations": "",
 "UnitDisplayBase": "",
@@ -466,7 +520,7 @@ _global_script_class_icons={
 
 config/name="Fantalone"
 run/main_scene="res://game/Game.tscn"
-config/icon="res://art/units/actorSpites.png"
+config/icon="res://modules/art/units/actorSpites.png"
 
 [autoload]
 

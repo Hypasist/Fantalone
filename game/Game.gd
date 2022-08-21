@@ -19,7 +19,8 @@ func _ready():
 	mod.LobbyData = $Database/LobbyData
 	mod.Debug = $Debug
 	mod.PopupUI = $UI/PopupUI
-	mod.SpellData = $Database/SpellData
+	mod.MatchUI = $UI/MatchUI
+	mod.SpellList = $Database/SpellList
 	
 	setup()
 	mod.Menu.switch_screens(mod.Menu.main_menu)

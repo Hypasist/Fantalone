@@ -14,3 +14,8 @@ func get_hovered_unit():
 	for hovered_object in hoverlist:
 		if hovered_object is UnitLogicBase:
 			return hovered_object
+
+func get_hovered_tile():
+	for hovered_object in hoverlist:
+		if hovered_object is TileLogicBase:
+			return hovered_object

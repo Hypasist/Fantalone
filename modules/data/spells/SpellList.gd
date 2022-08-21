@@ -1,4 +1,4 @@
-class_name SpellData
+class_name SpellList
 extends Node
 
 

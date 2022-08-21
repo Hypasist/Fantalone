@@ -5,8 +5,8 @@ extends Node2D
 var tileLogic = null
 func assign_logic_scene(logic):
 	tileLogic = logic
-	var hx = tileLogic.get_hex()
-	var coords = hx.get_coords()
+	var hex = tileLogic.get_hex()
+	var coords = hex.get_coords()
 	position = mod.Logic.hex_to_position(coords)
 	$CoordLabel.set_text(coords.to_str())
 
@@ -15,6 +15,12 @@ func has_queued_command():
 func execute_display_queue(_comp_object_, _comp_method_):
 	pass
 
+func set_select(value):
+	if value:
+		$Tile/Selected.show()
+	else:
+		$Tile/Selected.hide()
+	
 func _on_Tile_mouse_entered():
 	mod.UI.add_to_hoverlist(tileLogic)
 

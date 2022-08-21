@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
+[ext_resource path="res://modules/display/ui/SpellcastUI.gd" type="Script" id=2]
+
+[node name="SpellcastUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+script = ExtResource( 2 )
+
+[node name="CancelSpellButton" type="Button" parent="."]
+anchor_left = 0.8
+anchor_top = 0.6
+anchor_right = 1.0
+anchor_bottom = 0.8
+custom_fonts/font = ExtResource( 1 )
+text = "Cancel"
+
+[node name="AcceptSpellButton" type="Button" parent="."]
+anchor_left = 0.8
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "Cast"
+
+[connection signal="pressed" from="CancelSpellButton" to="." method="_on_CancelSpellButton_pressed"]
+[connection signal="pressed" from="AcceptSpellButton" to="." method="_on_AcceptSpellButton_pressed"]

@@ -52,6 +52,30 @@ func complete_movement(direction):
 ##		IF TILE OCCUPIED:
 ##			red cage on tiles uccupied, blue tiles under own hexes
 
+enum { UI_MODE_MENU, UI_MODE_UNIT, UI_MODE_TILE }
+var current_UI_mode = UI_MODE_MENU
+func get_UI_mode():
+	return current_UI_mode
+func set_UI_mode(mode):
+	current_UI_mode = mode
+
+func shorttap_handle():
+	match get_UI_mode():
+		UI_MODE_MENU:
+			pass
+		UI_MODE_UNIT:
+			var unit = mod.UI.get_hovered_unit()
+			if unit:
+				if mod.MatchUI.is_spellcast_mode():
+					$SpellcastLogic.new_unit_selected(unit)
+				else:
+					new_unit_selected(unit)
+		UI_MODE_TILE:
+			var tile = mod.UI.get_hovered_tile()
+			if tile:
+				if mod.MatchUI.is_spellcast_mode():
+					$SpellcastLogic.new_tile_selected(tile)
+
 func is_match_id_locally_present(match_id):
 	var match_players = mod.LobbyData.get_players()
 	for player in match_players:
@@ -59,6 +83,11 @@ func is_match_id_locally_present(match_id):
 			if player.owner_lobby_member.network_id == mod.Network.get_id():
 				return true
 	return false
+
+func load_spell(spell_info):
+	$SpellcastLogic.load_spell(spell_info)
+func unload_spell():
+	$SpellcastLogic.unload_spell()
 
 func is_turn_owner_locally_present():
 	var owner = mod.MatchLogic.get_turn_owner()
@@ -72,20 +101,20 @@ func any_unit_selected():
 
 func select_unit(unit):
 	selected_units.append(unit)
-	unit.select()
+	unit.set_select(true)
 	
 func deselect_unit(unit):
 	selected_units.erase(unit)
-	unit.deselect()
+	unit.set_select(false)
 	
 func deselect_all_units():
 	for unit in selected_units:
-		unit.deselect()
+		unit.set_select(false)
 	selected_units.clear()
 
 func new_unit_selected(new_unit:UnitLogicBase):
 	if not is_match_id_locally_present(new_unit.get_owner()): return
-	if new_unit.is_dead() or new_unit.is_tired(): return
+	if new_unit.has_tags([TagList.CANNOT_BE_SELECTED, TagList.CANNOT_MOVE]): return
 
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
 	if new_unit.is_selected() == false && not selected_units.has(new_unit):
@@ -104,3 +133,4 @@ func new_unit_selected(new_unit:UnitLogicBase):
 			deselect_all_units()
 	else:
 		Terminal.add_log(Debug.ERROR, Debug.MATCH, "New_item_status/selected_list mismatch")
+
