@@ -52,9 +52,7 @@ func propagate_effects():
 func erase_effect_class(effect_class):
 	var effect_to_finish_list = []
 	for effect in effect_list:
-		print("EFF: ", effect)
 		if effect is effect_class:
-			print("IT IS!")
 			effect_to_finish_list.append(effect)
 	erase_effect(effect_to_finish_list)
 func erase_effect(effect_to_finish_list):
