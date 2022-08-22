@@ -14,3 +14,9 @@ func is_valid():
 
 func new_selected(object):
 	print(object.get_name_id())
+
+func clear_selection():
+	pass
+
+func cast():
+	pass

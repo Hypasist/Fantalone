@@ -61,6 +61,10 @@ func spell_deselected():
 	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_UNIT)
 	mod.LocalLogic.unload_spell()
 	turn_off_spell_targeting()
-	
+func spell_casted():
+	mod.LocalLogic.cast_spell()
+	mod.MapView.execute_display_queues()
+	spell_deselected()
+
 func _on_MatchMenuButton_pressed():
 	mod.PopupUI.create_match_menu_popup()

@@ -10,8 +10,7 @@ func targetting():
 	pass
 
 func _on_AcceptSpellButton_pressed():
-	print("_on_AcceptSpellButton_pressed")
-	pass # Replace with function body.
+	mod.MatchUI.spell_casted()
 
 func _on_CancelSpellButton_pressed():
 	mod.MatchUI.spell_deselected()

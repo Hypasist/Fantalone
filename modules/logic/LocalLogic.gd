@@ -88,6 +88,8 @@ func load_spell(spell_info):
 	$SpellcastLogic.load_spell(spell_info)
 func unload_spell():
 	$SpellcastLogic.unload_spell()
+func cast_spell():
+	$SpellcastLogic.cast_spell()
 
 func is_turn_owner_locally_present():
 	var owner = mod.MatchLogic.get_turn_owner()
@@ -101,14 +103,17 @@ func any_unit_selected():
 
 func select_unit(unit):
 	selected_units.append(unit)
+#	unit.get_hex().get_tile().set_select(true)
 	unit.set_select(true)
 	
 func deselect_unit(unit):
 	selected_units.erase(unit)
+#	unit.get_hex().get_tile().set_select(false)
 	unit.set_select(false)
 	
 func deselect_all_units():
 	for unit in selected_units:
+#		unit.get_hex().get_tile().set_select(false)
 		unit.set_select(false)
 	selected_units.clear()
 

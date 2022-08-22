@@ -32,7 +32,7 @@ func update_tag_list():
 		for tag in tags:
 			if not tag_list.has(tag):
 				tag_list.append(tag)
-func has_tags(tag_array:Array):
+func has_tags(tag_array:Array): # HAS AT LEAST ONE TAG
 	for tag in tag_array:
 		if tag_list.has(tag):
 			return true
@@ -47,7 +47,17 @@ func propagate_effects():
 	for effect in effect_list:
 		if effect.propagate():
 			finished_effect_list.append(effect)
-	for finished_effect in finished_effect_list:
-		finished_effect.stop_effect()
-		effect_list.erase(finished_effect)
+	erase_effect(finished_effect_list)
 	update_tag_list()
+func erase_effect_class(effect_class):
+	var effect_to_finish_list = []
+	for effect in effect_list:
+		print("EFF: ", effect)
+		if effect is effect_class:
+			print("IT IS!")
+			effect_to_finish_list.append(effect)
+	erase_effect(effect_to_finish_list)
+func erase_effect(effect_to_finish_list):
+	for effect in effect_to_finish_list:
+		effect.stop_effect()
+		effect_list.erase(effect)

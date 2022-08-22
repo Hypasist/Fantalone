@@ -10,10 +10,10 @@ func setup():
 var selected_tiles = []
 func new_selected(object:ObjectLogicBase):
 	if selected_tiles.has(object):
-		object.display.deselect()
+		object.set_select(false)
 		selected_tiles.erase(object)
 	else:
-		object.display.select()
+		object.set_select(true)
 		selected_tiles.append(object)
 	print(object.get_name_id())
 
