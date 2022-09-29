@@ -59,12 +59,18 @@ func refresh_lobby_display():
 				else:
 					Terminal.add_log(Debug.ERROR, Debug.LOBBY, "Trying to assign same member to another PlayerOptionsPanel!")
 				break
-	
+		
 	for observer in mod.LobbyData.get_observers():
 		var new_obs = ButtonLabel.instance()
 		$ObserverList.add_child(new_obs)
 		buttonLabel_list.append(new_obs)
 		new_obs.set_text(observer.nickname)
+		
+	if mod.Network.is_server():
+		if mod.LobbyData.get_players_count() > 0:
+			$StartGame.set_disabled(false)
+		else:
+			$StartGame.set_disabled(true)
 
 
 func restart_lobby_display():

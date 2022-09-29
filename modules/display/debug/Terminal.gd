@@ -21,7 +21,7 @@ const MAP = DebugFlag.DEBUG_MAP
 const MATCH = DebugFlag.DEBUG_MATCH
 const SYSTEM = DebugFlag.DEBUG_SYSTEM
 const NETWORK = DebugFlag.DEBUG_NETWORK
-const debug_flag_array = [ MATCH, SYSTEM, LOGIC_CMD, DISPLAY_CMD, EFFECT ]
+const debug_flag_array = [ MATCH, SYSTEM, NETWORK ]
 
 var breakpoint_on_error = false
 var to_console = true
@@ -34,7 +34,7 @@ func clear_log():
 func add_log(msg_level, msg_flag, msg_string):
 	if DebugLevel.values().has(msg_level) && msg_level <= debug_level \
 		&& debug_flag_array.has(msg_flag):
-		msg_string = "[%s] %s" % [DebugLevel.keys()[msg_level], msg_string]
+		msg_string = "%s" % [msg_string]
 	
 		if to_console:
 			print(msg_string)

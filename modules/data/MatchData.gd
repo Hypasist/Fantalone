@@ -4,6 +4,18 @@ extends Node
 func pause_game():
 	pass
 
+var STARTING_MANA = 8
+var player_mana = {}
+func setup_match():
+	var player_list = mod.LobbyData.get_players()
+	for player in player_list:
+		player_mana[player.match_id] = STARTING_MANA
+
+func get_player_mana(match_id):
+	return player_mana[match_id]
+func get_players_mana():
+	return player_mana
+
 var item_counter = {}
 func get_unique_name(name):
 	if item_counter.has(name):

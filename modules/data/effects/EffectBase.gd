@@ -23,3 +23,10 @@ func start_effect():
 	pass
 func stop_effect():
 	pass
+
+func pack():
+	var pack = {}
+	pack["target"] = target
+	pack["caster"] = caster
+	pack["duration"] = duration_left 
+	return pack

@@ -38,3 +38,8 @@ func get_neighbour(direction):
 	return mod.Logic.get_neighbour_hex(self, direction)
 func get_coords():
 	return coords
+func pack():
+	var pack = {}
+	pack["q"] = coords.q
+	pack["r"] = coords.r
+	return pack

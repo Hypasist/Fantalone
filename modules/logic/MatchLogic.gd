@@ -42,6 +42,7 @@ func start_match():
 	mod.Menu.hide_menu()
 	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_UNIT)
 	mod.MapView.load_map()
+	mod.MatchData.setup_match()
 	mod.UI.setup()
 	mod.MatchNetwork.setup()
 
@@ -139,3 +140,10 @@ func request_end_turn():
 
 func _on_finish_popup_handler(value):
 	stop_match()
+
+
+func client_execute_move(unit_pack, directory):
+	if not mod.Network.is_server():
+		var unit_list = mod.Database.unpack_unit_ids(unit_pack)
+		mod.MatchLogic.make_move(unit_list, directory)
+		mod.MatchNetwork.execute_command(MatchNetwork.command.SEND_MATCH_HASH_STATUS)
