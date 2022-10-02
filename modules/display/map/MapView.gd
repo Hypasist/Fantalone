@@ -11,7 +11,6 @@ func load_map(map=""):
 func erase_map():
 	hide()
 	mod.ObjectData.remove_all_objects()
-	$Map.remove_all_resources()
 
 func zoom(_center, zoom_value, isStep=false):
 	$MapControl.zoom(_center, zoom_value, isStep)
