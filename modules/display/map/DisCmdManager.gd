@@ -22,11 +22,11 @@ var object_busy_counter = 0
 func kick_display_queues():
 	display_kick_mutex.lock()
 	if object_busy_counter == 0:
-		for tile in mod.MapView.get_tile_list():
+		for tile in mod.MapView.get_display_tile_list():
 			#objects_handled += 1
 			#tile.execute_display_queue(self, "_display_queue_completed")
 			pass
-		for unit in mod.MapView.get_unit_list():
+		for unit in mod.MapView.get_display_unit_list():
 			if unit.has_commands_queued() && not unit.is_display_busy():
 				object_busy_counter += 1
 				unit.execute_display_queue(self, "_display_queue_completed")

@@ -1,3 +1,4 @@
+class_name Game
 extends Node
 
 func _ready():
@@ -12,6 +13,7 @@ func _ready():
 	mod.Logic = $Logic
 	mod.MatchLogic = $Logic/MatchLogic
 	mod.MatchData = $Database/MatchData
+	mod.ObjectData = $Database/ObjectData
 	mod.MatchNetwork = $Network/MatchNetwork
 	mod.LobbyNetwork = $Network/LobbyNetwork
 	mod.MovementLogic = $Logic/MovementLogic

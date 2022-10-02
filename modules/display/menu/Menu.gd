@@ -1,3 +1,4 @@
+class_name Menu
 extends Control
 
 enum { main_menu, singleplayer_setup, multiplayer_setup, connect_to_server }

@@ -1,3 +1,4 @@
+class_name MovementLogic
 extends Node
 
 const HGAS = preload("res://utils/HEXGridAdvancedScripts.gd")

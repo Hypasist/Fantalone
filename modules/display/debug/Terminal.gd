@@ -43,7 +43,7 @@ func add_log(msg_level, msg_flag, msg_string):
 			if event_log.size() > event_log_limit:
 				event_log.pop_front()
 	
-	if breakpoint_on_error:
+	if breakpoint_on_error and msg_level == ERROR:
 		breakpoint
 
 func get_latest_logs():

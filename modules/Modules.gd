@@ -11,6 +11,7 @@ var UI = null
 var Menu = null
 var Logic = null
 var MatchLogic = null
+var ObjectData = null
 var MatchData = null
 var MovementLogic = null
 var LocalLogic = null

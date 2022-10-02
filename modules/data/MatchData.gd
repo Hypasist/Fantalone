@@ -3,71 +3,49 @@ extends Node
 
 func pause_game():
 	pass
+	
+func setup_match():
+	var player_list = mod.LobbyData.get_players()
+	for player in player_list:
+		player_mana[player.match_id] = STARTING_MANA
 
-var item_counter = {}
-func get_unique_name(name):
-	if item_counter.has(name):
-		item_counter[name] = item_counter[name] + 1
-	else:
-		item_counter[name] = 0
-	return "%s_%03d" % [name, item_counter[name]]
+## MANA
 
-var unit_list = []
-func register_new_unit(unit_instance):
-	unit_list.append(unit_instance)
+var STARTING_MANA = 8
+var player_mana = {}
+func get_player_mana(match_id):
+	return player_mana[match_id]
+func get_players_mana():
+	return player_mana
+
+## UNITS
 
 func get_all_units():
-	for unit in unit_list:
-		if unit == null:
-			breakpoint # NULL !
-	return unit_list
-
-func get_players_units(owner_id):
 	var return_array = []
-	for unit in unit_list:
-		if unit == null:
-			breakpoint # NULL !
-		elif unit.get_owner() == owner_id:
+	for unit in mod.ObjectData.get_unit_list():
+		if not unit.is_marked_to_delete():
+			return_array.append(unit)
+	return return_array
+
+func get_players_units(match_id):
+	var return_array = []
+	for unit in get_all_units():
+		if unit.get_owner() == match_id:
 			return_array.append(unit)
 	return return_array
 
 func get_players_units_num(match_id):
-	var counter = 0
-	for unit in unit_list:
-		if unit == null:
-			breakpoint # NULL !
-		elif unit.get_owner() == match_id:
-			counter += 1
-	return counter
-
-var tile_list = []
-func register_new_tile(tile_instance):
-	tile_list.append(tile_instance)
-
-func cleanup_objects():
-	for i in range(unit_list.size() - 1, -1, -1):
-		if unit_list[i].is_marked_to_delete():
-			cleanup_unit(unit_list[i])
-	for i in range(tile_list.size() - 1, -1, -1):
-		if tile_list[i].is_marked_to_delete():
-			cleanup_tile(tile_list[i])
-
-func cleanup_all_objects():
-	for i in range(unit_list.size() - 1, -1, -1):
-		cleanup_unit(unit_list[i])
-	for i in range(tile_list.size() - 1, -1, -1):
-		cleanup_tile(tile_list[i])
-
-func cleanup_unit(unit):
-	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
-	unit.get_hex().unit_logic = null
-	if unit.display and unit.display.display_deletable():
-		unit.display.queue_free()
-	unit_list.erase(unit)
+	return get_players_units(match_id).size()
 	
-func cleanup_tile(tile):
-	Terminal.add_log(Debug.ALL, Debug.MATCH, "Tile %s erased!" % tile.get_name_id())
-	tile.get_hex().unit_logic = null
-	if tile.display:
-		tile.display.queue_free()
-	tile_list.erase(tile)
+func cleanup_marked_objects():
+	var unit_marked_list = []
+	for unit in mod.ObjectData.get_unit_list():
+		if unit.is_marked_to_delete():
+			unit_marked_list.append(unit)
+	mod.ObjectData.remove_unit_list(unit_marked_list)
+	
+	var tile_marked_list = []
+	for tile in mod.ObjectData.get_tile_list():
+		if tile.is_marked_to_delete():
+			tile_marked_list.append(tile)
+	mod.ObjectData.remove_tile_list(tile_marked_list)

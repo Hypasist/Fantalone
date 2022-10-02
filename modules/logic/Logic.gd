@@ -1,3 +1,4 @@
+class_name Logic
 extends Node
 
 func get_hex_by_qr_coords(qr_coords):
@@ -26,6 +27,3 @@ func recognize_movement_hex(hex_list, direction):
 
 func make_move_hex(hex_list, direction):
 	return $MovementLogic.make_move_hex(hex_list, direction)
-
-func add_new(name, arg1=null, arg2=null, arg3=null, arg4=null):
-	$ObjectLogic.add_new(name, arg1, arg2, arg3, arg4)

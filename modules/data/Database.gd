@@ -1,3 +1,4 @@
+class_name Database
 extends Node
 
 # GLOBALS ACCESS
@@ -62,10 +63,10 @@ func pack_unit_ids(unit_list):
 	for unit in unit_list:
 		ids.append(unit._name_id)
 	return ids
-	
+
 func unpack_unit_ids(unit_ids):
 	var units = []
-	for unit in get_unit_list():
+	for unit in mod.MatchData.get_all_units():
 		if unit_ids.has(unit._name_id):
 			units.append(unit)
 	return units
@@ -73,9 +74,6 @@ func unpack_unit_ids(unit_ids):
 func pack_unit(unit):
 	return unit._name_id
 func unpack_unit(unit_id):
-	for unit in get_unit_list():
+	for unit in mod.MatchData.get_all_units():
 		if unit_id == unit._name_id:
 			return unit
-
-func get_unit_list():
-	return $MatchData.unit_list

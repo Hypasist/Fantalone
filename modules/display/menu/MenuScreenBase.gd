@@ -17,6 +17,10 @@ func resolve_screen(command, package, screenPath):
 
 func setup(setup_params):
 	Terminal.add_log(Debug.ALL, Debug.MENUS, "MenuScreenBase setup requested, param %s" % setup_params)
+	_hookup_network_signals()
+
+func _hookup_network_signals():
+	Terminal.add_log(Debug.ALL, Debug.MENUS, "MenuScreenBase _hookup_network_signals requested")
 
 func refresh(refresh_level):
 	Terminal.add_log(Debug.ALL, Debug.MENUS, "MenuScreenBase refresh requested, level %d" % refresh_level)

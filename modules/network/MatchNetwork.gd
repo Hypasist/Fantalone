@@ -13,6 +13,8 @@ enum command { \
 	REQUEST_MOVE, \
 	EXECUTE_MOVE, \
 	EXECUTE_LOG_CMD, \
+	TEST_SHARE_MATCH_STATUS, \
+	TEST_UPDATE_MATCH_STATUS, \
 }
 
 const server_commands = [ \
@@ -50,9 +52,17 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			var movement = mod.MatchLogic.verify_movement(unit_list, param2)
 			if movement.is_valid():
-				rpc("match_network_execute_command", command.EXECUTE_MOVE, param1, param2)
+				# Server-only execute move
+				mod.MatchLogic.make_move(unit_list, param2)
+#				rpc("match_network_execute_command", command.EXECUTE_MOVE, param1, param2)
 			else:
 				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
+		command.TEST_SHARE_MATCH_STATUS:
+			var packed_status = MatchDataPackage.pack_match()
+			rpc("match_network_execute_command", command.TEST_UPDATE_MATCH_STATUS, packed_status)
+		command.TEST_UPDATE_MATCH_STATUS:
+			if not mod.Network.is_server():
+				MatchDataPackage.unpack_match(param1)
 		command.DISCARD_MOVE:
 			Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server says: invalid move: %s" % MovementInfo.invalid.keys()[param1])
 		command.EXECUTE_MOVE:
