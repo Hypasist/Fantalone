@@ -34,3 +34,6 @@ func set_select(value):
 		_selected = false
 func is_selected():
 	return _selected
+
+func get_resource():
+	return null

@@ -1,10 +1,13 @@
 class_name MapView
 extends Node2D
 
-func load_map(map=""):
+func setup_map(package=null):
 	erase_map()
-	$MapControl.setup()
-	$Map.load_map(map)
+	if package:
+		MatchDataPackage.unpack_match(package)
+	else:
+		$Map.load_map()
+		$MapControl.setup()
 	$Map.calculate_map_boundaries()
 	show()
 

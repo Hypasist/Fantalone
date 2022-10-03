@@ -51,7 +51,6 @@ func get_first_unused_match_id():
 	Terminal.add_log(Debug.ERROR, Debug.LOBBY, "No more ids available!")
 	return MatchMemberInfo.ID_INVALID
 
-
 func get_unused_color():
 	for color in available_colors:
 		if available_colors[color] == COLOR_UNUSED:

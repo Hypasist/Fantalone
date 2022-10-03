@@ -41,7 +41,7 @@ func start_match():
 	current_turn_owner = -1
 	mod.Menu.hide_menu()
 	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_UNIT)
-	mod.MapView.load_map()
+	mod.MapView.setup_map()
 	mod.MatchData.setup_match()
 	mod.UI.setup()
 	mod.MatchNetwork.setup()

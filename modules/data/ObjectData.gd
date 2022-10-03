@@ -2,21 +2,30 @@ class_name ObjectData
 extends Node
 
 var item_counter = {}
-func get_unique_name(name):
-	if item_counter.has(name):
-		item_counter[name] = item_counter[name] + 1
+func get_unique_name(resource_name):
+	if item_counter.has(resource_name):
+		item_counter[resource_name] = item_counter[resource_name] + 1
 	else:
-		item_counter[name] = 0
-	return "%s_%03d" % [name, item_counter[name]]
+		item_counter[resource_name] = 0
+	return "%s_%03d" % [resource_name, item_counter[resource_name]]
+func assimilate_unique_name(unique_id):
+	var id_splitted = unique_id.rsplit("_")
+	var resource_name = id_splitted[0]
+	var counter = id_splitted[-1].to_int()
+	if item_counter.has(resource_name):
+		item_counter[resource_name] = max(counter, item_counter[resource_name])
+	else:
+		item_counter[resource_name] = counter
+	return unique_id
 
-func create_new_object(name, _arg1=null, _arg2=null, _arg3=null, _arg4=null):
-	var resource = mod.Database.get_resource_by_name(name)
-	match name:
+func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=null):
+	var resource = mod.Database.get_resource_by_name(resource_name)
+	match resource_name:
 		Resources.Ball:
 			#qr_coords, owner_id
-			var hex = mod.Logic.get_hex_by_xy_coords(_arg1)
-			var unique_name = get_unique_name(name)
-			var logic_scene = resource.logic_scene.new(unique_name, _arg2)
+			var hex = mod.Logic.get_hex_by_xy_coords(coords)
+			var unique_name = get_unique_name(resource_name)
+			var logic_scene = resource.logic_scene.new(unique_name, match_id)
 			unit_list.append(logic_scene)
 			hex.place_unit(logic_scene)
 			var display_scene = resource.display_scene.instance()
@@ -25,8 +34,8 @@ func create_new_object(name, _arg1=null, _arg2=null, _arg3=null, _arg4=null):
 			mod.MapView.add_unit_resource(display_scene)
 		Resources.Water, Resources.Rocks, Resources.Grass:
 			#qr_coords
-			var hex = mod.Logic.get_hex_by_xy_coords(_arg1)
-			var unique_name = get_unique_name(name)
+			var hex = mod.Logic.get_hex_by_xy_coords(coords)
+			var unique_name = get_unique_name(resource_name)
 			var logic_scene = resource.logic_scene.new(unique_name)
 			tile_list.append(logic_scene)
 			hex.place_tile(logic_scene)
@@ -34,6 +43,35 @@ func create_new_object(name, _arg1=null, _arg2=null, _arg3=null, _arg4=null):
 			display_scene.set_name(unique_name)
 			logic_scene.assign_display_scene(display_scene)
 			mod.MapView.add_tile_resource(display_scene)
+
+func copy_object(pack):
+	var resource = mod.Database.get_resource_by_name(pack["resource"])
+	match pack["resource"]:
+		Resources.Ball:
+			#qr_coords, owner_id
+			var hex = mod.Logic.get_hex_by_qr_coords(HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
+			var unique_name = assimilate_unique_name(pack["unique_id"])
+			var logic_scene = resource.logic_scene.new(unique_name, pack["match_id"])
+			unit_list.append(logic_scene)
+			hex.place_unit(logic_scene)
+			var display_scene = resource.display_scene.instance()
+			display_scene.set_name(unique_name)
+			logic_scene.assign_display_scene(display_scene)
+			mod.MapView.add_unit_resource(display_scene)
+			for effect in pack["effects"]:
+				print(effect)
+		Resources.Water, Resources.Rocks, Resources.Grass:
+			#qr_coords
+			var hex = mod.Logic.get_hex_by_qr_coords(HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
+			var unique_name = assimilate_unique_name(pack["unique_id"])
+			var logic_scene = resource.logic_scene.new(unique_name)
+			tile_list.append(logic_scene)
+			hex.place_tile(logic_scene)
+			var display_scene = resource.display_scene.instance()
+			display_scene.set_name(unique_name)
+			logic_scene.assign_display_scene(display_scene)
+			mod.MapView.add_tile_resource(display_scene)
+
 
 func remove_all_objects():
 	remove_all_units()

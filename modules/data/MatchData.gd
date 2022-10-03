@@ -36,7 +36,18 @@ func get_players_units(match_id):
 
 func get_players_units_num(match_id):
 	return get_players_units(match_id).size()
-	
+
+## Tiles
+
+func get_all_tiles():
+	var return_array = []
+	for tile in mod.ObjectData.get_tile_list():
+		if not tile.is_marked_to_delete():
+			return_array.append(tile)
+	return return_array
+
+## Garbage collector 
+
 func cleanup_marked_objects():
 	var unit_marked_list = []
 	for unit in mod.ObjectData.get_unit_list():

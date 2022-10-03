@@ -23,6 +23,18 @@ func add_to_display_queue(display_command):
 	if display:
 		display.queue_command(display_command)
 
+func pack():
+	var pack = {}
+	var packed_effects = []
+	for effect in effect_list:
+		packed_effects.append(effect.pack())
+	pack["effects"] = packed_effects
+	pack["unique_id"] = get_name_id()
+	pack["resource"] = get_resource()
+	pack["hex"] = get_hex().pack()
+	pack["match_id"] = get_owner()
+	return pack
+
 # --- TAGS AND EFFECTS
 var tag_list = []
 func update_tag_list():
