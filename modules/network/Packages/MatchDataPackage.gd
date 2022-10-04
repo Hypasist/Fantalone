@@ -21,9 +21,17 @@ static func pack_match():
 	return package
 
 static func unpack_match(package):
-	for record in package[_MATCH_UNITS]:
-		mod.ObjectData.copy_object(record)
-		
 	for record in package[_MATCH_TILES]:
 		mod.ObjectData.copy_object(record)
-		
+	
+	for record in package[_MATCH_UNITS]:
+		mod.ObjectData.copy_object(record)
+	
+	for record in package[_MATCH_UNITS]:
+		for effect in record["effects"]:
+			mod.ObjectData.copy_object(effect)
+	
+	mod.MatchData.set_players_mana(package[_MATCH_INFO]["players_mana"])
+	mod.MatchLogic.set_turn_owner(package[_MATCH_INFO]["turn_owner"])
+	
+	mod.MapView.execute_display_queues()

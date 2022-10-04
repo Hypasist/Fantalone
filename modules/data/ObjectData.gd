@@ -48,7 +48,6 @@ func copy_object(pack):
 	var resource = mod.Database.get_resource_by_name(pack["resource"])
 	match pack["resource"]:
 		Resources.Ball:
-			#qr_coords, owner_id
 			var hex = mod.Logic.get_hex_by_qr_coords(HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])
 			var logic_scene = resource.logic_scene.new(unique_name, pack["match_id"])
@@ -58,10 +57,7 @@ func copy_object(pack):
 			display_scene.set_name(unique_name)
 			logic_scene.assign_display_scene(display_scene)
 			mod.MapView.add_unit_resource(display_scene)
-			for effect in pack["effects"]:
-				print(effect)
 		Resources.Water, Resources.Rocks, Resources.Grass:
-			#qr_coords
 			var hex = mod.Logic.get_hex_by_qr_coords(HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])
 			var logic_scene = resource.logic_scene.new(unique_name)
@@ -71,7 +67,11 @@ func copy_object(pack):
 			display_scene.set_name(unique_name)
 			logic_scene.assign_display_scene(display_scene)
 			mod.MapView.add_tile_resource(display_scene)
-
+		Resources.EffectDead, Resources.EffectFrozen, Resources.EffectTired:
+			var caster = mod.MatchData.get_unit_by_name(pack["caster"])
+			var target = mod.MatchData.get_unit_by_name(pack["target"])
+			var logic_scene = resource.logic_scene.new(caster, target, pack["duration"])
+			logic_scene.start_effect()
 
 func remove_all_objects():
 	remove_all_units()
@@ -89,16 +89,16 @@ func get_unit_list():
 
 func remove_all_units():
 	for i in range(unit_list.size() - 1, -1, -1):
-		remove_unit(unit_list[i])
+		remove_unit(unit_list[i], true)
 
 func remove_unit_list(removal_list):
 	for unit in removal_list:
 		remove_unit(unit)
 
-func remove_unit(unit):
-	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
+func remove_unit(unit, force_remove=false):
+#	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
 	unit.get_hex().unit_logic = null
-	if unit.display and unit.display.display_deletable():
+	if unit.display and (true if force_remove else unit.display.display_deletable()):
 		unit.display.queue_free()
 	unit_list.erase(unit)
 
@@ -120,9 +120,8 @@ func remove_tile_list(removal_list):
 	for tile in removal_list:
 		remove_tile(tile)
 
-
-func remove_tile(tile):
-	Terminal.add_log(Debug.ALL, Debug.MATCH, "Tile %s erased!" % tile.get_name_id())
+func remove_tile(tile, force_remove=false):
+#	Terminal.add_log(Debug.ALL, Debug.MATCH, "Tile %s erased!" % tile.get_name_id())
 	tile.get_hex().unit_logic = null
 	if tile.display:
 		tile.display.queue_free()

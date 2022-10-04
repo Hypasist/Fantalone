@@ -1,7 +1,7 @@
-class_name EffectTired
+class_name EffectTiredClass
 extends EffectBase
 
-func _init(_caster, _target, _turns_left).(_caster, _target, _turns_left):
+func _init(_caster=null, _target=null, _turns_left=null).(_caster, _target, _turns_left):
 	tags = [TagList.CANNOT_MOVE, TagList.TIRED]
 
 func start_effect():
@@ -12,3 +12,6 @@ func start_effect():
 func stop_effect():
 	.stop_effect()
 	DisCmdUntireUnit.new(target)
+
+func get_resource():
+	return Resources.EffectTired
