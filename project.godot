@@ -120,6 +120,11 @@ _global_script_classes=[ {
 "path": "res://modules/data/effects/EffectTired.gd"
 }, {
 "base": "Reference",
+"class": "ErrorInfo",
+"language": "GDScript",
+"path": "res://modules/logic/ErrorInfo.gd"
+}, {
+"base": "Reference",
 "class": "FormationInfo",
 "language": "GDScript",
 "path": "res://modules/logic/FormationInfo.gd"
@@ -502,6 +507,7 @@ _global_script_class_icons={
 "EffectDead": "",
 "EffectFrozen": "",
 "EffectTired": "",
+"ErrorInfo": "",
 "FormationInfo": "",
 "Game": "",
 "GuiMultiplayerPlayerOptions": "",

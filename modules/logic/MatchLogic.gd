@@ -1,20 +1,20 @@
 class_name MatchLogic
 extends Node
 
-const max_move_counter = 2
-var move_counter = 0
+const max_action_counter = 2
+var action_counter = 0
 var current_turn_owner = -1
 func get_turn_owner():
 	return current_turn_owner
 func set_turn_owner(match_id):
-	move_counter = 0
+	action_counter = 0
 	current_turn_owner = match_id
-func get_move_counter():
-	return move_counter
-func get_max_move_counter():
-	return max_move_counter
-func get_moves_left():
-	return max_move_counter - move_counter
+func get_action_counter():
+	return action_counter
+func get_max_action_counter():
+	return max_action_counter
+func get_actions_left():
+	return max_action_counter - action_counter
 
 func determine_next_turn_owner():
 	var lobby_players = mod.LobbyData.get_players()
@@ -36,7 +36,6 @@ func determine_next_turn_owner():
 						return current_turn_owner
 			return current_turn_owner
 
-
 func start_match():
 	current_turn_owner = -1
 	mod.Menu.hide_menu()
@@ -45,7 +44,6 @@ func start_match():
 	mod.MatchData.setup_match()
 	mod.UI.setup()
 	mod.MatchNetwork.setup()
-
 
 func stop_match():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "Match stopped.")
@@ -68,14 +66,14 @@ func verify_movement(unit_list, direction):
 		return movement
 	else:
 		for unit in unit_list:
-			if unit.get_owner() != mod.MatchLogic.get_turn_owner():
-				movement.invalid_move(MovementInfo.invalid.not_your_turn)
+			if unit.get_owner() != get_turn_owner():
+				movement.invalid_move(ErrorInfo.invalid.not_your_turn)
 				return movement
 		return movement
 		
 func make_move(unit_list, direction) -> bool:
 	var movement = mod.MovementLogic.make_move_unit(unit_list, direction)
-	move_counter += 1
+	action_counter += 1
 	if not movement:
 		return false
 	if movement.is_valid() == false:
@@ -104,7 +102,7 @@ func execute_log_cmd(log_cmd_list):
 	action_done()
 
 func action_done():
-	if move_counter == max_move_counter && mod.Database.is_autofinish_turn():
+	if action_counter == max_action_counter && mod.Database.is_autofinish_turn():
 		request_end_turn()
 	mod.MatchData.cleanup_marked_objects()
 	mod.UI.update_ui()
@@ -135,8 +133,8 @@ func end_turn(match_id):
 	return movement
 
 func request_end_turn():
-	var match_id = mod.MatchLogic.get_turn_owner()
 	mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_END_TURN, match_id)
+	var match_id = get_turn_owner()
 
 func _on_finish_popup_handler(value):
 	stop_match()

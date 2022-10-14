@@ -50,10 +50,10 @@ func evaluate_unit_command(movement, unit):
 	
 	if destination_hex.get_tile() == null:
 		Terminal.add_log(Debug.ERROR, Debug.MATCH, "Trying to reach beyond the map boundaries!")
-		movement.invalid_move(movement.invalid.out_of_map_boundaries)
+		movement.invalid_move(ErrorInfo.invalid.out_of_map_boundaries)
 		
 	elif destination_hex.is_passable() == false:
-		movement.invalid_move(movement.invalid.unpassable_terrain)
+		movement.invalid_move(ErrorInfo.invalid.unpassable_terrain)
 		
 	elif destination_hex.is_taken():
 		var encountered_unit = destination_hex.get_unit()
@@ -64,14 +64,14 @@ func evaluate_unit_command(movement, unit):
 				_evaluate_unit_command_move(movement, unit, destination_hex)
 			# PUSHING OWN UNIT, THAT DOESN'T BELONG TO FORMATION
 			else:
-				movement.invalid_move(movement.invalid.pushing_own_units)
+				movement.invalid_move(ErrorInfo.invalid.pushing_own_units)
 		# PUSHING OTHER UNIT
 		elif movement.is_pushing():
 			movement.add_subject_to_evaluate(encountered_unit)
 			_evaluate_unit_command_move(movement, unit, destination_hex)
 		# MOVING TO TAKEN HEX, WHILE NOT PUSHING
 		else:
-			movement.invalid_move(movement.invalid.tile_occupied)
+			movement.invalid_move(ErrorInfo.invalid.tile_occupied)
 	else:
 		# MOVING TO NON-TAKEN HEX
 		_evaluate_unit_command_move(movement, unit, destination_hex)
@@ -88,7 +88,7 @@ func recognize_movement_hex(hex_list, direction):
 				evaluate_unit_command(movement, subject)
 		# NO COMMANDS LEFT TO EVALUATE
 		elif movement.get_opposed_power() >= movement.get_formation_power(): 
-			movement.invalid_move(movement.invalid.formation_too_weak)
+			movement.invalid_move(ErrorInfo.invalid.formation_too_weak)
 		else:
 			break
 	return movement

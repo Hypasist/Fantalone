@@ -40,3 +40,4 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="SpellButton" to="." method="_on_SpellButton_pressed"]
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_EndTurnButton_pressed"]
