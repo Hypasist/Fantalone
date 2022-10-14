@@ -126,15 +126,15 @@ func end_turn(match_id):
 	var movement = MovementInfo.new(null)
 	if match_id != mod.MatchLogic.get_turn_owner():
 		movement.invalid_move(MovementInfo.invalid.not_your_turn)
-	elif move_counter == 0:
+	elif get_action_counter() == 0:
 		movement.invalid_move(MovementInfo.invalid.need_at_least_one_move)
 	else:
 		new_turn()
 	return movement
 
 func request_end_turn():
-	mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_END_TURN, match_id)
 	var match_id = get_turn_owner()
+	mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_END_TURN, match_id)
 
 func _on_finish_popup_handler(value):
 	stop_match()
