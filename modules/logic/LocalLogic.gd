@@ -25,7 +25,7 @@ func is_line_formation():
 func is_move_valid(direction):
 	var movement = mod.MovementLogic.recognize_movement_unit(selected_units, direction)
 	if not movement.is_valid():
-		Terminal.add_log(Debug.INFO, Debug.MATCH, "Invalid move: %s" % MovementInfo.invalid.keys()[movement.invalid_reason])
+		Terminal.add_log(Debug.INFO, Debug.MATCH, "Invalid move: %s" % movement.get_invalid_string())
 	return movement.is_valid()
 
 func complete_movement(direction):
@@ -34,7 +34,7 @@ func complete_movement(direction):
 		mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_MOVE, selected_units, direction)
 		deselect_all_units()
 	else:
-		Terminal.add_log(Debug.INFO, Debug.MATCH, "Invalid move: %s" % MovementInfo.invalid.keys()[movement.invalid_reason])
+		Terminal.add_log(Debug.INFO, Debug.MATCH, "Invalid move: %s" % movement.get_invalid_string())
 
 ## INFORMING THE PLAYER ABOUT THE MOVE RESULTS:
 ## 	IF VALID:

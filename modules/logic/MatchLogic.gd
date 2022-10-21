@@ -77,7 +77,7 @@ func make_move(unit_list, direction) -> bool:
 	if not movement:
 		return false
 	if movement.is_valid() == false:
-		Terminal.add_log(Debug.ERROR, Debug.SYSTEM, "Something went horribly wrong, cannot make move: %s" % MovementInfo.invalid.keys()[movement.invalid_reason])
+		Terminal.add_log(Debug.ERROR, Debug.SYSTEM, "Something went horribly wrong, cannot make move: %s" % movement.get_invalid_string())
 		return false
 	else:
 		mod.MapView.execute_display_queues()

@@ -65,7 +65,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			if not mod.Network.is_server():
 				mod.MapView.setup_map(param1)
 		command.DISCARD_MOVE:
-			Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server says: invalid move: %s" % MovementInfo.invalid.keys()[param1])
+			Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server says: invalid move: %s" % ErrorInfo.get_invalid_string_by_enum(param1))
 		command.EXECUTE_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			mod.MatchLogic.make_move(unit_list, param2)
