@@ -17,6 +17,11 @@ enum command { \
 	TEST_UPDATE_MATCH_STATUS, \
 	TEST_SEND_MATCH_STATE_HASH, \
 	TEST_VERIFY_MATCH_STATE_HASH, \
+	TEST_REQUEST_COMMAND, \
+	TEST_VERIFY_COMMAND, \
+	TEST_BROADCAST_COMMAND, \
+	TEST_EXECUTE_COMMAND, \
+	TEST_DISCARD_COMMAND, \
 }
 
 const server_commands = [ \
@@ -79,7 +84,19 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.EXECUTE_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			mod.MatchLogic.make_move(unit_list, param2)
-			
+		
+		command.TEST_REQUEST_COMMAND:
+			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.TEST_VERIFY_COMMAND, param1)
+		command.TEST_VERIFY_COMMAND:
+			mod.CommandQueue.server_unpack_and_execute_queue(param1)
+		command.TEST_BROADCAST_COMMAND:
+			rpc("match_network_execute_command", command.TEST_EXECUTE_COMMAND, param1)
+		command.TEST_EXECUTE_COMMAND:
+			if not mod.Network.is_server():
+				mod.CommandQueue.client_unpack_and_execute_queue(param1)
+		command.TEST_DISCARD_COMMAND:
+			print("DISCARD, ", param1)
+		
 		command.BROADCAST_LOG_CMD: 
 			# Needs to be packed before
 			rpc("match_network_execute_command", command.EXECUTE_LOG_CMD, param1)

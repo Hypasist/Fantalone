@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://modules/logic/Logic.gd" type="Script" id=1]
 [ext_resource path="res://modules/logic/HexGrid.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://modules/logic/LobbyLogic.gd" type="Script" id=6]
 [ext_resource path="res://modules/logic/LocalLogic.gd" type="Script" id=7]
 [ext_resource path="res://modules/logic/SpellcastLogic.gd" type="Script" id=8]
+[ext_resource path="res://modules/logic/CommandQueue.gd" type="Script" id=9]
 
 [node name="Logic" type="Node"]
 script = ExtResource( 1 )
@@ -23,6 +24,9 @@ script = ExtResource( 4 )
 
 [node name="MatchLogic" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="CommandQueue" type="Node" parent="MatchLogic"]
+script = ExtResource( 9 )
 
 [node name="LobbyLogic" type="Node" parent="."]
 script = ExtResource( 6 )

@@ -18,6 +18,7 @@ func _ready():
 	mod.LobbyNetwork = $Network/LobbyNetwork
 	mod.MovementLogic = $Logic/MovementLogic
 	mod.LobbyLogic = $Logic/LobbyLogic
+	mod.CommandQueue = $Logic/MatchLogic/CommandQueue
 	mod.LobbyData = $Database/LobbyData
 	mod.Debug = $Debug
 	mod.PopupUI = $UI/PopupUI

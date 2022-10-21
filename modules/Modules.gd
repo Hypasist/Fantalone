@@ -14,6 +14,7 @@ var MatchLogic = null
 var ObjectData = null
 var MatchData = null
 var MovementLogic = null
+var CommandQueue = null
 var LocalLogic = null
 var LobbyLogic = null
 var LobbyData = null

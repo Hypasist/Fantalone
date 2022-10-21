@@ -122,19 +122,11 @@ func is_game_over():
 	else:
 		return false
 
-func end_turn(match_id):
-	var movement = MovementInfo.new(null)
-	if match_id != mod.MatchLogic.get_turn_owner():
-		movement.invalid_move(MovementInfo.invalid.not_your_turn)
-	elif get_action_counter() == 0:
-		movement.invalid_move(MovementInfo.invalid.need_at_least_one_move)
-	else:
-		new_turn()
-	return movement
-
 func request_end_turn():
 	var match_id = get_turn_owner()
-	mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_END_TURN, match_id)
+	var actions_left = get_actions_left()
+	mod.CommandQueue.new_command(NetCmdFinishTurn, {"caller":match_id, "actions_left":actions_left})
+	mod.CommandQueue.report_to_server()
 
 func _on_finish_popup_handler(value):
 	stop_match()

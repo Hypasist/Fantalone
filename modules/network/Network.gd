@@ -19,13 +19,12 @@ func is_server():
 	return get_tree().is_network_server()
 
 func get_ip():
-	if peer:
-		return peer.ip
+	return peer.ip if peer else null
 func set_target_ip(ip):
 	if ip.is_valid_ip_address():
 		TARGET_SERVER_IP = ip
 func get_target_ip():
-		return TARGET_SERVER_IP
+	return TARGET_SERVER_IP
 
 func create_server():
 	if peer:
