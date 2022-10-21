@@ -24,10 +24,13 @@ class KnownResource:
 
 		#NAME				#LOGIC SCENE								#DISPLAY SCENE
 var _resources = {
-	Resources.Grass	:	["res://modules/resources_logic/Grass.gd",	"res://modules/resources_display/Grass.tscn"],
-	Resources.Water	:	["res://modules/resources_logic/Water.gd",	"res://modules/resources_display/Water.tscn"],
-	Resources.Rocks	:	["res://modules/resources_logic/Rocks.gd",	"res://modules/resources_display/Rocks.tscn"],
-	Resources.Ball	:	["res://modules/resources_logic/Ball.gd",	"res://modules/resources_display/Ball.tscn"]
+	Resources.Grass	:		["res://modules/resources_logic/Grass.gd",	"res://modules/resources_display/Grass.tscn"],
+	Resources.Water	:		["res://modules/resources_logic/Water.gd",	"res://modules/resources_display/Water.tscn"],
+	Resources.Rocks	:		["res://modules/resources_logic/Rocks.gd",	"res://modules/resources_display/Rocks.tscn"],
+	Resources.Ball	:		["res://modules/resources_logic/Ball.gd",	"res://modules/resources_display/Ball.tscn"],
+	Resources.EffectDead:	["res://modules/data/effects/EffectDead.gd", ""],
+	Resources.EffectFrozen:	["res://modules/data/effects/EffectFrozen.gd", ""],
+	Resources.EffectTired:	["res://modules/data/effects/EffectTired.gd", ""],
 }
 
 func get_resource(name):

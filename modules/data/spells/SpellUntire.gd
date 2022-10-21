@@ -26,4 +26,4 @@ func cast():
 	print("EffectTired casted!")
 	for tile in selected_tiles:
 		var unit = tile.get_hex().get_unit()
-		unit.erase_effect_class(EffectTired)
+		unit.erase_effect_class(EffectTiredClass)

@@ -15,6 +15,8 @@ enum command { \
 	EXECUTE_LOG_CMD, \
 	TEST_SHARE_MATCH_STATUS, \
 	TEST_UPDATE_MATCH_STATUS, \
+	TEST_SEND_MATCH_STATE_HASH, \
+	TEST_VERIFY_MATCH_STATE_HASH, \
 }
 
 const server_commands = [ \
@@ -64,6 +66,14 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.TEST_UPDATE_MATCH_STATUS:
 			if not mod.Network.is_server():
 				mod.MapView.setup_map(param1)
+				execute_command(command.TEST_SEND_MATCH_STATE_HASH)
+		command.TEST_SEND_MATCH_STATE_HASH:
+			var match_state_hash = MatchDataPackage.pack_match().hash()
+			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.TEST_VERIFY_MATCH_STATE_HASH, match_state_hash)
+		command.TEST_VERIFY_MATCH_STATE_HASH:
+			var match_state_hash = MatchDataPackage.pack_match().hash()
+			if match_state_hash != param1:
+				Terminal.add_log(Debug.ERROR, Debug.NETWORK, "Network match status hash mismatch. %d != %d" % [match_state_hash, param1])
 		command.DISCARD_MOVE:
 			Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server says: invalid move: %s" % ErrorInfo.get_invalid_string_by_enum(param1))
 		command.EXECUTE_MOVE:

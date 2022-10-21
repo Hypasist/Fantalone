@@ -17,6 +17,8 @@ func get_player_mana(match_id):
 	return player_mana[match_id]
 func get_players_mana():
 	return player_mana
+func set_players_mana(package):
+	player_mana = package
 
 ## UNITS
 
@@ -37,6 +39,12 @@ func get_players_units(match_id):
 func get_players_units_num(match_id):
 	return get_players_units(match_id).size()
 
+func get_unit_by_name(unit_name):
+	for unit in get_all_units():
+		if unit.get_name_id() == unit_name:
+			return unit
+	return null
+
 ## Tiles
 
 func get_all_tiles():
@@ -45,6 +53,20 @@ func get_all_tiles():
 		if not tile.is_marked_to_delete():
 			return_array.append(tile)
 	return return_array
+
+func get_tile_by_name(tile_name):
+	for tile in get_all_tiles():
+		if tile.get_name_id() == tile_name:
+			return tile
+	return null
+
+## Both
+
+func get_object_by_name(object_name):
+	var object = get_unit_by_name(object_name)
+	if null == object:
+		object = get_tile_by_name(object_name)
+	return object
 
 ## Garbage collector 
 

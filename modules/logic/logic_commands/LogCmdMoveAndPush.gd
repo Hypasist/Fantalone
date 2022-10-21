@@ -14,4 +14,4 @@ func execute():
 	
 	unit.move_to_hex(destination_hex)
 	DisCmdMoveToEmpty.new(unit)
-	EffectTired.new(caster, unit, 1).start_effect()
+	EffectTiredClass.new(caster, unit, 1).start_effect()
