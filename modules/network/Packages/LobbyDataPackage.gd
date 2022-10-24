@@ -6,7 +6,7 @@ static func pack(lobby):
 	var package = {}
 
 	package[_LOBBY_MEMBER_RECORDS] = []
-	for member in lobby.LobbyMemberInfo_dict.values():
+	for member in lobby.get_lobby_members():
 		var record = {}
 		record["network_id"] = member.network_id
 		record["nickname"] = member.nickname
@@ -16,7 +16,7 @@ static func pack(lobby):
 		package[_LOBBY_MEMBER_RECORDS].append(record)
 	
 	package[_MATCH_PLAYER_RECORDS] = []
-	for member in lobby.MatchPlayerInfo_dict.values():
+	for member in lobby.get_players():
 		var record = {}
 		record["unique_id"] = member.unique_id
 		record["match_id"] = member.match_id
@@ -26,7 +26,7 @@ static func pack(lobby):
 		package[_MATCH_PLAYER_RECORDS].append(record)
 	
 	package[_MATCH_OBSERVER_RECORDS] = []
-	for member in lobby.MatchObserverInfo_dict.values():
+	for member in lobby.get_observers():
 		var record = {}
 		record["unique_id"] = member.unique_id
 		record["nickname"] = member.nickname

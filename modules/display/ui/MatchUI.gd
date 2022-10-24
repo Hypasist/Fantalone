@@ -18,10 +18,11 @@ func update():
 	update_end_turn_button()
 	update_action_counter()
 	for player in mod.LobbyData.get_players():
-		var turn_owner = mod.MatchLogic.get_turn_owner() == player.match_id
-		var army_size = mod.MatchData.get_players_units(player.match_id).size()
+		var turn_owner = (mod.MatchLogic.get_turn_owner() == player.match_id)
+		var army_size = mod.MatchData.get_players_units_num(player.match_id)
+		var mana = mod.MatchData.get_player_mana(player.match_id)
 		if army_size > 0:
-			player_summary[player.match_id].update_bar(turn_owner, player.color, player.nickname, army_size)
+			player_summary[player.match_id].update_bar(turn_owner, player.color, player.nickname, army_size, mana)
 		else:
 			delete_bar(player.match_id)
 

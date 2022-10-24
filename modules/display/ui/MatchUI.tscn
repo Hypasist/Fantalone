@@ -16,7 +16,7 @@ __meta__ = {
 }
 
 [node name="PlayerSummaryPanel" type="VBoxContainer" parent="."]
-anchor_left = 0.75
+anchor_left = 0.55
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -27,21 +27,21 @@ __meta__ = {
 [node name="PlayerSummaryBar" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 256.0
+margin_right = 460.0
 margin_bottom = 50.0
 
 [node name="PlayerSummaryBar2" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 54.0
-margin_right = 256.0
+margin_right = 460.0
 margin_bottom = 104.0
 
 [node name="PlayerSummaryBar3" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 108.0
-margin_right = 256.0
+margin_right = 460.0
 margin_bottom = 158.0
 
 [node name="MatchMenuButton" type="Button" parent="."]

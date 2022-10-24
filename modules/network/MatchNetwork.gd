@@ -7,12 +7,22 @@ enum command { \
 	BROADCAST_LOG_CMD, \
 	UPDATE_TURN_OWNER, \
 	VERIFY_MOVE, \
+	BROADCAST_MOVELIST, \
 	DISCARD_MOVE, \
 	REQUEST_END_TURN, \
 	VERIFY_END_TURN, \
 	REQUEST_MOVE, \
 	EXECUTE_MOVE, \
+	EXECUTE_MOVELIST, \
 	EXECUTE_LOG_CMD, \
+	BROADCAST_COMMAND_LIST, \
+	BROADCAST_MATCH_HASH_STATUS_REQUEST, \
+	REQUEST_MATCH_HASH_STATUS, \
+	SEND_MATCH_HASH_STATUS, \
+	VERIFY_MATCH_HASH_STATUS, \
+	CONFIRM_MATCH_HASH_STATUS, \
+	BROADCAST_MATCH_STATUS, \
+	SEND_MATCH_STATUS, \
 	TEST_SHARE_MATCH_STATUS, \
 	TEST_UPDATE_MATCH_STATUS, \
 	TEST_SEND_MATCH_STATE_HASH, \
@@ -28,9 +38,11 @@ const server_commands = [ \
 	command.BROADCAST_GAMESTATE, \
 	command.BROADCAST_TURN_OWNER, \
 	command.BROADCAST_LOG_CMD, \
+	command.BROADCAST_MOVELIST, \
 	command.VERIFY_END_TURN, \
 	command.VERIFY_MOVE, \
 ]
+
 
 func setup():
 	rpc_config("match_network_execute_command", MultiplayerAPI.RPC_MODE_SYNC)
@@ -62,6 +74,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 				# Server-only execute move
 				mod.MatchLogic.make_move(unit_list, param2)
 				execute_command(command.TEST_SHARE_MATCH_STATUS)
+#				execute_command(command.BROADCAST_MOVELIST, unit_list, param2)
 #				rpc("match_network_execute_command", command.EXECUTE_MOVE, param1, param2)
 			else:
 				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
@@ -84,7 +97,15 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.EXECUTE_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			mod.MatchLogic.make_move(unit_list, param2)
-		
+		command.BROADCAST_MOVELIST:
+			var unit_ids = mod.Database.pack_unit_ids(param1)
+			rpc("match_network_execute_command", command.EXECUTE_MOVELIST, unit_ids, param2)
+		command.EXECUTE_MOVELIST:
+			mod.MatchLogic.client_execute_move(param1, param2)
+			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
+		command.SEND_MATCH_HASH_STATUS:
+			var update_package = MatchDataPackage.pack_match()
+			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
 		command.TEST_REQUEST_COMMAND:
 			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.TEST_VERIFY_COMMAND, param1)
 		command.TEST_VERIFY_COMMAND:

@@ -18,7 +18,13 @@ enum command { \
 	REQUEST_NAME_CHANGE, \
 	REQUEST_COLOR_CHANGE, \
 	REQUEST_NEW_MEMBER, \
-	REQUEST_REMOVE \
+	REQUEST_REMOVE, \
+	BROADCAST_LOBBY_HASH_STATUS_REQUEST, \
+	REQUEST_LOBBY_STATUS, \
+	REQUEST_LOBBY_HASH_STATUS, \
+	SEND_LOBBY_HASH_STATUS, \
+	VERIFY_LOBBY_HASH_STATUS, \
+	SEND_LOBBY_STATUS, \
 }
 
 const server_commands = [ \
@@ -30,7 +36,9 @@ const server_commands = [ \
 	command.LEAVE, \
 	command.NAME_CHANGE, \
 	command.COLOR_CHANGE, \
-	command.REQUEST_IDENTIFICATION \
+	command.REQUEST_IDENTIFICATION, \
+	command.REQUEST_LOBBY_HASH_STATUS, \
+	command.VERIFY_LOBBY_HASH_STATUS, \
 ]
 
 const refresh_lobby_commands = [
@@ -101,7 +109,24 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			mod.Menu.refresh()
 		command.BROADCAST_LOBBY:
 			pass
+#			var update_package = LobbyDataPackage.pack(mod.LobbyData)
+#			rpc("lobby_network_execute_command", command.UPDATE_LOBBY, update_package)
+		command.BROADCAST_LOBBY_HASH_STATUS_REQUEST:
+			rpc_id(network_id, "lobby_network_execute_command", command.SEND_LOBBY_HASH_STATUS)
+		command.REQUEST_LOBBY_STATUS:
+			rpc_id(mod.Network.SERVER_ID, "lobby_network_execute_command", command.REQUEST_LOBBY_HASH_STATUS)
+		command.REQUEST_LOBBY_HASH_STATUS:
+			var update_package = LobbyDataPackage.pack(mod.LobbyData)
+			rpc_id(network_id, "lobby_network_execute_command", command.SEND_LOBBY_HASH_STATUS)
+		command.SEND_LOBBY_HASH_STATUS:
+			pass
+		command.VERIFY_LOBBY_HASH_STATUS:
+			pass
+		command.SEND_LOBBY_STATUS:
+			pass
+
 	# BROADCAST_LOBBY to every member after certain commands 
 	if refresh_lobby_commands.has(cmd) and mod.Network.is_server():
 		var update_package = LobbyDataPackage.pack(mod.LobbyData)
 		rpc("lobby_network_execute_command", command.UPDATE_LOBBY, update_package)
+		rpc("lobby_network_execute_command", command.REQUEST_LOBBY_HASH_STATUS)

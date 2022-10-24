@@ -65,7 +65,12 @@ func refresh_lobby_display():
 		$ObserverList.add_child(new_obs)
 		buttonLabel_list.append(new_obs)
 		new_obs.set_text(observer.nickname)
-
+	
+	if mod.Network.is_server():
+		if mod.LobbyData.get_players_count() > 0:
+			$StartGame.set_disabled(false)
+		else:
+			$StartGame.set_disabled(true)
 
 func restart_lobby_display():
 	for player_options in playerOptions_list:
