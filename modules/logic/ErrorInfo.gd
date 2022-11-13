@@ -8,7 +8,9 @@ enum invalid { \
 	formation_too_weak, \
 	tile_occupied, \
 	not_your_turn, \
-	need_at_least_one_move \
+	need_at_least_one_move, \
+	not_enough_action_points, \
+	not_enough_mana_points \
 }
 
 static func get_invalid_string_by_enum(reason):

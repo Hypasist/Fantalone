@@ -17,6 +17,8 @@ func invalid_move(reason):
 	error_info.invalid_move(reason)
 func is_valid():
 	return error_info.is_valid()
+func get_error_info():
+	return error_info
 func get_invalid_string():
 	return error_info.get_invalid_string()
 
@@ -36,10 +38,10 @@ func add_command(command):
 func get_command_list():
 	return command_list
 func add_subject_to_evaluate(subject):
-	command_list.append(LogCmdDummy.new(subject))
+	command_list.append(LogSubCmdDummy.new({"unit":subject}))
 func get_subject_to_evaluate():
 	for command in command_list:
-		if command is LogCmdDummy:
+		if command is LogSubCmdDummy:
 			command_list.erase(command)
-			return command.subject
+			return command.get_unit()
 	return null

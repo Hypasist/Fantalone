@@ -12,7 +12,7 @@ func update():
 			$EndTurnButton.set_disabled(false)
 	else:
 		$EndTurnButton.set_disabled(true)
-		
+	
 	if mod.LocalLogic.is_turn_owner_locally_present():
 		$MoveCounter.set_text("%d moves left  " % [mod.MatchLogic.get_actions_left()])
 	else:

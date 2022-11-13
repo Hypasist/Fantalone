@@ -8,17 +8,34 @@ func setup_match():
 	var player_list = mod.LobbyData.get_players()
 	for player in player_list:
 		player_mana[player.match_id] = STARTING_MANA
+	for player in player_list:
+		player_max_actions[player.match_id] = MAXIMUM_ACTION_LIMIT
 
 ## MANA
 
+var MAXIMUM_MANA_LIMIT = 20
+var MANA_REGEN = 20
 var STARTING_MANA = 8
 var player_mana = {}
 func get_player_mana(match_id):
-	return player_mana[match_id]
+	return player_mana[match_id] if player_mana.has(match_id) else 0
 func get_players_mana():
 	return player_mana
+func modify_player_mana(match_id, mana_cost):
+	if player_mana.has(match_id): player_mana[match_id] += mana_cost
 func set_players_mana(package):
 	player_mana = package
+
+## ACTIONS
+
+var MAXIMUM_ACTION_LIMIT = 3
+var player_max_actions = {}
+func get_player_max_actions(match_id):
+	return player_max_actions[match_id] if player_max_actions.has(match_id) else 0
+
+## EFFECTS
+
+# players effect
 
 ## UNITS
 

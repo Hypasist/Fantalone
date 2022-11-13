@@ -21,7 +21,7 @@ const MAP = DebugFlag.DEBUG_MAP
 const MATCH = DebugFlag.DEBUG_MATCH
 const SYSTEM = DebugFlag.DEBUG_SYSTEM
 const NETWORK = DebugFlag.DEBUG_NETWORK
-const debug_flag_array = [ MATCH, SYSTEM, LOGIC_CMD, DISPLAY_CMD, EFFECT ]
+const debug_flag_array = [ MATCH, SYSTEM, NETWORK, EFFECT ]
 
 var breakpoint_on_error = false
 var to_console = true

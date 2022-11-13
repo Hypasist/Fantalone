@@ -13,27 +13,32 @@ func flush_queue(queue):
 	queue.clear()
 
 func add_command(queue, command_class, param_dictionary):
-	if not NetCmdInfo.command_dictionary.has(command_class):
+	if not LogCmd.command_dictionary.has(command_class):
 		Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Unrecognized command in queue!")
 		return
 	
-	var new_command = command_class.new()
-	new_command.setup(param_dictionary)
+	var new_command = command_class.new(param_dictionary)
 	queue.append(new_command)
 
 func new_command(command_class, param_dictionary):
 	add_command(local_queue, command_class, param_dictionary)
+	execute(local_queue)
+	#if LogCmd.is_queue_trigger(command_class):
+
 
 func unpack_command(param_dictionary):
-	var command_class = NetCmdInfo.get_command_class(param_dictionary["command_name"])
+	var command_class = LogCmd.get_command_class(param_dictionary["command_name"])
 	add_command(execution_queue, command_class, param_dictionary)
 
 func verify_queue(queue):
 	var last_error = ErrorInfo.new()
 	for command in queue:
-		if not command.get_state() == NetCmdBase.states.verified:  
+		if not command.is_verified():  
 			last_error = command.verify()
 			if last_error.is_invalid():
+				print(last_error.get_invalid_string())
+				# THINK ABOUT WHETHER YOU WANT TO REMOVE INVALID COMMANDS HERE
+				queue.erase(command)
 				break
 	return last_error
 
@@ -48,7 +53,9 @@ func execute(queue):
 	if verify_queue(queue).is_invalid():
 		return verify_queue(queue)
 	for command in queue:
-		command.execute()
+		if not command.is_done():  
+			command.execute()
+	mod.MapView.execute_display_queues()
 	return ErrorInfo.new()
 
 func server_unpack_and_execute_queue(packed_queue):

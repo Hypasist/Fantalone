@@ -20,7 +20,7 @@ func recognize_formation_hex(hex_list:Array, move_direction = HC.BOTTOM_LEFT):
 	formation.move_direction = move_direction
 	formation.correlate_directions()
 	return formation
-	
+
 func recognize_movement_unit(unit_list, direction):
 	var hex_list = []
 	for unit in unit_list:
@@ -32,17 +32,17 @@ func _evaluate_unit_command_move(movement, unit, destination_hex):
 	if movement.get_owner() == unit.get_owner():
 		movement.add_formation_power(unit.get_power())
 		if destination_hex.is_taken():
-			movement.add_command(LogCmdMoveAndPush.new(movement.get_owner(), unit, destination_hex))
+			movement.add_command(LogSubCmdMoveAndPush.new({"caller":movement.get_owner(), "unit":unit, "destination":destination_hex}))
 		elif destination_hex.is_lethal():
-			movement.add_command(LogCmdMoveAndDie.new(movement.get_owner(), unit, destination_hex))
+			movement.add_command(LogSubCmdMoveAndDie.new({"caller":movement.get_owner(), "unit":unit, "destination":destination_hex}))
 		else:
-			movement.add_command(LogCmdMoveToEmpty.new(movement.get_owner(), unit, destination_hex))
+			movement.add_command(LogSubCmdMoveToEmpty.new({"caller":movement.get_owner(), "unit":unit, "destination":destination_hex}))
 	else:
 		movement.add_opposed_power(unit.get_power())
 		if destination_hex.is_lethal():
-			movement.add_command(LogCmdGetPushedAndDie.new(movement.get_owner(), unit, destination_hex))
+			movement.add_command(LogSubCmdGetPushedAndDie.new({"caller":movement.get_owner(), "unit":unit, "destination":destination_hex}))
 		else:
-			movement.add_command(LogCmdGetPushedToEmpty.new(movement.get_owner(), unit, destination_hex))
+			movement.add_command(LogSubCmdGetPushedToEmpty.new({"caller":movement.get_owner(), "unit":unit, "destination":destination_hex}))
 
 func evaluate_unit_command(movement, unit):
 	var current_hex = unit.hex
@@ -92,20 +92,4 @@ func recognize_movement_hex(hex_list, direction):
 		else:
 			break
 	return movement
-
-func make_move_unit(unit_list, direction):
-	var hex_list = []
-	for unit in unit_list:
-		hex_list.append(unit.hex)
-	return make_move_hex(hex_list, direction)
-	
-func make_move_hex(hex_list, direction):
-	var movement = recognize_movement_hex(hex_list, direction)
-	execute_movement_commands(movement)
-	return movement
-
-func execute_movement_commands(movement:MovementInfo):
-	if movement.is_valid() == false: return
-	for command in movement.get_command_list():
-		command.execute()
 

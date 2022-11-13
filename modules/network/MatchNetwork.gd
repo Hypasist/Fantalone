@@ -72,7 +72,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			var movement = mod.MatchLogic.verify_movement(unit_list, param2)
 			if movement.is_valid():
 				# Server-only execute move
-				mod.MatchLogic.make_move(unit_list, param2)
+#				mod.MatchLogic.make_move(unit_list, param2)
 				execute_command(command.TEST_SHARE_MATCH_STATUS)
 #				execute_command(command.BROADCAST_MOVELIST, unit_list, param2)
 #				rpc("match_network_execute_command", command.EXECUTE_MOVE, param1, param2)
@@ -96,12 +96,12 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server says: invalid move: %s" % ErrorInfo.get_invalid_string_by_enum(param1))
 		command.EXECUTE_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
-			mod.MatchLogic.make_move(unit_list, param2)
+#			mod.MatchLogic.make_move(unit_list, param2)
 		command.BROADCAST_MOVELIST:
 			var unit_ids = mod.Database.pack_unit_ids(param1)
 			rpc("match_network_execute_command", command.EXECUTE_MOVELIST, unit_ids, param2)
 		command.EXECUTE_MOVELIST:
-			mod.MatchLogic.client_execute_move(param1, param2)
+#			mod.MatchLogic.client_execute_move(param1, param2)
 			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
 		command.SEND_MATCH_HASH_STATUS:
 			var update_package = MatchDataPackage.pack_match()
