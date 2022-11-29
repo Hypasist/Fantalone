@@ -1,21 +1,17 @@
 class_name LogCmd
 
-static func pack_command_name(log_cmd):
-	return command_dictionary[log_cmd]
+static func pack_command_name(log_command):
+	return command_dictionary[log_command]
 
-static func unpack(pack):
-	for cmd in command_dictionary:
-		if command_dictionary[cmd] == pack:
-			return cmd
+static func unpack_command_name(log_command_name):
+	for command in command_dictionary:
+		if command_dictionary[command] == log_command_name:
+			return command
 
 const command_dictionary = { \
+	LogCmdDummy				:	"LogCmdDummy", \
 	LogCmdCastSpell			:	"LogCmdCastSpell", \
 	LogCmdFinishTurn		:	"LogCmdFinishTurn", \
-	LogCmdNewMovement		:	"LogCmdNewMovement",
+	LogCmdNewMovement		:	"LogCmdNewMovement", \
+	LogCmdConcludeAndSend	:	"LogCmdConcludeAndSend", \
 }
-
-static func is_queue_trigger(command_class):
-	return queue_trigger_commands.has(command_class)
-const queue_trigger_commands = [
-	LogCmdFinishTurn
-	]

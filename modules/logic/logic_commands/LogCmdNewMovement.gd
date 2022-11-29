@@ -24,7 +24,7 @@ func execute():
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = get_class()
+	pack["command_name"] = "LogCmdNewMovement"
 	pack["caller"] = caller
 	pack["units"] = units
 	pack["direction"] = direction
