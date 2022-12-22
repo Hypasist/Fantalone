@@ -2,15 +2,10 @@ class_name MatchNetwork
 extends Node
 
 enum command { \
-	BROADCAST_GAMESTATE, \
-	BROADCAST_TURN_OWNER, \
-	UPDATE_TURN_OWNER, \
-	VERIFY_MOVE, \
 	BROADCAST_MOVELIST, \
 	DISCARD_MOVE, \
 	REQUEST_END_TURN, \
 	VERIFY_END_TURN, \
-	REQUEST_MOVE, \
 	EXECUTE_MOVE, \
 	EXECUTE_MOVELIST, \
 	BROADCAST_COMMAND_LIST, \
@@ -28,6 +23,7 @@ enum command { \
 	SERVER_SYNC_MATCH_STATUS, \
 	SERVER_BROADCAST_MATCH_STATUS, \
 	CLIENT_CONFIRM_SYNC, \
+	SERVER_PROCEED_TURN, \
 	
 	CLIENT_REQUEST_QUEUE, \
 	SERVER_VERIFY_QUEUE, \
@@ -37,11 +33,8 @@ enum command { \
 }
 
 const server_commands = [ \
-	command.BROADCAST_GAMESTATE, \
-	command.BROADCAST_TURN_OWNER, \
 	command.BROADCAST_MOVELIST, \
 	command.VERIFY_END_TURN, \
-	command.VERIFY_MOVE, \
 ]
 
 
@@ -63,11 +56,6 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	
 	var network_id = get_tree().get_rpc_sender_id()
 	match cmd:
-		command.BROADCAST_GAMESTATE:
-			pass
-		command.REQUEST_MOVE:
-			var unit_ids = mod.Database.pack_unit_ids(param1)
-			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.VERIFY_MOVE, unit_ids, param2)
 		command.VERIFY_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
 			var movement = mod.MatchLogic.verify_movement(unit_list, param2)
@@ -98,7 +86,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 #			mod.MatchLogic.client_execute_move(param1, param2)
 			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
 		command.SEND_MATCH_HASH_STATUS:
-			var update_package = MatchDataPackage.pack_match()
+			var update_package = MatchDataPackage.pack_hash_match()
 			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
 			
 		command.REQUEST_END_TURN:
@@ -109,11 +97,6 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 				pass
 			else:
 				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
-		command.BROADCAST_TURN_OWNER:
-				rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
-		command.UPDATE_TURN_OWNER:
-			mod.MatchLogic.set_turn_owner(param1)
-			mod.UI.update_ui()
 
 		## MATCH STATUS SYNCING
 
@@ -125,18 +108,23 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			if(match_state_hash != param1):
 				rpc_id(Network.SERVER_ID, "match_network_execute_command", command.SERVER_SYNC_MATCH_STATUS)
 		command.SERVER_SYNC_MATCH_STATUS:
-			var packed_status = MatchDataPackage.pack_match()
-			rpc_id(network_id, "match_network_execute_command", command.CLIENT_MATCH_STATE_UPDATE, packed_status)
+			var packed_hash_status = MatchDataPackage.pack_hash_match()
+			rpc_id(network_id, "match_network_execute_command", command.CLIENT_MATCH_STATE_UPDATE, packed_hash_status)
 		command.SERVER_BROADCAST_MATCH_STATUS:
-			var packed_status = MatchDataPackage.pack_match()
-			rpc("match_network_execute_command", command.CLIENT_CONFIRM_SYNC, packed_status)
+			mod.MatchLogic.set_server_lock(true)
+			var packed_hash_status = MatchDataPackage.pack_hash_match()
+			rpc("match_network_execute_command", command.CLIENT_CONFIRM_SYNC, packed_hash_status)
 		command.CLIENT_CONFIRM_SYNC:
+			# Server already has this status
 			if not mod.Network.is_server():
-				mod.MapView.setup_map(param1)
-				execute_command(command.TEST_SEND_MATCH_STATE_HASH)
-				# rpc("match_network_execute_command", command.SERVER_PROCEED_TURN) 
+				MatchDataPackage.unpack_hash_match(param1)
+			# Turn owner poked, inform the server
+			if mod.LocalLogic.is_turn_owner_locally_present():
+				rpc("match_network_execute_command", command.SERVER_PROCEED_TURN) 
 		command.SERVER_PROCEED_TURN:
-			pass
+			mod.MatchLogic.set_server_lock(false)
+		
+		
 		## QUEUE SENDING
 		
 		command.CLIENT_REQUEST_QUEUE:

@@ -2,8 +2,21 @@ class_name MatchLogic
 extends Node
 
 ## BROADCAST LOCK
+var server_lock = false
+func set_server_lock(value):
+	server_lock = value
+func is_server_locked():
+	return server_lock
+
 
 ## TURN COUNTER
+var turn_counter = 0
+func get_turn_counter():
+	return turn_counter
+func increase_turn_counter():
+	turn_counter += 1
+func reset_turn_counter():
+	turn_counter = 0
 
 
 ## TURN OWNER
