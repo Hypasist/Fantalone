@@ -14,6 +14,9 @@ func flush_queue(queue):
 func flush_local_queue():
 	flush_queue(local_queue)
 
+func add_server_command(command_class, param_dictionary):
+	add_command(server_queue, command_class, param_dictionary)
+
 func add_command(queue, command_class, param_dictionary):
 	if not LogCmd.command_dictionary.has(command_class):
 		Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Unrecognized command in queue!")
@@ -26,10 +29,6 @@ func new_command(command_class, param_dictionary):
 	add_command(local_queue, command_class, param_dictionary)
 	execute(local_queue)
 
-
-func unpack_command(param_dictionary):
-	var command_class = LogCmd.unpack_command_name(param_dictionary["command_name"])
-	add_command(server_queue, command_class, param_dictionary)
 
 func verify_queue(queue):
 	var last_error = ErrorInfo.new()

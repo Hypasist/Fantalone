@@ -30,7 +30,7 @@ static func pack_match():
 
 static func hash_packed_match(packed_match):
 	var new_hash = packed_match.hash()
-	packed_match["hash"] = new_hash
+	packed_match[_MATCH_INFO]["hash"] = new_hash
 	return packed_match
 
 static func pack_hash_match():
@@ -49,7 +49,7 @@ static func unpack_hash_match(hashed_package):
 	mod.MapView.setup_map(hashed_package)
 	var new_hash = get_current_hash()
 	if new_hash != saved_hash:
-		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Hash mishmatch! %s != %s")
+		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Hash mishmatch! %s != %s" % [saved_hash, new_hash])
 
 static func unpack_match(package):
 	for record in package[_MATCH_TILES]:

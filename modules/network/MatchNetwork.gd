@@ -30,6 +30,9 @@ enum command { \
 	SERVER_BROADCAST_QUEUE, \
 	CLIENT_EXECUTE_QUEUE, \
 	SERVER_DISCARD_QUEUE, \
+
+	# OUT
+	VERIFY_MOVE
 }
 
 const server_commands = [ \

@@ -34,6 +34,5 @@ func pack_command():
 	pack["actions_left"] = actions_left
 	return pack
 
-func unpack_command(record):
+static func unpack_command(pack):
 	pass
-#	setup(record)
