@@ -240,6 +240,16 @@ _global_script_classes=[ {
 "path": "res://modules/logic/logic_commands/LogCmdCastSpell.gd"
 }, {
 "base": "LogCmdBase",
+"class": "LogCmdConcludeAndSend",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmdConcludeAndSend.gd"
+}, {
+"base": "LogCmdBase",
+"class": "LogCmdDummy",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmdDummy.gd"
+}, {
+"base": "LogCmdBase",
 "class": "LogCmdFinishTurn",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdFinishTurn.gd"
@@ -257,7 +267,7 @@ _global_script_classes=[ {
 "base": "LogSubCmdBase",
 "class": "LogSubCmdDummy",
 "language": "GDScript",
-"path": "res://modules/logic/logic_commands/LogCmdDummy.gd"
+"path": "res://modules/logic/logic_commands/LogSubCmdDummy.gd"
 }, {
 "base": "LogSubCmdBase",
 "class": "LogSubCmdGetPushedAndDie",
@@ -561,6 +571,8 @@ _global_script_class_icons={
 "LogCmd": "",
 "LogCmdBase": "",
 "LogCmdCastSpell": "",
+"LogCmdConcludeAndSend": "",
+"LogCmdDummy": "",
 "LogCmdFinishTurn": "",
 "LogCmdNewMovement": "",
 "LogSubCmdBase": "",

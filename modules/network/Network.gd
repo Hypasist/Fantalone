@@ -17,6 +17,8 @@ func get_id():
 	return get_tree().get_network_unique_id()
 func is_server():
 	return get_tree().is_network_server()
+func is_multidevice_game():
+	return peer.get_connected_clients().empty() == false if is_server() else true
 
 func get_ip():
 	return peer.ip if peer else null

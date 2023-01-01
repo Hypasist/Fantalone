@@ -3,14 +3,19 @@ extends Node
 
 var expected_hash = null
 var local_queue = []
-var execution_queue = []
+var server_queue = []
 func get_local_queue():
 	return local_queue
-func get_execution_queue():
-	return execution_queue
+func get_server_queue():
+	return server_queue
 
 func flush_queue(queue):
 	queue.clear()
+func flush_local_queue():
+	flush_queue(local_queue)
+
+func add_server_command(command_class, param_dictionary):
+	add_command(server_queue, command_class, param_dictionary)
 
 func add_command(queue, command_class, param_dictionary):
 	if not LogCmd.command_dictionary.has(command_class):
@@ -23,12 +28,7 @@ func add_command(queue, command_class, param_dictionary):
 func new_command(command_class, param_dictionary):
 	add_command(local_queue, command_class, param_dictionary)
 	execute(local_queue)
-	#if LogCmd.is_queue_trigger(command_class):
 
-
-func unpack_command(param_dictionary):
-	var command_class = LogCmd.get_command_class(param_dictionary["command_name"])
-	add_command(execution_queue, command_class, param_dictionary)
 
 func verify_queue(queue):
 	var last_error = ErrorInfo.new()
@@ -42,13 +42,6 @@ func verify_queue(queue):
 				break
 	return last_error
 
-func report_to_server():
-	# TODO omit if solo game
-	if verify_queue(local_queue).is_valid():
-		var packed_queue = QueueDataPackage.pack_queue(local_queue)
-		mod.MatchNetwork.execute_command(MatchNetwork.command.TEST_REQUEST_COMMAND, packed_queue)
-		flush_queue(local_queue)
-
 func execute(queue):
 	if verify_queue(queue).is_invalid():
 		return verify_queue(queue)
@@ -58,21 +51,40 @@ func execute(queue):
 	mod.MapView.execute_display_queues()
 	return ErrorInfo.new()
 
-func server_unpack_and_execute_queue(packed_queue):
-	flush_queue(execution_queue)
-	QueueDataPackage.unpack_queue(packed_queue)
-	if verify_queue(execution_queue).is_valid():
-		execute(execution_queue)
-		QueueDataPackage.repack_queue(packed_queue)
-		mod.MatchNetwork.execute_command(MatchNetwork.command.TEST_BROADCAST_COMMAND, packed_queue)
-		# CALCULATE HASH
-	else:
-		var error_string = verify_queue(execution_queue).get_invalid_string()
-		mod.MatchNetwork.execute_command(MatchNetwork.command.TEST_DISCARD_COMMAND, error_string)
+func is_executed(queue):
+	for command in queue:
+		if not command.is_done():  
+			return false
+	return true
+func is_local_queue_executed():
+	return is_executed(local_queue)
+func is_server_queue_executed():
+	return is_executed(server_queue)
 
+func client_pack_queue():
+	if mod.CommandQueue.is_local_queue_executed():
+		var packed_queue = QueueDataPackage.pack_queue(local_queue)
+		mod.MatchNetwork.execute_command(MatchNetwork.command.CLIENT_REQUEST_QUEUE, packed_queue)
+		mod.CommandQueue.flush_local_queue()
+	else:
+		Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "client_queue not finished!")
+
+func server_unpack_and_execute_queue(packed_queue):
+	flush_queue(server_queue)
+	QueueDataPackage.unpack_queue(packed_queue)
+	if verify_queue(server_queue).is_valid():
+		execute(server_queue)
+		QueueDataPackage.repack_queue(packed_queue)
+		mod.MatchNetwork.execute_command(MatchNetwork.command.SERVER_BROADCAST_QUEUE, packed_queue)
+	else:
+		var error_msg = verify_queue(server_queue)
+		var error_string = error_msg.get_invalid_string()
+		mod.MatchNetwork.execute_command(MatchNetwork.command.SERVER_DISCARD_QUEUE, error_string)
 
 func client_unpack_and_execute_queue(packed_queue):
-	flush_queue(execution_queue)
-	QueueDataPackage.unpack_queue(packed_queue)
-	execute(execution_queue)
+	if not mod.Network.is_server() && \
+	   packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash():
+		flush_queue(server_queue)
+		QueueDataPackage.unpack_queue(packed_queue)
+		execute(server_queue)
 	# CHECK HASH

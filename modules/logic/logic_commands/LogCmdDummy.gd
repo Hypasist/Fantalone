@@ -1,17 +1,17 @@
-class_name LogSubCmdDummy
-extends LogSubCmdBase
+class_name LogCmdDummy
+extends LogCmdBase
 
 func _init(param_dictionary).(param_dictionary):
 	pass
 
 func verify():
-	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to verify LogCmdDummy class!")
+	return ErrorInfo.new()
 
 func execute():
-	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to execute LogCmdDummy class!")
+	pass
 
 func pack_command():
 	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to pack_command LogCmdDummy class!")
 
-func unpack_command(record):
+static func unpack_command(pack):
 	Terminal.add_log(Debug.ERROR, Debug.LOGIC_CMD, "Trying to unpack_command LogCmdDummy class!")

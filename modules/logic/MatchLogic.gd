@@ -1,6 +1,23 @@
 class_name MatchLogic
 extends Node
 
+## BROADCAST LOCK
+var server_lock = false
+func set_server_lock(value):
+	server_lock = value
+func is_server_locked():
+	return server_lock
+
+
+## TURN COUNTER
+var turn_counter = 0
+func get_turn_counter():
+	return turn_counter
+func increase_turn_counter():
+	turn_counter += 1
+func reset_turn_counter():
+	turn_counter = 0
+
 
 ## TURN OWNER
 var current_turn_owner = -1
@@ -20,14 +37,14 @@ func determine_next_turn_owner():
 			for i in map_size:
 				for player in lobby_players:
 					if player.match_id == i and mod.MatchData.get_players_units(player.match_id).size() > 0:
-						current_turn_owner = player.match_id
+						set_turn_owner(player.match_id)
 						return current_turn_owner
 		else:
 			for i in map_size:
 				var candidate = (current_turn_owner + i + 1) % map_size
 				for player in lobby_players:
 					if player.match_id == candidate and mod.MatchData.get_players_units(player.match_id).size() > 0:
-						current_turn_owner = player.match_id
+						set_turn_owner(player.match_id)
 						return current_turn_owner
 			return current_turn_owner
 
@@ -38,6 +55,8 @@ func get_action_counter():
 	return action_counter
 func modify_action_counter(action_cost):
 	action_counter += action_cost
+func set_action_counter(action_counter_):
+	action_counter = action_counter_
 func reset_action_counter():
 	action_counter = 0
 func get_actions_left():
@@ -67,7 +86,8 @@ func new_turn():
 	determine_next_turn_owner()
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
 	propagate_effects(get_turn_owner())
-	mod.MatchNetwork.execute_command(MatchNetwork.command.BROADCAST_TURN_OWNER)
+	mod.UI.update_ui()
+	mod.MatchNetwork.execute_command(MatchNetwork.command.SERVER_BROADCAST_MATCH_STATUS)
 
 func verify_movement(unit_list, direction):
 	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
@@ -139,7 +159,7 @@ func request_end_turn():
 	var match_id = get_turn_owner()
 	var actions_left = get_actions_left()
 	mod.CommandQueue.new_command(LogCmdFinishTurn, {"caller":match_id, "actions_left":actions_left})
-#	mod.CommandQueue.report_to_server()
+	mod.CommandQueue.new_command(LogCmdConcludeAndSend, {"caller":match_id})
 
 func _on_finish_popup_handler(value):
 	stop_match()

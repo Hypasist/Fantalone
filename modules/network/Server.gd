@@ -19,8 +19,8 @@ func disconnect_():
 	get_tree().network_peer = null
 
 var connected_clients = []
-func send_peer_list():
-	pass
+func get_connected_clients():
+	return connected_clients
 
 func peer_connected(network_id):
 	connected_clients.append(network_id)

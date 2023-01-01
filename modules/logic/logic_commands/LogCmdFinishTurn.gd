@@ -23,23 +23,16 @@ func verify():
 
 func execute():
 	.execute()
+	mod.MatchLogic.new_turn()
 	set_state(states.done)
-	pass
-	var error_info = verify()
-	if error_info.is_valid():
-		mod.MatchLogic.new_turn()
-	else:
-		#rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
-		pass
 
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = get_class()
+	pack["command_name"] = "LogCmdFinishTurn"
 	pack["caller"] = caller
 	pack["actions_left"] = actions_left
 	return pack
 
-func unpack_command(record):
+static func unpack_command(pack):
 	pass
-#	setup(record)

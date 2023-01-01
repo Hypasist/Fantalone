@@ -60,12 +60,12 @@ func execute_command(cmd, param1=null, param2=null, param3=null, param4=null):
 func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, param4=null):
 	# check rights
 	if not command.values().has(cmd):
-		Terminal.add_log(Debug.ERROR, Debug.NETWORK, "Trying to execute incoming unknown (%d) command!" % cmd)
+		Terminal.add_log(Debug.ERROR, Debug.LOBBY_NETWORK, "Trying to execute incoming unknown (%d) command!" % cmd)
 		return
 	if server_commands.has(cmd) and not mod.Network.is_server():
-		Terminal.add_log(Debug.ERROR, Debug.NETWORK, "Trying to execute server command (%s) while being a client!" % command.keys()[cmd])
+		Terminal.add_log(Debug.ERROR, Debug.LOBBY_NETWORK, "Trying to execute server command (%s) while being a client!" % command.keys()[cmd])
 		return
-	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Executing command %s!" % command.keys()[cmd])
+	Terminal.add_log(Debug.INFO, Debug.LOBBY_NETWORK, "Executing command %s!" % command.keys()[cmd])
 	
 	var network_id = get_tree().get_rpc_sender_id()
 	match cmd:

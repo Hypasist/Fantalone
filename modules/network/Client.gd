@@ -15,6 +15,10 @@ func connect_to_server(ip, port):
 func disconnect_():
 	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Disconnecting from the server.")
 
+func get_connected_clients():
+	Terminal.add_log(Debug.ERROR, Debug.NETWORK, "Trying to ask client for peer list.")
+	return -1
+	
 signal server_disconnected()
 func _server_disconnected():
 	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server disconnected!")

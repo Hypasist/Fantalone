@@ -24,12 +24,12 @@ func execute():
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = get_class()
+	pack["command_name"] = "LogCmdNewMovement"
 	pack["caller"] = caller
-	pack["units"] = units
+	pack["units"] = mod.Database.pack_unit_ids(units)
 	pack["direction"] = direction
 	return pack
 
-func unpack_command(record):
-#	setup(record)
-	pass
+static func unpack_command(pack):
+	var units = mod.Database.unpack_unit_ids(pack["units"])
+	pack["units"] = units
