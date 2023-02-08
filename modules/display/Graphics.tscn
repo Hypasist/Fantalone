@@ -16,7 +16,7 @@ __meta__ = {
 }
 
 [node name="Debug" parent="." instance=ExtResource( 2 )]
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="MapView" parent="." instance=ExtResource( 1 )]
 

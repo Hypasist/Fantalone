@@ -14,6 +14,7 @@ script = ExtResource( 1 )
 [node name="LocalDatabases" parent="." instance=ExtResource( 11 )]
 
 [node name="Graphics" parent="." instance=ExtResource( 8 )]
+mouse_filter = 2
 
 [node name="MapEditor" parent="." instance=ExtResource( 4 )]
 visible = false
