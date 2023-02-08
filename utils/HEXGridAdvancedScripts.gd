@@ -1,5 +1,3 @@
-const HMath = preload("res://utils/HEXCoordsMath.gd")
-const HC = preload("res://utils/HEXConstants.gd")
 
 static func are_coords_in_line(list:Array, _direction):
 	for starting_coord in list:
@@ -16,7 +14,7 @@ static func find_most_extended_hex(hex_list:Array, direction):
 	for candidate_hex in hex_list:
 		var ghost_coords = HexCoords.new(vector[0], vector[1]).add(candidate_hex.coords)
 		for measurment_hex in hex_list:
-			var distance = HMath.calculate_distance(ghost_coords, measurment_hex.coords)
+			var distance = calculate_distance(ghost_coords, measurment_hex.coords)
 			if distance > max_distance:
 				max_distance = distance
 				most_extended_hex = candidate_hex
@@ -44,3 +42,27 @@ static func are_hexes_in_line(hex_list:Array, starting_hex, search_directions:Ar
 			else:
 				break
 	return formation
+
+
+## OLD HMATH
+static func compare_with_array(c1, a1):
+	return c1.q == a1[0] && c1.r == a1[1]
+
+static func are_equal(c1:HexCoords, c2:HexCoords):
+	return c1.q == c2.q && c1.r == c2.r
+
+static func verify_distance(c1:HexCoords, c2:HexCoords, dist:Array):
+	return c1.q + dist[0] == c2.q && c1.r + dist[1] == c2.r
+	
+static func calculate_distance(c1:HexCoords, c2:HexCoords):
+	return (abs(c1.q - c2.q) + abs(c1.q + c1.r - c2.q - c2.r) + abs(c1.r - c2.r)) / 2
+
+static func coord_sum(c1, c2):
+	var tmp = null
+	if c1 is Array: tmp = [c1[0], c1[1]]
+	if c1 is HexCoords: tmp = [c1.q, c1.r]
+	if c1 is Vector2: tmp = [c1.x, c1.y]
+	if c2 is Array: tmp = [tmp[0] + c2[0], tmp[1] + c2[1]]
+	if c2 is HexCoords: tmp = [tmp[0] + c2.q, tmp[1] + c2.r]
+	if c2 is Vector2: tmp = [tmp[0] + c2.x, tmp[1] + c2.y]
+	return HexCoords.new(tmp[0], tmp[1])

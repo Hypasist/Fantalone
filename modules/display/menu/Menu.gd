@@ -15,13 +15,13 @@ func hide_menu():
 		current_screen.hide()
 		current_screen.queue_free()
 	current_screen = null
-	mod.UI.unlock_map_control()
+	mod.GameUI.unlock_map_control()
 	mod.MapView.show()
 
 func show_menu():
 	if current_screen:
 		current_screen.show()
-	mod.UI.lock_map_control()
+	mod.GameUI.lock_map_control()
 	mod.MapView.hide()
 
 var previous_screen = null
@@ -40,7 +40,6 @@ func switch_screens(screen, setup_params=null):
 
 func _on_screen_resolved(package):
 	pass
-	print("_on_screen_resolved")
 	print(package)
 
 func refresh(refresh_level=0):

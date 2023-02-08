@@ -3,6 +3,7 @@ extends MenuScreenBase
 
 var PlayerOptions = null
 var ButtonLabel = null
+var LobbyData = null
 
 var playerOptions_list = []
 var buttonLabel_list = []
@@ -11,30 +12,26 @@ var buttonLabel_list = []
 func _ready():
 	PlayerOptions = load("res://modules/display/menu/GuiMultiplayerPlayerOptions.tscn")
 	ButtonLabel = load("res://modules/display/menu/ButtonLabel.tscn")
+	LobbyData = mod.ClientData.LobbyData
 
 # NETWORK SIGNALS HOOK UP
 func _hookup_network_signals():
-	if mod.Network.is_server():
-		mod.Network.connect_network_signal("client_added", self, "_new_client_in_lobby") # server
-		mod.Network.connect_network_signal("client_removed", self, "_client_exit_lobby") # server
+	if NetworkAPI.is_host():
+		mod.ServerData.Network.connect_network_signal("client_added", self, "_new_client_in_lobby") # server
+		mod.ServerData.Network.connect_network_signal("client_removed", self, "_client_exit_lobby") # server
 	else:
-		mod.Network.connect_network_signal("server_disconnected", self, "_server_disconnected") # client
-#	connect("_remove_user", self, "_on_Tween2D_all_completed") # server
-#	connect("_exit_lobby", self, "_on_Tween2D_all_completed") # client
+		mod.ClientData.Network.connect_network_signal("server_disconnected", self, "_server_disconnected") # client
 
 func setup(setup_as_server = false):
-	mod.LobbyData.setup()
-	mod.LobbyNetwork.setup()
-	
 	if setup_as_server:
-		mod.Network.create_server()
-		$IPLabel.set_text("IP: %s" % mod.Network.get_ip())
-		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_IDENTIFICATION, Network.SERVER_ID)
+		mod.ServerData.setup()
+		$IPLabel.set_text("IP: %s" % NetworkAPI.get_ip())
 	else:
-		mod.Network.connect_to_server()
 		$IPLabel.set_text("IP: %s" % mod.Network.get_target_ip())
-		$StartGame.set_disabled(true)
 	
+	mod.ClientData.setup(setup_as_server)
+	
+	refresh_lobby_display()
 	_hookup_network_signals()
 
 func refresh(level):
@@ -43,7 +40,7 @@ func refresh(level):
 
 func refresh_lobby_display():
 	var lobby_players_served = {}
-	for player in mod.LobbyData.get_players():
+	for player in LobbyData.get_players():
 		lobby_players_served[player] = false
 	
 	# for every playerOptions panel 
@@ -60,14 +57,14 @@ func refresh_lobby_display():
 					Terminal.add_log(Debug.ERROR, Debug.LOBBY, "Trying to assign same member to another PlayerOptionsPanel!")
 				break
 	
-	for observer in mod.LobbyData.get_observers():
+	for observer in LobbyData.get_observers():
 		var new_obs = ButtonLabel.instance()
 		$ObserverList.add_child(new_obs)
 		buttonLabel_list.append(new_obs)
 		new_obs.set_text(observer.nickname)
 	
-	if mod.Network.is_server():
-		if mod.LobbyData.get_players_count() > 0:
+	if NetworkAPI.is_host():
+		if LobbyData.get_players_count() > 0:
 			$StartGame.set_disabled(false)
 		else:
 			$StartGame.set_disabled(true)
@@ -77,7 +74,7 @@ func restart_lobby_display():
 		player_options.queue_free()
 	playerOptions_list = []
 	
-	for i in range(0, mod.LobbyData.get_map_player_size()):
+	for i in range(0, LobbyData.get_map_player_size()):
 		var player_options = PlayerOptions.instance()
 		player_options.ready(i)
 		playerOptions_list.append(player_options)
@@ -95,42 +92,43 @@ func restart_lobby_display():
 
 
 func _on_change_name(object, value):
-	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_NAME_CHANGE, \
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.NAME_CHANGE, \
 				object.lobby_member.unique_id, value)
 	
 func _on_change_color(object, value):
-	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_COLOR_CHANGE, \
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.COLOR_CHANGE, \
 				object.lobby_member.unique_id, value)
 
 func _on_add_bot(object):
-	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_NEW_MEMBER, \
-				object.match_id, MatchPlayerInfo.CPU_PLAYER)
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.NEW_MATCH_MEMBER, \
+				mod.ClientData.Network.get_id(), object.match_id, MatchPlayerInfo.CPU_PLAYER)
 				
 func _on_add_human(object):
-	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_NEW_MEMBER, \
-				object.match_id, MatchPlayerInfo.HUMAN_PLAYER)
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.NEW_MATCH_MEMBER, \
+				mod.ClientData.Network.get_id(), object.match_id, MatchPlayerInfo.HUMAN_PLAYER)
 
 func _on_delete(object):
-	if mod.Network.is_server():
-		mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_REMOVE, \
-					object.lobby_member.unique_id)
-
-func _on_Cancel_pressed():
-	mod.Network.disconnect_()
-	mod.Menu.switch_screens(mod.Menu.main_menu)
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.REMOVE_MATCH_MEMBER, \
+				object.lobby_member.unique_id)
 
 func _on_StartGame_pressed():
-	mod.LobbyLogic.start_game_setup()
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.START_GAME)
+
+
+
+func _on_Cancel_pressed():
+	NetworkAPI.disconnect_lobby()
+	mod.Menu.switch_screens(mod.Menu.main_menu)
 
 # Server specific
 func _new_client_in_lobby(network_id):
-	mod.LobbyNetwork.execute_command(LobbyNetwork.command.REQUEST_IDENTIFICATION, network_id)
+	mod.LobbyNetwork.execute_command(LobbyNetworkAPI.command.REQUEST_IDENTIFICATION, network_id)
 	
 func _client_exit_lobby(network_id):
-	mod.LobbyData.remove_lobby_member(network_id)
-	mod.LobbyNetwork.execute_command(LobbyNetwork.command.BROADCAST_LOBBY)
+	LobbyData.remove_lobby_member(network_id)
+	mod.LobbyNetwork.execute_command(LobbyNetworkAPI.command.BROADCAST_LOBBY)
 	
 func _server_disconnected():
 	mod.Network.disconnect_()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
-	mod.PopupUI.create_popup_with_confirmation("You have been disconnected from the server", "Understand")
+	mod.Popups.create_popup_with_confirmation("You have been disconnected from the server", "Understand")

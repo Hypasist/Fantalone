@@ -18,12 +18,12 @@ var _units_by_id = {
 	7 : Resources.Ball,
 }
 
-func consume_mockup():
-	consume_tile_mockup()
+func consume_mockup(LobbyData, MatchData):
+	consume_tile_mockup(MatchData)
 	var match_ids = []
-	for player in mod.LobbyData.get_players():
+	for player in LobbyData.get_players():
 		match_ids.append(player.match_id)
-	consume_unit_mockup(match_ids)
+	consume_unit_mockup(MatchData, match_ids)
 	hide()
 
 func get_used_ids(map:TileMap):
@@ -34,20 +34,20 @@ func get_used_ids(map:TileMap):
 		if cells: used_ids[match_id] = cells
 	return used_ids
 
-func consume_tile_mockup():
+func consume_tile_mockup(MatchData):
 	var tile_mapping = get_used_ids($Tiles)
 	for id in tile_mapping:
 		var resource_name = _tiles_by_id[id]
 		for coords in tile_mapping[id]:
-			mod.ObjectData.create_new_object(resource_name, coords)
+			MatchData.ObjectData.create_new_object(resource_name, coords)
 
-func consume_unit_mockup(players):
+func consume_unit_mockup(MatchData, players):
 	var unit_mapping = get_used_ids($Units)
 	for match_id in unit_mapping:
 		if players.has(match_id):
 			var resource_name = _units_by_id[match_id]
 			for coords in unit_mapping[match_id]:
-				mod.ObjectData.create_new_object(resource_name, coords, match_id)
+				MatchData.ObjectData.create_new_object(resource_name, coords, match_id)
 
 export (Vector2) var tilemapSize = Vector2(128, 70) setget updateTilemapSize
 func updateTilemapSize(size):

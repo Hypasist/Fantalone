@@ -18,12 +18,12 @@ func calculate_map_boundaries():
 	for tile in tiles:
 		min_hex_coords = Utils.min2(min_hex_coords, tile.position)
 		max_hex_coords = Utils.max2(max_hex_coords, tile.position)
-	min_hex_coords -= mod.Database.get_tilesize()/2.0 \
-	 				+ mod.Database.get_map_bounds_padding()
-	max_hex_coords += mod.Database.get_tilesize()/2.0 \
-	 				+ mod.Database.get_map_bounds_padding()
-	mod.Database.set_min_map_boundaries(min_hex_coords)
-	mod.Database.set_max_map_boundaries(max_hex_coords)
+	min_hex_coords -= mod.Graphics.get_tilesize()/2.0 \
+	 				+ mod.Graphics.get_map_bounds_padding()
+	max_hex_coords += mod.Graphics.get_tilesize()/2.0 \
+	 				+ mod.Graphics.get_map_bounds_padding()
+	mod.Graphics.set_min_map_boundaries(min_hex_coords)
+	mod.Graphics.set_max_map_boundaries(max_hex_coords)
 
 func calculate_map_center():
 	pass

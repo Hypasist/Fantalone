@@ -37,4 +37,4 @@ func verify():
 func execute():
 	mod.MatchLogic.execute_cost(action_cost, mana_cost)
 	mod.MatchData.cleanup_marked_objects()
-	mod.UI.update_ui()
+	mod.GameUI.update_ui()

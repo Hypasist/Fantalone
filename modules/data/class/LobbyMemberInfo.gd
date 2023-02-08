@@ -5,10 +5,10 @@ var nickname = INVALID_NICKNAME
 var owned_match_members = []
 var owned_players = []
 var owned_observers = []
-var network_id = Network.INVALID_ID
+var network_id = NetworkAPI.INVALID_ID
 
 
-func setup(_network_id=Network.INVALID_ID, _nickname=INVALID_NICKNAME):
+func setup(_network_id=NetworkAPI.INVALID_ID, _nickname=INVALID_NICKNAME):
 	network_id = _network_id
 	nickname = _nickname
 

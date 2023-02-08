@@ -1,26 +1,34 @@
-extends Peer
+class_name ServerNetwork
+extends EntityNetwork
 
-func _ready():
-	set_name("Server")
+var online = false
+func is_online():
+	return online
+	
+var connected_clients = []
+func get_connected_clients():
+	return connected_clients
+
+func setup():
+	if is_online():
+		disconnect_()
+	create_server(NetworkAPI.SERVER_PORT, MAX_PLAYERS)
+	online = true
 
 func create_server(port, max_players):
 	var peer = NetworkedMultiplayerENet.new()
 	var error = peer.create_server(port, max_players)
-	
 	if error:
 		Terminal.add_log(Debug.ERROR, Debug.NETWORK, "Could not create the server! Error %d" % [error])
 	else:
-		determine_ip()
+		determine_my_ip()
 		get_tree().network_peer = peer
-		Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server (%d) created! IP: %s" % [mod.Network.get_id(), ip])
+		Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server (%d) created! IP: %s" % [get_id(), ip])
 
 func disconnect_():
-	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Closing the server")
 	get_tree().network_peer = null
-
-var connected_clients = []
-func get_connected_clients():
-	return connected_clients
+	online = false
+	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Closing the server")
 
 func peer_connected(network_id):
 	connected_clients.append(network_id)

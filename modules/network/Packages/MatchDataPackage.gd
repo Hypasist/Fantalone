@@ -2,44 +2,42 @@ class_name MatchDataPackage
 
 enum { _MATCH_INFO, _MATCH_UNITS, _MATCH_TILES }
 
-static func pack_match():
+static func pack(MatchData):
 	var package = {}
 
 	package[_MATCH_UNITS] = []
-	for unit in mod.MatchData.get_all_units():
+	for unit in MatchData.get_all_units():
 		package[_MATCH_UNITS].append(unit.pack())
 	
 	package[_MATCH_TILES] = []
-	for tile in mod.MatchData.get_all_tiles():
+	for tile in MatchData.get_all_tiles():
 		package[_MATCH_TILES].append(tile.pack())
 	
 	var record = {}
-	record["players_mana"] = mod.MatchData.get_players_mana()
-	record["turn_owner"] = mod.MatchLogic.get_turn_owner()
-	record["action_counter"] = mod.MatchLogic.get_action_counter()
+	record["players_mana"] = MatchData.get_players_mana()
+	record["turn_owner"] = MatchData.get_turn_owner()
+	record["action_counter"] = MatchData.get_action_counter()
 	package[_MATCH_INFO] = record
 	
 	return package
 
 
-static func get_current_hash():
-	return pack_match().hash()
+static func get_current_hash(lobby):
+	return pack(lobby).hash()
 
 
-static func unpack_match(package):
+static func unpack(MatchData, package):
 	for record in package[_MATCH_TILES]:
-		mod.ObjectData.copy_object(record)
+		MatchData.ObjectData.copy_object(record)
 	
 	for record in package[_MATCH_UNITS]:
-		mod.ObjectData.copy_object(record)
+		MatchData.ObjectData.copy_object(record)
 	
 	for record in package[_MATCH_UNITS]:
 		for effect in record["effects"]:
-			mod.ObjectData.copy_object(effect)
+			MatchData.ObjectData.copy_object(effect)
 	
-	mod.MatchData.set_players_mana(package[_MATCH_INFO]["players_mana"])
-	mod.MatchLogic.set_turn_owner(package[_MATCH_INFO]["turn_owner"])
-	mod.MatchLogic.set_action_counter(package[_MATCH_INFO]["action_counter"])
+	MatchData.set_players_mana(package[_MATCH_INFO]["players_mana"])
+	MatchData.set_turn_owner(package[_MATCH_INFO]["turn_owner"])
+	MatchData.set_action_counter(package[_MATCH_INFO]["action_counter"])
 	
-	mod.MapView.execute_display_queues()
-	mod.UI.update_ui()

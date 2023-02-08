@@ -19,11 +19,11 @@ func assimilate_unique_name(unique_id):
 	return unique_id
 
 func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=null):
-	var resource = mod.Database.get_resource_by_name(resource_name)
+	var resource = mod.ResourceData.get_resource(resource_name)
 	match resource_name:
 		Resources.Ball:
 			#qr_coords, owner_id
-			var hex = mod.Logic.get_hex_by_xy_coords(coords)
+			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
 			var unique_name = get_unique_name(resource_name)
 			var logic_scene = resource.logic_scene.new(unique_name, match_id)
 			unit_list.append(logic_scene)
@@ -34,7 +34,7 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 			mod.MapView.add_unit_resource(display_scene)
 		Resources.Water, Resources.Rocks, Resources.Grass:
 			#qr_coords
-			var hex = mod.Logic.get_hex_by_xy_coords(coords)
+			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
 			var unique_name = get_unique_name(resource_name)
 			var logic_scene = resource.logic_scene.new(unique_name)
 			tile_list.append(logic_scene)
@@ -45,10 +45,11 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 			mod.MapView.add_tile_resource(display_scene)
 
 func copy_object(pack):
-	var resource = mod.Database.get_resource_by_name(pack["resource"])
+	var resource = mod.ResourceData.get_resource(pack["resource"])
 	match pack["resource"]:
 		Resources.Ball:
-			var hex = mod.Logic.get_hex_by_qr_coords(HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
+			var hex = mod.HexMath.get_hex_by_qr_coords(hex_dictionary, \
+						HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])
 			var logic_scene = resource.logic_scene.new(unique_name, pack["match_id"])
 			unit_list.append(logic_scene)
@@ -58,7 +59,8 @@ func copy_object(pack):
 			logic_scene.assign_display_scene(display_scene)
 			mod.MapView.add_unit_resource(display_scene)
 		Resources.Water, Resources.Rocks, Resources.Grass:
-			var hex = mod.Logic.get_hex_by_qr_coords(HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
+			var hex = mod.HexMath.get_hex_by_qr_coords(hex_dictionary, \
+						HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])
 			var logic_scene = resource.logic_scene.new(unique_name)
 			tile_list.append(logic_scene)
@@ -76,6 +78,11 @@ func copy_object(pack):
 func remove_all_objects():
 	remove_all_units()
 	remove_all_tiles()
+
+## HEX
+
+var hex_dictionary = {}
+
 
 ## UNITS
 

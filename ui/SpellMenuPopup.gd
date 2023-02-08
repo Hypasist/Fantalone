@@ -25,7 +25,7 @@ func _on_SpellButton_pressed(object):
 	if spell_block_list.has(object):
 		print("YAY  ", object, "  ", spell_block_list[object])
 	mod.MatchUI.spell_selected(spell_block_list[object])
-	mod.PopupUI.pop_popup(self)
+	mod.Popups.pop_popup(self)
 
 func _on_CancelButton_pressed():
-	mod.PopupUI.pop_popup(self)
+	mod.Popups.pop_popup(self)

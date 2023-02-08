@@ -1,4 +1,4 @@
-class_name PopupUI
+class_name Popups
 extends Control
 
 func create_match_menu_popup():
@@ -40,7 +40,7 @@ func create_custom_popup(text, text_list:Array=[], close_list:Array=[], parent_o
 var active_popups = []
 func push_popup(popup):
 	if active_popups.empty():
-		mod.UI.lock_map_control()
+		mod.GameUI.lock_map_control()
 		$Dim.show()
 	else:
 		active_popups[0].hide()
@@ -51,7 +51,7 @@ func pop_popup(popup):
 	active_popups.erase(popup)
 	popup.queue_free()
 	if active_popups.empty():
-		mod.UI.unlock_map_control()
+		mod.GameUI.unlock_map_control()
 		$Dim.hide()
 	else:
 		active_popups[0].show()

@@ -21,8 +21,8 @@ func clean_states():
 	$PlayerAction.action_cancel()
 
 func _unhandled_input(event):
-	if not mod.UI.map_control_enabled: return
-		
+	if not mod.GameUI.map_control_enabled: return
+	
 	if event is InputEventSingleScreenTap:
 		handle_shorttap(event)
 	elif event is InputEventSingleScreenTouch:
@@ -71,7 +71,7 @@ func _on_LongTapTimer_timeout():
 		clean_states()
 
 func handle_drag_ambiguous(event):
-	if mod.LocalLogic.any_unit_selected():
+	if mod.ControllerData.any_unit_selected():
 		handle_drag_unit(event)
 	else:
 		handle_drag_map(event)

@@ -1,19 +1,11 @@
 class_name MapView
 extends Node2D
 
-func setup_map(package=null):
-	erase_map()
-	if package:
-		MatchDataPackage.unpack_match(package)
-	else:
-		$Map.load_map()
-		$MapControl.setup()
+func setup_map():
+	hide()
+	$MapControl.setup()
 	$Map.calculate_map_boundaries()
 	show()
-
-func erase_map():
-	hide()
-	mod.ObjectData.remove_all_objects()
 
 func zoom(_center, zoom_value, isStep=false):
 	$MapControl.zoom(_center, zoom_value, isStep)

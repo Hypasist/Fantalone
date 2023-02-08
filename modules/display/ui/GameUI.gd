@@ -1,3 +1,4 @@
+class_name GameUI
 extends Control
 
 var map_control_enabled = false
@@ -27,7 +28,6 @@ func arrow_set_direction(position, direction):
 	$MovementArrow.set_direction_arrow(position, direction)
 
 func setup():
-	mod.LocalLogic.setup()
 	$MatchUI.setup()
 	$MatchUI.show()
 
@@ -36,3 +36,7 @@ func hide_match_ui():
 
 func update_ui():
 	$MatchUI.update()
+
+# GUI CONTROL
+func set_UI_mode(mode):
+	$GUIControl.set_UI_mode(mode)

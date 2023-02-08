@@ -13,7 +13,7 @@ static func pack_queue(queue):
 static func repack_queue(package):
 	package[_QUEUE_INFO] = {}
 	# package[_QUEUE_INFO]["queue_counter"] = mod.Network.get_communication_counter()
-	package[_QUEUE_INFO]["hash"] = MatchDataPackage.get_current_hash()
+	package[_QUEUE_INFO]["hash"] = MatchDataPackage.get_current_hash(mod)
 
 static func unpack_queue(package):
 	for record in package[_QUEUE_COMMANDS]:

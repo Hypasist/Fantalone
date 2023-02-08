@@ -1,24 +1,46 @@
-extends Peer
+class_name ClientNetwork
+extends EntityNetwork
 
-func _ready():
-	set_name("Client")
-	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	get_tree().connect("connected_to_server", self, "_connected_ok")
-	get_tree().connect("connection_failed", self, "_connected_fail")
+var online = false
+func is_online():
+	return online
+
+# TARGET IP
+
+var TARGET_SERVER_IP = "192.168.0.59"
+func set_target_ip(ip):
+	if ip.is_valid_ip_address():
+		TARGET_SERVER_IP = ip
+func get_target_ip():
+	return TARGET_SERVER_IP
+
+# CONNECTION
+
+func setup():
+	if is_online():
+		disconnect_()
+	connect_to_server(TARGET_SERVER_IP, NetworkAPI.SERVER_PORT)
+	online = true
 
 func connect_to_server(ip, port):
+	if connected:
+		disconnect_()
 	var peer = NetworkedMultiplayerENet.new()
 	var error = peer.create_client(ip, port)
 	if not error:
 		get_tree().network_peer = peer
 
 func disconnect_():
+	get_tree().network_peer = null
+	online = false
 	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Disconnecting from the server.")
 
-func get_connected_clients():
-	Terminal.add_log(Debug.ERROR, Debug.NETWORK, "Trying to ask client for peer list.")
-	return -1
-	
+# BASIC NETWORK SIGNALS
+func _ready():
+	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	get_tree().connect("connected_to_server", self, "_connected_ok")
+	get_tree().connect("connection_failed", self, "_connected_fail")
+
 signal server_disconnected()
 func _server_disconnected():
 	Terminal.add_log(Debug.INFO, Debug.NETWORK, "Server disconnected!")
@@ -34,3 +56,4 @@ func connect_network_signal(_signal, _object, _method):
 	for custom_signal in get_signal_list():
 		if custom_signal["name"] == _signal:
 			connect(_signal, _object, _method)
+

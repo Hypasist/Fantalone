@@ -3,47 +3,42 @@ extends Node
 
 func _ready():
 	mod.Game = self
-	mod.Database = $Database
-	mod.Network = $Network
-	mod.MapEditor = $MapEditor
-	mod.MapView = $MapView
-	mod.UI = $UI
-	mod.LocalLogic = $Logic/LocalLogic
-	mod.Menu = $Menu
-	mod.Logic = $Logic
-	mod.MatchLogic = $Logic/MatchLogic
-	mod.MatchData = $Database/MatchData
-	mod.ObjectData = $Database/ObjectData
-	mod.MatchNetwork = $Network/MatchNetwork
-	mod.LobbyNetwork = $Network/LobbyNetwork
-	mod.MovementLogic = $Logic/MovementLogic
-	mod.LobbyLogic = $Logic/LobbyLogic
-	mod.CommandQueue = $Logic/MatchLogic/CommandQueue
-	mod.LobbyData = $Database/LobbyData
-	mod.Debug = $Debug
-	mod.PopupUI = $UI/PopupUI
-	mod.MatchUI = $UI/MatchUI
-	mod.SpellList = $Database/SpellList
 	
-	setup()
-	mod.Menu.switch_screens(mod.Menu.main_menu)
+	# STATIC LOGIC LIBRARIES
+	mod.HexMath = $StaticLogicLibraries/HexMath
+	mod.LobbyLogic = $StaticLogicLibraries/LobbyLogic
+	mod.MatchLogic = $StaticLogicLibraries/MatchLogic
+	mod.FormationLogic = $StaticLogicLibraries/FormationLogic
+	mod.ControllerLogic = $StaticLogicLibraries/ControllerLogic
+	mod.MatchNetworkAPI = $StaticLogicLibraries/NetworkAPI/MatchNetworkAPI
+	mod.LobbyNetworkAPI = $StaticLogicLibraries/NetworkAPI/LobbyNetworkAPI
+	mod.NetworkAPI = $StaticLogicLibraries/NetworkAPI/NetworkAPI
+	
+	# LOCAL DATABASES
+	mod.GameData = $LocalDatabases/GameData
+	mod.ServerData = $LocalDatabases/ServerData
+	mod.ClientData = $LocalDatabases/ClientData
+	mod.ResourceData = $LocalDatabases/ResourceData
+	mod.ControllerData = $LocalDatabases/ControllerData
+	
+	# GRAPHICS
+	mod.Graphics = $Graphics
+	mod.Debug = $Graphics/Debug
+	mod.MapView = $Graphics/MapView
+	mod.Menu = $Graphics/Menu
+	mod.Popups = $Graphics/Popups
+	mod.GameUI = $Graphics/GameUI
+	
+	# MAP EDITOR
+	mod.MapEditor = $MapEditor
+	
+	# SETUP
+	setup_game()
 
-func setup():
-	mod.LocalLogic.identify_client()
-	mod.Database.set_resolution(get_viewport().size)
+func setup_game():
+	mod.ControllerData.identify_controller()
+	mod.Menu.switch_screens(Menu.main_menu)
 
 func exit_game():
 	get_tree().quit() 
 
-# how about -- jedna scena rodzic dla tile i unit (logic moze display)
-# reakcyjne delete free?
-
-# DISPLAY DISCOURSE:
-# Do clients receive info about enemy actions immidiately? Or do they receive  
-# whole info-package at the end of the turn? And then cancel coutering disCmds?
-# Like 'tire'-'untire'?  If I intend to use 'ctr+z' feature, then I need to send
-# all package at the end of turn.
-
-# THREADS DISCOURSE:
-# Currently we're working with 2 stable threads. Should we switch the second one
-# (display manager thread) to be temporal?

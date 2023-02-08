@@ -7,12 +7,12 @@ func setup(size:Vector2=Vector2(0,0)):
 	set_displayed_name(mod.Database.get_nickname())
 
 func _on_CancelButton_pressed():
-	mod.PopupUI.pop_popup(self)
+	mod.Popups.pop_popup(self)
 
 func _on_AcceptButton_pressed():
 	mod.Database.set_autofinish_turn($Box/VBoxContainer/AutofinishTurnsSlider.is_pressed())
 	mod.Database.set_nickname(name_remembered)
-	mod.PopupUI.pop_popup(self)
+	mod.Popups.pop_popup(self)
 
 var name_remembered = ""
 func set_displayed_name(text):
