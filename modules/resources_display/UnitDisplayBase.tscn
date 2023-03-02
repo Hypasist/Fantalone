@@ -2,8 +2,9 @@
 
 [ext_resource path="res://modules/resources_display/UnitDisplayBase.gd" type="Script" id=1]
 [ext_resource path="res://art/shaders/undershadow.shader" type="Shader" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://art/icon.png" type="Texture" id=3]
 [ext_resource path="res://modules/resources_display/UnitAnimationControllerBase.gd" type="Script" id=4]
+
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )

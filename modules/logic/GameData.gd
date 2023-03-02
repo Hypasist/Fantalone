@@ -3,7 +3,7 @@ extends Node
 
 
 ### VARIOUS CONSTANTS
-const game_version = "0.1.2"
+const game_version = "0.2.0"
 func get_version():
 	return game_version
 

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://modules/display/map/MapView.gd" type="Script" id=1]
 [ext_resource path="res://modules/display/map/Map.gd" type="Script" id=2]
-[ext_resource path="res://tmp_background.png" type="Texture" id=3]
+[ext_resource path="res://art/background.png" type="Texture" id=3]
 [ext_resource path="res://modules/display/map/MapControl.gd" type="Script" id=4]
 [ext_resource path="res://modules/display/map/DisCmdManager.gd" type="Script" id=5]
 
@@ -17,7 +17,7 @@ script = ExtResource( 2 )
 
 [node name="Units" type="YSort" parent="Map"]
 
-[node name="tmp_background" type="Sprite" parent="."]
+[node name="TestBackground" type="Sprite" parent="."]
 visible = false
 position = Vector2( -100, -100 )
 texture = ExtResource( 3 )
