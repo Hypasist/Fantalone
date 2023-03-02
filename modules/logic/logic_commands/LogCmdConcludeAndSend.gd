@@ -18,7 +18,7 @@ func execute():
 		if mod.Network.is_server():
 			pass
 		else:
-			mod.CommandQueue.client_pack_queue()
+			mod.CommandData.client_pack_queue()
 
 func pack_command():
 	var pack = {}

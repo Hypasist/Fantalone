@@ -1,6 +1,14 @@
 class_name ObjectData
 extends Node
 
+var Data = null
+
+const DISPLAY_DISABLED = false
+const DISPLAY_ENABLED = true
+var display_settings = DISPLAY_DISABLED
+func set_display_setting(display_mode):
+	display_settings = display_mode
+
 var item_counter = {}
 func get_unique_name(resource_name):
 	if item_counter.has(resource_name):
@@ -28,10 +36,11 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 			var logic_scene = resource.logic_scene.new(unique_name, match_id)
 			unit_list.append(logic_scene)
 			hex.place_unit(logic_scene)
-			var display_scene = resource.display_scene.instance()
-			display_scene.set_name(unique_name)
-			logic_scene.assign_display_scene(display_scene)
-			mod.MapView.add_unit_resource(display_scene)
+			if display_settings:
+				var display_scene = resource.display_scene.instance()
+				display_scene.set_name(unique_name)
+				logic_scene.assign_display_scene(display_scene)
+				mod.MapView.add_unit_resource(display_scene)
 		Resources.Water, Resources.Rocks, Resources.Grass:
 			#qr_coords
 			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
@@ -39,10 +48,11 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 			var logic_scene = resource.logic_scene.new(unique_name)
 			tile_list.append(logic_scene)
 			hex.place_tile(logic_scene)
-			var display_scene = resource.display_scene.instance()
-			display_scene.set_name(unique_name)
-			logic_scene.assign_display_scene(display_scene)
-			mod.MapView.add_tile_resource(display_scene)
+			if display_settings:
+				var display_scene = resource.display_scene.instance()
+				display_scene.set_name(unique_name)
+				logic_scene.assign_display_scene(display_scene)
+				mod.MapView.add_tile_resource(display_scene)
 
 func copy_object(pack):
 	var resource = mod.ResourceData.get_resource(pack["resource"])
@@ -54,10 +64,11 @@ func copy_object(pack):
 			var logic_scene = resource.logic_scene.new(unique_name, pack["match_id"])
 			unit_list.append(logic_scene)
 			hex.place_unit(logic_scene)
-			var display_scene = resource.display_scene.instance()
-			display_scene.set_name(unique_name)
-			logic_scene.assign_display_scene(display_scene)
-			mod.MapView.add_unit_resource(display_scene)
+			if display_settings:
+				var display_scene = resource.display_scene.instance()
+				display_scene.set_name(unique_name)
+				logic_scene.assign_display_scene(display_scene)
+				mod.MapView.add_unit_resource(display_scene)
 		Resources.Water, Resources.Rocks, Resources.Grass:
 			var hex = mod.HexMath.get_hex_by_qr_coords(hex_dictionary, \
 						HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
@@ -65,10 +76,11 @@ func copy_object(pack):
 			var logic_scene = resource.logic_scene.new(unique_name)
 			tile_list.append(logic_scene)
 			hex.place_tile(logic_scene)
-			var display_scene = resource.display_scene.instance()
-			display_scene.set_name(unique_name)
-			logic_scene.assign_display_scene(display_scene)
-			mod.MapView.add_tile_resource(display_scene)
+			if display_settings:
+				var display_scene = resource.display_scene.instance()
+				display_scene.set_name(unique_name)
+				logic_scene.assign_display_scene(display_scene)
+				mod.MapView.add_tile_resource(display_scene)
 		Resources.EffectDead, Resources.EffectFrozen, Resources.EffectTired:
 			var caster = mod.MatchData.get_unit_by_name(pack["caster"])
 			var target = mod.MatchData.get_unit_by_name(pack["target"])
@@ -82,7 +94,8 @@ func remove_all_objects():
 ## HEX
 
 var hex_dictionary = {}
-
+func get_hex_dictionary():
+	return hex_dictionary
 
 ## UNITS
 

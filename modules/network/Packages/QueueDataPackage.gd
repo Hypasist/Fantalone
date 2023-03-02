@@ -17,4 +17,4 @@ static func repack_queue(package):
 
 static func unpack_queue(package):
 	for record in package[_QUEUE_COMMANDS]:
-		mod.CommandQueue.unpack_command(record)
+		mod.CommandData.unpack_command(record)

@@ -1,13 +1,22 @@
 class_name ServerData
 extends Node
 
-onready var MatchData = $ServerMatchData
-onready var LobbyData = $ServerLobbyData
 onready var Network = $ServerNetwork
+onready var LobbyData = $ServerLobbyData
+onready var MatchData = $ServerMatchData
+onready var ObjectData = $ServerObjectData
+onready var CommandData = $ServerCommandData
 
 var active = false
 func is_active():
 	return active
+
+func _ready():
+	LobbyData.Data = self
+	MatchData.Data = self
+	ObjectData.Data = self
+	ObjectData.set_display_setting(ObjectData.DISPLAY_DISABLED)
+	CommandData.Data = self
 
 func setup():
 	mod.LobbyNetworkAPI.setup()
@@ -15,7 +24,6 @@ func setup():
 	
 	Network.setup()
 	LobbyData.setup()
-	MatchData.pre_setup(LobbyData, $ServerMatchData/ObjectData)
 	active = true
 
 func close():

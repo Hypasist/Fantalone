@@ -35,9 +35,9 @@ _global_script_classes=[ {
 "path": "res://modules/network/ClientNetwork.gd"
 }, {
 "base": "Node",
-"class": "CommandQueue",
+"class": "CommandData",
 "language": "GDScript",
-"path": "res://modules/logic/CommandQueue.gd"
+"path": "res://modules/logic/CommandData.gd"
 }, {
 "base": "PopupBase",
 "class": "ConnectToServerPopup",
@@ -283,11 +283,6 @@ _global_script_classes=[ {
 "class": "LobbyNetworkAPI",
 "language": "GDScript",
 "path": "res://modules/network/LobbyNetworkAPI.gd"
-}, {
-"base": "Node",
-"class": "LocalLogic",
-"language": "GDScript",
-"path": "res://modules/logic/LocalLogic.gd"
 }, {
 "base": "Reference",
 "class": "LogCmd",
@@ -610,7 +605,7 @@ _global_script_class_icons={
 "ClientLobbyData": "",
 "ClientMatchData": "",
 "ClientNetwork": "",
-"CommandQueue": "",
+"CommandData": "",
 "ConnectToServerPopup": "",
 "ControllerData": "",
 "ControllerLogic": "",
@@ -660,7 +655,6 @@ _global_script_class_icons={
 "LobbyLogic": "",
 "LobbyMemberInfo": "",
 "LobbyNetworkAPI": "",
-"LocalLogic": "",
 "LogCmd": "",
 "LogCmdBase": "",
 "LogCmdCastSpell": "",

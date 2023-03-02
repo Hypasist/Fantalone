@@ -40,3 +40,14 @@ func update_ui():
 # GUI CONTROL
 func set_UI_mode(mode):
 	$GUIControl.set_UI_mode(mode)
+
+func shorttap_handle():
+	$GUIControl.shorttap_handle()
+
+## SPELLCAST
+func load_spell(spell_info):
+	$GUIControl.load_spell(spell_info)
+func set_spellcast_mode(value):
+	$MatchUI.turn_on_spell_targeting() if value else $MatchUI.turn_off_spell_targeting()
+func get_spellcast_mode():
+	return $MatchUI.is_spellcast_mode()

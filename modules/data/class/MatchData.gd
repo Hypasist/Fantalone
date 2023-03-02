@@ -1,6 +1,7 @@
 class_name MatchData
 extends Node
 
+var Data = null
 
 # TURN OWNER
 
@@ -13,7 +14,7 @@ func set_turn_owner(match_id):
 func reset_turn_owner():
 	current_turn_owner = -1
 func determine_next_turn_owner():
-	mod.MatchLogic.determine_next_turn_owner(LobbyData, self)
+	mod.MatchLogic.determine_next_turn_owner(Data)
 
 
 ## CURRENT OWNER ACTIONS
@@ -44,7 +45,7 @@ func is_turn_owner_locally_present():
 	return is_match_id_locally_present(get_turn_owner())
 
 func is_match_id_locally_present(match_id):
-	for player in LobbyData.get_players():
+	for player in Data.LobbyData.get_players():
 		if player.match_id == match_id:
 			if player.owner_lobby_member.network_id == mod.ClientData.Network.get_id():
 				return true
@@ -52,21 +53,15 @@ func is_match_id_locally_present(match_id):
 
 ## SETUP
 
-var ObjectData = null
-var LobbyData = null
-func pre_setup(lobbydata, objectdata):
-	LobbyData = lobbydata
-	ObjectData = objectdata
-	
 func setup(package:Dictionary={}):
-	ObjectData.remove_all_objects()
-	var player_list = LobbyData.get_players()
+	Data.ObjectData.remove_all_objects()
+	var player_list = Data.LobbyData.get_players()
 	for player in player_list:
 		player_mana[player.match_id] = STARTING_MANA
 	for player in player_list:
 		player_max_actions[player.match_id] = MAXIMUM_ACTION_LIMIT
 	if package:
-		MatchDataPackage.unpack(self, package)
+		MatchDataPackage.unpack(Data, package)
 
 
 ## MANA
@@ -92,16 +87,16 @@ func set_players_mana(package):
 
 func cleanup_marked_objects():
 	var unit_marked_list = []
-	for unit in mod.ObjectData.get_unit_list():
+	for unit in Data.ObjectData.get_unit_list():
 		if unit.is_marked_to_delete():
 			unit_marked_list.append(unit)
-	mod.ObjectData.remove_unit_list(unit_marked_list)
+	Data.ObjectData.remove_unit_list(unit_marked_list)
 	
 	var tile_marked_list = []
-	for tile in mod.ObjectData.get_tile_list():
+	for tile in Data.ObjectData.get_tile_list():
 		if tile.is_marked_to_delete():
 			tile_marked_list.append(tile)
-	mod.ObjectData.remove_tile_list(tile_marked_list)
+	Data.ObjectData.remove_tile_list(tile_marked_list)
 
 
 ## MIGRATED FROM MATCHLOGIC __
@@ -114,7 +109,7 @@ func new_turn():
 	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
 
 func verify_movement(unit_list, direction):
-	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
+	var movement = mod.FormationLogic.recognize_movement_unit(unit_list, direction)
 	if not movement.is_valid():
 		return movement
 	else:
@@ -128,17 +123,17 @@ func verify_cost(action_cost, mana_cost):
 	if action_cost > get_actions_left():
 		print(action_cost, " > ", get_actions_left())
 		return ErrorInfo.new(ErrorInfo.invalid.not_enough_action_points)
-	if mana_cost > mod.MatchData.get_player_mana(get_turn_owner()):
-		print(mana_cost, " > ", mod.MatchData.get_player_mana(get_turn_owner()))
+	if mana_cost > get_player_mana(get_turn_owner()):
+		print(mana_cost, " > ", get_player_mana(get_turn_owner()))
 		return ErrorInfo.new(ErrorInfo.invalid.not_enough_mana_points)
 	return ErrorInfo.new()
 
 func execute_cost(action_cost, mana_cost):
 	modify_action_counter(action_cost)
-	mod.MatchData.get_player_mana(get_turn_owner())
+	get_player_mana(get_turn_owner())
 
 func execute_movement(unit_list, direction):
-	var movement = mod.MovementLogic.recognize_movement_unit(unit_list, direction)
+	var movement = mod.FormationLogic.recognize_movement_unit(unit_list, direction)
 	for command in movement.get_command_list():
 		command.execute()
 	return movement
@@ -157,9 +152,11 @@ func action_done():
 
 ## Redirects
 func get_all_units():
-	return MatchLogic.get_all_units(self)
+	return MatchLogic.get_all_units(Data)
 func get_all_tiles():
-	return MatchLogic.get_all_tiles(self)
+	return MatchLogic.get_all_tiles(Data)
+func get_neighbour_hex(hex, direction):
+	return MatchLogic.get_neighbour_hex(Data, hex, direction)
 func get_players_units_num(match_id):
-	return MatchLogic.get_players_units_num(self, match_id)
+	return MatchLogic.get_players_units_num(Data, match_id)
 

@@ -35,14 +35,21 @@ static func are_hexes_in_line(hex_list:Array, starting_hex, search_directions:Ar
 				formation.conclude_ownership()
 				return formation
 
-			current_hex = current_hex.get_neighbour(direction)
-			if hex_list.has(current_hex):
+			var coords = coord_sum(current_hex.coords, HEXConstants.directions[direction])
+			current_hex = get_next_hex_in_line(hex_list, current_hex, direction)
+			if current_hex:
 				line_size += 1
 				continue
 			else:
 				break
 	return formation
 
+static func get_next_hex_in_line(hex_list:Array, starting_hex, direction):
+	var coords = coord_sum(starting_hex.coords, HEXConstants.directions[direction])
+	for hex in hex_list:
+		if are_equal(hex.coords, coords):
+			return hex
+	return null
 
 ## OLD HMATH
 static func compare_with_array(c1, a1):

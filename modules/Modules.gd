@@ -7,8 +7,6 @@ var MatchLogic = null
 var ObjectData = null
 var MatchData = null
 var MovementLogic = null
-var CommandQueue = null
-var LocalLogic = null
 var LobbyData = null
 var MatchUI = null
 var SpellList = null
@@ -31,6 +29,7 @@ var ServerData = null
 var ClientData = null
 var ResourceData = null
 var ControllerData = null
+var CommandData = null
 
 var Graphics = null
 var Menu = null

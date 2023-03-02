@@ -2,7 +2,8 @@ class_name MatchDataPackage
 
 enum { _MATCH_INFO, _MATCH_UNITS, _MATCH_TILES }
 
-static func pack(MatchData):
+static func pack(Data):
+	var MatchData = Data.MatchData
 	var package = {}
 
 	package[_MATCH_UNITS] = []
@@ -26,16 +27,19 @@ static func get_current_hash(lobby):
 	return pack(lobby).hash()
 
 
-static func unpack(MatchData, package):
+static func unpack(Data, package):
+	var MatchData = Data.MatchData
+	var ObjectData = Data.ObjectData
+	
 	for record in package[_MATCH_TILES]:
-		MatchData.ObjectData.copy_object(record)
+		ObjectData.copy_object(record)
 	
 	for record in package[_MATCH_UNITS]:
-		MatchData.ObjectData.copy_object(record)
+		ObjectData.copy_object(record)
 	
 	for record in package[_MATCH_UNITS]:
 		for effect in record["effects"]:
-			MatchData.ObjectData.copy_object(effect)
+			ObjectData.copy_object(effect)
 	
 	MatchData.set_players_mana(package[_MATCH_INFO]["players_mana"])
 	MatchData.set_turn_owner(package[_MATCH_INFO]["turn_owner"])

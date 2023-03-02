@@ -182,11 +182,11 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.CLIENT_REQUEST_QUEUE:
 			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.SERVER_VERIFY_QUEUE, param1)
 		command.SERVER_VERIFY_QUEUE:
-			mod.CommandQueue.server_unpack_and_execute_queue(param1)
+			mod.CommandData.server_unpack_and_execute_queue(param1)
 		command.SERVER_BROADCAST_QUEUE:
 			rpc("match_network_execute_command", command.CLIENT_EXECUTE_QUEUE, param1)
 		command.CLIENT_EXECUTE_QUEUE:
-			mod.CommandQueue.client_unpack_and_execute_queue(param1)
+			mod.CommandData.client_unpack_and_execute_queue(param1)
 		command.SERVER_DISCARD_QUEUE:
 			print("DISCARD, ", param1)
 		

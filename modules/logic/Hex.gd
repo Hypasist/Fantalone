@@ -34,8 +34,6 @@ func is_lethal():
 	return tile_logic.lethal if tile_logic else false
 func get_owner():
 	return unit_logic.get_owner() if unit_logic else null
-#func get_neighbour(direction):
-#	return mod.Logic.get_neighbour_hex(self, direction)
 func get_coords():
 	return coords
 func pack():

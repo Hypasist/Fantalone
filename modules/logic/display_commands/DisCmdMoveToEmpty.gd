@@ -9,7 +9,7 @@ func _init(object_logic_).(object_logic_):
 	
 	current_position = object_display.position
 	var target_coords = object_logic.hex.coords
-	target_position = mod.Logic.hex_to_position(target_coords)
+	target_position = HexMath.hex_to_position(target_coords)
 
 func execute():
 	Terminal.add_log(Debug.ALL, Debug.DISPLAY_CMD, "[%s] DisCmdMoveToEmpty %s" % [object_logic.get_name_id(), object_logic.hex.coords.to_str()])

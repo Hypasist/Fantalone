@@ -1,7 +1,6 @@
 class_name EntityNetwork
 extends Node
 
-
 const MAX_PLAYERS = 8
 
 func get_id():

@@ -54,16 +54,16 @@ func is_spellcast_mode():
 	return spellcast_mode
 
 func spell_selected(spell_info):
-	mod.LocalLogic.deselect_all_units()
-	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_TILE)
-	mod.LocalLogic.load_spell(spell_info)
+	mod.ControllerData.deselect_all_units()
+	mod.GameUI.set_UI_mode(GUIControl.UI_MODE_TILE)
+	mod.GameUI.load_spell(spell_info)
 	turn_on_spell_targeting()
 func spell_deselected():
-	mod.LocalLogic.set_UI_mode(LocalLogic.UI_MODE_UNIT)
-	mod.LocalLogic.unload_spell()
+	mod.GameUI.set_UI_mode(GUIControl.UI_MODE_UNIT)
+	mod.GameUI.unload_spell()
 	turn_off_spell_targeting()
 func spell_casted():
-	mod.LocalLogic.cast_spell()
+	mod.GameUI.cast_spell()
 	mod.MapView.execute_display_queues()
 	spell_deselected()
 

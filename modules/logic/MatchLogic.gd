@@ -1,44 +1,45 @@
 class_name MatchLogic
 extends Node
 
-static func determine_next_turn_owner(lobbydata, matchdata):
-	var lobby_players = lobbydata.get_players()
-	var map_size = lobbydata.get_map_player_size()
+static func determine_next_turn_owner(Data):
+	var lobby_players = Data.LobbyData.get_players()
+	var map_size = Data.LobbyData.get_map_player_size()
+	var MatchData = Data.MatchData
 	
 	if not lobby_players.empty():
-		if matchdata.current_turn_owner == -1:
+		if MatchData.current_turn_owner == -1:
 			for i in map_size:
 				for player in lobby_players:
-					if player.match_id == i and get_players_units(matchdata, player.match_id).size() > 0:
-						return matchdata.set_turn_owner(player.match_id)
+					if player.match_id == i and get_players_units(Data, player.match_id).size() > 0:
+						return MatchData.set_turn_owner(player.match_id)
 		else:
 			for i in map_size:
-				var candidate = (matchdata.current_turn_owner + i + 1) % map_size
+				var candidate = (MatchData.current_turn_owner + i + 1) % map_size
 				for player in lobby_players:
-					if player.match_id == matchdata.candidate and matchdata.get_players_units(player.match_id).size() > 0:
-						return matchdata.set_turn_owner(player.match_id)
+					if player.match_id == candidate and get_players_units(Data, player.match_id).size() > 0:
+						return MatchData.set_turn_owner(player.match_id)
 
 ## Both
 
-static func get_object_by_name(matchdata, object_name):
-	var object = get_unit_by_name(matchdata, object_name)
+static func get_object_by_name(Data, object_name):
+	var object = get_unit_by_name(Data, object_name)
 	if null == object:
-		object = get_tile_by_name(matchdata, object_name)
+		object = get_tile_by_name(Data, object_name)
 	return object
 
 
 ## UNIT SELECTION
 
-static func get_all_units(matchdata):
+static func get_all_units(Data):
 	var return_array = []
-	for unit in matchdata.ObjectData.get_unit_list():
+	for unit in Data.ObjectData.get_unit_list():
 		if not unit.is_marked_to_delete():
 			return_array.append(unit)
 	return return_array
 
-static func get_players_units(matchdata, match_id):
+static func get_players_units(Data, match_id):
 	var return_array = []
-	for unit in get_all_units(matchdata):
+	for unit in get_all_units(Data):
 		if unit.get_owner() == match_id:
 			return_array.append(unit)
 	return return_array
@@ -46,8 +47,8 @@ static func get_players_units(matchdata, match_id):
 static func get_players_units_num(matchdata, match_id):
 	return get_players_units(matchdata, match_id).size()
 
-static func get_unit_by_name(matchdata, unit_name):
-	for unit in get_all_units(matchdata):
+static func get_unit_by_name(Data, unit_name):
+	for unit in get_all_units(Data):
 		if unit.get_name_id() == unit_name:
 			return unit
 	return null
@@ -61,12 +62,15 @@ static func get_all_tiles(matchdata):
 			return_array.append(tile)
 	return return_array
 
-static func get_tile_by_name(matchdata, tile_name):
-	for tile in get_all_tiles(matchdata):
+static func get_tile_by_name(Data, tile_name):
+	for tile in get_all_tiles(Data):
 		if tile.get_name_id() == tile_name:
 			return tile
 	return null
 
+static func get_neighbour_hex(matchdata, hex, direction):
+	var hex_dictionary = matchdata.ObjectData.get_hex_dictionary()
+	return HexMath.get_neighbour_hex(hex_dictionary, hex, direction)
 
 #func execute_log_cmd(log_cmd_list):
 #	var command_list = []
@@ -97,8 +101,8 @@ func is_game_over():
 func request_end_turn():
 	var match_id = mod.MatchData.get_turn_owner()
 	var actions_left = mod.MatchData.get_actions_left()
-	mod.CommandQueue.new_command(LogCmdFinishTurn, {"caller":match_id, "actions_left":actions_left})
-	mod.CommandQueue.new_command(LogCmdConcludeAndSend, {"caller":match_id})
+	mod.CommandData.new_command(LogCmdFinishTurn, {"caller":match_id, "actions_left":actions_left})
+	mod.CommandData.new_command(LogCmdConcludeAndSend, {"caller":match_id})
 
 func _on_finish_popup_handler(value):
 	mod.ClientData.MatchData.stop_match()

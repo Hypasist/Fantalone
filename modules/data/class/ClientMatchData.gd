@@ -9,7 +9,6 @@ func start_match(package:Dictionary={}):
 	mod.MapView.setup_map()
 	mod.GameUI.setup()
 
-
 func stop_match():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "Match stopped.")
 	mod.Menu.show_menu()

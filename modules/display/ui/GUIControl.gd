@@ -31,14 +31,14 @@ func shorttap_handle():
 		UI_MODE_UNIT:
 			var unit = mod.GameUI.get_hovered_unit()
 			if unit:
-				if mod.MatchUI.is_spellcast_mode():
+				if mod.GameUI.get_spellcast_mode():
 					$SpellcastLogic.new_unit_selected(unit)
 				else:
 					mod.ControllerData.new_unit_selected(unit)
 		UI_MODE_TILE:
 			var tile = mod.GameUI.get_hovered_tile()
 			if tile:
-				if mod.MatchUI.is_spellcast_mode():
+				if mod.GameUI.get_spellcast_mode():
 					$SpellcastLogic.new_tile_selected(tile)
 
 func load_spell(spell_info):

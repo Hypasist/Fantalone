@@ -15,7 +15,6 @@
 script = ExtResource( 7 )
 
 [node name="Logic" parent="." instance=ExtResource( 1 )]
-script = null
 
 [node name="ControllerLogic" type="Node" parent="."]
 script = ExtResource( 2 )

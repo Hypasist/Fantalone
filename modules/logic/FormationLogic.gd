@@ -45,7 +45,7 @@ static func _evaluate_unit_command_move(movement, unit, destination_hex):
 
 static func evaluate_unit_command(movement, unit):
 	var current_hex = unit.hex
-	var destination_hex = current_hex.get_neighbour(movement.get_direction())
+	var destination_hex = mod.ClientData.MatchData.get_neighbour_hex(current_hex, movement.get_direction())
 	
 	if destination_hex.get_tile() == null:
 		Terminal.add_log(Debug.ERROR, Debug.MATCH, "Trying to reach beyond the map boundaries!")

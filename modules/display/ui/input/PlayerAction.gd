@@ -13,7 +13,7 @@ func action_rotate():
 # -------------------------------------
 
 func action_shorttap(_position):
-	mod.LocalLogic.shorttap_handle()
+	mod.GameUI.shorttap_handle()
 
 func action_longtap(_position):
 	pass
@@ -40,7 +40,7 @@ func action_drag_stopped(position, relative):
 			mod.GameUI.arrow_set_no_direction(position)
 		else:
 			var direction = touchscreenScripts.angleVector2direction(relative)
-			mod.LocalLogic.complete_movement(direction)
+			mod.ControllerData.complete_movement(direction)
 	mod.GameUI.arrow_clear_direction()
 
 func action_cancel():
