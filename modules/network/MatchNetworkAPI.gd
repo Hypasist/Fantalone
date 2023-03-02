@@ -188,7 +188,8 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.CLIENT_EXECUTE_QUEUE:
 			mod.CommandData.client_unpack_and_execute_queue(param1)
 		command.SERVER_DISCARD_QUEUE:
-			print("DISCARD, ", param1)
+			##print("DISCARD, ", param1)
+			pass
 		
 		command.UPDATE_MATCH_STATUS:
 			mod.ClientData.MatchData.setup(param1)

@@ -121,10 +121,8 @@ func verify_movement(unit_list, direction):
 
 func verify_cost(action_cost, mana_cost):
 	if action_cost > get_actions_left():
-		print(action_cost, " > ", get_actions_left())
 		return ErrorInfo.new(ErrorInfo.invalid.not_enough_action_points)
 	if mana_cost > get_player_mana(get_turn_owner()):
-		print(mana_cost, " > ", get_player_mana(get_turn_owner()))
 		return ErrorInfo.new(ErrorInfo.invalid.not_enough_mana_points)
 	return ErrorInfo.new()
 

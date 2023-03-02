@@ -40,7 +40,6 @@ func switch_screens(screen, setup_params=null):
 
 func _on_screen_resolved(package):
 	pass
-	print(package)
 
 func refresh(refresh_level=0):
 	current_screen.refresh(refresh_level)

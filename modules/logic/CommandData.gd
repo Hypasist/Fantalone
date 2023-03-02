@@ -29,7 +29,6 @@ func verify_queue():
 		if not command.is_verified():  
 			last_error = command.verify()
 			if last_error.is_invalid():
-				print(last_error.get_invalid_string())
 				# THINK ABOUT WHETHER YOU WANT TO REMOVE INVALID COMMANDS HERE
 				queue.erase(command)
 				break
