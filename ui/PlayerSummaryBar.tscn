@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/PlayerSummaryBar.gd" type="Script" id=1]
-[ext_resource path="res://game/fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://game/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://ui/art/mana.png" type="Texture" id=4]
+[ext_resource path="res://art/fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://art/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://art/ui/mana.png" type="Texture" id=4]
 [ext_resource path="res://art/units/actorSprites.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]

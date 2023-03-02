@@ -2,7 +2,7 @@
 
 [ext_resource path="res://ui/PopupBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/MatchMenuPopup.gd" type="Script" id=2]
-[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=3]
+[ext_resource path="res://art/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=3]
 
 [node name="MatchMenuPopup" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
