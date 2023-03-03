@@ -25,5 +25,5 @@ func pack_command():
 	pack["command_name"] = "LogCmdDummy"
 	return pack
 
-func unpack_command(record):
+static func unpack_command(pack):
 	pass

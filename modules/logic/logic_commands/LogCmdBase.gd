@@ -30,7 +30,7 @@ func get_command_name():
 func pack_command():
 	pass
 
-func unpack_command(_record):
+static func unpack_command(pack):
 	pass
 
 func verify():
