@@ -724,7 +724,7 @@ _global_script_class_icons={
 
 config/name="Fantalone"
 run/main_scene="res://game/Game.tscn"
-config/icon="res://modules/art/units/actorSpites.png"
+config/icon="res://modules/art/units/actorSprites.png"
 
 [autoload]
 
