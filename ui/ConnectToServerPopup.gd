@@ -8,14 +8,14 @@ func setup(size:Vector2=Vector2(0,0)):
 	set_displayed_name(default_ip)
 
 func _on_CancelButton_pressed():
-	mod.PopupUI.pop_popup(self)
+	mod.Popups.pop_popup(self)
 
 func _on_AcceptButton_pressed():
 	if changed_name:
 		_on_LineEdit_text_entered(changed_name)
 	mod.Network.set_target_ip(name_remembered)
 	mod.Menu.switch_screens(mod.Menu.multiplayer_setup, false)
-	mod.PopupUI.pop_popup(self)
+	mod.Popups.pop_popup(self)
 
 var name_remembered = ""
 func set_displayed_name(text):

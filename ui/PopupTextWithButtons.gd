@@ -23,5 +23,5 @@ func add_buttons(text_list, close_list, parent_object, parent_method):
 signal button_pressed(value)
 func handle_pressed(value, close_popup):
 	if close_popup:
-		mod.PopupUI.pop_popup(self)
+		mod.Popups.pop_popup(self)
 	emit_signal("button_pressed", value)

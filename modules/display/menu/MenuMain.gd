@@ -1,7 +1,7 @@
 extends MenuScreenBase
 
 func _ready():
-	$VersionLabel.set_text("Version: %s    " % mod.Database.get_version())
+	$VersionLabel.set_text("Version: %s    " % mod.GameData.get_version())
 
 func _on_NewGame_pressed():
 	mod.Menu.switch_screens(mod.Menu.singleplayer_setup)
@@ -10,7 +10,7 @@ func _on_CreateServer_pressed():
 	mod.Menu.switch_screens(mod.Menu.multiplayer_setup, true)
 
 func _on_ConnectToServer_pressed():
-	mod.PopupUI.create_connect_to_server_popup()
+	mod.Popups.create_connect_to_server_popup()
 
 func _on_Options_pressed():
-	mod.PopupUI.create_options_menu_popup()
+	mod.Popups.create_options_menu_popup()

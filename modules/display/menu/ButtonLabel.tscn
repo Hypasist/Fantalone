@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/fonts/xolonium/Xolonium.tres" type="DynamicFont" id=1]
+[ext_resource path="res://art/fonts/xolonium/Xolonium.tres" type="DynamicFont" id=1]
 [ext_resource path="res://ui/PopupBase.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modules/display/menu/ButtonLabel.gd" type="Script" id=3]
+
 
 [node name="ButtonLabel" instance=ExtResource( 2 )]
 anchor_left = 0.0

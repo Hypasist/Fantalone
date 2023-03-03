@@ -1,6 +1,8 @@
 class_name LobbyData
 extends Node
 
+var Data = null
+
 var MAX_PLAYER_NUM = 8
 var MAP_PLAYER_NUM = 3
 var MAX_OBSERVER_NUM = 8
@@ -19,7 +21,7 @@ func setup(package:Dictionary={}):
 	LobbyMemberInfo_dict = {}
 	MatchPlayerInfo_dict = {}
 	MatchObserverInfo_dict = {}
-	for color in mod.Database.get_colorlist():
+	for color in mod.GameData.get_color_list():
 		available_colors[color] = COLOR_UNUSED
 	if package:
 		LobbyDataPackage.unpack(self, package)
@@ -68,6 +70,7 @@ func change_player_name_by_unique_id(unique_id, value):
 		var member = MatchPlayerInfo_dict[unique_id]
 		member.nickname = value
 
+
 func change_player_color(unique_id, value):
 	if MatchPlayerInfo_dict.has(unique_id):
 		var member = MatchPlayerInfo_dict[unique_id]
@@ -87,13 +90,13 @@ func link_lobby_and_match_members(network_id, unique_id):
 	match_member.link_lobby_member(lobby_member)
 	lobby_member.link_match_member(match_member)
 
-func new_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
-	if version == mod.Database.get_version():
+func new_lobby_member(network_id=NetworkAPI.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
+	if version == mod.GameData.get_version():
 		return add_lobby_member(network_id, nickname)
 	else:
-		mod.Network.disconnect_client(network_id)
+		mod.ServerData.Network.disconnect_client(network_id)
 
-func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME):
+func add_lobby_member(network_id=NetworkAPI.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME):
 	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new lobby member! %d, %s" % [network_id, nickname])
 	var new_lobby_member = LobbyMemberInfo.new()
 	new_lobby_member.setup(network_id, nickname)
@@ -102,10 +105,10 @@ func add_lobby_member(network_id=Network.INVALID_ID, nickname=LobbyMemberInfo.IN
 		var unique_id = add_observer(network_id, nickname)
 	else:
 		var unique_id = add_player(network_id, MatchPlayerInfo.ID_INVALID, \
-						nickname, MatchPlayerInfo.HUMAN_PLAYER)
+						MatchPlayerInfo.HUMAN_PLAYER)
 
-func add_player(network_id, match_id, nickname, player_type):
-	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new player! %s" % [nickname])
+func add_player(network_id, match_id, player_type):
+	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new player! %s" % [LobbyMemberInfo_dict[network_id].nickname])
 	for observer in get_observers():
 		if observer.owner_lobby_member.network_id == network_id:
 			remove_match_member(observer.unique_id)
@@ -113,6 +116,7 @@ func add_player(network_id, match_id, nickname, player_type):
 	if get_players_count() < MAX_PLAYER_NUM:
 		var new_member = MatchPlayerInfo.new()
 		var new_color = get_unused_color()
+		var nickname = LobbyMemberInfo_dict[network_id].nickname
 		new_member.setup_new(match_id, nickname, new_color, player_type)
 		reserve_color(new_color, new_member.match_id)
 		MatchPlayerInfo_dict[new_member.unique_id] = new_member

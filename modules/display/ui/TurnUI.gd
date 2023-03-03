@@ -7,20 +7,20 @@ func _ready():
 
 
 func update():
-	if mod.LocalLogic.is_turn_owner_locally_present() and \
-	   mod.MatchLogic.get_action_counter() > 0:
+	if mod.ClientData.MatchData.is_turn_owner_locally_present() and \
+	   mod.ClientData.MatchData.get_action_counter() > 0:
 			$EndTurnButton.set_disabled(false)
 	else:
 		$EndTurnButton.set_disabled(true)
 	
-	if mod.LocalLogic.is_turn_owner_locally_present():
-		$MoveCounter.set_text("%d moves left  " % [mod.MatchLogic.get_actions_left()])
+	if mod.ClientData.MatchData.is_turn_owner_locally_present():
+		$MoveCounter.set_text("%d moves left  " % [mod.ClientData.MatchData.get_actions_left()])
 	else:
-		$MoveCounter.set_text("Waiting for opponent action: %d left  " % mod.MatchLogic.get_actions_left())
+		$MoveCounter.set_text("Waiting for opponent action: %d left  " % mod.ClientData.MatchData.get_actions_left())
 
 
 func _on_SpellButton_pressed():
-	mod.PopupUI.create_spell_menu_popup()
+	mod.Popups.create_spell_menu_popup()
 
 func _on_EndTurnButton_pressed():
 	mod.MatchLogic.request_end_turn()

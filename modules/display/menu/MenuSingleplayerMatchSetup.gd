@@ -9,7 +9,7 @@ var occupied_colors = {}
 var tmp_base = [["Rzym", 0, true], ["Galia", 1, false]]
 
 func _ready():
-	var colorlist = mod.Database.get_colorlist()
+	var colorlist = mod.GameData.get_color_list():
 	
 	for i in MAP_PLAYER_NUM:
 		var setup = PlayerOptions.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
@@ -30,7 +30,7 @@ func prepare_map(player_num):
 		var player_options = PlayerOptions.new()
 
 func _on_change_color(object, value):
-	var colorlist = mod.Database.get_colorlist()
+	var colorlist = mod.GameData.get_color_list():
 	if occupied_colors.has(object):
 		var new_color = occupied_colors[object]
 		while true:

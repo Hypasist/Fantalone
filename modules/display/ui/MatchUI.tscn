@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
+[ext_resource path="res://art/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
 [ext_resource path="res://modules/display/ui/MatchUI.gd" type="Script" id=2]
 [ext_resource path="res://modules/display/ui/TurnUI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://modules/display/ui/SpellcastUI.tscn" type="PackedScene" id=4]
+
 
 [node name="MatchUI" type="Control"]
 visible = false

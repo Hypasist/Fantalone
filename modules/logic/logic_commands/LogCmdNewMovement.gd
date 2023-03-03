@@ -11,14 +11,14 @@ func _init(param_dictionary).(param_dictionary):
 
 func verify():
 	if .verify().is_invalid(): return .verify()
-	var movement = mod.MatchLogic.verify_movement(units, direction)
+	var movement = Data.MatchData.verify_movement(units, direction)
 	if not movement.is_valid():
 		return movement.get_error_info()
 	else:
 		return ErrorInfo.new()
 
 func execute():
-	var movement = mod.MatchLogic.execute_movement(units, direction)
+	var movement = Data.MatchData.execute_movement(units, direction)
 	.execute()
 	set_state(states.done)
 

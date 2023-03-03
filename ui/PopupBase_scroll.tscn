@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://ui/art/scroll.png" type="Texture" id=1]
+[ext_resource path="res://art/ui/scroll.png" type="Texture" id=1]
 [ext_resource path="res://ui/PopupBase.gd" type="Script" id=2]
 
 [node name="PopupBase" type="NinePatchRect"]

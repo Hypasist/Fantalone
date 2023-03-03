@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
-[ext_resource path="res://ui/art/cooldown.png" type="Texture" id=2]
+[ext_resource path="res://art/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
+[ext_resource path="res://art/ui/cooldown.png" type="Texture" id=2]
 [ext_resource path="res://ui/ManaCounter.gd" type="Script" id=3]
+
 
 [node name="CooldownCounter" type="HBoxContainer"]
 anchor_right = 1.0

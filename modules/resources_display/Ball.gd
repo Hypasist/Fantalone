@@ -6,7 +6,7 @@ func _init():
 	pass
 
 func assign_logic_scene(logic_scene):
-	var match_player_info = mod.LobbyData.get_player_by_match_id(logic_scene.get_owner())
+	var match_player_info = mod.ClientData.LobbyData.get_player_by_match_id(logic_scene.get_owner())
 	if match_player_info:
 		change_color(match_player_info.color)
 	.assign_logic_scene(logic_scene)

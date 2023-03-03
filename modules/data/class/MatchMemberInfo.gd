@@ -11,7 +11,7 @@ enum { _MEMBER_TYPE_MEMBER, _MEMBER_TYPE_PLAYER, _MEMBER_TYPE_OBSERVER }
 var _member_type = _MEMBER_TYPE_MEMBER
 
 func get_unique_id():
-	return mod.LobbyData.get_new_unique_id()
+	return mod.ServerData.LobbyData.get_new_unique_id()
 
 func link_lobby_member(lobby_member):
 	owner_lobby_member = lobby_member

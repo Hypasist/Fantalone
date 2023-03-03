@@ -1,4 +1,8 @@
+class_name ResourceData
 extends Node
+
+const _LOGIC_SCENE_PATH = 0
+const _DISPLAY_SCENE_PATH = 1
 
 var loaded_resources = {}
 
@@ -11,12 +15,12 @@ class KnownResource:
 	
 	func _init(name__:String, res:Array, logic_only:bool=false):
 		name_ = name__
-		logic_path = res[0]
+		logic_path = res[_LOGIC_SCENE_PATH]
 		logic_scene = load(logic_path)
 		if not logic_scene:
 			Terminal.add_log(Debug.ERROR, Debug.MAP, "Invalid logic scene for %s resource!" % name_)
-		if not logic_only:
-			display_path = res[1]
+		if not logic_only and not res[_DISPLAY_SCENE_PATH] == "":
+			display_path = res[_DISPLAY_SCENE_PATH]
 			display_scene = load(display_path)
 			Terminal.add_log(Debug.ALL, Debug.MAP, "Loaded %s!" % display_path)
 			if not display_scene:
@@ -33,7 +37,16 @@ var _resources = {
 	Resources.EffectTired:	["res://modules/data/effects/EffectTired.gd", ""],
 }
 
-func get_resource(name):
-	if not loaded_resources.has(name):
-		loaded_resources[name] = KnownResource.new(name, _resources[name])
+func is_loaded(name, logic_only):
+	if loaded_resources.has(name):
+		if logic_only:
+			return loaded_resources[name].logic_scene
+		else:
+			return loaded_resources[name].display_scene
+	else:
+		return false
+
+func get_resource(name, logic_only=false):
+	if not is_loaded(name, logic_only):
+		loaded_resources[name] = KnownResource.new(name, _resources[name], logic_only)
 	return loaded_resources[name]
