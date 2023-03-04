@@ -29,7 +29,6 @@ var ServerData = null
 var ClientData = null
 var ResourceData = null
 var ControllerData = null
-var CommandData = null
 
 var Graphics = null
 var Menu = null

@@ -17,6 +17,6 @@ func set_select(value):
 		$Tile/Selected.hide()
 
 func _on_Object_mouse_entered():
-	mod.GameUI.add_to_hoverlist(logic)
+	mod.GameUI.Hoverlist.add_to_hoverlist(logic)
 func _on_Object_mouse_exited():
-	mod.GameUI.remove_from_hoverlist(logic)
+	mod.GameUI.Hoverlist.remove_from_hoverlist(logic)

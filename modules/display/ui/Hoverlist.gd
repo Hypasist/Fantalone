@@ -1,3 +1,4 @@
+class_name Hoverlist
 extends Node
 
 var hoverlist = []

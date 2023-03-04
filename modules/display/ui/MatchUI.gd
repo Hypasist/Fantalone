@@ -55,16 +55,16 @@ func is_spellcast_mode():
 
 func spell_selected(spell_info):
 	mod.ControllerData.deselect_all_units()
-	mod.GameUI.set_UI_mode(GUIControl.UI_MODE_TILE)
+	mod.GameUI.set_UI_mode(GameUI.UI_MODE_TILE)
 	mod.GameUI.load_spell(spell_info)
 	turn_on_spell_targeting()
 func spell_deselected():
-	mod.GameUI.set_UI_mode(GUIControl.UI_MODE_UNIT)
+	mod.GameUI.set_UI_mode(GameUI.UI_MODE_UNIT)
 	mod.GameUI.unload_spell()
 	turn_off_spell_targeting()
 func spell_casted():
 	mod.GameUI.cast_spell()
-	mod.MapView.execute_display_queues()
+	mod.ControllerData.update_display()
 	spell_deselected()
 
 func _on_MatchMenuButton_pressed():

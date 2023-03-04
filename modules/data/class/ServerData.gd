@@ -15,7 +15,6 @@ func _ready():
 	LobbyData.Data = self
 	MatchData.Data = self
 	ObjectData.Data = self
-	ObjectData.set_display_setting(ObjectData.DISPLAY_DISABLED)
 	CommandData.Data = self
 
 func setup():

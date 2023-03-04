@@ -23,4 +23,4 @@ func _on_SpellButton_pressed():
 	mod.Popups.create_spell_menu_popup()
 
 func _on_EndTurnButton_pressed():
-	mod.MatchLogic.request_end_turn()
+	mod.GameUI.ActionHandle.end_turn_handle()

@@ -177,10 +177,22 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 #			if not mod.Network.is_server():
 #				mod.MapView.setup_map(param1)
 #				execute_command(command.TEST_SEND_MATCH_STATE_HASH)
+
+		## MATCH START/SETUP
+		command.UPDATE_MATCH_STATUS:
+			mod.ClientData.MatchData.setup(param1)
+			mod.ControllerData.update_display()
+		command.START_MATCH:
+			mod.ClientData.MatchData.start_match(param1)
+			mod.ControllerData.update_display()
+
 		## QUEUE SENDING
-		
 		command.CLIENT_REQUEST_QUEUE:
 			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.SERVER_VERIFY_QUEUE, param1)
+			
+			
+			
+			
 		command.SERVER_VERIFY_QUEUE:
 			mod.CommandData.server_unpack_and_execute_queue(param1)
 		command.SERVER_BROADCAST_QUEUE:
@@ -190,12 +202,3 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.SERVER_DISCARD_QUEUE:
 			##print("DISCARD, ", param1)
 			pass
-		
-		command.UPDATE_MATCH_STATUS:
-			mod.ClientData.MatchData.setup(param1)
-			mod.MapView.execute_display_queues()
-			mod.GameUI.update_ui()
-		command.START_MATCH:
-			mod.ClientData.MatchData.start_match(param1)
-			mod.MapView.execute_display_queues()
-			mod.GameUI.update_ui()

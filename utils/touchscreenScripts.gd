@@ -1,4 +1,4 @@
-class_name touchscreenScripts
+class_name TouchscreenScripts
 extends Reference
 
 var perspective_ratio = Vector2(1.0, 0.5)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://modules/display/ui/GameUI.gd" type="Script" id=1]
 [ext_resource path="res://modules/display/ui/MovementArrow.tscn" type="PackedScene" id=2]
@@ -9,15 +9,13 @@
 [ext_resource path="res://modules/display/ui/MatchUI.tscn" type="PackedScene" id=7]
 [ext_resource path="res://modules/display/ui/Popups.tscn" type="PackedScene" id=8]
 [ext_resource path="res://modules/display/ui/GUIControl.gd" type="Script" id=9]
+[ext_resource path="res://modules/display/ui/ActionHandle.gd" type="Script" id=10]
 
 [node name="GameUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MatchUI" parent="." instance=ExtResource( 7 )]
 
@@ -25,6 +23,9 @@ __meta__ = {
 
 [node name="MovementArrow" parent="." instance=ExtResource( 2 )]
 visible = false
+
+[node name="ActionHandle" type="Node" parent="."]
+script = ExtResource( 10 )
 
 [node name="GUIControl" type="Node" parent="."]
 script = ExtResource( 9 )

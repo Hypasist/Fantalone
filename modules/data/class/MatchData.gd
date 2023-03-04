@@ -83,7 +83,7 @@ func set_players_mana(package):
 
 # players effect
 
-## Garbage collector 
+## Garbage collector - move this to ObjectData
 
 func cleanup_marked_objects():
 	var unit_marked_list = []
@@ -105,8 +105,7 @@ func new_turn():
 	determine_next_turn_owner()
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
 	propagate_effects(get_turn_owner())
-	mod.GameUI.update_ui()
-	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
+#	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
 
 func verify_movement(unit_list, direction):
 	var movement = mod.FormationLogic.recognize_movement_unit(unit_list, direction)
@@ -136,8 +135,8 @@ func execute_movement(unit_list, direction):
 		command.execute()
 	return movement
 
-static func propagate_effects(match_id):
-	var units = mod.MatchData.get_players_units(match_id)
+func propagate_effects(match_id):
+	var units = get_players_units(match_id)
 	for unit in units:
 		unit.propagate_effects()
 
@@ -155,6 +154,8 @@ func get_all_tiles():
 	return MatchLogic.get_all_tiles(Data)
 func get_neighbour_hex(hex, direction):
 	return MatchLogic.get_neighbour_hex(Data, hex, direction)
+func get_players_units(match_id):
+	return MatchLogic.get_players_units(Data, match_id)
 func get_players_units_num(match_id):
 	return MatchLogic.get_players_units_num(Data, match_id)
 

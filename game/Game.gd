@@ -20,7 +20,6 @@ func _ready():
 	mod.ClientData = $LocalDatabases/ClientData
 	mod.ResourceData = $LocalDatabases/ResourceData
 	mod.ControllerData = $LocalDatabases/ControllerData
-	mod.CommandData = $LocalDatabases/CommandData
 	
 	# GRAPHICS
 	mod.Graphics = $Graphics
@@ -38,7 +37,7 @@ func _ready():
 
 func setup_game():
 	mod.ControllerData.identify_controller()
-	mod.ControllerData.set_displayed_data(mod.ClientData)
+	mod.ControllerData.set_controlled_data(mod.ClientData)
 	mod.Menu.switch_screens(Menu.main_menu)
 
 func exit_game():

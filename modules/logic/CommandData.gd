@@ -40,7 +40,7 @@ func execute_queue():
 	for command in queue:
 		if not command.is_done():  
 			command.execute()
-	mod.ControllerData.execute_display_commands()
+	mod.ControllerData.update_display()
 	return ErrorInfo.new()
 
 func is_executed():
@@ -54,10 +54,10 @@ func unpack_command(param_dictionary):
 	add_command(command_class, param_dictionary)
 
 func client_pack_queue():
-	if mod.CommandData.is_executed():
-		var packed_queue = QueueDataPackage.pack_queue(queue)
-		mod.MatchNetwork.execute_command(MatchNetworkAPI.command.CLIENT_REQUEST_QUEUE, packed_queue)
-		mod.CommandData.flush_queue()
+	if is_executed():
+		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_QUEUE, \
+											QueueDataPackage.pack_queue(queue))
+		flush_queue()
 	else:
 		Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "client_queue not finished!")
 

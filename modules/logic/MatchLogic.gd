@@ -72,6 +72,30 @@ static func get_neighbour_hex(matchdata, hex, direction):
 	var hex_dictionary = matchdata.ObjectData.get_hex_dictionary()
 	return HexMath.get_neighbour_hex(hex_dictionary, hex, direction)
 
+## -------- PACKING FUNCTIONS -------- ##
+static func pack_unit_ids(unit_list):
+	var ids = []
+	for unit in unit_list:
+		ids.append(unit._name_id)
+	return ids
+
+static func unpack_unit_ids(Data, unit_ids):
+	var units = []
+	for unit in Data.MatchData.get_all_units():
+		if unit_ids.has(unit._name_id):
+			units.append(unit)
+	return units
+
+static func pack_unit(unit):
+	return unit._name_id
+	
+static func unpack_unit(Data, unit_id):
+	for unit in Data.MatchData.get_all_units():
+		if unit_id == unit._name_id:
+			return unit
+## ----------------------------------- ##
+
+
 #func execute_log_cmd(log_cmd_list):
 #	var command_list = []
 #	for log_cmd in log_cmd_list:
@@ -82,6 +106,9 @@ static func get_neighbour_hex(matchdata, hex, direction):
 #		cmd.execute()
 #	mod.MapView.execute_display_queues()
 ##	action_done()
+
+
+
 
 func check_endgame_conditions():
 	var alive_players = 0
@@ -98,12 +125,6 @@ func is_game_over():
 	else:
 		return false
 
-func request_end_turn():
-	var match_id = mod.MatchData.get_turn_owner()
-	var actions_left = mod.MatchData.get_actions_left()
-	mod.CommandData.new_command(LogCmdFinishTurn, {"caller":match_id, "actions_left":actions_left})
-	mod.CommandData.new_command(LogCmdConcludeAndSend, {"caller":match_id})
-
 func _on_finish_popup_handler(value):
 	mod.ClientData.MatchData.stop_match()
 
@@ -112,3 +133,6 @@ func _on_finish_popup_handler(value):
 #		var unit_list = mod.Database.unpack_unit_ids(unit_pack)
 #		mod.MatchLogic.make_move(unit_list, directory)
 #		mod.MatchNetwork.execute_command(MatchNetwork.command.SEND_MATCH_HASH_STATUS)
+
+
+

@@ -7,11 +7,14 @@ var client_type = null
 func identify_controller():
 	client_type = mod.ControllerLogic.identify_platform()
 
-var displayed_data = null
-func set_displayed_data(Data):
-	displayed_data = Data
-func get_displayed_data():
-	return displayed_data
+var Data = null
+func set_controlled_data(_Data):
+	if Data:
+		Data.ObjectData.set_display_setting(ObjectData.DISPLAY_DISABLED)
+	Data = _Data
+	Data.ObjectData.set_display_setting(ObjectData.DISPLAY_ENABLED)
+func get_controlled_data():
+	return Data
 
 ### PLAYERS SETTINGS
 var autofinish_turn = true
@@ -72,13 +75,27 @@ func is_selected_move_valid(direction):
 	return mod.FormationLogic.is_move_valid(selected_units, direction)
 
 func complete_movement(direction):
-	var movement = mod.ClientData.MatchData.verify_movement(selected_units, direction)
+	var movement = Data.MatchData.verify_movement(selected_units, direction)
 	if movement.is_valid():
 		#mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_MOVE, selected_units, direction)
-		mod.ClientData.CommandData.new_command(LogCmdNewMovement, {"units":movement.get_unit_list(), "direction":movement.get_direction(), "caller":movement.get_owner()})
+		Data.CommandData.new_command(LogCmdNewMovement, {"units":movement.get_unit_list(), "direction":movement.get_direction(), "caller":movement.get_owner()})
 		deselect_all_units()
 	else:
 		Terminal.add_log(Debug.INFO, Debug.MATCH, "Invalid move: %s" % movement.get_invalid_string())
 
-func execute_display_commands():
+func update_display():
 	mod.MapView.execute_display_queues()
+	mod.GameUI.update_ui()
+
+func end_turn():
+	var match_id = Data.MatchData.get_turn_owner()
+	var actions_left = Data.MatchData.get_actions_left()
+	if not Data.MatchData.is_match_id_locally_present(match_id):
+		return ErrorInfo.new(ErrorInfo.invalid.not_your_turn)
+	elif Data.MatchData.get_action_counter() == 0:
+		return ErrorInfo.new(ErrorInfo.invalid.need_at_least_one_move)
+	Data.CommandData.new_command(LogCmdFinishTurn, {"caller":match_id, "actions_left":actions_left})
+	Data.CommandData.new_command(LogCmdConcludeAndSend, {"caller":match_id})
+
+## TODO:
+# Need to verify commands via their inner methods before adding them to queue

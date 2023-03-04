@@ -1,13 +1,14 @@
+class_name MovementArrow
 extends Sprite
 
 enum arrowFrame { TOP_RIGHT, BOTTOM_RIGHT, RIGHT, NONE, INVALID }
-func set_no_direction_arrow(position):
-	set_direction_arrow(position, 6)
+func set_no_direction(position):
+	set_direction(position, 6)
 
-func set_invalid_arrow(position):
-	set_direction_arrow(position, 7)
+func set_invalid(position):
+	set_direction(position, 7)
 
-func set_direction_arrow(position, direction):
+func set_direction(position, direction):
 	show()
 	set_position(position)
 	match direction:

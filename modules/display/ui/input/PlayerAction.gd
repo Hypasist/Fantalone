@@ -13,7 +13,7 @@ func action_rotate():
 # -------------------------------------
 
 func action_shorttap(_position):
-	mod.GameUI.shorttap_handle()
+	mod.GameUI.ActionHandle.shorttap_handle()
 
 func action_longtap(_position):
 	pass
@@ -21,27 +21,27 @@ func action_longtap(_position):
 func action_longtap_stopped():
 	pass
 
-var dragRelativeTreshold = 100
+var drag_relative_treshold = 100
 func action_drag(position, relative):
 	if mod.ControllerData.any_unit_selected() == false:
-		mod.GameUI.arrow_clear_direction()
-	elif relative.length() < dragRelativeTreshold:
-		mod.GameUI.arrow_set_no_direction(position)
+		mod.GameUI.MovementArrow.clear_direction()
+	elif relative.length() < drag_relative_treshold:
+		mod.GameUI.MovementArrow.set_no_direction(position)
 	else:
-		var direction = touchscreenScripts.angleVector2direction(relative)
+		var direction = TouchscreenScripts.angleVector2direction(relative)
 		if mod.ControllerData.is_selected_move_valid(direction):
-			mod.GameUI.arrow_set_direction(position, direction)
+			mod.GameUI.MovementArrow.set_direction(position, direction)
 		else:
-			mod.GameUI.arrow_set_invalid(position)
+			mod.GameUI.MovementArrow.set_invalid(position)
 
 func action_drag_stopped(position, relative):
 	if mod.ControllerData.any_unit_selected():
-		if relative.length() < dragRelativeTreshold:
-			mod.GameUI.arrow_set_no_direction(position)
+		if relative.length() < drag_relative_treshold:
+			mod.GameUI.MovementArrow.set_no_direction(position)
 		else:
-			var direction = touchscreenScripts.angleVector2direction(relative)
+			var direction = TouchscreenScripts.angleVector2direction(relative)
 			mod.ControllerData.complete_movement(direction)
-	mod.GameUI.arrow_clear_direction()
+	mod.GameUI.MovementArrow.clear_direction()
 
 func action_cancel():
 	pass # Replace with function body.

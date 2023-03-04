@@ -14,16 +14,15 @@ func verify():
 
 func execute():
 	set_state(states.done)
-	if mod.Network.is_multidevice_game():
-		if mod.Network.is_server():
-			pass
-		else:
-			mod.CommandData.client_pack_queue()
+	if NetworkAPI.is_online():
+			Data.CommandData.client_pack_queue()
+	else: # SINGLEPLAYER GAME
+		pass
 
 func pack_command():
 	var pack = {}
 	pack["command_name"] = "LogCmdDummy"
 	return pack
 
-static func unpack_command(pack):
+func unpack_command(pack):
 	pass
