@@ -9,6 +9,10 @@ var object_display = null
 signal command_completed()
 
 func _init(object_logic_):
+	# IF THERE IS NO OBJECT_DISPLAY -- IT'S LOGIC ONLY, ABORT
+	if object_logic_.display == null:
+		return
+		
 	object_logic = object_logic_
 	object_display = object_logic.display
 	object_logic.add_to_display_queue(self)

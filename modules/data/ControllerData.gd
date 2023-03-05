@@ -34,7 +34,7 @@ func any_unit_selected():
 	return selected_units.size() > 0
 	
 func new_unit_selected(new_unit:UnitLogicBase):
-	if not mod.ClientData.MatchData.is_match_id_locally_present(new_unit.get_owner()): return
+	if not Data.MatchData.is_match_id_locally_present(new_unit.get_owner()): return
 	if new_unit.has_tags([TagList.CANNOT_BE_SELECTED, TagList.CANNOT_MOVE]): return
 
 	# IF WASN'T SELECTED BEFORE -- SELECT AND CHECK
@@ -72,7 +72,7 @@ func deselect_all_units():
 	selected_units.clear()
 
 func is_selected_move_valid(direction):
-	return mod.FormationLogic.is_move_valid(selected_units, direction)
+	return FormationLogic.is_move_valid(Data, selected_units, direction)
 
 func complete_movement(direction):
 	var movement = Data.MatchData.verify_movement(selected_units, direction)

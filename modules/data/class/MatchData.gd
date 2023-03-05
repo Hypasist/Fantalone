@@ -3,6 +3,16 @@ extends Node
 
 var Data = null
 
+# TURN COUNTER
+
+var turn_counter = 0
+func set_turn_counter(counter):
+	turn_counter = counter
+func increase_turn_counter():
+	turn_counter += 1
+func get_turn_counter():
+	return turn_counter
+
 # TURN OWNER
 
 var current_turn_owner = -1
@@ -14,7 +24,7 @@ func set_turn_owner(match_id):
 func reset_turn_owner():
 	current_turn_owner = -1
 func determine_next_turn_owner():
-	mod.MatchLogic.determine_next_turn_owner(Data)
+	MatchLogic.determine_next_turn_owner(Data)
 
 
 ## CURRENT OWNER ACTIONS
@@ -47,13 +57,22 @@ func is_turn_owner_locally_present():
 func is_match_id_locally_present(match_id):
 	for player in Data.LobbyData.get_players():
 		if player.match_id == match_id:
-			if player.owner_lobby_member.network_id == mod.ClientData.Network.get_id():
+			if player.owner_lobby_member.network_id == NetworkAPI.get_id():
 				return true
 	return false
+
+##
+
+var saved_match_status = null
+func save_match_status():
+	saved_match_status = MatchDataPackage.pack_match(Data)
+func restore_match_status():
+	setup(saved_match_status)
 
 ## SETUP
 
 func setup(package:Dictionary={}):
+	set_turn_counter(0)
 	Data.ObjectData.remove_all_objects()
 	var player_list = Data.LobbyData.get_players()
 	for player in player_list:
@@ -61,7 +80,7 @@ func setup(package:Dictionary={}):
 	for player in player_list:
 		player_max_actions[player.match_id] = MAXIMUM_ACTION_LIMIT
 	if package:
-		MatchDataPackage.unpack(Data, package)
+		MatchDataPackage.unpack_match(Data, package)
 
 
 ## MANA
@@ -108,7 +127,7 @@ func new_turn():
 #	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
 
 func verify_movement(unit_list, direction):
-	var movement = mod.FormationLogic.recognize_movement_unit(unit_list, direction)
+	var movement = FormationLogic.recognize_movement_unit(Data, unit_list, direction)
 	if not movement.is_valid():
 		return movement
 	else:
@@ -130,7 +149,7 @@ func execute_cost(action_cost, mana_cost):
 	get_player_mana(get_turn_owner())
 
 func execute_movement(unit_list, direction):
-	var movement = mod.FormationLogic.recognize_movement_unit(unit_list, direction)
+	var movement = FormationLogic.recognize_movement_unit(Data, unit_list, direction)
 	for command in movement.get_command_list():
 		command.execute()
 	return movement
@@ -139,13 +158,6 @@ func propagate_effects(match_id):
 	var units = get_players_units(match_id)
 	for unit in units:
 		unit.propagate_effects()
-
-func action_done():
-	if action_counter == mod.MatchData.get_player_max_actions(get_turn_owner()) \
-	   && mod.Database.is_autofinish_turn():
-		pass
-#		request_end_turn()
-
 
 ## Redirects
 func get_all_units():

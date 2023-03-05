@@ -5,6 +5,9 @@ var current_position = Vector2(0,0)
 var target_position = Vector2(0,0)
 
 func _init(object_logic_).(object_logic_):
+	if object_display == null:
+		return
+	
 	incomplete_locks = 1
 	
 	current_position = object_display.position

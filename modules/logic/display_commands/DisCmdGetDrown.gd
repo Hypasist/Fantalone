@@ -2,6 +2,9 @@ class_name DisCmdGetDrown
 extends DisCmdBase
 
 func _init(object_logic_).(object_logic_):
+	if object_display == null:
+		return
+	
 	incomplete_locks = 1
 
 func execute():

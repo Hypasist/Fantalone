@@ -2,7 +2,7 @@ class_name MatchDataPackage
 
 enum { _MATCH_INFO, _MATCH_UNITS, _MATCH_TILES }
 
-static func pack(Data):
+static func pack_match(Data):
 	var MatchData = Data.MatchData
 	var package = {}
 
@@ -23,11 +23,11 @@ static func pack(Data):
 	return package
 
 
-static func get_current_hash(lobby):
-	return pack(lobby).hash()
+static func get_current_hash(Data):
+	return pack_match(Data).hash()
 
 
-static func unpack(Data, package):
+static func unpack_match(Data, package):
 	var MatchData = Data.MatchData
 	var ObjectData = Data.ObjectData
 	

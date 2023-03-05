@@ -7,13 +7,10 @@ enum command { \
 	\
 	\
 	\
-	BROADCAST_TURN_OWNER, \
 	UPDATE_TURN_OWNER, \
 	VERIFY_MOVE, \
 	BROADCAST_MOVELIST, \
 	DISCARD_MOVE, \
-	REQUEST_END_TURN, \
-	VERIFY_END_TURN, \
 	REQUEST_MOVE, \
 	EXECUTE_MOVE, \
 	EXECUTE_MOVELIST, \
@@ -32,17 +29,13 @@ enum command { \
 	CLIENT_CONFIRM_SYNC, \
 	
 	CLIENT_REQUEST_QUEUE, \
-	SERVER_VERIFY_QUEUE, \
 	SERVER_BROADCAST_QUEUE, \
-	CLIENT_EXECUTE_QUEUE, \
+	SERVER_ACCEPT_QUEUE, \
 	SERVER_DISCARD_QUEUE, \
 }
 
 const server_commands = [ \
-	command.BROADCAST_TURN_OWNER, \
-	command.BROADCAST_MOVELIST, \
-	command.VERIFY_END_TURN, \
-	command.VERIFY_MOVE, \
+	command.CLIENT_REQUEST_QUEUE, \
 ]
 static func is_server_command(cmd):
 	return server_commands.has(cmd)
@@ -63,7 +56,7 @@ func setup():
 
 func send_to_server(command, param1=null, param2=null, param3=null, param4=null):
 	if is_broadcast_command(command) or not is_server_command(command):
-		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to send unproper command to server!")
+		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to send unproper command to server! (%d)" % command)
 		return
 	
 	if NetworkAPI.is_host():
@@ -89,7 +82,7 @@ func send_to_client(command, network_id=null, param2=null, param3=null, param4=n
 	
 	if network_id == NetworkAPI.SERVER_ID:
 		if NetworkAPI.is_client():
-			match_network_execute_command(command, network_id, param2, param3, param4)
+			match_network_execute_command(command, param2, param3, param4)
 	else:
 		rpc_id(network_id, "match_network_execute_command", command, network_id, param2, param3, param4)
 
@@ -101,7 +94,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	if not command.values().has(cmd):
 		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to execute incoming unknown (%d) command!" % cmd)
 		return
-	if server_commands.has(cmd) and not mod.Network.is_server():
+	if server_commands.has(cmd) and not NetworkAPI.is_host():
 		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to execute server command (%s) while being a client!" % command.keys()[cmd])
 		return
 	Terminal.add_log(Debug.INFO, Debug.MATCH_NETWORK, "Executing command %s!" % command.keys()[cmd])
@@ -113,15 +106,15 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.VERIFY_MOVE, unit_ids, param2)
 		command.VERIFY_MOVE:
 			var unit_list = mod.Database.unpack_unit_ids(param1)
-			var movement = mod.MatchLogic.verify_movement(unit_list, param2)
-			if movement.is_valid():
+#			var movement = mod.MatchLogic.verify_movement(unit_list, param2)
+			#if movement.is_valid():
 				# Server-only execute move
 #				mod.MatchLogic.make_move(unit_list, param2)
 #				execute_command(command.BROADCAST_MOVELIST, unit_list, param2)
 #				rpc("match_network_execute_command", command.EXECUTE_MOVE, param1, param2)
-				pass
-			else:
-				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
+			#	pass
+			#else:
+			#	rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
 		command.TEST_SEND_MATCH_STATE_HASH:
 			var match_state_hash = MatchDataPackage.get_current_hash(mod)
 			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.TEST_VERIFY_MATCH_STATE_HASH, match_state_hash)
@@ -141,19 +134,9 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 #			mod.MatchLogic.client_execute_move(param1, param2)
 			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
 		command.SEND_MATCH_HASH_STATUS:
-			var update_package = MatchDataPackage.pack(mod)
+			var update_package = MatchDataPackage.pack_match(mod)
 			rpc_id(network_id, "match_network_execute_command", command.SEND_MATCH_HASH_STATUS)
 			
-		command.REQUEST_END_TURN:
-			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.VERIFY_END_TURN, param1)
-		command.VERIFY_END_TURN:
-			var movement = mod.MatchLogic.end_turn(param1)
-			if movement.is_valid():
-				pass
-			else:
-				rpc_id(network_id, "match_network_execute_command", command.DISCARD_MOVE, movement.invalid_reason)
-		command.BROADCAST_TURN_OWNER:
-				rpc("match_network_execute_command", command.UPDATE_TURN_OWNER, mod.MatchLogic.get_turn_owner())
 		command.UPDATE_TURN_OWNER:
 			mod.MatchLogic.set_turn_owner(param1)
 			mod.GameUI.update_ui()
@@ -168,10 +151,10 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 			if(match_state_hash != param1):
 				rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.SERVER_SYNC_MATCH_STATUS)
 		command.SERVER_SYNC_MATCH_STATUS:
-			var packed_status = MatchDataPackage.pack(mod)
+			var packed_status = MatchDataPackage.pack_match(mod)
 			rpc_id(network_id, "match_network_execute_command", command.CLIENT_MATCH_STATE_UPDATE, packed_status)
 		command.SERVER_BROADCAST_MATCH_STATUS:
-			var packed_status = MatchDataPackage.pack(mod)
+			var packed_status = MatchDataPackage.pack_match(mod)
 			rpc("match_network_execute_command", command.CLIENT_CONFIRM_SYNC, packed_status)
 #		command.CLIENT_CONFIRM_SYNC:
 #			if not mod.Network.is_server():
@@ -188,17 +171,9 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 
 		## QUEUE SENDING
 		command.CLIENT_REQUEST_QUEUE:
-			rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.SERVER_VERIFY_QUEUE, param1)
-			
-			
-			
-			
-		command.SERVER_VERIFY_QUEUE:
-			mod.CommandData.server_unpack_and_execute_queue(param1)
+			mod.ServerData.CommandData.server_unpack_verify_and_execute_queue(param1)
 		command.SERVER_BROADCAST_QUEUE:
-			rpc("match_network_execute_command", command.CLIENT_EXECUTE_QUEUE, param1)
-		command.CLIENT_EXECUTE_QUEUE:
-			mod.CommandData.client_unpack_and_execute_queue(param1)
+			mod.ClientData.CommandData.client_unpack_and_execute_queue(param1)
+			
 		command.SERVER_DISCARD_QUEUE:
-			##print("DISCARD, ", param1)
-			pass
+			print("Queue discarded. Reason: %s" % [param1])

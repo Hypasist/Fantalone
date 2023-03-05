@@ -22,25 +22,17 @@ func add_command(command_class, param_dictionary):
 func new_command(command_class, param_dictionary):
 	add_command(command_class, param_dictionary)
 	execute_queue()
-
-func verify_queue():
-	var last_error = ErrorInfo.new()
-	for command in queue:
-		if not command.is_verified():  
-			last_error = command.verify()
-			if last_error.is_invalid():
-				# THINK ABOUT WHETHER YOU WANT TO REMOVE INVALID COMMANDS HERE
-				queue.erase(command)
-				break
-	return last_error
+	mod.ControllerData.update_display()
 
 func execute_queue():
-	if verify_queue().is_invalid():
-		return verify_queue()
+	var last_error = ErrorInfo.new()
 	for command in queue:
 		if not command.is_done():  
+			if not command.is_verified():
+				last_error = command.verify()
+				if last_error.is_invalid():
+					return last_error
 			command.execute()
-	mod.ControllerData.update_display()
 	return ErrorInfo.new()
 
 func is_executed():
@@ -49,34 +41,34 @@ func is_executed():
 			return false
 	return true
 
-func unpack_command(param_dictionary):
-	var command_class = LogCmd.unpack_command_name(param_dictionary["command_name"])
-	add_command(command_class, param_dictionary)
-
 func client_pack_queue():
 	if is_executed():
 		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_QUEUE, \
-											QueueDataPackage.pack_queue(queue))
+											QueueDataPackage.pack_queue(Data))
 		flush_queue()
 	else:
 		Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "client_queue not finished!")
 
 func server_unpack_verify_and_execute_queue(packed_queue):
+	var client_network_id = packed_queue[QueueDataPackage._QUEUE_INFO]["sender"]
+	Data.MatchData.save_match_status()
 	flush_queue()
-	QueueDataPackage.unpack_queue(packed_queue)
-	if verify_queue().is_valid():
-		execute_queue()
-		QueueDataPackage.repack_queue(packed_queue)
-		mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_QUEUE, packed_queue)
+	QueueDataPackage.unpack_queue(Data, packed_queue)
+	var error = execute_queue().is_valid()
+	if error.is_valid():
+		QueueDataPackage.repack_queue(Data, packed_queue)
+		mod.MatchNetworkAPI.broadcast_to_clients(MatchNetworkAPI.command.SERVER_BROADCAST_QUEUE, packed_queue)
+		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_ACCEPT_QUEUE, client_network_id)
 	else:
-		var error_msg = verify_queue()
-		var error_string = error_msg.get_invalid_string()
-		mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, error_string)
+		var error_string = error.get_invalid_string()
+		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, client_network_id, error_string)
+		Data.MatchData.save_match_status()
 
 func client_unpack_and_execute_queue(packed_queue):
-	if not mod.Network.is_server() && \
-	   packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash(mod):
-		flush_queue()
-		QueueDataPackage.unpack_queue(packed_queue)
-		execute_queue()
-	# CHECK HASH
+	flush_queue()
+	QueueDataPackage.unpack_queue(Data, packed_queue)
+	execute_queue()
+#	if packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash(mod):
+#		flush_queue()
+#		QueueDataPackage.unpack_queue(Data, packed_queue)
+#		execute_queue()

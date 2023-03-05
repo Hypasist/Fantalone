@@ -30,6 +30,7 @@ func pack_command():
 	pack["direction"] = direction
 	return pack
 
-func unpack_command(pack):
+static func unpack_command(Data, pack):
 	var units = MatchLogic.unpack_unit_ids(Data, pack["units"])
 	pack["units"] = units
+	return pack

@@ -13,6 +13,7 @@ func verify():
 	return ErrorInfo.new()
 
 func execute():
+	Data.MatchData.increase_turn_counter()
 	set_state(states.done)
 	if NetworkAPI.is_online():
 			Data.CommandData.client_pack_queue()
@@ -24,5 +25,5 @@ func pack_command():
 	pack["command_name"] = "LogCmdDummy"
 	return pack
 
-func unpack_command(pack):
-	pass
+static func unpack_command(Data, pack):
+	return pack

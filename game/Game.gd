@@ -7,12 +7,10 @@ func _ready():
 	# STATIC LOGIC LIBRARIES
 	mod.HexMath = $StaticLogicLibraries/HexMath
 	mod.LobbyLogic = $StaticLogicLibraries/LobbyLogic
-	mod.MatchLogic = $StaticLogicLibraries/MatchLogic
 	mod.FormationLogic = $StaticLogicLibraries/FormationLogic
 	mod.ControllerLogic = $StaticLogicLibraries/ControllerLogic
 	mod.MatchNetworkAPI = $StaticLogicLibraries/NetworkAPI/MatchNetworkAPI
 	mod.LobbyNetworkAPI = $StaticLogicLibraries/NetworkAPI/LobbyNetworkAPI
-	mod.NetworkAPI = $StaticLogicLibraries/NetworkAPI/NetworkAPI
 	
 	# LOCAL DATABASES
 	mod.GameData = $LocalDatabases/GameData

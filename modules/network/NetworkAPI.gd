@@ -32,3 +32,9 @@ static func disconnect_lobby():
 		mod.ServerData.Network.disconnect_()
 	else:
 		mod.ClientData.Network.disconnect_()
+
+static func get_id():
+	if is_host():
+		return mod.ServerData.Network.get_id()
+	else:
+		return mod.ClientData.Network.get_id()

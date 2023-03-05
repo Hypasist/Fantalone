@@ -96,20 +96,6 @@ static func unpack_unit(Data, unit_id):
 ## ----------------------------------- ##
 
 
-#func execute_log_cmd(log_cmd_list):
-#	var command_list = []
-#	for log_cmd in log_cmd_list:
-#		var cmd_name = LogCmd.unpack(log_cmd[0])
-#		var param = mod.Database.unpack_unit(log_cmd[1])
-#		var cmd = cmd_name.new(param)
-##		print("%s  %s" % [LogCmd.pack_dictionary[cmd_name], param._name_id])
-#		cmd.execute()
-#	mod.MapView.execute_display_queues()
-##	action_done()
-
-
-
-
 func check_endgame_conditions():
 	var alive_players = 0
 	for player in mod.LobbyData.get_players():
@@ -127,12 +113,3 @@ func is_game_over():
 
 func _on_finish_popup_handler(value):
 	mod.ClientData.MatchData.stop_match()
-
-#func client_execute_move(unit_pack, directory):
-#	if not mod.Network.is_server():
-#		var unit_list = mod.Database.unpack_unit_ids(unit_pack)
-#		mod.MatchLogic.make_move(unit_list, directory)
-#		mod.MatchNetwork.execute_command(MatchNetwork.command.SEND_MATCH_HASH_STATUS)
-
-
-

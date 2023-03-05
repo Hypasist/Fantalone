@@ -30,8 +30,8 @@ func get_command_name():
 func pack_command():
 	pass
 
-func unpack_command(pack):
-	pass
+static func unpack_command(Data, pack):
+	return pack
 
 func verify():
 	return Data.MatchData.verify_cost(action_cost, mana_cost)

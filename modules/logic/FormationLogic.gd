@@ -21,11 +21,11 @@ static func recognize_formation_hex(hex_list:Array, move_direction = HEXConstant
 	formation.correlate_directions()
 	return formation
 
-static func recognize_movement_unit(unit_list, direction):
+static func recognize_movement_unit(Data, unit_list, direction):
 	var hex_list = []
 	for unit in unit_list:
 		hex_list.append(unit.hex)
-	return recognize_movement_hex(hex_list, direction)
+	return recognize_movement_hex(Data, hex_list, direction)
 
 static func _evaluate_unit_command_move(movement, unit, destination_hex):
 	if movement.get_owner() == unit.get_owner():
@@ -43,9 +43,9 @@ static func _evaluate_unit_command_move(movement, unit, destination_hex):
 		else:
 			movement.add_command(LogSubCmdGetPushedToEmpty.new({"caller":movement.get_owner(), "unit":unit, "destination":destination_hex}))
 
-static func evaluate_unit_command(movement, unit):
+static func evaluate_unit_command(Data, movement, unit):
 	var current_hex = unit.hex
-	var destination_hex = mod.ClientData.MatchData.get_neighbour_hex(current_hex, movement.get_direction())
+	var destination_hex = Data.MatchData.get_neighbour_hex(current_hex, movement.get_direction())
 	
 	if destination_hex.get_tile() == null:
 		Terminal.add_log(Debug.ERROR, Debug.MATCH, "Trying to reach beyond the map boundaries!")
@@ -75,7 +75,7 @@ static func evaluate_unit_command(movement, unit):
 		# MOVING TO NON-TAKEN HEX
 		_evaluate_unit_command_move(movement, unit, destination_hex)
 
-static func recognize_movement_hex(hex_list, direction):
+static func recognize_movement_hex(Data, hex_list, direction):
 	var formation = recognize_formation_hex(hex_list, direction)
 	var movement = MovementInfo.new(formation)
 	
@@ -84,7 +84,7 @@ static func recognize_movement_hex(hex_list, direction):
 		var subject = movement.get_subject_to_evaluate()
 		if subject:
 			if subject is UnitLogicBase:
-				evaluate_unit_command(movement, subject)
+				evaluate_unit_command(Data, movement, subject)
 		# NO COMMANDS LEFT TO EVALUATE
 		elif movement.get_opposed_power() >= movement.get_formation_power(): 
 			movement.invalid_move(ErrorInfo.invalid.formation_too_weak)
@@ -94,8 +94,8 @@ static func recognize_movement_hex(hex_list, direction):
 
 ## -- 
 
-func is_move_valid(unit_list, direction):
-	var movement = recognize_movement_unit(unit_list, direction)
+static func is_move_valid(Data, unit_list, direction):
+	var movement = recognize_movement_unit(Data, unit_list, direction)
 	if not movement.is_valid():
 		Terminal.add_log(Debug.INFO, Debug.MATCH, "Invalid move: %s" % movement.get_invalid_string())
 	return movement.is_valid()

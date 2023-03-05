@@ -8,6 +8,8 @@ const DISPLAY_ENABLED = true
 var display_settings = DISPLAY_DISABLED
 func set_display_setting(display_mode):
 	display_settings = display_mode
+func is_display_enabled():
+	return display_settings == DISPLAY_ENABLED
 
 var item_counter = {}
 func get_unique_name(resource_name):

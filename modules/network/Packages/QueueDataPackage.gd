@@ -2,19 +2,25 @@ class_name QueueDataPackage
 
 enum { _QUEUE_COMMANDS, _QUEUE_INFO }
 
-static func pack_queue(queue):
+static func pack_queue(Data):
 	var package = {}
 	
 	package[_QUEUE_COMMANDS] = []
-	for command in queue:
+	for command in Data.CommandData.get_queue():
 		package[_QUEUE_COMMANDS].append(command.pack_command())
+
+	package[_QUEUE_INFO] = {}
+	package[_QUEUE_INFO]["queue_counter"] = Data.MatchData.get_turn_counter()
+	package[_QUEUE_INFO]["sender"] = Data.Network.get_id()
 	return package
 
-static func repack_queue(package):
+static func repack_queue(Data, package):
 	package[_QUEUE_INFO] = {}
-	# package[_QUEUE_INFO]["queue_counter"] = mod.Network.get_communication_counter()
-	package[_QUEUE_INFO]["hash"] = MatchDataPackage.get_current_hash(mod)
+	package[_QUEUE_INFO]["queue_counter"] = Data.MatchData.get_turn_counter()
+	package[_QUEUE_INFO]["hash"] = MatchDataPackage.get_current_hash(Data)
 
-static func unpack_queue(package):
+static func unpack_queue(Data, package):
 	for record in package[_QUEUE_COMMANDS]:
-		mod.CommandData.unpack_command(record)
+		var command_class = LogCmd.unpack_command_name(record["command_name"])
+		record = command_class.unpack_command(Data, record)
+		Data.CommandData.add_command(command_class, record)
