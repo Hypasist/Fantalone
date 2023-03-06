@@ -1,14 +1,13 @@
 class_name SpellMenuPopup
 extends PopupBase
 
-var SpellBlock = null
+var SpellBlock = preload("res://ui/SpellMenuBlock.tscn")
 var spell_block_list = {}
 
 func _ready():
 	_default_size = Vector2(.6,1)
 
 func setup(size:Vector2=Vector2(0,0)):
-	SpellBlock = load("res://ui/SpellMenuBlock.tscn")
 	.setup(size)
 	var spell_list = mod.SpellList.get_spell_list()
 	for spell_path in spell_list:

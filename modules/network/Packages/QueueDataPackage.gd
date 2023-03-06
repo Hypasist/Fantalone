@@ -20,6 +20,7 @@ static func repack_queue(Data, package):
 	package[_QUEUE_INFO]["hash"] = MatchDataPackage.get_current_hash(Data)
 
 static func unpack_queue(Data, package):
+	Data.CommandData.flush_queue()
 	for record in package[_QUEUE_COMMANDS]:
 		var command_class = LogCmd.unpack_command_name(record["command_name"])
 		record = command_class.unpack_command(Data, record)

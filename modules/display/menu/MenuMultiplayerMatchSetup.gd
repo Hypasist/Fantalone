@@ -27,7 +27,7 @@ func setup(setup_as_server = false):
 		mod.ServerData.setup()
 		$IPLabel.set_text("IP: %s" % NetworkAPI.get_ip())
 	else:
-		$IPLabel.set_text("IP: %s" % mod.Network.get_target_ip())
+		$IPLabel.set_text("IP: %s" % NetworkAPI.get_target_ip())
 	
 	mod.ClientData.setup(setup_as_server)
 	

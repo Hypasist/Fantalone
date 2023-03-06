@@ -1,4 +1,4 @@
-class_name LogCmdConcludeAndSend
+class_name LogCmdConclude
 extends LogCmdBase
 
 var turn_owner = null
@@ -15,14 +15,10 @@ func verify():
 func execute():
 	Data.MatchData.increase_turn_counter()
 	set_state(states.done)
-	if NetworkAPI.is_online():
-		Data.CommandData.client_pack_and_send_queue()
-	else: # SINGLEPLAYER GAME
-		pass
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = "LogCmdConclude"
+	pack["command_name"] = "LogCmdDummy"
 	return pack
 
 static func unpack_command(Data, pack):

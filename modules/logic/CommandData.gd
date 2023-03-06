@@ -22,7 +22,6 @@ func add_command(command_class, param_dictionary):
 func new_command(command_class, param_dictionary):
 	add_command(command_class, param_dictionary)
 	execute_queue()
-	mod.ControllerData.update_display()
 
 func execute_queue():
 	var last_error = ErrorInfo.new()
@@ -33,6 +32,7 @@ func execute_queue():
 				if last_error.is_invalid():
 					return last_error
 			command.execute()
+	mod.ControllerData.update_display()
 	return ErrorInfo.new()
 
 func is_executed():
@@ -41,7 +41,7 @@ func is_executed():
 			return false
 	return true
 
-func client_pack_queue():
+func client_pack_and_send_queue():
 	if is_executed():
 		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_QUEUE, \
 											QueueDataPackage.pack_queue(Data))
@@ -51,24 +51,33 @@ func client_pack_queue():
 
 func server_unpack_verify_and_execute_queue(packed_queue):
 	var client_network_id = packed_queue[QueueDataPackage._QUEUE_INFO]["sender"]
+	# Check if turn counter is correct
+	if ((Data.MatchData.get_turn_counter() + 1) != \
+		packed_queue[QueueDataPackage._QUEUE_INFO]["queue_counter"]):
+		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, \
+			client_network_id, ErrorInfo.new(ErrorInfo.invalid.invalid_turn_counter))
+		return
+	
 	Data.MatchData.save_match_status()
-	flush_queue()
 	QueueDataPackage.unpack_queue(Data, packed_queue)
-	var error = execute_queue().is_valid()
+	var error = execute_queue()
 	if error.is_valid():
 		QueueDataPackage.repack_queue(Data, packed_queue)
 		mod.MatchNetworkAPI.broadcast_to_clients(MatchNetworkAPI.command.SERVER_BROADCAST_QUEUE, packed_queue)
-		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_ACCEPT_QUEUE, client_network_id)
 	else:
 		var error_string = error.get_invalid_string()
 		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, client_network_id, error_string)
-		Data.MatchData.save_match_status()
+		Data.MatchData.restore_match_status()
 
 func client_unpack_and_execute_queue(packed_queue):
-	flush_queue()
-	QueueDataPackage.unpack_queue(Data, packed_queue)
-	execute_queue()
-#	if packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash(mod):
-#		flush_queue()
-#		QueueDataPackage.unpack_queue(Data, packed_queue)
-#		execute_queue()
+	# Check if turn counter is correct
+	if ((Data.MatchData.get_turn_counter() + 1) == \
+		packed_queue[QueueDataPackage._QUEUE_INFO]["queue_counter"]):
+		QueueDataPackage.unpack_queue(Data, packed_queue)
+		execute_queue()
+	
+	# Check if turn counter is correct
+	if packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash(Data):
+		Data.MatchData.restore_match_status()
+		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_MATCH_STATUS)
+

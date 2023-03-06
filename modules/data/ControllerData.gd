@@ -77,7 +77,6 @@ func is_selected_move_valid(direction):
 func complete_movement(direction):
 	var movement = Data.MatchData.verify_movement(selected_units, direction)
 	if movement.is_valid():
-		#mod.MatchNetwork.execute_command(MatchNetwork.command.REQUEST_MOVE, selected_units, direction)
 		Data.CommandData.new_command(LogCmdNewMovement, {"units":movement.get_unit_list(), "direction":movement.get_direction(), "caller":movement.get_owner()})
 		deselect_all_units()
 	else:

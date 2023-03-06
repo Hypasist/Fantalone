@@ -10,7 +10,9 @@ enum invalid { \
 	not_your_turn, \
 	need_at_least_one_move, \
 	not_enough_action_points, \
-	not_enough_mana_points \
+	not_enough_mana_points, \
+	invalid_turn_counter, \
+	invalid_hash, \
 }
 
 static func get_invalid_string_by_enum(reason):

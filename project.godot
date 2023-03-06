@@ -310,6 +310,11 @@ _global_script_classes=[ {
 "path": "res://modules/logic/logic_commands/LogCmdCastSpell.gd"
 }, {
 "base": "LogCmdBase",
+"class": "LogCmdConclude",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmdConclude.gd"
+}, {
+"base": "LogCmdBase",
 "class": "LogCmdConcludeAndSend",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdConcludeAndSend.gd"
@@ -675,6 +680,7 @@ _global_script_class_icons={
 "LogCmd": "",
 "LogCmdBase": "",
 "LogCmdCastSpell": "",
+"LogCmdConclude": "",
 "LogCmdConcludeAndSend": "",
 "LogCmdDummy": "",
 "LogCmdFinishTurn": "",

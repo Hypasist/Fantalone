@@ -14,4 +14,5 @@ const command_dictionary = { \
 	LogCmdFinishTurn		:	"LogCmdFinishTurn", \
 	LogCmdNewMovement		:	"LogCmdNewMovement", \
 	LogCmdConcludeAndSend	:	"LogCmdConcludeAndSend", \
+	LogCmdConclude			:	"LogCmdConclude", \
 }

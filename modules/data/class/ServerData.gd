@@ -26,6 +26,6 @@ func setup():
 	active = true
 
 func close():
-	Network
+	Network.disconnect_()
 	LobbyData.setup()
 	active = false
