@@ -1,10 +1,15 @@
-class_name EntityNetwork
+class_name PeerNetwork
 extends Node
-
-const MAX_PLAYERS = 8
 
 func get_id():
 	return get_tree().get_network_unique_id()
+
+# ONLINE MARKER
+var online = false
+func is_online():
+	return online
+func set_online(value):
+	online = value
 
 # CONNECTED STATUS
 var connected = false;

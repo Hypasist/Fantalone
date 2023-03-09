@@ -1,10 +1,12 @@
 class_name NetworkAPI
-extends Node
 
 const LOCALHOST_IP = "127.0.0.1"
 const SERVER_PORT = 1222
 const SERVER_ID = 1
 const INVALID_ID = -1
+
+static func is_multiplayer_game():
+	return mod.ClientData.is_active()
 
 static func is_host():
 	return mod.ServerData.is_active()
@@ -38,3 +40,11 @@ static func get_id():
 		return mod.ServerData.Network.get_id()
 	else:
 		return mod.ClientData.Network.get_id()
+
+static func set_target_ip(ip_string):
+	if is_client():
+		mod.ClientData.Network.set_target_ip(ip_string)
+
+static func get_target_ip():
+	if is_client():
+		return mod.ClientData.Network.get_target_ip()

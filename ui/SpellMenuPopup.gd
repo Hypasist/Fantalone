@@ -9,7 +9,7 @@ func _ready():
 
 func setup(size:Vector2=Vector2(0,0)):
 	.setup(size)
-	var spell_list = mod.SpellList.get_spell_list()
+	var spell_list = Spells.get_spell_list()
 	for spell_path in spell_list:
 		var spell_info_scene = load(spell_path)
 		var spell_block = SpellBlock.instance()

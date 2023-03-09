@@ -3,15 +3,15 @@ extends PopupBase
 
 func setup(size:Vector2=Vector2(0,0)):
 	.setup(size)
-	$Box/VBoxContainer/AutofinishTurnsSlider.set_pressed(mod.Database.is_autofinish_turn())
-	set_displayed_name(mod.Database.get_nickname())
+	$Box/VBoxContainer/AutofinishTurnsSlider.set_pressed(mod.OptionsData.is_autofinish_turn())
+	set_displayed_name(mod.OptionsData.get_player_name())
 
 func _on_CancelButton_pressed():
 	mod.Popups.pop_popup(self)
 
 func _on_AcceptButton_pressed():
-	mod.Database.set_autofinish_turn($Box/VBoxContainer/AutofinishTurnsSlider.is_pressed())
-	mod.Database.set_nickname(name_remembered)
+	mod.OptionsData.set_autofinish_turn($Box/VBoxContainer/AutofinishTurnsSlider.is_pressed())
+	mod.OptionsData.set_player_name(name_remembered)
 	mod.Popups.pop_popup(self)
 
 var name_remembered = ""

@@ -1,25 +1,19 @@
 class_name ClientNetwork
-extends EntityNetwork
-
-var online = false
-func is_online():
-	return online
+extends PeerNetwork
 
 # TARGET IP
-
-var TARGET_SERVER_IP = "192.168.0.59"
+var target_ip = "192.168.0.59"
 func set_target_ip(ip):
 	if ip.is_valid_ip_address():
-		TARGET_SERVER_IP = ip
+		target_ip = ip
 func get_target_ip():
-	return TARGET_SERVER_IP
+	return target_ip
 
 # CONNECTION
-
 func setup():
 	if is_online():
 		disconnect_()
-	connect_to_server(TARGET_SERVER_IP, NetworkAPI.SERVER_PORT)
+	connect_to_server(get_target_ip(), NetworkAPI.SERVER_PORT)
 	online = true
 
 func connect_to_server(ip, port):

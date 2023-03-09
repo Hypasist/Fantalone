@@ -1,10 +1,6 @@
 class_name ServerNetwork
-extends EntityNetwork
+extends PeerNetwork
 
-var online = false
-func is_online():
-	return online
-	
 var connected_clients = []
 func get_connected_clients():
 	return connected_clients
@@ -12,7 +8,7 @@ func get_connected_clients():
 func setup():
 	if is_online():
 		disconnect_()
-	create_server(NetworkAPI.SERVER_PORT, MAX_PLAYERS)
+	create_server(NetworkAPI.SERVER_PORT, GameData.MAX_PLAYERS)
 	online = true
 
 func create_server(port, max_players):

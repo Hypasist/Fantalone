@@ -11,17 +11,17 @@
 [node name="ServerData" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 
-[node name="ServerNetwork" type="Node" parent="." index="0"]
-script = ExtResource( 2 )
-
-[node name="ServerLobbyData" type="Node" parent="." index="1"]
+[node name="ServerLobbyData" type="Node" parent="." index="0"]
 script = ExtResource( 4 )
 
-[node name="ServerMatchData" type="Node" parent="." index="2"]
+[node name="ServerMatchData" type="Node" parent="." index="1"]
 script = ExtResource( 5 )
 
-[node name="ServerObjectData" type="Node" parent="." index="3"]
+[node name="ServerObjectData" type="Node" parent="." index="2"]
 script = ExtResource( 6 )
 
-[node name="ServerCommandData" type="Node" parent="." index="4"]
+[node name="ServerCommandData" type="Node" parent="." index="3"]
 script = ExtResource( 7 )
+
+[node name="ServerNetwork" type="Node" parent="." index="4"]
+script = ExtResource( 2 )

@@ -18,6 +18,7 @@ func _ready():
 	mod.ClientData = $LocalDatabases/ClientData
 	mod.ResourceData = $LocalDatabases/ResourceData
 	mod.ControllerData = $LocalDatabases/ControllerData
+	mod.OptionsData = $LocalDatabases/OptionsData
 	
 	# GRAPHICS
 	mod.Graphics = $Graphics

@@ -29,15 +29,15 @@ func setup(setup_as_server):
 	
 	active = true
 	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.CLIENT_IDENTIFICATION, \
-		mod.ClientData.Network.get_id(), \
-		mod.ControllerData.get_player_name(), \
+		NetworkAPI.get_id(), \
+		mod.OptionsData.get_player_name(), \
 		mod.GameData.get_version())
 
 func update_lobby(package):
 	LobbyData.setup(package)
 
 func close():
-	Network
+	Network.disconnect_()
 	LobbyData.setup()
 	active = false
 

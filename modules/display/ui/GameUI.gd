@@ -23,6 +23,14 @@ func get_UI_mode():
 func set_UI_mode(mode):
 	current_UI_mode = mode
 
+## --- UI MODE TO DIFFERENTIATE BETWEEN DIFFERENT GUI ACTION TYPES --- ##
+enum {  UI_ACTION_MOVE, UI_ACTION_SPELL } ## MERGE EVERYTHING
+var current_UI_action = UI_ACTION_MOVE
+func get_UI_action():
+	return current_UI_action
+func set_UI_action(action):
+	current_UI_action = action
+
 ## ----------------------------------------- ##
 func setup():
 	$MatchUI.setup()
@@ -37,7 +45,3 @@ func update_ui():
 ## SPELLCAST
 func load_spell(spell_info):
 	$GUIControl.load_spell(spell_info)
-func set_spellcast_mode(value):
-	$MatchUI.turn_on_spell_targeting() if value else $MatchUI.turn_off_spell_targeting()
-func get_spellcast_mode():
-	return $MatchUI.is_spellcast_mode()
