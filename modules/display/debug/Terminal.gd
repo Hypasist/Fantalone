@@ -1,14 +1,12 @@
 class_name Debug
 extends Node
 
-const event_log_limit = 3
 # debug levels, from least to most vocal
 enum DebugLevel {DEBUG_NONE, DEBUG_ERROR, DEBUG_INFO, DEBUG_ALL}
 const NONE = DebugLevel.DEBUG_NONE
 const ERROR = DebugLevel.DEBUG_ERROR
 const INFO = DebugLevel.DEBUG_INFO
 const ALL = DebugLevel.DEBUG_ALL
-var debug_level = DebugLevel.DEBUG_ALL
 
 enum DebugFlag {DEBUG_ALL_FLAGS, DEBUG_SYSTEM, DEBUG_NETWORK, DEBUG_LOBBY_NETWORK, DEBUG_MATCH_NETWORK, DEBUG_QUEUE_NETWORK, DEBUG_MENUS, DEBUG_MAP, DEBUG_LOBBY, DEBUG_INPUT, DEBUG_DISPLAY_CMD, DEBUG_LOGIC_CMD, DEBUG_EFFECT, DEBUG_MATCH}
 const ALL_FLAGS = DebugFlag.DEBUG_ALL_FLAGS
@@ -25,8 +23,25 @@ const NETWORK = DebugFlag.DEBUG_NETWORK
 const LOBBY_NETWORK = DebugFlag.DEBUG_LOBBY_NETWORK
 const MATCH_NETWORK = DebugFlag.DEBUG_MATCH_NETWORK
 const QUEUE_NETWORK = DebugFlag.DEBUG_QUEUE_NETWORK
-const debug_flag_array = [ ALL_FLAGS ]
 
+## -------------------------------- ##
+const debug_flag_array = { # NONE / ERROR / INFO / ALL
+	ALL_FLAGS:			ALL, \
+	LOBBY: 				NONE, \
+	MENUS: 				NONE, \
+	INPUT: 				NONE, \
+	DISPLAY_CMD: 		NONE, \
+	LOGIC_CMD: 			NONE, \
+	EFFECT: 			NONE, \
+	MAP: 				NONE, \
+	MATCH: 				NONE, \
+	SYSTEM: 			NONE, \
+	NETWORK: 			NONE, \
+	LOBBY_NETWORK: 		NONE, \
+	MATCH_NETWORK: 		NONE, \
+	QUEUE_NETWORK: 		NONE}
+## -------------------------------- ##
+var event_log_limit = 3
 var breakpoint_on_error = false
 var to_console = true
 var event_log = []
@@ -36,9 +51,11 @@ func clear_log():
 	event_log.clear()
 
 func add_log(msg_level, msg_flag, msg_string):
-	if DebugLevel.values().has(msg_level) && msg_level <= debug_level \
-		&& (debug_flag_array.has(msg_flag) || debug_flag_array.has(ALL_FLAGS)):
-		msg_string = "[%s] %s" % [DebugLevel.keys()[msg_level], msg_string]
+	if not (DebugLevel.values().has(msg_level) and DebugFlag.values().has(msg_flag)):
+		return
+	
+	if (msg_level <= debug_flag_array[msg_flag]) || (msg_level <= debug_flag_array[ALL_FLAGS]):
+		msg_string = "[%s %s]%s" % [DebugFlag.keys()[msg_flag], DebugLevel.keys()[msg_level], msg_string]
 	
 		if to_console:
 			print(msg_string)
