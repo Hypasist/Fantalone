@@ -1,12 +1,11 @@
 class_name Menu
 extends Control
 
-enum { main_menu, singleplayer_setup, multiplayer_setup, connect_to_server }
+enum { main_menu, singleplayer_setup, multiplayer_setup }
 var screen_list = {
 	main_menu			: "res://modules/display/menu/MenuMain.tscn",
 	singleplayer_setup	: "res://modules/display/menu/MenuSingleplayerMatchSetup.tscn",
-	multiplayer_setup 	: "res://modules/display/menu/MenuMultiplayerMatchSetup.tscn",
-	connect_to_server 	: "res://modules/display/menu/MenuConnectToServer.tscn"
+	multiplayer_setup 	: "res://modules/display/menu/MenuMultiplayerMatchSetup.tscn"
 	}
 
 # MENU HANDLING

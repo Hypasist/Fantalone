@@ -17,18 +17,16 @@ func _ready():
 	ObjectData.Data = self
 	CommandData.Data = self
 
-func setup(setup_as_server):
+func setup(is_multiplayer, is_admin):
 	LobbyData.setup()
-	if setup_as_server:
-		LobbyData.set_admin_privileges(true)
-	else:
+	if is_multiplayer:
 		mod.LobbyNetworkAPI.setup()
 		mod.MatchNetworkAPI.setup()
-		LobbyData.set_admin_privileges(false)
-		Network.connect_to_server()
+		Network.setup()
+	LobbyData.set_admin_privileges(is_admin)
 	
 	active = true
-	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.CLIENT_IDENTIFICATION, \
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.CLIENT_IDENTIFY_TO_SERVER, \
 		NetworkAPI.get_id(), \
 		mod.OptionsData.get_player_name(), \
 		mod.GameData.get_version())

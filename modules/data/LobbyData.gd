@@ -90,9 +90,10 @@ func link_lobby_and_match_members(network_id, unique_id):
 	match_member.link_lobby_member(lobby_member)
 	lobby_member.link_match_member(match_member)
 
-func new_lobby_member(network_id=NetworkAPI.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
+func server_new_lobby_member(network_id=NetworkAPI.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
+	## Version verification
 	if version == mod.GameData.get_version():
-		return add_lobby_member(network_id, nickname)
+		add_lobby_member(network_id, nickname)
 	else:
 		mod.ServerData.Network.disconnect_client(network_id)
 

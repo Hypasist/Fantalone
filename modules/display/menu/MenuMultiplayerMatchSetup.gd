@@ -23,13 +23,15 @@ func _hookup_network_signals():
 		mod.ClientData.Network.connect_network_signal("server_disconnected", self, "_server_disconnected") # client
 
 func setup(setup_as_server = false):
+	# Setup_as_server -- setup multiplayer server and singleplayer admin client
+	#!Setup_as_server -- setup multiplayer client
+	
 	if setup_as_server:
 		mod.ServerData.setup()
 		$IPLabel.set_text("IP: %s" % NetworkAPI.get_ip())
 	else:
 		$IPLabel.set_text("IP: %s" % NetworkAPI.get_target_ip())
-	
-	mod.ClientData.setup(setup_as_server)
+	mod.ClientData.setup(setup_as_server, setup_as_server)
 	
 	refresh_lobby_display()
 	_hookup_network_signals()
@@ -112,7 +114,7 @@ func _on_delete(object):
 				object.lobby_member.unique_id)
 
 func _on_StartGame_pressed():
-	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.START_GAME)
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.CLIENT_REQUEST_GAME_START)
 
 
 

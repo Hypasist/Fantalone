@@ -57,9 +57,8 @@ func broadcast_to_clients(command, param1=null, param2=null, param3=null, param4
 	
 	rpc("match_network_execute_command", command, param1, param2, param3, param4)
 	if NetworkAPI.is_client():
-		pass
 		# Currently multiplayergame is always connected, rpc arrives even locally
-#		match_network_execute_command(command, param1, param2, param3, param4)
+		match_network_execute_command(command, param1, param2, param3, param4)
 
 func send_to_client(command, network_id=null, param2=null, param3=null, param4=null):
 	if is_broadcast_command(command) or is_server_command(command):

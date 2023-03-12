@@ -2,7 +2,11 @@ class_name LobbyNetworkAPI
 extends Node
 
 enum command { \
-	CLIENT_IDENTIFICATION, \
+	CLIENT_IDENTIFY_TO_SERVER, \
+	CLIENT_REQUEST_GAME_START, \
+	
+	
+	
 	UPDATE_LOBBY_STATUS, \
 	COLOR_CHANGE, \
 	NAME_CHANGE, \
@@ -31,12 +35,13 @@ enum command { \
 	SEND_LOBBY_STATUS, \
 }
 
-const client_commands = [
-	
-]
-
 const server_commands = [ \
-	command.CLIENT_IDENTIFICATION, \
+	command.CLIENT_IDENTIFY_TO_SERVER, \
+	command.CLIENT_REQUEST_GAME_START, \
+	
+	
+	
+	
 	command.NAME_CHANGE, \
 	command.COLOR_CHANGE, \
 	command.NEW_MATCH_MEMBER, \
@@ -62,7 +67,10 @@ static func is_broadcast_command(cmd):
 	return broadcast_commands.has(cmd)
 
 const refresh_lobby_commands = [
-	command.CLIENT_IDENTIFICATION, \
+	command.CLIENT_IDENTIFY_TO_SERVER, \
+	
+	
+	
 	command.COLOR_CHANGE, \
 	command.NAME_CHANGE, \
 	command.NEW_MATCH_MEMBER, \
@@ -91,9 +99,8 @@ func broadcast_to_clients(command, param1=null, param2=null, param3=null, param4
 	
 	rpc("lobby_network_execute_command", command, param1, param2, param3, param4)
 	if NetworkAPI.is_client():
-		pass
 		# Currently multiplayergame is always connected, rpc arrives even locally
-#		lobby_network_execute_command(command, param1, param2, param3, param4)
+		lobby_network_execute_command(command, param1, param2, param3, param4)
 	
 
 func send_to_client(command, network_id=null, param2=null, param3=null, param4=null):
@@ -120,8 +127,14 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	
 	var network_id = get_tree().get_rpc_sender_id()
 	match cmd:
-		command.CLIENT_IDENTIFICATION:
-			mod.ServerData.LobbyData.new_lobby_member(param1, param2, param3)
+		command.CLIENT_IDENTIFY_TO_SERVER:
+			mod.ServerData.LobbyData.server_new_lobby_member(param1, param2, param3)
+			
+		command.CLIENT_REQUEST_GAME_START:
+			mod.ServerData.MatchData.start_match()
+			
+			
+		## ------------------
 		command.COLOR_CHANGE: # param1 = unique_id; param2 = left_right_value
 			mod.ServerData.LobbyData.change_player_color(param1, param2)
 		command.NAME_CHANGE: # param1 = unique_id; param2 = new_name
@@ -131,8 +144,6 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.REMOVE_MATCH_MEMBER: # param1 = unique_id;
 			mod.ServerData.LobbyData.remove_match_member(param1)
 			
-		command.START_GAME:
-			mod.ServerData.MatchData.start_match()
 			
 		command.UPDATE_LOBBY_STATUS:
 			mod.ClientData.LobbyData.setup(param1)
@@ -174,7 +185,7 @@ func lobby_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.SEND_LOBBY_STATUS:
 			pass
 
-	# UPDATE LOBBY STATUS to every member after certain commands 
+	# UPDATE LOBBY STATUS to every member after certain commands  ## USUN TO REFRESH, KAZDY SIE POWINIEN REFRESHWAOC
 	if refresh_lobby_commands.has(cmd):
 		broadcast_to_clients(command.UPDATE_LOBBY_STATUS, LobbyDataPackage.pack(mod.ServerData.LobbyData))
 
