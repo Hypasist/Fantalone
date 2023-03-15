@@ -1,7 +1,6 @@
 class_name ServerData
 extends Node
 
-onready var Network = $ServerNetwork
 onready var LobbyData = $ServerLobbyData
 onready var MatchData = $ServerMatchData
 onready var ObjectData = $ServerObjectData
@@ -20,12 +19,11 @@ func _ready():
 func setup():
 	mod.LobbyNetworkAPI.setup()
 	mod.MatchNetworkAPI.setup()
-	
-	Network.setup()
+	mod.NetworkData.create_server()
 	LobbyData.setup()
 	active = true
 
 func close():
-	Network.disconnect_()
+	mod.NetworkData.disconnect_self()
 	LobbyData.setup()
 	active = false

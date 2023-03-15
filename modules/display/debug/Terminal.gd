@@ -55,7 +55,7 @@ func add_log(msg_level, msg_flag, msg_string):
 		return
 	
 	if (msg_level <= debug_flag_array[msg_flag]) || (msg_level <= debug_flag_array[ALL_FLAGS]):
-		msg_string = "[%s %s]%s" % [DebugFlag.keys()[msg_flag], DebugLevel.keys()[msg_level], msg_string]
+		msg_string = "[%s %s] %s" % [DebugFlag.keys()[msg_flag], DebugLevel.keys()[msg_level], msg_string]
 	
 		if to_console:
 			print(msg_string)

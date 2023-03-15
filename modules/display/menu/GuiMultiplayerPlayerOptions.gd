@@ -13,7 +13,7 @@ func ready(_match_id):
 	$Box/PlayerName.set_editable(false)
 	$Box/LeftColor.set_disabled(true)
 	$Box/RightColor.set_disabled(true)
-	if NetworkAPI.is_admin():
+	if mod.NetworkData.is_admin():
 		$Box/AddBotButton.set_disabled(false)
 		$Box/AddHumanButton.set_disabled(false)
 		$Box/DeleteButton.set_disabled(true)
@@ -28,8 +28,8 @@ func setup(_lobby_member = null):
 		return
 		
 	lobby_member = _lobby_member
-	var has_ownership = lobby_member.owner_lobby_member.network_id == mod.ClientData.Network.get_id()
-	var is_admin = NetworkAPI.is_admin()
+	var has_ownership = lobby_member.owner_lobby_member.network_id == mod.NetworkData.get_id()
+	var is_admin = mod.NetworkData.is_admin()
 	
 	set_displayed_name(lobby_member.nickname)
 	$Box/Color.set_frame_color(lobby_member.color)

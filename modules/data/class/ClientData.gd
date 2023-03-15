@@ -1,7 +1,6 @@
 class_name ClientData
 extends Node
 
-onready var Network = $ClientNetwork
 onready var LobbyData = $ClientLobbyData
 onready var MatchData = $ClientMatchData
 onready var ObjectData = $ClientObjectData
@@ -17,25 +16,21 @@ func _ready():
 	ObjectData.Data = self
 	CommandData.Data = self
 
-func setup(is_multiplayer, is_admin):
+func setup(setup_as_server):
 	LobbyData.setup()
-	if is_multiplayer:
+	if setup_as_server:
+		LobbyData.client_identify_self()
+	else:
 		mod.LobbyNetworkAPI.setup()
 		mod.MatchNetworkAPI.setup()
-		Network.setup()
-	LobbyData.set_admin_privileges(is_admin)
-	
+		mod.NetworkData.create_client()
 	active = true
-	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.CLIENT_IDENTIFY_TO_SERVER, \
-		NetworkAPI.get_id(), \
-		mod.OptionsData.get_player_name(), \
-		mod.GameData.get_version())
 
 func update_lobby(package):
 	LobbyData.setup(package)
 
 func close():
-	Network.disconnect_()
+	mod.NetworkData.disconnect_self()
 	LobbyData.setup()
 	active = false
 

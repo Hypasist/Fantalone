@@ -57,7 +57,7 @@ func is_turn_owner_locally_present():
 func is_match_id_locally_present(match_id):
 	for player in Data.LobbyData.get_players():
 		if player.match_id == match_id:
-			if player.owner_lobby_member.network_id == NetworkAPI.get_id():
+			if player.owner_lobby_member.network_id == mod.NetworkData.get_id():
 				return true
 	return false
 

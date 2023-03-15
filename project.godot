@@ -449,10 +449,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/logic/MovementInfo.gd"
 }, {
-"base": "Reference",
-"class": "NetworkAPI",
+"base": "Node",
+"class": "NetworkData",
 "language": "GDScript",
-"path": "res://modules/network/NetworkAPI.gd"
+"path": "res://modules/network/NetworkData.gd"
 }, {
 "base": "Node",
 "class": "ObjectData",
@@ -703,7 +703,7 @@ _global_script_class_icons={
 "MenuScreenBase": "",
 "MovementArrow": "",
 "MovementInfo": "",
-"NetworkAPI": "",
+"NetworkData": "",
 "ObjectData": "",
 "ObjectDisplayBase": "",
 "ObjectLogicBase": "",

@@ -4,13 +4,6 @@ extends Node
 func get_id():
 	return get_tree().get_network_unique_id()
 
-# ONLINE MARKER
-var online = false
-func is_online():
-	return online
-func set_online(value):
-	online = value
-
 # CONNECTED STATUS
 var connected = false;
 func mark_connected():
@@ -19,17 +12,6 @@ func unmark_connected():
 	connected = false
 func is_connected_():
 	return connected
-
-# MY IP STATUS
-var ip = null
-func determine_my_ip():
-	var ip_list = IP.get_local_addresses()
-	for potential_ip in ip_list:
-		if potential_ip.begins_with("192."):
-			ip = potential_ip
-			break
-func get_ip():
-	return ip
 
 # BASIC NETWORK SIGNALS
 func _ready():
@@ -47,3 +29,8 @@ func _peer_disconnected(network_id):
 	
 func peer_disconnected(network_id):
 	Terminal.add_log(Debug.ALL, Debug.NETWORK, "Noticed (%d) disconnected from the server." % [network_id])
+
+func connect_network_signal(_signal, _object, _method):
+	for custom_signal in get_signal_list():
+		if custom_signal["name"] == _signal:
+			connect(_signal, _object, _method)

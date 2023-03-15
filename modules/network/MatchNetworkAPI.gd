@@ -45,10 +45,10 @@ func send_to_server(command, param1=null, param2=null, param3=null, param4=null)
 		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to send unproper command to server! (%d)" % command)
 		return
 	
-	if NetworkAPI.is_host():
+	if mod.NetworkData.is_host():
 		match_network_execute_command(command, param1, param2, param3, param4)
 	else:
-		rpc_id(NetworkAPI.SERVER_ID, "match_network_execute_command", command, param1, param2, param3, param4)
+		rpc_id(mod.NetworkData.SERVER_ID, "match_network_execute_command", command, param1, param2, param3, param4)
 
 func broadcast_to_clients(command, param1=null, param2=null, param3=null, param4=null):
 	if not is_broadcast_command(command) or is_server_command(command):
@@ -56,7 +56,7 @@ func broadcast_to_clients(command, param1=null, param2=null, param3=null, param4
 		return
 	
 	rpc("match_network_execute_command", command, param1, param2, param3, param4)
-	if NetworkAPI.is_client():
+	if mod.NetworkData.is_client():
 		# Currently multiplayergame is always connected, rpc arrives even locally
 		match_network_execute_command(command, param1, param2, param3, param4)
 
@@ -65,8 +65,8 @@ func send_to_client(command, network_id=null, param2=null, param3=null, param4=n
 		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to send unproper command to client!")
 		return
 	
-	if network_id == NetworkAPI.SERVER_ID:
-		if NetworkAPI.is_client():
+	if network_id == mod.NetworkData.SERVER_ID:
+		if mod.NetworkData.is_client():
 			match_network_execute_command(command, param2, param3, param4)
 	else:
 		rpc_id(network_id, "match_network_execute_command", command, network_id, param2, param3, param4)
@@ -79,10 +79,10 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	if not command.values().has(cmd):
 		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to execute incoming unknown (%d) command!" % cmd)
 		return
-	if server_commands.has(cmd) and not NetworkAPI.is_host():
+	if server_commands.has(cmd) and not mod.NetworkData.is_host():
 		Terminal.add_log(Debug.ERROR, Debug.MATCH_NETWORK, "Trying to execute server command (%s) while being a client!" % command.keys()[cmd])
 		return
-	Terminal.add_log(Debug.INFO, Debug.MATCH_NETWORK, "Executing command %s!" % command.keys()[cmd])
+	Terminal.add_log(Debug.INFO, Debug.MATCH_NETWORK, "Executing match command %s!" % command.keys()[cmd])
 	
 	var network_id = get_tree().get_rpc_sender_id()
 	match cmd:
@@ -95,7 +95,7 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.CLIENT_VERIFY_MATCH_SYNC:
 			var match_state_hash = MatchDataPackage.get_current_hash(mod)
 			if(match_state_hash != param1):
-				rpc_id(mod.Network.SERVER_ID, "match_network_execute_command", command.SERVER_SYNC_MATCH_STATUS)
+				rpc_id(mod.NetworkData.SERVER_ID, "match_network_execute_command", command.SERVER_SYNC_MATCH_STATUS)
 		command.SERVER_SYNC_MATCH_STATUS:
 			var packed_status = MatchDataPackage.pack_match(mod)
 			rpc_id(network_id, "match_network_execute_command", command.CLIENT_MATCH_STATE_UPDATE, packed_status)
@@ -122,4 +122,4 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.SERVER_BROADCAST_QUEUE:
 			mod.ClientData.CommandData.client_unpack_and_execute_queue(param1)
 		command.SERVER_DISCARD_QUEUE:
-			print("Queue discarded. Reason: %s" % [param1])
+			Terminal.add_log(Debug.INFO, Debug.MATCH_NETWORK, "Queue discarded. Reason: %s" % [param1])

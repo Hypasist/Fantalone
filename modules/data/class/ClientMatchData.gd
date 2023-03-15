@@ -14,5 +14,5 @@ func stop_match():
 	mod.Menu.show_menu()
 	mod.GameUI.set_UI_mode(GameUI.UI_MODE_MENU)
 	mod.GameUI.hide_match_ui()
-	NetworkAPI.disconnect_lobby()
+	mod.NetworkData.disconnect_self()
 	mod.Menu.switch_screens(mod.Menu.main_menu)

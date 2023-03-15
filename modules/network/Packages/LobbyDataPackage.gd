@@ -10,6 +10,7 @@ static func pack(lobby):
 		var record = {}
 		record["network_id"] = member.network_id
 		record["nickname"] = member.nickname
+		record["admin_privileges"] = member.admin_privileges
 		record["owned_members"] = []
 		for owned_member in member.owned_match_members:
 			record["owned_members"].append(owned_member.unique_id)
@@ -49,7 +50,7 @@ static func unpack(lobby, package):
 		
 	for record in package[_LOBBY_MEMBER_RECORDS]:
 		var new_member = LobbyMemberInfo.new()
-		new_member.setup(record["network_id"], record["nickname"])
+		new_member.setup(record["network_id"], record["nickname"], record["admin_privileges"])
 		lobby.LobbyMemberInfo_dict[new_member.network_id] = new_member
 		for unique_id in record["owned_members"]:
 			lobby.link_lobby_and_match_members(new_member.network_id, unique_id)

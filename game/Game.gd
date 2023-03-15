@@ -9,8 +9,6 @@ func _ready():
 	mod.LobbyLogic = $StaticLogicLibraries/LobbyLogic
 	mod.FormationLogic = $StaticLogicLibraries/FormationLogic
 	mod.ControllerLogic = $StaticLogicLibraries/ControllerLogic
-	mod.MatchNetworkAPI = $StaticLogicLibraries/NetworkAPI/MatchNetworkAPI
-	mod.LobbyNetworkAPI = $StaticLogicLibraries/NetworkAPI/LobbyNetworkAPI
 	
 	# LOCAL DATABASES
 	mod.GameData = $LocalDatabases/GameData
@@ -19,6 +17,9 @@ func _ready():
 	mod.ResourceData = $LocalDatabases/ResourceData
 	mod.ControllerData = $LocalDatabases/ControllerData
 	mod.OptionsData = $LocalDatabases/OptionsData
+	mod.NetworkData = $LocalDatabases/NetworkData
+	mod.MatchNetworkAPI = $LocalDatabases/NetworkData/MatchNetworkAPI
+	mod.LobbyNetworkAPI = $LocalDatabases/NetworkData/LobbyNetworkAPI
 	
 	# GRAPHICS
 	mod.Graphics = $Graphics

@@ -15,7 +15,7 @@ func verify():
 func execute():
 	Data.MatchData.increase_turn_counter()
 	set_state(states.done)
-	if NetworkAPI.is_online():
+	if mod.NetworkData.is_multiplayer_game():
 		Data.CommandData.client_pack_and_send_queue()
 	else: # SINGLEPLAYER GAME
 		pass

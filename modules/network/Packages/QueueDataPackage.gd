@@ -11,7 +11,7 @@ static func pack_queue(Data):
 
 	package[_QUEUE_INFO] = {}
 	package[_QUEUE_INFO]["queue_counter"] = Data.MatchData.get_turn_counter()
-	package[_QUEUE_INFO]["sender"] = Data.Network.get_id()
+	package[_QUEUE_INFO]["sender"] = mod.NetworkData.get_id()
 	return package
 
 static func repack_queue(Data, package):

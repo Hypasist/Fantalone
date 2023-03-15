@@ -16,11 +16,9 @@ func _ready():
 
 # NETWORK SIGNALS HOOK UP
 func _hookup_network_signals():
-	if NetworkAPI.is_host():
-		mod.ServerData.Network.connect_network_signal("client_added", self, "_new_client_in_lobby") # server
-		mod.ServerData.Network.connect_network_signal("client_removed", self, "_client_exit_lobby") # server
-	else:
-		mod.ClientData.Network.connect_network_signal("server_disconnected", self, "_server_disconnected") # client
+	mod.NetworkData.connect_network_signal("client_added", self, "_new_client_in_lobby") # server
+	mod.NetworkData.connect_network_signal("client_removed", self, "_client_exit_lobby") # server
+	mod.NetworkData.connect_network_signal("server_disconnected", self, "_server_disconnected") # client
 
 func setup(setup_as_server = false):
 	# Setup_as_server -- setup multiplayer server and singleplayer admin client
@@ -28,10 +26,10 @@ func setup(setup_as_server = false):
 	
 	if setup_as_server:
 		mod.ServerData.setup()
-		$IPLabel.set_text("IP: %s" % NetworkAPI.get_ip())
+		$IPLabel.set_text("IP: %s" % mod.NetworkData.get_ip())
 	else:
-		$IPLabel.set_text("IP: %s" % NetworkAPI.get_target_ip())
-	mod.ClientData.setup(setup_as_server, setup_as_server)
+		$IPLabel.set_text("IP: %s" % mod.NetworkData.get_target_ip())
+	mod.ClientData.setup(setup_as_server)
 	
 	refresh_lobby_display()
 	_hookup_network_signals()
@@ -65,11 +63,10 @@ func refresh_lobby_display():
 		buttonLabel_list.append(new_obs)
 		new_obs.set_text(observer.nickname)
 	
-	if NetworkAPI.is_host():
-		if LobbyData.get_players_count() > 0:
-			$StartGame.set_disabled(false)
-		else:
-			$StartGame.set_disabled(true)
+	if mod.NetworkData.is_admin() and LobbyData.get_players_count() > 0:
+		$StartGame.set_disabled(false)
+	else:
+		$StartGame.set_disabled(true)
 
 func restart_lobby_display():
 	for player_options in playerOptions_list:
@@ -103,11 +100,11 @@ func _on_change_color(object, value):
 
 func _on_add_bot(object):
 	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.NEW_MATCH_MEMBER, \
-				mod.ClientData.Network.get_id(), object.match_id, MatchPlayerInfo.CPU_PLAYER)
+				mod.NetworkData.get_id(), object.match_id, MatchPlayerInfo.CPU_PLAYER)
 				
 func _on_add_human(object):
 	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.NEW_MATCH_MEMBER, \
-				mod.ClientData.Network.get_id(), object.match_id, MatchPlayerInfo.HUMAN_PLAYER)
+				mod.NetworkData.get_id(), object.match_id, MatchPlayerInfo.HUMAN_PLAYER)
 
 func _on_delete(object):
 	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.REMOVE_MATCH_MEMBER, \
@@ -119,18 +116,19 @@ func _on_StartGame_pressed():
 
 
 func _on_Cancel_pressed():
-	NetworkAPI.disconnect_lobby()
+	mod.NetworkData.disconnect_self()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 
 # Server specific
 func _new_client_in_lobby(network_id):
-	mod.LobbyNetwork.execute_command(LobbyNetworkAPI.command.REQUEST_IDENTIFICATION, network_id)
+	mod.LobbyNetworkAPI.send_to_client(LobbyNetworkAPI.command.SERVER_REQUEST_IDENTIFICATION, network_id)
 	
 func _client_exit_lobby(network_id):
-	LobbyData.remove_lobby_member(network_id)
-	mod.LobbyNetwork.execute_command(LobbyNetworkAPI.command.BROADCAST_LOBBY)
+	mod.ServerData.LobbyData.remove_lobby_member(network_id)
+	mod.LobbyNetworkAPI.broadcast_to_clients(LobbyNetworkAPI.command.SERVER_UPDATE_LOBBY_STATUS, \
+		LobbyDataPackage.pack(mod.ServerData.LobbyData))
 	
 func _server_disconnected():
-	mod.Network.disconnect_()
+	mod.NetworkData.disconnect_self()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
 	mod.Popups.create_popup_with_confirmation("You have been disconnected from the server", "Understand")

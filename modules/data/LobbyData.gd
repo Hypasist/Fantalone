@@ -25,6 +25,7 @@ func setup(package:Dictionary={}):
 		available_colors[color] = COLOR_UNUSED
 	if package:
 		LobbyDataPackage.unpack(self, package)
+	mod.Menu.refresh()
 
 func is_map_full():
 	return get_players_count() >= get_map_player_size()
@@ -90,17 +91,27 @@ func link_lobby_and_match_members(network_id, unique_id):
 	match_member.link_lobby_member(lobby_member)
 	lobby_member.link_match_member(match_member)
 
-func server_new_lobby_member(network_id=NetworkAPI.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
+func client_identify_self():
+	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.CLIENT_IDENTIFY_TO_SERVER, \
+		mod.NetworkData.get_id(), \
+		mod.OptionsData.get_player_name(), \
+		mod.GameData.get_version())
+
+func server_new_lobby_member(network_id=mod.NetworkData.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, version=""):
 	## Version verification
 	if version == mod.GameData.get_version():
-		add_lobby_member(network_id, nickname)
+		# first member is always server (at least at this point)
+		if get_lobby_members().size() == 0:
+			add_lobby_member(network_id, nickname, true)
+		else:
+			add_lobby_member(network_id, nickname, false)
 	else:
-		mod.ServerData.Network.disconnect_client(network_id)
+		mod.NetworkData.disconnect_client(network_id)
 
-func add_lobby_member(network_id=NetworkAPI.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME):
+func add_lobby_member(network_id=mod.NetworkData.INVALID_ID, nickname=LobbyMemberInfo.INVALID_NICKNAME, admin_privileges=false):
 	Terminal.add_log(Debug.INFO, Debug.LOBBY, "Adding new lobby member! %d, %s" % [network_id, nickname])
 	var new_lobby_member = LobbyMemberInfo.new()
-	new_lobby_member.setup(network_id, nickname)
+	new_lobby_member.setup(network_id, nickname, admin_privileges)
 	LobbyMemberInfo_dict[network_id] = new_lobby_member
 	if is_map_full():
 		var unique_id = add_observer(network_id, nickname)

@@ -13,7 +13,7 @@ func _on_CancelButton_pressed():
 func _on_AcceptButton_pressed():
 	if changed_name:
 		_on_LineEdit_text_entered(changed_name)
-	NetworkAPI.set_target_ip(name_remembered)
+	mod.NetworkData.set_target_ip(name_remembered)
 	mod.Menu.switch_screens(mod.Menu.multiplayer_setup, false)
 	mod.Popups.pop_popup(self)
 

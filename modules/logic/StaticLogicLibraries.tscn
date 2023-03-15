@@ -1,8 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://modules/logic/ControllerLogic.gd" type="Script" id=2]
-[ext_resource path="res://modules/network/LobbyNetworkAPI.gd" type="Script" id=3]
-[ext_resource path="res://modules/network/MatchNetworkAPI.gd" type="Script" id=4]
 [ext_resource path="res://modules/logic/LobbyLogic.gd" type="Script" id=5]
 [ext_resource path="res://modules/logic/MatchLogic.gd" type="Script" id=6]
 [ext_resource path="res://modules/logic/HexMath.gd" type="Script" id=7]
@@ -24,11 +22,3 @@ script = ExtResource( 5 )
 
 [node name="MatchLogic" type="Node" parent="."]
 script = ExtResource( 6 )
-
-[node name="NetworkAPI" type="Node" parent="."]
-
-[node name="LobbyNetworkAPI" type="Node" parent="NetworkAPI"]
-script = ExtResource( 3 )
-
-[node name="MatchNetworkAPI" type="Node" parent="NetworkAPI"]
-script = ExtResource( 4 )
