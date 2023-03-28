@@ -122,4 +122,4 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 		command.SERVER_BROADCAST_QUEUE:
 			mod.ClientData.CommandData.client_unpack_and_execute_queue(param1)
 		command.SERVER_DISCARD_QUEUE:
-			Terminal.add_log(Debug.INFO, Debug.MATCH_NETWORK, "Queue discarded. Reason: %s" % [param1])
+			Terminal.add_log(Debug.INFO, Debug.MATCH_NETWORK, "Queue discarded. Reason: %s" % [param2])

@@ -23,5 +23,6 @@ static func unpack_queue(Data, package):
 	Data.CommandData.flush_queue()
 	for record in package[_QUEUE_COMMANDS]:
 		var command_class = LogCmd.unpack_command_name(record["command_name"])
-		record = command_class.unpack_command(Data, record)
-		Data.CommandData.add_command(command_class, record)
+		var quick_command_copy = record.duplicate(true)
+		command_class.unpack_command(Data, quick_command_copy)
+		Data.CommandData.add_command(command_class, quick_command_copy)

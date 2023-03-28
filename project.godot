@@ -175,11 +175,6 @@ _global_script_classes=[ {
 "path": "res://modules/display/ui/GUIControl.gd"
 }, {
 "base": "Node",
-"class": "Game",
-"language": "GDScript",
-"path": "res://game/Game.gd"
-}, {
-"base": "Node",
 "class": "GameData",
 "language": "GDScript",
 "path": "res://modules/logic/GameData.gd"
@@ -555,9 +550,9 @@ _global_script_classes=[ {
 "path": "res://ui/SpellMenuPopup.gd"
 }, {
 "base": "Control",
-"class": "SpellcastUI",
+"class": "SpellUI",
 "language": "GDScript",
-"path": "res://modules/display/ui/SpellcastUI.gd"
+"path": "res://modules/display/ui/SpellUI.gd"
 }, {
 "base": "Reference",
 "class": "Spells",
@@ -648,7 +643,6 @@ _global_script_class_icons={
 "FormationInfo": "",
 "FormationLogic": "",
 "GUIControl": "",
-"Game": "",
 "GameData": "",
 "GameUI": "",
 "Graphics": "",
@@ -724,7 +718,7 @@ _global_script_class_icons={
 "SpellBase": "",
 "SpellMenuBlock": "",
 "SpellMenuPopup": "",
-"SpellcastUI": "",
+"SpellUI": "",
 "Spells": "",
 "TagList": "",
 "TileDisplayBase": "",

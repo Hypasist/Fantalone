@@ -11,7 +11,7 @@ func setup():
 		var summary_bar = PlayerSummaryBar.instance()
 		$PlayerSummaryPanel.add_child(summary_bar)
 		player_summary[player.match_id] = summary_bar
-	turn_off_spell_targeting()
+	mod.GameUI.set_UI_action(GameUI.UI_ACTION_MOVE)
 	update()
 
 func update():
@@ -41,31 +41,6 @@ func delete_all():
 	for match_id in player_summary.keys():
 		player_summary[match_id].free()
 		player_summary.erase(match_id)
-
-func turn_on_spell_targeting():
-	spellcast_mode = true
-	$SpellcastUI.show()
-	$TurnUI.hide()
-func turn_off_spell_targeting():
-	spellcast_mode = false
-	$SpellcastUI.hide()
-	$TurnUI.show()
-func is_spellcast_mode():
-	return spellcast_mode
-
-func spell_selected(spell_info):
-	mod.ControllerData.deselect_all_units()
-	mod.GameUI.set_UI_mode(GameUI.UI_MODE_TILE)
-	mod.GameUI.load_spell(spell_info)
-	turn_on_spell_targeting()
-func spell_deselected():
-	mod.GameUI.set_UI_mode(GameUI.UI_MODE_UNIT)
-	mod.GameUI.unload_spell()
-	turn_off_spell_targeting()
-func spell_casted():
-	mod.GameUI.cast_spell()
-	mod.ControllerData.update_display()
-	spell_deselected()
 
 func _on_MatchMenuButton_pressed():
 	mod.Popups.create_match_menu_popup()

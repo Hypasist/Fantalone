@@ -11,7 +11,7 @@ func start_match(package:Dictionary={}):
 
 func stop_match():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "Match stopped.")
-	mod.Menu.show_menu()
+	mod.GameUI.set_UI_action(GameUI.UI_ACTION_NONE)
 	mod.GameUI.set_UI_mode(GameUI.UI_MODE_MENU)
 	mod.GameUI.hide_match_ui()
 	mod.NetworkData.disconnect_self()

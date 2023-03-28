@@ -1,12 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://art/fonts/droid-sans/DroidSans.tres" type="DynamicFont" id=1]
 [ext_resource path="res://modules/display/ui/MatchUI.gd" type="Script" id=2]
 [ext_resource path="res://modules/display/ui/TurnUI.tscn" type="PackedScene" id=3]
-[ext_resource path="res://modules/display/ui/SpellcastUI.tscn" type="PackedScene" id=4]
 
 [node name="MatchUI" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -53,12 +51,7 @@ rect_pivot_offset = Vector2( -549, -147 )
 custom_fonts/font = ExtResource( 1 )
 text = "MENU"
 
-[node name="SpellcastUI" parent="." instance=ExtResource( 4 )]
-visible = false
-mouse_filter = 2
-
 [node name="TurnUI" parent="." instance=ExtResource( 3 )]
-visible = false
 mouse_filter = 2
 
 [connection signal="pressed" from="MatchMenuButton" to="." method="_on_MatchMenuButton_pressed"]

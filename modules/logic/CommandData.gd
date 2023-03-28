@@ -68,6 +68,7 @@ func server_unpack_verify_and_execute_queue(packed_queue):
 		var error_string = error.get_invalid_string()
 		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, client_network_id, error_string)
 		Data.MatchData.restore_match_status()
+	flush_queue()
 
 func client_unpack_and_execute_queue(packed_queue):
 	# Check if turn counter is correct
@@ -80,4 +81,5 @@ func client_unpack_and_execute_queue(packed_queue):
 	if packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash(Data):
 		Data.MatchData.restore_match_status()
 		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_MATCH_STATUS)
-
+	flush_queue()
+	

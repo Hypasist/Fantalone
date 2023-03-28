@@ -17,10 +17,3 @@ extends Node
 ##		IF TILE OCCUPIED:
 ##			red cage on tiles uccupied, blue tiles under own hexes
 
-func load_spell(spell_info):
-	$SpellcastLogic.load_spell(spell_info)
-func unload_spell():
-	$SpellcastLogic.unload_spell()
-func cast_spell():
-	$SpellcastLogic.cast_spell()
-

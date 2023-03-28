@@ -9,6 +9,7 @@ func _ready():
 
 func setup(size:Vector2=Vector2(0,0)):
 	.setup(size)
+	mod.GameUI.set_UI_action(GameUI.UI_ACTION_NONE)
 	var spell_list = Spells.get_spell_list()
 	for spell_path in spell_list:
 		var spell_info_scene = load(spell_path)
@@ -23,8 +24,9 @@ func setup(size:Vector2=Vector2(0,0)):
 func _on_SpellButton_pressed(object):
 	if spell_block_list.has(object):
 		print("YAY  ", object, "  ", spell_block_list[object])
-	mod.MatchUI.spell_selected(spell_block_list[object])
+	mod.GameUI.spell_selected(spell_block_list[object])
 	mod.Popups.pop_popup(self)
 
 func _on_CancelButton_pressed():
+	mod.GameUI.set_UI_action(GameUI.UI_ACTION_MOVE)
 	mod.Popups.pop_popup(self)
