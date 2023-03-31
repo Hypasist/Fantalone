@@ -40,15 +40,15 @@ func clear_selections():
 func spell_selected(spell_info):
 	mod.ControllerData.deselect_all_units()
 	mod.GameUI.set_UI_mode(GameUI.UI_MODE_TILE)
-	mod.GameUI.load_spell(spell_info)
+	load_spell(spell_info)
 	mod.GameUI.set_UI_action(GameUI.UI_ACTION_SPELL)
 
 func spell_deselected():
 	mod.GameUI.set_UI_mode(GameUI.UI_MODE_UNIT)
-	mod.GameUI.unload_spell()
+	unload_spell()
 	mod.GameUI.set_UI_action(GameUI.UI_ACTION_MOVE)
 	
 func spell_casted():
-	mod.GameUI.cast_spell()
+	cast_spell()
 	mod.ControllerData.update_display()
 	spell_deselected()

@@ -26,7 +26,7 @@ const QUEUE_NETWORK = DebugFlag.DEBUG_QUEUE_NETWORK
 
 ## -------------------------------- ##
 const debug_flag_array = { # NONE / ERROR / INFO / ALL
-	ALL_FLAGS:			ALL, \
+	ALL_FLAGS:			ERROR, \
 	LOBBY: 				NONE, \
 	MENUS: 				NONE, \
 	INPUT: 				NONE, \
@@ -38,8 +38,8 @@ const debug_flag_array = { # NONE / ERROR / INFO / ALL
 	SYSTEM: 			NONE, \
 	NETWORK: 			NONE, \
 	LOBBY_NETWORK: 		NONE, \
-	MATCH_NETWORK: 		NONE, \
-	QUEUE_NETWORK: 		NONE}
+	MATCH_NETWORK: 		ALL, \
+	QUEUE_NETWORK: 		ALL}
 ## -------------------------------- ##
 var event_log_limit = 3
 var breakpoint_on_error = false
