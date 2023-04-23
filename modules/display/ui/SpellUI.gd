@@ -30,9 +30,6 @@ func unload_spell():
 func get_spell():
 	return current_spell
 
-func cast_spell():
-	current_spell.cast()
-
 func clear_selections():
 	current_spell.clear_selection()
 
@@ -49,6 +46,10 @@ func spell_deselected():
 	mod.GameUI.set_UI_action(GameUI.UI_ACTION_MOVE)
 	
 func spell_casted():
-	cast_spell()
-	mod.ControllerData.update_display()
-	spell_deselected()
+	var error = current_spell.cast()
+	if error.is_valid():
+		mod.ControllerData.update_display()
+		current_spell.clear_selection()
+		spell_deselected()
+	else:
+		Terminal.add_log(Debug.ERROR, Debug.MATCH, "Spellcast invalid: %s" % error.get_invalid_string())

@@ -18,6 +18,7 @@ func _ready():
 
 func setup(setup_as_server):
 	LobbyData.setup()
+	CommandData.setup()
 	if setup_as_server:
 		LobbyData.client_identify_self()
 	else:

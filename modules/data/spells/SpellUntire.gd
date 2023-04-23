@@ -1,3 +1,4 @@
+class_name SpellUntire
 extends SpellBase
 
 func setup():
@@ -22,7 +23,7 @@ func clear_selection():
 			tile.set_select(false)
 		selected_tiles.clear()
 
-func cast():
+func cast(Data):
 	print("EffectTired casted!")
 	for tile in selected_tiles:
 		var unit = tile.get_hex().get_unit()
