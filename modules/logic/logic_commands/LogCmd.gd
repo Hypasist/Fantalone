@@ -12,6 +12,7 @@ const command_dictionary = { \
 	LogCmdDummy				:	"LogCmdDummy", \
 	LogCmdCastSpell			:	"LogCmdCastSpell", \
 	LogCmdFinishTurn		:	"LogCmdFinishTurn", \
+	LogCmdEndGame			:	"LogCmdEndGame", \
 	LogCmdNewMovement		:	"LogCmdNewMovement", \
 	LogCmdConcludeAndSend	:	"LogCmdConcludeAndSend", \
 	LogCmdConclude			:	"LogCmdConclude", \
