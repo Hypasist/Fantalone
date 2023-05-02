@@ -157,7 +157,7 @@ func propagate_effects(match_id):
 	for unit in units:
 		unit.propagate_effects()
 
-const MININIM_UNITS_TO_BE_ALIVE = 5
+const MININIM_UNITS_TO_BE_ALIVE = 4
 func check_endgame_conditions():
 	var players = Data.LobbyData.get_players()
 	if players.size() == 1:
@@ -166,7 +166,7 @@ func check_endgame_conditions():
 	var players_alive = []
 	for player in players:
 		if get_players_units(player.match_id).size() > MININIM_UNITS_TO_BE_ALIVE:
-			players_alive.add(player.match_id)
+			players_alive.append(player.match_id)
 	if players_alive.size() <= 1:
 		Data.CommandData.new_command(LogCmdEndGame, {"caller":LogCmdBase.SERVER_CALL, "winner":players[0].match_id})
 
