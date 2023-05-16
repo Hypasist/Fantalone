@@ -16,3 +16,9 @@ func stop_match():
 	mod.GameUI.hide_match_ui()
 	mod.NetworkData.disconnect_self()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
+
+func new_turn():
+	.new_turn()
+	var match_id = mod.ClientData.MatchData.get_turn_owner()
+	var color = mod.ClientData.LobbyData.get_player_by_match_id(match_id).color
+	mod.Popups.create_splash_popup(color)
