@@ -1,3 +1,4 @@
+class_name SpellTeleportUnit
 extends SpellBase
 
 func setup():

@@ -13,6 +13,8 @@ enum invalid { \
 	not_enough_mana_points, \
 	invalid_turn_counter, \
 	invalid_hash, \
+	no_spell_target, \
+	invalid_spell_target, \
 }
 
 static func get_invalid_string_by_enum(reason):

@@ -30,6 +30,7 @@ var Menu = null
 var Debug = null
 var MapView = null
 var Popups = null
+var SpellUI = null
 var GameUI = null
 
 var MapEditor = null
