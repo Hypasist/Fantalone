@@ -14,13 +14,13 @@ func hide_menu():
 		current_screen.hide()
 		current_screen.queue_free()
 	current_screen = null
-	mod.GameUI.unlock_map_control()
+	mod.GameUI.revert_UI_action()
 	mod.MapView.show()
 
 func show_menu():
 	if current_screen:
 		current_screen.show()
-	mod.GameUI.lock_map_control()
+	mod.GameUI.set_UI_action(GameUI.UI_ACTION_MENU)
 	mod.MapView.hide()
 
 var previous_screen = null
