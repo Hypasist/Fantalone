@@ -10,9 +10,20 @@ static func unpack_command_name(log_command_name):
 
 const command_dictionary = { \
 	LogCmdDummy				:	"LogCmdDummy", \
-	LogCmdCastSpell			:	"LogCmdCastSpell", \
 	LogCmdFinishTurn		:	"LogCmdFinishTurn", \
 	LogCmdNewMovement		:	"LogCmdNewMovement", \
 	LogCmdConcludeAndSend	:	"LogCmdConcludeAndSend", \
 	LogCmdConclude			:	"LogCmdConclude", \
+	LogCmdSpellCreateUnit	:	"LogCmdSpellCreateUnit", \
+	LogCmdSpellFreeze		:	"LogCmdSpellFreeze", \
 }
+
+const spells_dictionary = { \
+	LogCmdSpellCreateUnit	:	"LogCmdSpellCreateUnit", \
+	LogCmdSpellFreeze		:	"LogCmdSpellFreeze", \
+#	LogCmdSpellTeleportUnit	:	"LogCmdSpellTeleportUnit", \
+#	LogCmdSpelUntire		:	"LogCmdSpelUntire", \
+}
+
+static func get_spell_list():
+	return spells_dictionary.keys()

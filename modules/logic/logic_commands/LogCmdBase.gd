@@ -2,8 +2,9 @@ class_name LogCmdBase
 extends Reference
 
 const SERVER_CALL = -1
+var name = "Default LogCmd Name"
 var Data = null
-var caller = null
+var caller = null # match_id of caller
 var action_cost = 0
 var mana_cost = 0
 

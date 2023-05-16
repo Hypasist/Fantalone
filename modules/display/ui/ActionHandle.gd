@@ -10,7 +10,7 @@ func shorttap_handle():
 			if unit:
 				match mod.GameUI.get_UI_action():
 					mod.GameUI.UI_ACTION_SPELL:
-						$SpellcastLogic.new_unit_selected(unit)
+						mod.SpellUI.new_unit_selected(unit)
 					mod.GameUI.UI_ACTION_MOVE:
 						mod.ControllerData.new_unit_selected(unit)
 		mod.GameUI.UI_MODE_TILE:
@@ -18,7 +18,7 @@ func shorttap_handle():
 			if tile:
 				match mod.GameUI.get_UI_action():
 					mod.GameUI.UI_ACTION_SPELL:
-						$SpellcastLogic.new_tile_selected(tile)
+						mod.SpellUI.new_tile_selected(tile)
 					mod.GameUI.UI_ACTION_MOVE:
 						pass
 
