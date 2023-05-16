@@ -72,7 +72,8 @@ func server_unpack_verify_and_execute_queue(packed_queue):
 	QueueDataPackage.unpack_queue(Data, packed_queue)
 	var error = execute_queue()
 	if error.is_valid():
-		QueueDataPackage.repack_queue(Data, packed_queue)
+		Data.MatchData.server_endturn_routine()
+		packed_queue = QueueDataPackage.repack_queue(Data)
 		mod.MatchNetworkAPI.broadcast_to_clients(MatchNetworkAPI.command.SERVER_BROADCAST_QUEUE, packed_queue)
 	else:
 		var error_string = error.get_invalid_string()

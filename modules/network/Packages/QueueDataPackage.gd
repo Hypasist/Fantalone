@@ -14,16 +14,16 @@ static func pack_queue(Data):
 	package[_QUEUE_INFO]["sender"] = mod.NetworkData.get_id()
 	return package
 
-static func repack_queue(Data, package):
+static func repack_queue(Data):
+	var package = pack_queue(Data)
 	package[_QUEUE_INFO] = {}
 	package[_QUEUE_INFO]["queue_counter"] = Data.MatchData.get_turn_counter()
 	package[_QUEUE_INFO]["hash"] = MatchDataPackage.get_current_hash(Data)
+	return package
 
 static func unpack_queue(Data, package):
 	Data.CommandData.flush_queue()
 	for record in package[_QUEUE_COMMANDS]:
 		var command_class = LogCmd.unpack_command_name(record["command_name"])
-		# We need to duplicate to execute a command without changing original package
-		var quick_command_copy = record.duplicate(true)
-		command_class.unpack_command(Data, quick_command_copy)
-		Data.CommandData.add_command(command_class, quick_command_copy)
+		command_class.unpack_command(Data, record)
+		Data.CommandData.add_command(command_class, record)

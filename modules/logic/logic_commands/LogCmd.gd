@@ -11,6 +11,7 @@ static func unpack_command_name(log_command_name):
 const command_dictionary = { \
 	LogCmdDummy				:	"LogCmdDummy", \
 	LogCmdFinishTurn		:	"LogCmdFinishTurn", \
+	LogCmdEndGame			:	"LogCmdEndGame", \
 	LogCmdNewMovement		:	"LogCmdNewMovement", \
 	LogCmdConcludeAndSend	:	"LogCmdConcludeAndSend", \
 	LogCmdConclude			:	"LogCmdConclude", \

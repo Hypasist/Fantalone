@@ -50,7 +50,6 @@ func get_player_max_actions(match_id):
 
 
 ## PLAYER PRESENT INDICATORS
-
 func is_turn_owner_locally_present():
 	return is_match_id_locally_present(get_turn_owner())
 
@@ -61,7 +60,7 @@ func is_match_id_locally_present(match_id):
 				return true
 	return false
 
-##
+## MATCH STATE SAVE / LOAD
 
 var saved_match_status = null
 func save_match_status():
@@ -81,7 +80,6 @@ func setup(package:Dictionary={}):
 		player_max_actions[player.match_id] = MAXIMUM_ACTION_LIMIT
 	if package:
 		MatchDataPackage.unpack_match(Data, package)
-
 
 ## MANA
 
@@ -158,6 +156,23 @@ func propagate_effects(match_id):
 	var units = get_players_units(match_id)
 	for unit in units:
 		unit.propagate_effects()
+
+const MININIM_UNITS_TO_BE_ALIVE = 4
+func check_endgame_conditions():
+	var players = Data.LobbyData.get_players()
+	if players.size() == 1:
+		return
+	
+	var players_alive = []
+	for player in players:
+		if get_players_units(player.match_id).size() > MININIM_UNITS_TO_BE_ALIVE:
+			players_alive.append(player.match_id)
+	if players_alive.size() <= 1:
+		Data.CommandData.new_command(LogCmdEndGame, {"caller":LogCmdBase.SERVER_CALL, "winner":players[0].match_id})
+
+
+func server_endturn_routine():
+	check_endgame_conditions()
 
 ## Redirects
 func get_all_units():

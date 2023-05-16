@@ -310,6 +310,11 @@ _global_script_classes=[ {
 "path": "res://modules/logic/logic_commands/LogCmdDummy.gd"
 }, {
 "base": "LogCmdBase",
+"class": "LogCmdEndGame",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmdEndGame.gd"
+}, {
+"base": "LogCmdBase",
 "class": "LogCmdFinishTurn",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdFinishTurn.gd"
@@ -510,6 +515,11 @@ _global_script_classes=[ {
 "path": "res://ui/PopupBase.gd"
 }, {
 "base": "PopupBase",
+"class": "PopupSplash",
+"language": "GDScript",
+"path": "res://ui/PopupSplash.gd"
+}, {
+"base": "PopupBase",
 "class": "PopupText",
 "language": "GDScript",
 "path": "res://ui/PopupText.gd"
@@ -602,7 +612,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "TouchscreenScripts",
 "language": "GDScript",
-"path": "res://utils/TouchscreenScripts.gd"
+"path": "res://utils/touchscreenScripts.gd"
 }, {
 "base": "Control",
 "class": "TurnUI",
@@ -695,6 +705,7 @@ _global_script_class_icons={
 "LogCmdConclude": "",
 "LogCmdConcludeAndSend": "",
 "LogCmdDummy": "",
+"LogCmdEndGame": "",
 "LogCmdFinishTurn": "",
 "LogCmdNewMovement": "",
 "LogCmdSpellBase": "",
@@ -735,6 +746,7 @@ _global_script_class_icons={
 "OptionsMenuPopup": "",
 "PeerNetwork": "",
 "PopupBase": "",
+"PopupSplash": "",
 "PopupText": "",
 "PopupTextWithButtons": "",
 "Popups": "",
