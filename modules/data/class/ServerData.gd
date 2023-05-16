@@ -21,6 +21,7 @@ func setup():
 	mod.MatchNetworkAPI.setup()
 	mod.NetworkData.create_server()
 	LobbyData.setup()
+	CommandData.setup()
 	active = true
 
 func close():

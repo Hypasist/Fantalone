@@ -10,20 +10,16 @@ func _ready():
 func setup(size:Vector2=Vector2(0,0)):
 	.setup(size)
 	mod.GameUI.set_UI_action(GameUI.UI_ACTION_NONE)
-	var spell_list = Spells.get_spell_list()
-	for spell_path in spell_list:
-		var spell_info_scene = load(spell_path)
+	var spell_list = LogCmd.get_spell_list()
+	for spell_class in spell_list:
 		var spell_block = SpellBlock.instance()
-		var spell_info = spell_info_scene.new()
-		spell_info.setup()
+		var spell_info = spell_class.new({"data":mod.ClientData})
 		spell_block.setup(spell_info)
 		$Box/VBoxContainer/ScrollContainer/GridContainer.add_child(spell_block)
 		spell_block.connect("spell_selected", self, "_on_SpellButton_pressed")
 		spell_block_list[spell_block] = (spell_info)
 
 func _on_SpellButton_pressed(object):
-	if spell_block_list.has(object):
-		print("YAY  ", object, "  ", spell_block_list[object])
 	mod.GameUI.spell_selected(spell_block_list[object])
 	mod.Popups.pop_popup(self)
 

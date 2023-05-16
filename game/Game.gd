@@ -27,6 +27,7 @@ func _ready():
 	mod.MapView = $Graphics/MapView
 	mod.Menu = $Graphics/Menu
 	mod.Popups = $Graphics/Popups
+	mod.SpellUI = $Graphics/GameUI/SpellUI
 	mod.GameUI = $Graphics/GameUI
 	
 	# MAP EDITOR

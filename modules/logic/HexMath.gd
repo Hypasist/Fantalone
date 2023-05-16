@@ -26,6 +26,13 @@ static func xy_to_qr(xy_coords:Vector2):
 	var r:int = y
 	return HexCoords.new(q, r)
 
+static func qr_to_xy(qr_coords:HexCoords):
+	var q:int = int(round(qr_coords.q))
+	var r:int = int(round(qr_coords.r))
+	var x:int = q + (r - (r%2)) / 2
+	var y:int = r
+	return Vector2(x, y)
+
 static func get_neighbour_hex(hex_dictionary, hex, direction):
 	var coords = HGAS.coord_sum(hex.coords, HEXConstants.directions[direction])
 	return get_hex_by_qr_coords(hex_dictionary, coords)

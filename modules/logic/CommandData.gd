@@ -8,6 +8,9 @@ var queue = []
 func get_queue():
 	return queue
 
+func setup():
+	flush_queue()
+	
 func flush_queue():
 	queue.clear()
 
@@ -18,6 +21,12 @@ func add_command(command_class, param_dictionary):
 	param_dictionary["data"] = Data
 	var new_command = command_class.new(param_dictionary)
 	queue.append(new_command)
+
+# This is temporal solution for spells only - we are adding already existing instance
+func add_existing_command(existing_command):
+	existing_command.Data = Data
+	queue.append(existing_command)
+	execute_queue()
 
 func new_command(command_class, param_dictionary):
 	add_command(command_class, param_dictionary)
@@ -30,6 +39,7 @@ func execute_queue():
 			if not command.is_verified():
 				last_error = command.verify()
 				if last_error.is_invalid():
+					queue.erase(command)
 					return last_error
 			command.execute()
 	mod.ControllerData.update_display()
