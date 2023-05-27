@@ -73,26 +73,22 @@ static func get_neighbour_hex(matchdata, hex, direction):
 	return HexMath.get_neighbour_hex(hex_dictionary, hex, direction)
 
 ## -------- PACKING FUNCTIONS -------- ##
-static func pack_unit_ids(unit_list):
+static func pack_object_ids(object_list):
 	var ids = []
-	for unit in unit_list:
+	for unit in object_list:
 		ids.append(unit._name_id)
 	return ids
 
-static func unpack_unit_ids(Data, unit_ids):
-	var units = []
+static func unpack_object_ids(Data, object_ids):
+	var objects = []
 	for unit in Data.MatchData.get_all_units():
-		if unit_ids.has(unit._name_id):
-			units.append(unit)
-	return units
+		if object_ids.has(unit._name_id):
+			objects.append(unit)
+	for tile in Data.MatchData.get_all_tiles():
+		if object_ids.has(tile._name_id):
+			objects.append(tile)
+	return objects
 
-static func pack_unit(unit):
-	return unit._name_id
-	
-static func unpack_unit(Data, unit_id):
-	for unit in Data.MatchData.get_all_units():
-		if unit_id == unit._name_id:
-			return unit
 ## ----------------------------------- ##
 
 

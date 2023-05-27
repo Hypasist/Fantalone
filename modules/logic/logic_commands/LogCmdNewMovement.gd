@@ -26,11 +26,11 @@ func pack_command():
 	var pack = {}
 	pack["command_name"] = "LogCmdNewMovement"
 	pack["caller"] = caller
-	pack["units"] = MatchLogic.pack_unit_ids(units)
+	pack["units"] = MatchLogic.pack_object_ids(units)
 	pack["direction"] = direction
 	return pack
 
 static func unpack_command(Data, pack):
-	var units = MatchLogic.unpack_unit_ids(Data, pack["units"])
+	var units = MatchLogic.unpack_object_ids(Data, pack["units"])
 	pack["units"] = units
 	return pack

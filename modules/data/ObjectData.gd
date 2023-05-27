@@ -43,6 +43,7 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 				display_scene.set_name(unique_name)
 				logic_scene.assign_display_scene(display_scene)
 				mod.MapView.add_unit_resource(display_scene)
+			return logic_scene
 		Resources.Water, Resources.Rocks, Resources.Grass:
 			#qr_coords
 			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
@@ -55,6 +56,7 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 				display_scene.set_name(unique_name)
 				logic_scene.assign_display_scene(display_scene)
 				mod.MapView.add_tile_resource(display_scene)
+			return logic_scene
 
 func copy_object(pack):
 	var resource = mod.ResourceData.get_resource(pack["resource"])

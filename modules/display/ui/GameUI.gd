@@ -57,5 +57,3 @@ func update_ui():
 ## SPELLCAST
 func spell_selected(spell_info):
 	$SpellUI.spell_selected(spell_info)
-func load_spell(spell_info):
-	$SpellUI.load_spell(spell_info)
