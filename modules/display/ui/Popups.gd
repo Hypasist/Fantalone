@@ -22,6 +22,13 @@ func create_spell_menu_popup():
 	popup.setup(Vector2(0.8, 1.0))
 	push_popup(popup)
 
+func create_endscreen_popup():
+	var ClassScene = load("res://ui/PopupEndScreen.tscn")
+	var popup = ClassScene.instance()
+	add_child(popup)
+	popup.setup(Vector2(0.8, 0.6))
+	push_popup(popup)
+
 func create_connect_to_server_popup():
 	var ClassScene = load("res://ui/ConnectToServerPopup.tscn")
 	var popup = ClassScene.instance()

@@ -8,6 +8,7 @@ func start_match(package:Dictionary={}):
 	mod.Graphics.setup_graphics()
 	mod.MapView.setup_map()
 	mod.GameUI.setup()
+	show_new_turn_indicator()
 
 func stop_match():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "Match stopped.")
@@ -19,6 +20,9 @@ func stop_match():
 
 func new_turn():
 	.new_turn()
+	show_new_turn_indicator()
+
+func show_new_turn_indicator():
 	var match_id = mod.ClientData.MatchData.get_turn_owner()
 	var color = mod.ClientData.LobbyData.get_player_by_match_id(match_id).color
 	mod.Popups.create_splash_popup(color)

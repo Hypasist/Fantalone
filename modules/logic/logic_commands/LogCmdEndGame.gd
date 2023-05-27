@@ -12,7 +12,7 @@ func verify():
 
 func execute():
 	.execute()
-	print("EXECUTE ENDGAME OMEGALUL")
+	mod.Popups.create_endscreen_popup()
 	set_state(states.done)
 
 func pack_command():
