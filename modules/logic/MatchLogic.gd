@@ -99,6 +99,7 @@ func check_endgame_conditions():
 			alive_players += 1
 	return true if alive_players <=1 else false
 
+# NOT USED, DELETE
 func is_game_over():
 	if check_endgame_conditions():
 		mod.MatchData.pause_game()

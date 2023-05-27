@@ -20,9 +20,12 @@ func stop_match():
 
 func new_turn():
 	.new_turn()
+<<<<<<< HEAD
 	show_new_turn_indicator()
 
 func show_new_turn_indicator():
+=======
+>>>>>>> 514a7e4745e55061d773d10fa785014df99a3368
 	var match_id = mod.ClientData.MatchData.get_turn_owner()
 	var color = mod.ClientData.LobbyData.get_player_by_match_id(match_id).color
 	mod.Popups.create_splash_popup(color)

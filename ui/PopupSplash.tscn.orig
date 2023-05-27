@@ -18,17 +18,28 @@ mouse_filter = 2
 [node name="Button" type="Button" parent="Box" index="0"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+<<<<<<< HEAD
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="Box" index="1"]
+=======
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="Box" index="1"]
+self_modulate = Color( 0.388235, 0.392157, 0.286275, 1 )
+>>>>>>> 514a7e4745e55061d773d10fa785014df99a3368
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = ExtResource( 3 )
+<<<<<<< HEAD
 expand = true
+=======
+stretch_mode = 1
+>>>>>>> 514a7e4745e55061d773d10fa785014df99a3368
 
 [node name="ColorRect" type="ColorRect" parent="Box" index="2"]
 anchor_left = 0.1
@@ -38,12 +49,22 @@ anchor_bottom = 0.7
 
 [node name="Label" type="Label" parent="Box" index="3"]
 anchor_left = 0.4
+<<<<<<< HEAD
 anchor_top = 0.4
 anchor_right = 0.9
 anchor_bottom = 0.7
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+=======
+anchor_top = 0.3
+anchor_right = 0.9
+anchor_bottom = 0.7
+>>>>>>> 514a7e4745e55061d773d10fa785014df99a3368
 custom_fonts/font = ExtResource( 4 )
 text = "HELLO DARKNESS MY OLD FRIEND"
 autowrap = true
 
+<<<<<<< HEAD
 [connection signal="button_down" from="Box/Button" to="." method="_on_Button_button_down"]
+=======
+[connection signal="button_down" from="Box/Button" to="." method="_on_Button_button_down"]
+>>>>>>> 514a7e4745e55061d773d10fa785014df99a3368

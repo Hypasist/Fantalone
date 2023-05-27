@@ -12,7 +12,11 @@ func verify():
 
 func execute():
 	.execute()
+<<<<<<< HEAD
 	mod.Popups.create_endscreen_popup()
+=======
+	print("EXECUTE ENDGAME OMEGALUL")
+>>>>>>> 514a7e4745e55061d773d10fa785014df99a3368
 	set_state(states.done)
 
 func pack_command():
