@@ -15,9 +15,6 @@ anchor_left = 0.55
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PlayerSummaryBar" parent="PlayerSummaryPanel" instance_placeholder="res://ui/PlayerSummaryBar.tscn"]
 anchor_right = 0.0
