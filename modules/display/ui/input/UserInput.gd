@@ -43,7 +43,7 @@ func _unhandled_input(event):
 
 # ACTION HANDLERS
 func handle_shorttap(event):
-	if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Tap P: %f %f" % event.position)
+	if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Tap P: %f %f" % [event.position.x, event.position.y])
 	$PlayerAction.action_shorttap(event.position)
 
 func handle_tap(event):
@@ -83,7 +83,8 @@ func handle_drag_unit(event):
 		saved_relative += event.relative
 	else:
 		return # ignore if actionState.none or actionState.longtap_confirmed
-	if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Drag P: %f %f  R: %f %f" % [saved_position, saved_relative])
+	if debug_verbose_units: Terminal.add_log(Debug.ALL, Debug.INPUT, "Drag P: %f %f  R: %f %f" % \
+		[saved_position.x, saved_position.y, saved_relative.x, saved_relative.y])
 	$PlayerAction.action_drag(saved_position, saved_relative)
 
 func handle_drag_map(event): # aka scroll

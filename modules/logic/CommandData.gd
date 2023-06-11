@@ -20,11 +20,13 @@ func add_command(command_class, param_dictionary):
 		return
 	param_dictionary["data"] = Data
 	var new_command = command_class.new(param_dictionary)
+	Terminal.add_log(Debug.INFO, Debug.LOGIC_CMD, "Command [%s] added!" % new_command.name)
 	queue.append(new_command)
 
 # This is temporal solution for spells only - we are adding already existing instance
 func add_existing_command(existing_command):
 	existing_command.Data = Data
+	Terminal.add_log(Debug.INFO, Debug.LOGIC_CMD, "Existing command [%s] added!" % existing_command.name)
 	queue.append(existing_command)
 	execute_queue()
 
@@ -42,6 +44,7 @@ func execute_queue():
 					queue.erase(command)
 					return last_error
 			command.execute()
+			Terminal.add_log(Debug.INFO, Debug.LOGIC_CMD, "Command [%s] executed!" % command.name)
 	mod.ControllerData.update_display()
 	return ErrorInfo.new()
 

@@ -20,8 +20,8 @@ func setup(size:Vector2=Vector2(0,0)):
 		spell_block_list[spell_block] = (spell_info)
 
 func _on_SpellButton_pressed(object):
-	mod.GameUI.spell_selected(spell_block_list[object])
 	mod.Popups.pop_popup(self)
+	mod.GameUI.spell_selected(spell_block_list[object])
 
 func _on_CancelButton_pressed():
 	mod.GameUI.set_UI_action(GameUI.UI_ACTION_MOVE)

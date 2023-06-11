@@ -2,7 +2,7 @@ class_name LogCmdDummy
 extends LogCmdBase
 
 func _init(param_dictionary).(param_dictionary):
-	pass
+	name = "LogCmdDummy"
 
 func verify():
 	return ErrorInfo.new()

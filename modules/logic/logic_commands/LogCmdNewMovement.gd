@@ -5,6 +5,7 @@ var units = null
 var direction = null
 
 func _init(param_dictionary).(param_dictionary):
+	name = "LogCmdNewMovement"
 	units = param_dictionary.units
 	direction = param_dictionary.direction
 	action_cost = 1

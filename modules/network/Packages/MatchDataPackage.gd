@@ -24,7 +24,12 @@ static func pack_match(Data):
 
 
 static func get_current_hash(Data):
-	return pack_match(Data).hash()
+	var current_hash = pack_match(Data).hash()
+	if current_hash == null:
+		Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "Hash is null!")
+		breakpoint
+	Terminal.add_log(Debug.ALL, Debug.QUEUE_NETWORK, "Hash is [%d]!" % current_hash)
+	return current_hash
 
 
 static func unpack_match(Data, package):

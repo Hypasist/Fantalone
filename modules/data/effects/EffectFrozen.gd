@@ -5,9 +5,13 @@ func _init(_caster=null, _target=null, _turns_left=null).(_caster, _target, _tur
 	tags = [TagList.CANNOT_MOVE, TagList.CANNOT_BE_PUSHED]
 	
 func start_effect():
-	pass
+	Terminal.add_log(Debug.ALL, Debug.DISPLAY_CMD, "[%s] EffectFrozen" % [target.get_name_id()])
+	.start_effect()
+	DisCmdFreezeUnit.new(target)
+
 func stop_effect():
-	pass
+	.stop_effect()
+	DisCmdUnfreezeUnit.new(target)
 
 func get_resource():
 	return Resources.EffectFrozen

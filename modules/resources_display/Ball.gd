@@ -1,3 +1,4 @@
+class_name BallDisplay
 extends UnitDisplayBase
 
 var color = Color.white
@@ -27,6 +28,12 @@ func set_select(value):
 	else:
 		$Selected.hide()
 		$Unit.set_modulate(color)
+
+func set_freeze(value):
+	if value:
+		$Frost.show()
+	else:
+		$Frost.hide()
 
 func change_color(color_):
 	color = color_

@@ -15,7 +15,9 @@ func verify():
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = "LogCmdSpellFreeze"
+	pack["command_name"] = "LogCmdSpellCreateUnit"
+	pack["caller"] = caller
+	pack["tiles"] = MatchLogic.pack_object_ids(selected_tiles)
 	return pack
 
 static func unpack_command(Data, pack):
@@ -25,11 +27,10 @@ static func unpack_command(Data, pack):
 
 func is_valid_selection(object):
 	if object.get_hex().get_unit() != null:
-		return false
-	if not object.passable:
-		return false
-	if object.lethal:
-		return false
+		if not object.passable:
+			return false
+		if object.lethal:
+			return false
 	return true
 
 var selected_tiles = []
@@ -73,7 +74,16 @@ func execute():
 	var resource_name = Resources.Ball
 	for tile in selected_tiles:
 		var xy_coords = HexMath.qr_to_xy(tile.get_hex().get_coords())
-		Data.ObjectData.create_new_object(resource_name, xy_coords, caller)
+		var unit = tile.get_hex().get_unit() 
+		if unit:
+			if caller == unit.get_owner():
+				# Using on self
+				EffectFrozenClass.new(caller, unit, 1).start_effect()
+			else:
+				EffectFrozenClass.new(caller, unit, 2).start_effect()
+		else:
+#			Data.ObjectData.create_new_object(resource_name, xy_coords, caller)
+			pass
 	.execute()
 	set_state(states.done)
 	

@@ -4,6 +4,7 @@ extends LogCmdBase
 var winner = null
 
 func _init(param_dictionary).(param_dictionary):
+	name = "LogCmdEndGame"
 	winner = param_dictionary["winner"]
 
 func verify():

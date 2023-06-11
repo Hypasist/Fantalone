@@ -20,7 +20,6 @@ func propagate():
 
 func start_effect():
 	target.add_effect(self)
-	pass
 func stop_effect():
 	pass
 

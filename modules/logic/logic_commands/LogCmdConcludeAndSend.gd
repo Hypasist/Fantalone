@@ -5,6 +5,7 @@ var turn_owner = null
 var actions_left = 0
 
 func _init(param_dictionary).(param_dictionary):
+	name = "LogCmdConcludeAndSend"
 	action_cost = 0
 	mana_cost = 0
 

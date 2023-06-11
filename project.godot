@@ -14,6 +14,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/display/ui/ActionHandle.gd"
 }, {
+"base": "UnitAnimationControllerBase",
+"class": "BallAnimationController",
+"language": "GDScript",
+"path": "res://modules/resources_display/BallAnimationController.gd"
+}, {
+"base": "UnitDisplayBase",
+"class": "BallDisplay",
+"language": "GDScript",
+"path": "res://modules/resources_display/Ball.gd"
+}, {
 "base": "Button",
 "class": "ButtonPlus",
 "language": "GDScript",
@@ -85,6 +95,11 @@ _global_script_classes=[ {
 "path": "res://modules/logic/display_commands/DisCmdDeleteVisual.gd"
 }, {
 "base": "DisCmdBase",
+"class": "DisCmdFreezeUnit",
+"language": "GDScript",
+"path": "res://modules/logic/display_commands/DisCmdFreezeUnit.gd"
+}, {
+"base": "DisCmdBase",
 "class": "DisCmdGetDrown",
 "language": "GDScript",
 "path": "res://modules/logic/display_commands/DisCmdGetDrown.gd"
@@ -128,6 +143,11 @@ _global_script_classes=[ {
 "class": "DisCmdTireUnit",
 "language": "GDScript",
 "path": "res://modules/logic/display_commands/DisCmdTireUnit.gd"
+}, {
+"base": "DisCmdBase",
+"class": "DisCmdUnfreezeUnit",
+"language": "GDScript",
+"path": "res://modules/logic/display_commands/DisCmdUnfreezeUnit.gd"
 }, {
 "base": "DisCmdBase",
 "class": "DisCmdUntireUnit",
@@ -303,6 +323,11 @@ _global_script_classes=[ {
 "class": "LogCmdConcludeAndSend",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdConcludeAndSend.gd"
+}, {
+"base": "LogCmdBase",
+"class": "LogCmdCreateIcecube",
+"language": "GDScript",
+"path": "res://modules/logic/logic_commands/LogCmdCreateIcecube.gd"
 }, {
 "base": "LogCmdBase",
 "class": "LogCmdDummy",
@@ -651,6 +676,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ActionHandle": "",
+"BallAnimationController": "",
+"BallDisplay": "",
 "ButtonPlus": "",
 "ClientData": "",
 "ClientLobbyData": "",
@@ -665,6 +692,7 @@ _global_script_class_icons={
 "Debug": "",
 "DisCmdBase": "",
 "DisCmdDeleteVisual": "",
+"DisCmdFreezeUnit": "",
 "DisCmdGetDrown": "",
 "DisCmdGetPushedToDeath": "",
 "DisCmdGetPushedToEmpty": "",
@@ -674,6 +702,7 @@ _global_script_class_icons={
 "DisCmdMoveToEmpty": "",
 "DisCmdShow": "",
 "DisCmdTireUnit": "",
+"DisCmdUnfreezeUnit": "",
 "DisCmdUntireUnit": "",
 "EffectBase": "",
 "EffectDeadClass": "",
@@ -709,6 +738,7 @@ _global_script_class_icons={
 "LogCmdBase": "",
 "LogCmdConclude": "",
 "LogCmdConcludeAndSend": "",
+"LogCmdCreateIcecube": "",
 "LogCmdDummy": "",
 "LogCmdEndGame": "",
 "LogCmdFinishTurn": "",

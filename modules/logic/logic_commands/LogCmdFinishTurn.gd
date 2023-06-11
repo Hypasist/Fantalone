@@ -5,6 +5,7 @@ var turn_owner = null
 var actions_left = 0
 
 func _init(param_dictionary).(param_dictionary):
+	name = "LogCmdFinishTurn"
 	turn_owner = param_dictionary["caller"]
 	actions_left = param_dictionary["actions_left"]
 	action_cost = 0

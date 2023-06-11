@@ -1,2 +1,2 @@
+class_name BallAnimationController
 extends UnitAnimationControllerBase
-
