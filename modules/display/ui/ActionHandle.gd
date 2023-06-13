@@ -2,10 +2,11 @@ class_name ActionHandle
 extends Node
 
 func shorttap_handle():
+	if mod.GameUI.is_menu_mode():
+		return
+	
 	match mod.GameUI.get_UI_mode():
-		mod.GameUI.UI_MODE_MENU:
-			pass
-		mod.GameUI.UI_MODE_UNIT:
+		mod.GameUI.SELECTION_MODE_NONE:
 			var unit = mod.GameUI.Hoverlist.get_hovered_unit()
 			if unit:
 				match mod.GameUI.get_UI_action():
@@ -13,7 +14,7 @@ func shorttap_handle():
 						mod.SpellUI.new_unit_selected(unit)
 					mod.GameUI.UI_ACTION_MOVE:
 						mod.ControllerData.new_unit_selected(unit)
-		mod.GameUI.UI_MODE_TILE:
+		mod.GameUI.SELECTION_MODE_TILE:
 			var tile = mod.GameUI.Hoverlist.get_hovered_tile()
 			if tile:
 				match mod.GameUI.get_UI_action():

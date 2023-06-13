@@ -7,18 +7,21 @@ onready var ActionHandle = $ActionHandle
 onready var MatchUI = $MatchUI
 onready var SpellUI = $SpellUI
 
+
+## --- MENU MODE BLOCKADE --- ##
+var menu_mode_enabled = true
+func is_menu_mode():
+	return menu_mode_enabled
+func set_menu_mode(value=true):
+	menu_mode_enabled = value
 ## --- UI MODE TO DIFFERENTIATE BETWEEN DIFFERENT GUI TARGETING STATES --- ##
-enum { UI_MODE_MENU, UI_MODE_UNIT, UI_MODE_TILE }
-var last_UI_mode = UI_MODE_MENU
-var current_UI_mode = UI_MODE_MENU
+enum { SELECTION_MODE_NONE, SELECTION_MODE_UNIT, SELECTION_MODE_TILE }
+var current_selection_mode = SELECTION_MODE_NONE
 func get_UI_mode():
-	return current_UI_mode
-func set_UI_mode(mode):
-	last_UI_mode = current_UI_mode
-	current_UI_mode = mode
-func revert_UI_mode():
-	set_UI_mode(last_UI_mode)
-	last_UI_mode = UI_MODE_MENU
+	return current_selection_mode
+func set_selection_mode(mode):
+	Terminal.add_log(Debug.INFO, Debug.INPUT, "Selection mode set: %s." % mode)
+	current_selection_mode = mode
 
 ## --- UI MODE TO DIFFERENTIATE BETWEEN DIFFERENT GUI ACTION TYPES --- ##
 enum { UI_ACTION_NONE, UI_ACTION_MENU, UI_ACTION_MOVE, UI_ACTION_SPELL } ## MERGE EVERYTHING

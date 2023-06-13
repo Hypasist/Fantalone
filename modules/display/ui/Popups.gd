@@ -59,7 +59,7 @@ func create_splash_popup(color):
 var active_popups = []
 func push_popup(popup, dim=true):
 	if active_popups.empty():
-		mod.GameUI.set_UI_mode(GameUI.UI_MODE_MENU)
+		mod.GameUI.set_menu_mode()
 		if dim:
 			$Dim.show()
 	else:
@@ -70,7 +70,7 @@ func pop_popup(popup):
 	active_popups.erase(popup)
 	popup.queue_free()
 	if active_popups.empty():
-		mod.GameUI.revert_UI_mode()
+		mod.GameUI.set_menu_mode(false)
 		$Dim.hide()
 	else:
 		active_popups[0].show()

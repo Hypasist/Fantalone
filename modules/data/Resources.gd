@@ -1,6 +1,7 @@
 class_name Resources
 
 const Ball = "Ball"
+const Icecube = "Icecube"
 
 const Water = "Water"
 const Rocks = "Rocks"

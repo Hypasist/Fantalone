@@ -61,7 +61,7 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 func copy_object(pack):
 	var resource = mod.ResourceData.get_resource(pack["resource"])
 	match pack["resource"]:
-		Resources.Ball:
+		Resources.Ball, Resources.Icecube:
 			var hex = mod.HexMath.get_hex_by_qr_coords(hex_dictionary, \
 						HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])

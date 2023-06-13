@@ -3,7 +3,7 @@ extends MatchData
 
 func start_match(package:Dictionary={}):
 	mod.Menu.hide_menu()
-	mod.GameUI.set_UI_mode(GameUI.UI_MODE_UNIT)
+	mod.GameUI.set_selection_mode(GameUI.SELECTION_MODE_NONE)
 	setup(package)
 	mod.Graphics.setup_graphics()
 	mod.MapView.setup_map()
@@ -13,7 +13,7 @@ func start_match(package:Dictionary={}):
 func stop_match():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "Match stopped.")
 	mod.GameUI.set_UI_action(GameUI.UI_ACTION_NONE)
-	mod.GameUI.set_UI_mode(GameUI.UI_MODE_MENU)
+	mod.GameUI.set_menu_mode()
 	mod.GameUI.hide_match_ui()
 	mod.NetworkData.disconnect_self()
 	mod.Menu.switch_screens(mod.Menu.main_menu)
