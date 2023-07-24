@@ -96,4 +96,8 @@ func client_unpack_and_execute_queue(packed_queue):
 		Data.MatchData.restore_match_status()
 		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_MATCH_STATUS)
 	flush_queue()
-	
+
+# debug
+func print_current_command_queue():
+	for command in get_queue():
+		print("%s - %s" % [command.get_command_name(), command.get_state_name()])

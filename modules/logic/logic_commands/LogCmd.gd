@@ -17,11 +17,13 @@ const command_dictionary = { \
 	LogCmdConclude			:	"LogCmdConclude", \
 	LogCmdSpellCreateUnit	:	"LogCmdSpellCreateUnit", \
 	LogCmdSpellFreeze		:	"LogCmdSpellFreeze", \
+	LogCmdSpellInvisiblePoison:	"LogCmdSpellInvisiblePoison", \
 }
 
 const spells_dictionary = { \
 	LogCmdSpellCreateUnit	:	"LogCmdSpellCreateUnit", \
 	LogCmdSpellFreeze		:	"LogCmdSpellFreeze", \
+	LogCmdSpellInvisiblePoison:	"LogCmdSpellInvisiblePoison", \
 #	LogCmdSpellTeleportUnit	:	"LogCmdSpellTeleportUnit", \
 #	LogCmdSpelUntire		:	"LogCmdSpelUntire", \
 }

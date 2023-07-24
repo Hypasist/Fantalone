@@ -18,4 +18,3 @@ func execute():
 	unit.die()
 	DisCmdGetDrown.new(unit)
 	DisCmdHide.new(unit)
-	DisCmdDeleteVisual.new(unit)

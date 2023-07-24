@@ -31,7 +31,7 @@ func assimilate_unique_name(unique_id):
 func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=null):
 	var resource = mod.ResourceData.get_resource(resource_name)
 	match resource_name:
-		Resources.Ball:
+		Resources.Ball, Resources.Icecube:
 			#qr_coords, owner_id
 			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
 			var unique_name = get_unique_name(resource_name)

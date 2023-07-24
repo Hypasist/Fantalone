@@ -7,6 +7,7 @@ var Data = null
 var caller = null # match_id of caller
 var action_cost = 0
 var mana_cost = 0
+var subcommand = false
 
 enum states { new, pending, verified, done }
 var state = null
@@ -20,13 +21,15 @@ func set_state(_state):
 	state = _state
 func get_state():
 	return state
+func get_state_name():
+	return states.keys()[state]
 func is_verified():
 	return state >= states.verified
 func is_done():
 	return state >= states.done
 
 func get_command_name():
-	return null
+	return name
 
 func pack_command():
 	pass

@@ -1,7 +1,7 @@
 extends Node
 
 export(int,"off","on") var debug_verbose_map = 0
-export(int,"off","on") var debug_verbose_units = 0
+export(int,"off","on") var debug_verbose_units = 1
 export(int,"disabled","single_drag") var movement_gesture = 1
 export(int,"disabled","pinch") var zoom_gesture = 1
 export(int,"disabled","twist") var rotation_gesture = 1
