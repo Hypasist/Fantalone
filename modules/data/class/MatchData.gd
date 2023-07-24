@@ -123,6 +123,8 @@ func new_turn():
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
 	propagate_effects(get_turn_owner())
 #	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
+	## TODO: IT SHOULDNT BE HERE
+	cleanup_marked_objects()
 
 func verify_movement(unit_list, direction):
 	var movement = FormationLogic.recognize_movement_unit(Data, unit_list, direction)

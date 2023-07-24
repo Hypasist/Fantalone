@@ -26,7 +26,7 @@ func stop_effect():
 func pack():
 	var pack = {}
 	pack["target"] = target.get_name_id()
-	pack["caster"] = target.get_name_id()
+	pack["caster"] = caster
 	pack["duration"] = duration_left 
 	pack["resource"] = get_resource()
 	return pack
