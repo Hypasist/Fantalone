@@ -1,7 +1,7 @@
 extends UnitLogicBase
 
 func _init(name_id, owner_id).(name_id, owner_id):
-	pass
+	tag_list.append(TagList.SCORE_UNIT)
 
 func get_power():
 	return _power

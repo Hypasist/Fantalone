@@ -19,7 +19,7 @@ func update():
 	update_action_counter()
 	for player in mod.ClientData.LobbyData.get_players():
 		var turn_owner = (mod.ClientData.MatchData.get_turn_owner() == player.match_id)
-		var army_size = mod.ClientData.MatchData.get_players_units_num(player.match_id)
+		var army_size = mod.ClientData.MatchData.get_players_army_size(player.match_id)
 		var mana = mod.ClientData.MatchData.get_player_mana(player.match_id)
 		if army_size > 0:
 			player_summary[player.match_id].update_bar(turn_owner, player.color, player.nickname, army_size, mana)

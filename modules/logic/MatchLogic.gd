@@ -44,8 +44,13 @@ static func get_players_units(Data, match_id):
 			return_array.append(unit)
 	return return_array
 
-static func get_players_units_num(matchdata, match_id):
-	return get_players_units(matchdata, match_id).size()
+static func get_players_army_size(matchdata, match_id):
+	var army_size = 0
+	var units = get_players_units(matchdata, match_id)
+	for unit in units:
+		if unit.has_tags([TagList.SCORE_UNIT]):
+			army_size += 1
+	return army_size
 
 static func get_unit_by_name(Data, unit_name):
 	for unit in get_all_units(Data):

@@ -15,7 +15,7 @@ func setup_summary_panel():
 		$Box/EndScreenSummaryPanel.add_child(summary_bar)
 		endscreen_bar_list[player.match_id] = summary_bar
 		var turn_owner = (mod.ClientData.MatchData.get_turn_owner() == player.match_id)
-		var army_size = mod.ClientData.MatchData.get_players_units_num(player.match_id)
+		var army_size = mod.ClientData.MatchData.get_players_army_size(player.match_id)
 		endscreen_bar_list[player.match_id].update_bar(turn_owner, player.color, player.nickname, army_size)
 
 func _on_Button_pressed():

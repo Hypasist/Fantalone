@@ -183,6 +183,6 @@ func get_neighbour_hex(hex, direction):
 	return MatchLogic.get_neighbour_hex(Data, hex, direction)
 func get_players_units(match_id):
 	return MatchLogic.get_players_units(Data, match_id)
-func get_players_units_num(match_id):
-	return MatchLogic.get_players_units_num(Data, match_id)
+func get_players_army_size(match_id):
+	return MatchLogic.get_players_army_size(Data, match_id)
 
