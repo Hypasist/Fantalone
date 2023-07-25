@@ -92,9 +92,9 @@ func get_player_mana(match_id):
 func get_players_mana():
 	return player_mana
 func modify_player_mana(match_id, mana_cost):
-	if player_mana.has(match_id): player_mana[match_id] += mana_cost
+	if player_mana.has(match_id): player_mana[match_id] -= mana_cost
 func set_players_mana(package):
-	player_mana = package
+	player_mana = package.duplicate()
 
 ## EFFECTS
 
@@ -146,7 +146,7 @@ func verify_cost(action_cost, mana_cost):
 
 func execute_cost(action_cost, mana_cost):
 	modify_action_counter(action_cost)
-	get_player_mana(get_turn_owner())
+	modify_player_mana(get_turn_owner(), mana_cost)
 
 func execute_movement(unit_list, direction):
 	var movement = FormationLogic.recognize_movement_unit(Data, unit_list, direction)

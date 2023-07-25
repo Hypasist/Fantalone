@@ -10,8 +10,12 @@ func _init(param_dictionary).(param_dictionary):
 	selection_limit = 1
 
 func verify():
-	set_state(states.verified)
-	return ErrorInfo.new()
+	if selected_tiles.empty():
+		return ErrorInfo.new(ErrorInfo.invalid.no_spell_target)
+	for tile in selected_tiles:
+		if not is_valid_selection(tile):
+			return ErrorInfo.new(ErrorInfo.invalid.invalid_spell_target)
+	return .verify()
 
 func pack_command():
 	var pack = {}
@@ -26,7 +30,9 @@ static func unpack_command(Data, pack):
 # ---------------------------------------------------- #
 
 func is_valid_selection(object):
-	if object.get_hex().get_unit() != null:
+	if object.get_hex().get_unit():
+		return true
+	if object:
 		if not object.passable:
 			return false
 		if object.lethal:
