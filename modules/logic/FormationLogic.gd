@@ -61,6 +61,10 @@ static func evaluate_unit_command(Data, movement, unit):
 			# PUSHING OWN UNIT, BUT IT'S OK, COZ IT'S LEAVING (BELONGS TO FORMATION)
 			if movement.does_belong(encountered_unit):
 				_evaluate_unit_command_move(movement, unit, destination_hex)
+			# PUSHING OWN UNIT, BUT IT'S OK, COZ IT'S FRIENDLY-PUSHABLE
+			elif encountered_unit.has_tags([TagList.FRIENDLY_PUSHABLE]):
+				movement.add_subject_to_evaluate(encountered_unit)
+				_evaluate_unit_command_move(movement, unit, destination_hex)
 			# PUSHING OWN UNIT, THAT DOESN'T BELONG TO FORMATION
 			else:
 				movement.invalid_move(ErrorInfo.invalid.pushing_own_units)
