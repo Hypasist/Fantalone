@@ -56,6 +56,11 @@ func has_tags(tag_array:Array): # HAS AT LEAST ONE TAG
 var effect_list = []
 func add_effect(effect):
 	effect_list.append(effect)
+func has_effect(effect_class):
+	for effect in effect_list:
+		if effect is effect_class:
+			return true
+	return false
 func propagate_effects():
 	var finished_effect_list = []
 	for effect in effect_list:

@@ -18,14 +18,15 @@ const command_dictionary = { \
 	LogCmdSpellCreateUnit	:	"LogCmdSpellCreateUnit", \
 	LogCmdSpellFreeze		:	"LogCmdSpellFreeze", \
 	LogCmdSpellInvisiblePoison:	"LogCmdSpellInvisiblePoison", \
+	LogCmdSpellUntire		:	"LogCmdSpellUntire", \
 }
 
 const spells_dictionary = { \
 	LogCmdSpellCreateUnit	:	"LogCmdSpellCreateUnit", \
 	LogCmdSpellFreeze		:	"LogCmdSpellFreeze", \
 	LogCmdSpellInvisiblePoison:	"LogCmdSpellInvisiblePoison", \
+	LogCmdSpellUntire		:	"LogCmdSpellUntire", \
 #	LogCmdSpellTeleportUnit	:	"LogCmdSpellTeleportUnit", \
-#	LogCmdSpelUntire		:	"LogCmdSpelUntire", \
 }
 
 static func get_spell_list():

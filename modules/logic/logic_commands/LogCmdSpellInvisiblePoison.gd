@@ -3,7 +3,7 @@ extends LogCmdSpellBase
 
 func _init(param_dictionary).(param_dictionary):
 	image_path = "res://art/spells/poison.png"
-	name = "Invisible Poison"
+	name = "Poison"
 	mana_cost = 3
 	action_cost = 1
 	cooldown = 2

@@ -84,8 +84,8 @@ func setup(package:Dictionary={}):
 ## MANA
 
 var MAXIMUM_MANA_LIMIT = 20
-var MANA_REGEN = 20
-var STARTING_MANA = 8
+var MANA_REGEN = 1
+var STARTING_MANA = 4
 var player_mana = {}
 func get_player_mana(match_id):
 	return player_mana[match_id] if player_mana.has(match_id) else 0
@@ -121,6 +121,7 @@ func cleanup_marked_objects():
 func new_turn():
 	determine_next_turn_owner()
 	Terminal.add_log(Debug.INFO, Debug.MATCH, "New turn started. Current player: %d." % get_turn_owner())
+	modify_player_mana(get_turn_owner(), -MANA_REGEN)
 	propagate_effects(get_turn_owner())
 #	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
 	## TODO: IT SHOULDNT BE HERE

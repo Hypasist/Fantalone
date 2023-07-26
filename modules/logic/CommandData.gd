@@ -41,6 +41,8 @@ func execute_queue():
 			if not command.is_verified():
 				last_error = command.verify()
 				if last_error.is_invalid():
+					Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, \
+						"Invalid command - %s." % [last_error.get_invalid_string()])
 					queue.erase(command)
 					return last_error
 			command.execute()
@@ -64,40 +66,53 @@ func client_pack_and_send_queue():
 
 func server_unpack_verify_and_execute_queue(packed_queue):
 	var client_network_id = packed_queue[QueueDataPackage._QUEUE_INFO]["sender"]
-	# Check if turn counter is correct
-	if ((Data.MatchData.get_turn_counter() + 1) != \
-		packed_queue[QueueDataPackage._QUEUE_INFO]["queue_counter"]):
+	
+	# verify if turn counter and hash is correct
+	if QueueDataPackage.verify_pack(Data, packed_queue):
+		Data.MatchData.save_match_status()
+		QueueDataPackage.unpack_queue(Data, packed_queue)
+		var error = execute_queue()
+		if error.is_valid():
+			Data.MatchData.server_endturn_routine()
+			packed_queue = QueueDataPackage.repack_queue(Data)
+			mod.MatchNetworkAPI.broadcast_to_clients(MatchNetworkAPI.command.SERVER_BROADCAST_QUEUE, packed_queue)
+		else:
+			var error_string = error.get_invalid_string()
+			mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, client_network_id, error_string)
+			Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "%s - Restoring match status" % [error_string])
+			Data.MatchData.restore_match_status()
+		flush_queue()			
+	
+	else:
+		Terminal.add_log(Debug.INFO, Debug.QUEUE_NETWORK, \
+			"Discarded package from %d." % [packed_queue[QueueDataPackage._QUEUE_INFO]["sender"]])
 		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, \
 			client_network_id, ErrorInfo.new(ErrorInfo.invalid.invalid_turn_counter))
-		return
-	
-	Data.MatchData.save_match_status()
-	QueueDataPackage.unpack_queue(Data, packed_queue)
-	var error = execute_queue()
-	if error.is_valid():
-		Data.MatchData.server_endturn_routine()
-		packed_queue = QueueDataPackage.repack_queue(Data)
-		mod.MatchNetworkAPI.broadcast_to_clients(MatchNetworkAPI.command.SERVER_BROADCAST_QUEUE, packed_queue)
-	else:
-		var error_string = error.get_invalid_string()
-		mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, client_network_id, error_string)
-		Data.MatchData.restore_match_status()
-	flush_queue()
 
 func client_unpack_and_execute_queue(packed_queue):
-	# Check if turn counter is correct
-	if ((Data.MatchData.get_turn_counter() + 1) == \
-		packed_queue[QueueDataPackage._QUEUE_INFO]["queue_counter"]):
+	# verify if turn counter and hash is correct
+	if QueueDataPackage.verify_pack(Data, packed_queue):
+		Data.MatchData.save_match_status()
 		QueueDataPackage.unpack_queue(Data, packed_queue)
-		execute_queue()
+		var error = execute_queue()
+		if error.is_valid() and \
+			packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] == MatchDataPackage.get_current_hash(Data):
+			pass
+		else:
+			var error_string = error.get_invalid_string()
+			Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "%s - Restoring match status" % [error_string])
+			Data.MatchData.restore_match_status()
+			mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_MATCH_STATUS)
+		flush_queue()
 	
-	# Check if turn counter is correct
-	if packed_queue[QueueDataPackage._QUEUE_INFO]["hash"] != MatchDataPackage.get_current_hash(Data):
-		Data.MatchData.restore_match_status()
-		mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_MATCH_STATUS)
-	flush_queue()
+	else:
+		Terminal.add_log(Debug.INFO, Debug.QUEUE_NETWORK, \
+			"Discarded package from %d." % [packed_queue[QueueDataPackage._QUEUE_INFO]["sender"]])
 
 # debug
 func print_current_command_queue():
 	for command in get_queue():
 		print("%s - %s" % [command.get_command_name(), command.get_state_name()])
+func print_packaged_command_queue(package):
+	for record in package[QueueDataPackage._QUEUE_COMMANDS]:
+		print(" - %s" % [record["command_name"]])

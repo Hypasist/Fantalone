@@ -4,10 +4,12 @@ extends LogCmdSpellBase
 func _init(param_dictionary).(param_dictionary):
 	image_path = "res://art/spells/snowflake.png"
 	name = "Freeze"
-	mana_cost = 5
+	mana_cost = 4
 	action_cost = 1
 	cooldown = 4
 	selection_limit = 1
+	selected_tiles = param_dictionary["tiles"] if param_dictionary.has("tiles") else []
+
 
 func verify():
 	if selected_tiles.empty():
@@ -19,12 +21,14 @@ func verify():
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = "LogCmdSpellCreateUnit"
+	pack["command_name"] = "LogCmdSpellFreeze"
 	pack["caller"] = caller
 	pack["tiles"] = MatchLogic.pack_object_ids(selected_tiles)
 	return pack
 
 static func unpack_command(Data, pack):
+	var tiles = MatchLogic.unpack_object_ids(Data, pack["tiles"])
+	pack["tiles"] = tiles
 	return pack
 
 # ---------------------------------------------------- #
@@ -58,18 +62,9 @@ func new_selected(object:ObjectLogicBase):
 func clear_selection():
 	for tile in selected_tiles:
 		tile.set_select(false)
-	selected_tiles = []
 
-func validate():
-	if selected_tiles.empty():
-		return ErrorInfo.new(ErrorInfo.invalid.no_spell_target)
-	for tile in selected_tiles:
-		if not is_valid_selection(tile):
-			return ErrorInfo.new(ErrorInfo.invalid.invalid_spell_target)
-	return ErrorInfo.new()
-	
 func cast():
-	var error = validate()
+	var error = verify()
 	if error.is_valid():
 		caller = Data.MatchData.get_turn_owner()
 		Terminal.add_log(Debug.INFO, Debug.MATCH, "%s casted." % name)
@@ -93,4 +88,3 @@ func execute():
 			EffectShortlivedClass.new(caller, unit, 1).start_effect()
 	.execute()
 	set_state(states.done)
-	

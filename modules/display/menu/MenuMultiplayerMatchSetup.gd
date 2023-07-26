@@ -89,7 +89,6 @@ func restart_lobby_display():
 	buttonLabel_list = []
 
 
-
 func _on_change_name(object, value):
 	mod.LobbyNetworkAPI.send_to_server(LobbyNetworkAPI.command.NAME_CHANGE, \
 				object.lobby_member.unique_id, value)

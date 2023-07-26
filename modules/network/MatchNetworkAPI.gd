@@ -88,7 +88,6 @@ func match_network_execute_command(cmd, param1=null, param2=null, param3=null, p
 	match cmd:
 
 		## MATCH STATUS SYNCING
-
 		command.SERVER_CHECK_MATCH_SYNC:
 			var match_state_hash = MatchDataPackage.get_current_hash(mod)
 			rpc("match_network_execute_command", command.CLIENT_VERIFY_MATCH_SYNC, match_state_hash)

@@ -4,7 +4,7 @@ extends Node
 var Data = null
 
 var MAX_PLAYER_NUM = 8
-var MAP_PLAYER_NUM = 3
+var MAP_PLAYER_NUM = 2
 var MAX_OBSERVER_NUM = 8
 
 const COLOR_UNUSED = -1

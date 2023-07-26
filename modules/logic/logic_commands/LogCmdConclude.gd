@@ -19,7 +19,7 @@ func execute():
 
 func pack_command():
 	var pack = {}
-	pack["command_name"] = "LogCmdDummy"
+	pack["command_name"] = "LogCmdConclude"
 	return pack
 
 static func unpack_command(Data, pack):
