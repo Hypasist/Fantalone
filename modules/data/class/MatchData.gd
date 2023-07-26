@@ -168,7 +168,7 @@ func check_endgame_conditions():
 	
 	var players_alive = []
 	for player in players:
-		if get_players_units(player.match_id).size() <= ARMY_SIZE_TO_LOSE:
+		if get_players_army_size(player.match_id) > ARMY_SIZE_TO_LOSE:
 			players_alive.append(player.match_id)
 	if players_alive.size() <= 1:
 		Data.CommandData.new_command(LogCmdEndGame, {"caller":LogCmdBase.SERVER_CALL, "winner":players[0].match_id})
