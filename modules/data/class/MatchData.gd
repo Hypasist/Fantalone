@@ -43,7 +43,7 @@ func get_actions_left():
 
 ## ACTIONS
 
-var MAXIMUM_ACTION_LIMIT = 3
+var MAXIMUM_ACTION_LIMIT = 2
 var player_max_actions = {}
 func get_player_max_actions(match_id):
 	return player_max_actions[match_id] if player_max_actions.has(match_id) else 0
@@ -160,7 +160,7 @@ func propagate_effects(match_id):
 	for unit in units:
 		unit.propagate_effects()
 
-const MININIM_UNITS_TO_BE_ALIVE = 4
+const ARMY_SIZE_TO_LOSE = 6
 func check_endgame_conditions():
 	var players = Data.LobbyData.get_players()
 	if players.size() == 1:
@@ -168,7 +168,7 @@ func check_endgame_conditions():
 	
 	var players_alive = []
 	for player in players:
-		if get_players_units(player.match_id).size() > MININIM_UNITS_TO_BE_ALIVE:
+		if get_players_units(player.match_id).size() <= ARMY_SIZE_TO_LOSE:
 			players_alive.append(player.match_id)
 	if players_alive.size() <= 1:
 		Data.CommandData.new_command(LogCmdEndGame, {"caller":LogCmdBase.SERVER_CALL, "winner":players[0].match_id})

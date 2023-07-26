@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://modules/display/menu/MenuScreenBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://modules/display/menu/MenuMain.gd" type="Script" id=2]
 [ext_resource path="res://art/fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://art/fonts/cmu-typewriter/Typewriter.tres" type="DynamicFont" id=4]
+[ext_resource path="res://art/fonts/montreal/Montreal.tres" type="DynamicFont" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -12,16 +13,27 @@ font_data = ExtResource( 3 )
 [node name="MainMenu" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="NewGame" type="Button" parent="." index="0"]
+[node name="Title" type="Label" parent="." index="0"]
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.25
+grow_horizontal = 0
+grow_vertical = 0
+custom_fonts/font = ExtResource( 5 )
+text = "Fantalone"
+align = 1
+valign = 1
+
+[node name="NewGame" type="Button" parent="." index="1"]
 anchor_left = 0.2
 anchor_top = 0.3
 anchor_right = 0.6
 anchor_bottom = 0.4
 custom_fonts/font = SubResource( 1 )
 disabled = true
-text = "NEW GAME"
+text = "CAMPAIGN"
 
-[node name="CreateServer" type="Button" parent="." index="1"]
+[node name="CreateServer" type="Button" parent="." index="2"]
 anchor_left = 0.2
 anchor_top = 0.45
 anchor_right = 0.6
@@ -32,7 +44,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ConnectToServer" type="Button" parent="." index="2"]
+[node name="ConnectToServer" type="Button" parent="." index="3"]
 anchor_left = 0.2
 anchor_top = 0.6
 anchor_right = 0.6
@@ -40,7 +52,7 @@ anchor_bottom = 0.7
 custom_fonts/font = SubResource( 1 )
 text = "CONNECT TO SERVER"
 
-[node name="Options" type="Button" parent="." index="3"]
+[node name="Options" type="Button" parent="." index="4"]
 anchor_left = 0.2
 anchor_top = 0.75
 anchor_right = 0.6
@@ -51,11 +63,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VersionLabel" type="Label" parent="." index="4"]
+[node name="VersionLabel" type="Label" parent="." index="5"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -713, 127 )
 custom_fonts/font = ExtResource( 4 )
-text = "Version: x.x.x "
+text = "Version: x.x.x   
+"
+align = 2
+valign = 2
+
+[node name="StudioName" type="Label" parent="." index="6"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -713, 127 )
+custom_fonts/font = ExtResource( 4 )
+text = "created by Old Gnoll Studio   "
 align = 2
 valign = 2
 

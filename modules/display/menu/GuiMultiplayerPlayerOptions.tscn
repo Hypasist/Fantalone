@@ -28,9 +28,6 @@ margin_right = -10.0
 margin_bottom = -10.0
 rect_pivot_offset = Vector2( 230, -210 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Box" type="HBoxContainer" parent="."]
 margin_right = 1004.0

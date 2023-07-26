@@ -14,7 +14,9 @@ func ready(_match_id):
 	$Box/LeftColor.set_disabled(true)
 	$Box/RightColor.set_disabled(true)
 	if mod.NetworkData.is_admin():
-		$Box/AddBotButton.set_disabled(false)
+		# Overriden, no AI yet 
+		# $Box/AddBotButton.set_disabled(false)
+		$Box/AddBotButton.set_disabled(true)
 		$Box/AddHumanButton.set_disabled(false)
 		$Box/DeleteButton.set_disabled(true)
 	else:

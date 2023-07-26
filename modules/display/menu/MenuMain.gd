@@ -1,7 +1,7 @@
 extends MenuScreenBase
 
 func _ready():
-	$VersionLabel.set_text("Version: %s    " % mod.GameData.get_version())
+	$VersionLabel.set_text("Version: %s   \n" % mod.GameData.get_version())
 
 func _on_NewGame_pressed():
 	mod.Menu.switch_screens(mod.Menu.singleplayer_setup)
