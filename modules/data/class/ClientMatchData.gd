@@ -5,6 +5,7 @@ func start_match(package:Dictionary={}):
 	mod.Menu.hide_menu()
 	mod.GameUI.set_selection_mode(GameUI.SELECTION_MODE_NONE)
 	setup(package)
+	Data.CommandData.save_match_status()
 	mod.Graphics.setup_graphics()
 	mod.MapView.setup_map()
 	mod.GameUI.setup()

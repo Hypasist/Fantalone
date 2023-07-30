@@ -7,6 +7,8 @@ var expected_hash = null
 var queue = []
 func get_queue():
 	return queue
+func any_command_issued():
+	return not queue.empty()
 
 func setup():
 	flush_queue()
@@ -69,7 +71,7 @@ func server_unpack_verify_and_execute_queue(packed_queue):
 	
 	# verify if turn counter and hash is correct
 	if QueueDataPackage.verify_pack(Data, packed_queue):
-		Data.MatchData.save_match_status()
+		save_match_status()
 		QueueDataPackage.unpack_queue(Data, packed_queue)
 		var error = execute_queue()
 		if error.is_valid():
@@ -80,7 +82,7 @@ func server_unpack_verify_and_execute_queue(packed_queue):
 			var error_string = error.get_invalid_string()
 			mod.MatchNetworkAPI.send_to_client(MatchNetworkAPI.command.SERVER_DISCARD_QUEUE, client_network_id, error_string)
 			Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "%s - Restoring match status" % [error_string])
-			Data.MatchData.restore_match_status()
+			restore_match_status()
 		flush_queue()			
 	
 	else:
@@ -92,7 +94,7 @@ func server_unpack_verify_and_execute_queue(packed_queue):
 func client_unpack_and_execute_queue(packed_queue):
 	# verify if turn counter and hash is correct
 	if QueueDataPackage.verify_pack(Data, packed_queue):
-		Data.MatchData.save_match_status()
+		save_match_status()
 		QueueDataPackage.unpack_queue(Data, packed_queue)
 		var error = execute_queue()
 		if error.is_valid() and \
@@ -101,13 +103,23 @@ func client_unpack_and_execute_queue(packed_queue):
 		else:
 			var error_string = error.get_invalid_string()
 			Terminal.add_log(Debug.ERROR, Debug.QUEUE_NETWORK, "%s - Restoring match status" % [error_string])
-			Data.MatchData.restore_match_status()
+			restore_match_status()
 			mod.MatchNetworkAPI.send_to_server(MatchNetworkAPI.command.CLIENT_REQUEST_MATCH_STATUS)
 		flush_queue()
 	
 	else:
 		Terminal.add_log(Debug.INFO, Debug.QUEUE_NETWORK, \
 			"Discarded package from %d." % [packed_queue[QueueDataPackage._QUEUE_INFO]["sender"]])
+
+## MATCH STATE SAVE / LOAD
+var saved_match_status = null
+func save_match_status():
+	saved_match_status = MatchDataPackage.pack_match(Data)
+func restore_match_status():
+	mod.ControllerData.deselect_all_units()
+	Data.MatchData.setup(saved_match_status)
+	flush_queue()
+	mod.ControllerData.update_display()
 
 # debug
 func print_current_command_queue():

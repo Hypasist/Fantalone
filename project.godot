@@ -380,11 +380,6 @@ _global_script_classes=[ {
 "path": "res://modules/logic/logic_commands/LogCmdSpellInvisiblePoison.gd"
 }, {
 "base": "LogCmdSpellBase",
-"class": "LogCmdSpellMovement",
-"language": "GDScript",
-"path": "res://modules/logic/logic_commands/LogCmdSpellMovement.gd"
-}, {
-"base": "LogCmdSpellBase",
 "class": "LogCmdSpellTeleportUnit",
 "language": "GDScript",
 "path": "res://modules/logic/logic_commands/LogCmdSpellTeleportUnit.gd"
@@ -769,7 +764,6 @@ _global_script_class_icons={
 "LogCmdSpellCreateUnit": "",
 "LogCmdSpellFreeze": "",
 "LogCmdSpellInvisiblePoison": "",
-"LogCmdSpellMovement": "",
 "LogCmdSpellTeleportUnit": "",
 "LogCmdSpellUntire": "",
 "LogSubCmdBase": "",

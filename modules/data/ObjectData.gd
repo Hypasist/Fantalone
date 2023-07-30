@@ -86,8 +86,8 @@ func copy_object(pack):
 				logic_scene.assign_display_scene(display_scene)
 				mod.MapView.add_tile_resource(display_scene)
 		Resources.EffectDead, Resources.EffectFrozen, Resources.EffectTired:
-			var caster = mod.MatchData.get_unit_by_name(pack["caster"])
-			var target = mod.MatchData.get_unit_by_name(pack["target"])
+			var caster = MatchLogic.get_object_by_name(Data, pack["caster"])
+			var target = MatchLogic.get_object_by_name(Data, pack["target"])
 			var logic_scene = resource.logic_scene.new(caster, target, pack["duration"])
 			logic_scene.start_effect()
 

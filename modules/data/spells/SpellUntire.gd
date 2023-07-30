@@ -15,7 +15,6 @@ func new_selected(object:ObjectLogicBase):
 			clear_selection()
 			object.set_select(true)
 			selected_tiles.append(object)
-			print(object.get_name_id())
 
 func clear_selection():
 	if not selected_tiles.empty():
@@ -24,7 +23,6 @@ func clear_selection():
 		selected_tiles.clear()
 
 func cast(Data):
-	print("EffectTired casted!")
 	for tile in selected_tiles:
 		var unit = tile.get_hex().get_unit()
 		unit.erase_effect_class(EffectTiredClass)

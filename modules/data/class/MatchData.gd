@@ -60,14 +60,6 @@ func is_match_id_locally_present(match_id):
 				return true
 	return false
 
-## MATCH STATE SAVE / LOAD
-
-var saved_match_status = null
-func save_match_status():
-	saved_match_status = MatchDataPackage.pack_match(Data)
-func restore_match_status():
-	setup(saved_match_status)
-
 ## SETUP
 
 func setup(package:Dictionary={}):
@@ -126,6 +118,7 @@ func new_turn():
 #	mod.MatchNetwork.execute_command(MatchNetworkAPI.command.SERVER_BROADCAST_MATCH_STATUS)
 	## TODO: IT SHOULDNT BE HERE
 	cleanup_marked_objects()
+	Data.CommandData.save_match_status()
 
 func verify_movement(unit_list, direction):
 	var movement = FormationLogic.recognize_movement_unit(Data, unit_list, direction)
@@ -173,7 +166,6 @@ func check_endgame_conditions():
 	if players_alive.size() <= 1:
 		Data.CommandData.new_command(LogCmdEndGame, {"caller":LogCmdBase.SERVER_CALL, "winner":players[0].match_id})
 
-
 func server_endturn_routine():
 	check_endgame_conditions()
 
@@ -188,4 +180,3 @@ func get_players_units(match_id):
 	return MatchLogic.get_players_units(Data, match_id)
 func get_players_army_size(match_id):
 	return MatchLogic.get_players_army_size(Data, match_id)
-

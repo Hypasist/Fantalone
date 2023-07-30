@@ -16,7 +16,15 @@ func set_controlled_data(_Data):
 func get_controlled_data():
 	return Data
 
+## Cancel selection / Restore turn button handling
+
+func any_command_issued():
+	return Data.CommandData.any_command_issued()
+func restore_match_status():
+	Data.CommandData.restore_match_status()
+
 ## 
+
 var selected_units = []
 func setup():
 	selected_units = []
@@ -44,6 +52,7 @@ func new_unit_selected(new_unit:UnitLogicBase):
 			deselect_all_units()
 	else:
 		Terminal.add_log(Debug.ERROR, Debug.MATCH, "New_item_status/selected_list mismatch")
+	mod.GameUI.update_ui()
 
 func select_unit(unit):
 	selected_units.append(unit)
@@ -54,12 +63,13 @@ func deselect_unit(unit):
 	selected_units.erase(unit)
 #	unit.get_hex().get_tile().set_select(false)
 	unit.set_select(false)
-	
+		
 func deselect_all_units():
 	for unit in selected_units:
 #		unit.get_hex().get_tile().set_select(false)
 		unit.set_select(false)
 	selected_units.clear()
+	mod.GameUI.update_ui()
 
 func is_selected_move_valid(direction):
 	return FormationLogic.is_move_valid(Data, selected_units, direction)
