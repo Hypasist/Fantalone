@@ -5,7 +5,6 @@ func _ready():
 	mod.Game = self
 	
 	# STATIC LOGIC LIBRARIES
-	mod.HexMath = $StaticLogicLibraries/HexMath
 	mod.LobbyLogic = $StaticLogicLibraries/LobbyLogic
 	mod.FormationLogic = $StaticLogicLibraries/FormationLogic
 	mod.ControllerLogic = $StaticLogicLibraries/ControllerLogic

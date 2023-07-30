@@ -5,7 +5,7 @@ extends Node2D
 var logic = null
 func assign_logic_scene(logic_scene):
 	logic = logic_scene
-	position = mod.HexMath.hex_to_position(logic.get_hex().get_coords())
+	position = HexMath.hex_to_position(logic.get_hex().get_coords())
 
 func execute_display_queue(_comp_object_, _comp_method_):
 	pass

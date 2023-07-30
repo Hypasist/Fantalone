@@ -93,25 +93,3 @@ static func unpack_object_ids(Data, object_ids):
 		if object_ids.has(tile._name_id):
 			objects.append(tile)
 	return objects
-
-## ----------------------------------- ##
-
-
-func check_endgame_conditions():
-	var alive_players = 0
-	for player in mod.LobbyData.get_players():
-		if mod.MatchData.get_players_units(player.match_id).size() > 0:
-			alive_players += 1
-	return true if alive_players <=1 else false
-
-# NOT USED, DELETE
-func is_game_over():
-	if check_endgame_conditions():
-		mod.MatchData.pause_game()
-		mod.Popups.create_custom_popup("Game finished!\n%s won!" % "Someone", ["Continue"], [true], self, "_on_finish_popup_handler")
-		return true
-	else:
-		return false
-
-func _on_finish_popup_handler(value):
-	mod.ClientData.MatchData.stop_match()
