@@ -16,7 +16,9 @@ func setup():
 
 func update():
 	update_end_turn_button()
-	update_action_counter()
+#	update_action_counter()
+	update_restore_button()
+	update_cancel_selection_button()
 	for player in mod.ClientData.LobbyData.get_players():
 		var turn_owner = (mod.ClientData.MatchData.get_turn_owner() == player.match_id)
 		var army_size = mod.ClientData.MatchData.get_players_army_size(player.match_id)
@@ -31,6 +33,12 @@ func update_end_turn_button():
 
 func update_action_counter():
 	$TurnUI.update()
+
+func update_restore_button():
+	$RestoreTurn.update()
+	
+func update_cancel_selection_button():
+	$CancelSelection.update()
 
 func delete_bar(match_id):
 	if player_summary.has(match_id):
