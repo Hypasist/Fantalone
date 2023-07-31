@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://modules/logic/ControllerLogic.gd" type="Script" id=2]
-[ext_resource path="res://modules/logic/LobbyLogic.gd" type="Script" id=5]
 [ext_resource path="res://modules/logic/MatchLogic.gd" type="Script" id=6]
 [ext_resource path="res://modules/logic/HexMath.gd" type="Script" id=7]
 [ext_resource path="res://modules/logic/FormationLogic.gd" type="Script" id=8]
@@ -16,9 +15,6 @@ script = ExtResource( 2 )
 
 [node name="FormationLogic" type="Node" parent="."]
 script = ExtResource( 8 )
-
-[node name="LobbyLogic" type="Node" parent="."]
-script = ExtResource( 5 )
 
 [node name="MatchLogic" type="Node" parent="."]
 script = ExtResource( 6 )

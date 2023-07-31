@@ -224,11 +224,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://modules/display/menu/GuiMultiplayerPlayerOptions.gd"
 }, {
-"base": "Control",
-"class": "GuiSingleplayerPlayerOptions",
-"language": "GDScript",
-"path": "res://modules/display/menu/GuiSingleplayerPlayerOptions.gd"
-}, {
 "base": "Reference",
 "class": "HEXConstants",
 "language": "GDScript",
@@ -298,11 +293,6 @@ _global_script_classes=[ {
 "class": "LobbyDataPackage",
 "language": "GDScript",
 "path": "res://modules/network/Packages/LobbyDataPackage.gd"
-}, {
-"base": "Node",
-"class": "LobbyLogic",
-"language": "GDScript",
-"path": "res://modules/logic/LobbyLogic.gd"
 }, {
 "base": "Reference",
 "class": "LobbyMemberInfo",
@@ -657,7 +647,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "TouchscreenScripts",
 "language": "GDScript",
-"path": "res://utils/TouchscreenScripts.gd"
+"path": "res://utils/touchscreenScripts.gd"
 }, {
 "base": "Control",
 "class": "TurnUI",
@@ -733,7 +723,6 @@ _global_script_class_icons={
 "GameUI": "",
 "Graphics": "",
 "GuiMultiplayerPlayerOptions": "",
-"GuiSingleplayerPlayerOptions": "",
 "HEXConstants": "",
 "Hex": "",
 "HexCoords": "",
@@ -748,7 +737,6 @@ _global_script_class_icons={
 "InputEventSingleScreenTouch": "",
 "LobbyData": "",
 "LobbyDataPackage": "",
-"LobbyLogic": "",
 "LobbyMemberInfo": "",
 "LobbyNetworkAPI": "",
 "LogCmd": "",
