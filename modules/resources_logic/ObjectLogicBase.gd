@@ -1,7 +1,7 @@
 class_name ObjectLogicBase
 
 var hex = null
-var display : ObjectDisplayBase = null
+var display = null
 var _name_id = null
 var _marked_to_delete = false
 var _selected = false
@@ -9,7 +9,7 @@ var _selected = false
 func _init(name_id):
 	_name_id = name_id
 
-func assign_display_scene(display_scene:ObjectDisplayBase):
+func assign_display_scene(display_scene):
 	display_scene.assign_logic_scene(self)
 	display = display_scene
 

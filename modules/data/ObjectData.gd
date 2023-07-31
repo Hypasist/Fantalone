@@ -33,7 +33,7 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 	match resource_name:
 		Resources.Ball, Resources.Icecube:
 			#qr_coords, owner_id
-			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
+			var hex = HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
 			var unique_name = get_unique_name(resource_name)
 			var logic_scene = resource.logic_scene.new(unique_name, match_id)
 			unit_list.append(logic_scene)
@@ -46,7 +46,7 @@ func create_new_object(resource_name, coords, match_id=null, _arg1=null, _arg2=n
 			return logic_scene
 		Resources.Water, Resources.Rocks, Resources.Grass:
 			#qr_coords
-			var hex = mod.HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
+			var hex = HexMath.get_hex_by_xy_coords(hex_dictionary, coords)
 			var unique_name = get_unique_name(resource_name)
 			var logic_scene = resource.logic_scene.new(unique_name)
 			tile_list.append(logic_scene)
@@ -62,7 +62,7 @@ func copy_object(pack):
 	var resource = mod.ResourceData.get_resource(pack["resource"])
 	match pack["resource"]:
 		Resources.Ball, Resources.Icecube:
-			var hex = mod.HexMath.get_hex_by_qr_coords(hex_dictionary, \
+			var hex = HexMath.get_hex_by_qr_coords(hex_dictionary, \
 						HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])
 			var logic_scene = resource.logic_scene.new(unique_name, pack["match_id"])
@@ -74,7 +74,7 @@ func copy_object(pack):
 				logic_scene.assign_display_scene(display_scene)
 				mod.MapView.add_unit_resource(display_scene)
 		Resources.Water, Resources.Rocks, Resources.Grass:
-			var hex = mod.HexMath.get_hex_by_qr_coords(hex_dictionary, \
+			var hex = HexMath.get_hex_by_qr_coords(hex_dictionary, \
 						HexCoords.new(pack["hex"]["q"], pack["hex"]["r"]))
 			var unique_name = assimilate_unique_name(pack["unique_id"])
 			var logic_scene = resource.logic_scene.new(unique_name)

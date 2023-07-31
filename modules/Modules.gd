@@ -1,16 +1,7 @@
 extends Node
 
-var Database = null
-var Logic = null
-var MatchLogic = null
-var MovementLogic = null
-var MatchUI = null
-var SpellList = null
-
-
 var Game = null
 
-var HexMath = null # DELETE THIS
 var LobbyLogic = null
 var FormationLogic = null
 var ControllerLogic = null
