@@ -1,4 +1,4 @@
-#Notes
+# Notes
 # - make move option a separate logcmd
 # - make optional argument to logcmd (to be subcommands)
 #   difference between sub and non-sub should be that only non-sub are sent
@@ -12,3 +12,8 @@
 # - cancel selection button
 # - start turn anew button
 # - chance 'packing' and 'unpacking' to serialize/deserialize 
+
+
+# Known Defects
+# - Restoring game state doesnt work properly when issued during move animation
+# - [MP games] Disconnection of server doesn't trigger anything

@@ -24,6 +24,4 @@ func calculate_map_boundaries():
 	 				+ mod.Graphics.get_map_bounds_padding()
 	mod.Graphics.set_min_map_boundaries(min_hex_coords)
 	mod.Graphics.set_max_map_boundaries(max_hex_coords)
-
-func calculate_map_center():
-	pass
+	mod.Graphics.set_map_center((max_hex_coords + min_hex_coords)/2)
