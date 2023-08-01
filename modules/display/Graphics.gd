@@ -31,6 +31,7 @@ func set_resolution(_resolution):
 ##
 var min_map_boundaries = Vector2(-100, -100)
 var max_map_boundaries = Vector2(1124, 700)
+var map_center = Vector2(1224/2, 800/2)
 
 func get_min_map_boundaries():
 	return min_map_boundaries
@@ -40,6 +41,10 @@ func set_min_map_boundaries(value:Vector2):
 	min_map_boundaries = value
 func set_max_map_boundaries(value:Vector2):
 	max_map_boundaries = value
+func get_map_center():
+	return map_center
+func set_map_center(value:Vector2):
+	map_center = value
 
 ##
 

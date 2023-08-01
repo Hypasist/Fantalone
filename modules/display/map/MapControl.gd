@@ -84,3 +84,8 @@ func calculate_mapview_position(new_center, new_scale):
 		new_center = Utils.max2(minPositionValue + screen_resolution/new_scale/2.0, new_center)
 		new_center = Utils.min2(maxPositionValue - screen_resolution/new_scale/2.0, new_center)
 	return center_to_position(screen_resolution, new_scale, new_center)
+
+### --- UTILS --- ###
+func move_to_center():
+	set_mapview_position(mod.Graphics.get_map_center(), map.scale)
+
