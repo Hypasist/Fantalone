@@ -12,3 +12,6 @@
 # - cancel selection button
 # - start turn anew button
 # - chance 'packing' and 'unpacking' to serialize/deserialize 
+
+# - for some reasons selected units are persistent between matches
+# - turn owner is persistent between matches
