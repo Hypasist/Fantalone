@@ -647,7 +647,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "TouchscreenScripts",
 "language": "GDScript",
-"path": "res://utils/TouchscreenScripts.gd"
+"path": "res://utils/touchscreenScripts.gd"
 }, {
 "base": "Control",
 "class": "TurnUI",
