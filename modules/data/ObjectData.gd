@@ -122,9 +122,13 @@ func remove_unit_list(removal_list):
 func remove_unit(unit, force_remove=false):
 #	Terminal.add_log(Debug.ALL, Debug.MATCH, "Unit %s erased!" % unit.get_name_id())
 	unit.get_hex().unit_logic = null
-	if unit.display and (true if force_remove else unit.display.display_deletable()):
-		unit.display.queue_free()
-	unit_list.erase(unit)
+	if unit.display:
+		if force_remove or unit.display.display_deletable():
+			unit.display.abort_display_queue()
+			unit.display.queue_free()
+			unit_list.erase(unit)
+	else:
+		unit_list.erase(unit)
 
 ## TILES
 

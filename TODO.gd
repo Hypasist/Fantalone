@@ -13,7 +13,7 @@
 # - start turn anew button
 # - chance 'packing' and 'unpacking' to serialize/deserialize 
 
-
 # Known Defects
-# - Restoring game state doesnt work properly when issued during move animation
 # - [MP games] Disconnection of server doesn't trigger anything
+# - for some reasons selected units are persistent between matches
+# - turn owner is persistent between matches

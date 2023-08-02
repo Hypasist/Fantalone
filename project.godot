@@ -90,11 +90,6 @@ _global_script_classes=[ {
 "path": "res://modules/logic/display_commands/DisCmdBase.gd"
 }, {
 "base": "DisCmdBase",
-"class": "DisCmdDeleteVisual",
-"language": "GDScript",
-"path": "res://modules/logic/display_commands/DisCmdDeleteVisual.gd"
-}, {
-"base": "DisCmdBase",
 "class": "DisCmdFreezeUnit",
 "language": "GDScript",
 "path": "res://modules/logic/display_commands/DisCmdFreezeUnit.gd"
@@ -647,7 +642,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "TouchscreenScripts",
 "language": "GDScript",
-"path": "res://utils/touchscreenScripts.gd"
+"path": "res://utils/TouchscreenScripts.gd"
 }, {
 "base": "Control",
 "class": "TurnUI",
@@ -696,7 +691,6 @@ _global_script_class_icons={
 "CustomTween2": "",
 "Debug": "",
 "DisCmdBase": "",
-"DisCmdDeleteVisual": "",
 "DisCmdFreezeUnit": "",
 "DisCmdGetDrown": "",
 "DisCmdGetPushedToDeath": "",

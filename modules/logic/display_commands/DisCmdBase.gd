@@ -23,6 +23,9 @@ func execute():
 func complete():
 	emit_signal("command_completed")
 
+func abort():
+	object_display.hide()
+
 func _release_lock(_object = null, _key = null):
 	incomplete_locks = max(0, incomplete_locks - 1)
 	if incomplete_locks == 0:
