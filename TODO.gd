@@ -1,4 +1,4 @@
-#Notes
+# Notes
 # - make move option a separate logcmd
 # - make optional argument to logcmd (to be subcommands)
 #   difference between sub and non-sub should be that only non-sub are sent
@@ -13,5 +13,7 @@
 # - start turn anew button
 # - chance 'packing' and 'unpacking' to serialize/deserialize 
 
+# Known Defects
+# - [MP games] Disconnection of server doesn't trigger anything
 # - for some reasons selected units are persistent between matches
 # - turn owner is persistent between matches

@@ -5,6 +5,7 @@ func setup_map():
 	hide()
 	$MapControl.setup()
 	$Map.calculate_map_boundaries()
+	$MapControl.move_to_center()
 	show()
 
 func zoom(_center, zoom_value, isStep=false):
