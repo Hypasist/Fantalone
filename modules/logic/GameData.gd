@@ -4,7 +4,7 @@ extends Node
 const MAX_PLAYERS = 8
 
 ### VARIOUS CONSTANTS
-const game_version = "0.3.1"
+const game_version = "0.3.2"
 func get_version():
 	return game_version
 
