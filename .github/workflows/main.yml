@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: croconut/godot-tester@v5.1
+    - uses: RGonzalezTech/godot-tester@rg/custom-godot-binary
       with:
         # required
         version: "4.3"
@@ -41,6 +41,7 @@ jobs:
         config-file: "res://.myconfig.json" 
         # designate a custom url to download the godot binary from
         custom-godot-dl-url: "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_mono_linux_x86_64.zip"
+        custom-godot-binary-path: "Godot_v4.3-stable_linux.x86_64"
         # relative path to the xml file to read / write GUT's results from, recommended
         # for direct-scene users to check this file if you have issues
         result-output-file: "test_results.xml"
