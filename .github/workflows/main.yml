@@ -1,34 +1,46 @@
-            - name: godot-tester
-  # You may pin to the exact commit or the version.
-  # uses: croconut/godot-tester@c0b6cffca6fd87793334bdb9cac050228b43eb74
-  uses: croconut/godot-tester@v5.1
-  with:
-    # Your Godot version number e.g. 3.2.2
-    version: # default is 3.2.2
-    # Your Godot release type e.g. rc2, beta3
-    release_type: # optional, default is stable
-    # Give relative path to your project.godot, if not in top level of repo
-    path: # optional, default is ./
-    # Test against mono version? Default: false
-    is-mono: # optional, default is false
-    # How long to spend on importing assets, don't set if testing is not required
-    import-time: # optional, default is 15
-    # How long the test should be run before it's timed out and fails
-    test-timeout: # optional, default is 300
-    # Decimal value for minimum passing score e.g. if 88% of tests pass and minimum-pass is 0.8, then action passes.
-    minimum-pass: # optional, default is 0.99
-    # Directory containing Gut tests
-    test-dir: # optional, default is res://test
-    # If instead of running the GUT command line you'd like to run a GUT scene instead: recommended to extend gut's plugin script and exit godot when all tests complete
-    direct-scene: # optional, default is false
-    # Set to true to check by assert count instead of tests
-    assert-check: # optional, default is false
-    # Maximum number of failing asserts or tests, if this or pass rate fails then the action will fail. Is not checked if you do not set it
-    max-fails: # optional, default is false
-    # Full path to your GUT config file, e.g. 'res://<path>/<config>.json'.
-    config-file: # optional, default is res://.gutconfig.json
-    # URL where a precompiled, custom Godot binary will be downloaded and used instead of an official Godot binary.
-    custom-godot-dl-url: # optional, default is 
-    # Filename to store and read results in XML
-    result-output-file: # optional, default is test_results.xml
-          
+name: Godot testing
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: croconut/godot-tester@v5
+      with:
+        # required
+        version: "4.3"
+        # the type of release of godot that the tests should be run with
+        release_type: "rc2"
+        is-mono: "true"
+        # the folder with your project.godot file in it
+        path: "tester"
+        # how long to spend importing assets before tests are run
+        import-time: "5"
+        # how long tests can run in seconds
+        test-timeout: "45"
+        # the ratio of tests that must pass for this action to pass
+        # e.g. 0.6 means 60% of your tests must pass
+        minimum-pass: "0.6"
+        # the directory containing Gut tests
+        test-dir: "res://test"
+        # instead of running GUT's command line tool, 
+        # you can run a test scene if you have one
+        # set up a scene like in this repo --> located at /tester_GUT_v9.0.1/test/alt_mode/tests.tscn
+        # set up a script like in this repo --> located at /tester_GUT_v9.0.1/test/alt_mode/cli_test.gd
+        # ensure that the script exits on test completion
+        # uses relative path from your godot project directory
+        direct-scene: "tester_GUT_v9.0.1/test/alt_mode/tests.tscn" 
+        # default is false, set true to count asserts instead of tests
+        assert-check: "true" 
+        # not checked by default, set to a number to limit the 
+        # maximum amount of failed tests for a passing test suite
+        max-fails: 3  
+        # default is GUTs default: 'res://.gutconfig.json'; set this to load a different config file
+        config-file: "res://.myconfig.json" 
+        # designate a custom url to download the godot binary from
+        custom-godot-dl-url: ""
+        # relative path to the xml file to read / write GUT's results from, recommended
+        # for direct-scene users to check this file if you have issues
+        result-output-file: "test_results.xml"
