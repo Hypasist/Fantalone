@@ -8,5 +8,5 @@
 	"log_to_stdout"=true,
     "should_exit":true,
     "should_maximize":false,
-	"junit_xml_file":"res://tester/test_results.xml"
+	"junit_xml_file":"user://results.xml"
 }
