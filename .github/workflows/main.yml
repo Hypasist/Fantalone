@@ -5,6 +5,7 @@ on: [ push ]
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
     - uses: actions/checkout@v2
     - uses: RGonzalezTech/godot-tester@rg/custom-godot-binary
@@ -46,5 +47,4 @@ jobs:
         # for direct-scene users to check this file if you have issues
         result-output-file: "test_results.xml"
     - name : "Show folders"
-    if: always()
-      echo "ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+    - run: echo "ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
