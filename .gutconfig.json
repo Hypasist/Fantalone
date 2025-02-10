@@ -5,5 +5,6 @@
     "prefix":"test_",
     "should_exit":true,
     "should_maximize":true,
-    "suffix":".gd"
+    "suffix":".gd",
+	"junit_xml_file":"res://test_results.xml",
 }
