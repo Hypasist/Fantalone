@@ -15,7 +15,7 @@ jobs:
         release_type: "rc2"
         is-mono: "true"
         # the folder with your project.godot file in it
-        path: ""
+        path: "tester"
         # how long to spend importing assets before tests are run
         import-time: "5"
         # how long tests can run in seconds
@@ -38,7 +38,7 @@ jobs:
         # maximum amount of failed tests for a passing test suite
         max-fails: 3  
         # default is GUTs default: 'res://.gutconfig.json'; set this to load a different config file
-        config-file: "res://.myconfig.json" 
+        config-file: "res://.gutconfig.json" 
         # designate a custom url to download the godot binary from
         custom-godot-dl-url: "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_mono_linux_x86_64.zip"
         custom-godot-binary-path: "Godot_v4.3-stable_linux.x86_64"
