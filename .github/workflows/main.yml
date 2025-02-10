@@ -44,7 +44,7 @@ jobs:
         custom-godot-binary-path: "Godot_v4.3-stable_linux.x86_64"
         # relative path to the xml file to read / write GUT's results from, recommended
         # for direct-scene users to check this file if you have issues
-        result-output-file: "test_results.xml"
+        result-output-file: "res://tester/test_results.xml"
     - run: |
         sudo apt-get install tree
         tree /github
