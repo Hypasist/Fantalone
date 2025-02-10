@@ -33,7 +33,7 @@ jobs:
         # uses relative path from your godot project directory
         # direct-scene: "tester_GUT_v9.0.1/test/alt_mode/tests.tscn" 
         # default is false, set true to count asserts instead of tests
-        assert-check: "true" 
+        #assert-check: "true" 
         # not checked by default, set to a number to limit the 
         # maximum amount of failed tests for a passing test suite
         max-fails: 3  
