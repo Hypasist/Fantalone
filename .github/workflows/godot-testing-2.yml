@@ -13,7 +13,7 @@ jobs:
       - name: Testing
         uses: jamie-pate/run-gut-tests-action@v2.0.3
         with:
-          containerImage: trashbarichello/godot-ci:latest
+          containerImage: barichello/godot-ci:latest
           useContainer: true
           godotFlags: --headless
           gutConfigpath: tests/.gutconfig.json
