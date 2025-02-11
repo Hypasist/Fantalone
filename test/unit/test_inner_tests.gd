@@ -8,6 +8,11 @@ class TestFeatureA:
 
 	func before_each():
 		_obj = Obj.new()
+		add_child(_obj)
+
+	func after_each():
+		_obj.free();
+		_obj = null
 
 	func test_something():
 		assert_true(_obj.is_something_cool(), 'Should be cool.')
@@ -20,6 +25,11 @@ class TestFeatureB:
 
 	func before_each():
 		_obj = Obj.new()
+		add_child(_obj)
+	
+	func after_each():
+		_obj.free();
+		_obj = null
 
 	func test_foobar():
 		assert_eq(_obj.foo(), 'bar', 'Foo should return bar')
