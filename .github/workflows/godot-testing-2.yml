@@ -16,6 +16,6 @@ jobs:
           containerImage: barichello/godot-ci:latest
           useContainer: true
           godotFlags: --headless
-          directory: tests
+          directory: test
           gutConfigpath: ./.gutconfig.json
       
