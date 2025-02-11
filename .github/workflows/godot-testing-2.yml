@@ -10,12 +10,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-          path: build
       - name: Testing
         uses: jamie-pate/run-gut-tests-action@v2.0.3
         with:
           containerImage: barichello/godot-ci:latest
           useContainer: true
           godotFlags: --headless --import --quit --verbose
-          gutConfigpath: build/test/.gutconfig.json
+          directory: /home/runner/work/Fantalone/Fantalone
+          gutConfigpath: test/.gutconfig.json
       
