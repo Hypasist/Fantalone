@@ -18,4 +18,5 @@ jobs:
           godotFlags: --headless
           directory: /home/runner/work/Fantalone/Fantalone
           gutConfigpath: test/.gutconfig.json
+          importGodotResources: true
       
