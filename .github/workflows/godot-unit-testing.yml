@@ -11,7 +11,7 @@ jobs:
         with:
           lfs: true
       - name: Testing
-        uses: Hypasist/run-gut-tests-action-butdifferent@v0.2.0
+        uses: Hypasist/run-gut-tests-action-butdifferent@v0
         with:
           containerImage: barichello/godot-ci:latest
           useContainer: true
