@@ -10,6 +10,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Demo Action
+        uses: Hypasist/action-demo@f3270a6b158a1579da3a1a99fb78e8d3266068fd
       - name: Testing
         uses: Hypasist/run-gut-tests-action-butdifferent@v0
         with:
