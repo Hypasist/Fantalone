@@ -11,11 +11,12 @@ jobs:
         with:
           lfs: true
       - name: Testing
-        uses: jamie-pate/run-gut-tests-action@v2.0.3
+        uses: Hypasist/run-gut-tests-action@v1.0
         with:
           containerImage: barichello/godot-ci:latest
           useContainer: true
           godotFlags: --headless
           directory: /home/runner/work/Fantalone/Fantalone
           gutConfigpath: test/.gutconfig.json
+          importGodotResources: true
       
