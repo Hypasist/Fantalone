@@ -11,7 +11,7 @@ jobs:
         with:
           lfs: true
       - name: Demo Action
-        uses: Hypasist/action-demo@f3270a6b158a1579da3a1a99fb78e8d3266068fd
+        uses: Hypasist/action-demo@6065f2200d83b064ce1149e42238568c2b5815b6
       - name: Testing
         uses: Hypasist/run-gut-tests-action-butdifferent@v0
         with:
