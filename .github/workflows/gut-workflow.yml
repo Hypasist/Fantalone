@@ -12,11 +12,20 @@ jobs:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Testing ${{ github.repository }}/${{ github.ref }} on ${{ runner.os }} server hosted by GitHub!"
       - name: Check out repository code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          # path:
+      - name: Check out repository code
         id: checkouts
         uses: actions/checkout@v4
+        with:
+          repository: bitwes/Gut
+          # path:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: List files in the repository
-        run: pwd && ls
+        run: pwd && ls && echo $GITHUB_WORKSPACE
       #- run: echo "Job's status is ${{ job.status }}."
       - name: Run the tests
         id: testing
@@ -25,4 +34,4 @@ jobs:
       #    who-to-greet: 'Shelob, Child of Ungoliant'
       # Use the output from the `hello` step
       - name: Summary
-        run: echo "Checkout time ${{ steps.checkouts.outputs.time }}\nTesting time ${{ steps.testing.outputs.time }}."
+        run: echo "Checkout time ${{ steps.checkout.outputs.time }}\nTesting time ${{ steps.testing.outputs.time }}."
