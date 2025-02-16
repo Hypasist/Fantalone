@@ -24,6 +24,7 @@ jobs:
           repository: bitwes/Gut
           path: gut
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "NODE_ENV $NODE_ENV"
       - name: List files in the repository
         run: pwd && ls && echo $GITHUB_WORKSPACE && echo ${{ github.workspace }}
       #- run: echo "Job's status is ${{ job.status }}."
