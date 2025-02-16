@@ -16,13 +16,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-          # path:
+          path: Fantalone
       - name: Check out repository code
         id: checkouts
         uses: actions/checkout@v4
         with:
           repository: bitwes/Gut
-          # path:
+          path: gut
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: List files in the repository
         run: pwd && ls && echo $GITHUB_WORKSPACE
