@@ -5,7 +5,7 @@ jobs:
   Godot-Unit-Tests:
     runs-on: ubuntu-latest
     container:
-      image: http://ghcr.io/hypasist/godot4-gut-testing:lastest
+      image: http://ghcr.io/hypasist/godot4-gut-testing:latest
       env:
         NODE_ENV: development
       ports:
