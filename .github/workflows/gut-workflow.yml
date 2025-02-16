@@ -21,7 +21,7 @@ jobs:
       #- run: echo "Job's status is ${{ job.status }}."
       - name: Run the tests
         id: testing
-        uses: Hypasist/godot4-gut-testing@v0.4
+        uses: Hypasist/godot4-gut-testing@v0.5
       #  with:
       #    who-to-greet: 'Shelob, Child of Ungoliant'
       # Use the output from the `hello` step
