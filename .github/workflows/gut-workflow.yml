@@ -3,6 +3,8 @@ run-name: Godot Unit Tests run by ${{ github.actor }}
 on: [push]
 jobs:
   Godot-Unit-Tests:
+    container: 
+      image: hypasist/godot4-gut-testing:latest
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
