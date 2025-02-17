@@ -1,5 +1,5 @@
 name: Godot Unit Tests
-run-name: Godot Unit Tests run by ${{ github.actor }} due to ${{ github.action }}
+run-name: Godot Unit Tests run by ${{ github.actor }} due to ${{ github.event_name }}
 on: [push]
 jobs:
   Godot-Unit-Tests:
@@ -9,7 +9,6 @@ jobs:
       env:
         NODE_ENV: development
     steps:
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Testing ${{ github.repository }}/${{ github.ref }} on ${{ runner.os }} server hosted by GitHub!"
       - name: Check out repository code
         id: checkout
