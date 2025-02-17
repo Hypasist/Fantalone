@@ -10,6 +10,7 @@ jobs:
         NODE_ENV: development
     steps:
       - name: Testing ${{ github.repository }}/${{ github.ref }} on ${{ runner.os }} server hosted by GitHub!
+        run: echo "Testing ${{ github.repository }}/${{ github.ref }} on ${{ runner.os }} server hosted by GitHub!"
       - name: Fantalone repository checkout
         id: fantalone-checkout
         uses: actions/checkout@v4
