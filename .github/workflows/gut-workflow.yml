@@ -1,5 +1,5 @@
 name: Godot Unit Tests
-run-name: Godot Unit Tests run by ${{ github.actor }} due to ${{ github.event_name }}
+run-name: GUT run by ${{ github.actor }} due to ${{ github.event_name }} (${{ github.ref_name }})
 on: [push]
 jobs:
   Godot-Unit-Tests:
@@ -9,9 +9,9 @@ jobs:
       env:
         NODE_ENV: development
     steps:
-      - run: echo "Testing ${{ github.repository }}/${{ github.ref }} on ${{ runner.os }} server hosted by GitHub!"
-      - name: Check out repository code
-        id: checkout
+      - name: Testing ${{ github.repository }}/${{ github.ref }} on ${{ runner.os }} server hosted by GitHub!
+      - name: Fantalone repository checkout
+        id: fantalone-checkout
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
