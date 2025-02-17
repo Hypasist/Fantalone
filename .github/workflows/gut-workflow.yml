@@ -1,4 +1,4 @@
-name: Godot Unit Tests
+name: Godot Unit Testing
 run-name: GUT run by ${{ github.actor }} due to ${{ github.event_name }} (${{ github.ref_name }})
 on: [push]
 jobs:
