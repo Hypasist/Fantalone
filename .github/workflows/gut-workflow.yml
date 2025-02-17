@@ -20,10 +20,7 @@ jobs:
         with:
           repository: bitwes/Gut
           path: gut
-      - name: List files in the repository
-        run: pwd && ls && echo $GITHUB_WORKSPACE && echo ${{ github.workspace }}
       - name: Run the tests
-        id: testing
         uses: Hypasist/godot4-gut-testing@v0.5
         with:
           gutConfigpath: test/.gutconfig.json
