@@ -1,5 +1,5 @@
 name: Godot Unit Tests
-run-name: Godot Unit Tests run by ${{ github.actor }} 
+run-name: Godot Unit Tests run by ${{ github.actor }} due to ${{ github.action }}
 on: [push]
 jobs:
   Godot-Unit-Tests:
