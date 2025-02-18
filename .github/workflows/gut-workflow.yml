@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: bitwes/Gut
-          path: ${{ container.env.GUT_SUBFOLDER }}
+          path: ${{ Godot-Unit-Tests.container.env.GUT_SUBFOLDER }}
       - name: Run the tests
         uses: Hypasist/godot4-gut-testing@v0.5
         with:
