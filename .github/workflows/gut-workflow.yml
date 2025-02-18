@@ -13,12 +13,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-          path: '.'
+          path: "FOLDER_FANTA"
       - name: GUT repository checkout
         uses: actions/checkout@v4
         with:
           repository: bitwes/Gut
-          path: ${{ env.GUT_SUBFOLDER }}
+          path: FOLDER_GUT
+          #${{ env.GUT_SUBFOLDER }}
       - name: Run the tests
         uses: Hypasist/godot4-gut-testing@v0.5
         with:
