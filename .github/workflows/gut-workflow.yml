@@ -7,18 +7,18 @@ jobs:
     container:
       image: ghcr.io/hypasist/godot4-gut-testing:main
       env:
-        GUT_SUBFOLDER: '_GUT'
+        GUT_SUBFOLDER: '_gut'
     steps:
       - name: Fantalone repository checkout
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-          path: Fantalone
+          path: '.'
       - name: GUT repository checkout
         uses: actions/checkout@v4
         with:
           repository: bitwes/Gut
-          path: gut
+          path: ${{ GUT_SUBFOLDER }}
       - name: Run the tests
         uses: Hypasist/godot4-gut-testing@v0.5
         with:
