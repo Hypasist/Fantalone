@@ -8,7 +8,7 @@ jobs:
       image: ghcr.io/hypasist/godot4-gut-testing:main
     steps:
       - name: Run the tests
-        uses: Hypasist/godot4-gut-testing@v0.5
+        uses: Hypasist/godot4-gut-testing@v1
         with:
           gutConfigPath: tests/.gutconfig.json
           extraGodotFlags: '--headless'
